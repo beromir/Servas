@@ -1,0 +1,73 @@
+:root {
+    /* indigo (primary) */
+    --color-primary-900: 234 62% 26%;
+    --color-primary-800: 232 51% 36%;
+    --color-primary-700: 230 49% 41%;
+    --color-primary-600: 228 45% 45%;
+    --color-primary-500: 227 42% 51%;
+    --color-primary-400: 227 50% 59%;
+    --color-primary-300: 225 57% 67%;
+    --color-primary-200: 224 67% 76%;
+    --color-primary-100: 221 78% 86%;
+    --color-primary-50: 221 68% 93%;
+
+    /* cool gray (neutral) */
+    --color-gray-900: 210 24% 16%;
+    --color-gray-800: 209 20% 25%;
+    --color-gray-700: 209 18% 30%;
+    --color-gray-600: 209 14% 37%;
+    --color-gray-500: 211 12% 43%;
+    --color-gray-400: 211 10% 53%;
+    --color-gray-300: 211 13% 65%;
+    --color-gray-200: 210 16% 82%;
+    --color-gray-100: 214 15% 91%;
+    --color-gray-50: 216 33% 97%;
+
+    /* light blue (accent/supporting) */
+    --color-blue-900: 204 96% 27%;
+    --color-blue-800: 203 87% 34%;
+    --color-blue-700: 202 83% 41%;
+    --color-blue-600: 201 79% 46%;
+    --color-blue-500: 199 84% 55%;
+    --color-blue-400: 197 92% 61%;
+    --color-blue-300: 196 94% 67%;
+    --color-blue-200: 195 97% 75%;
+    --color-blue-100: 195 100% 85%;
+    --color-blue-50: 195 100% 95%;
+
+    /* red (accent/supporting) */
+    --color-red-900: 348 94% 20%;
+    --color-red-800: 350 94% 28%;
+    --color-red-700: 352 90% 35%;
+    --color-red-600: 354 85% 44%;
+    --color-red-500: 356 75% 53%;
+    --color-red-400: 360 83% 62%;
+    --color-red-300: 360 91% 69%;
+    --color-red-200: 360 100% 80%;
+    --color-red-100: 360 100% 87%;
+    --color-red-50: 360 100% 95%;
+
+    /* yellow (accent/supporting) */
+    --color-yellow-900: 15 86% 30%;
+    --color-yellow-800: 22 82% 39%;
+    --color-yellow-700: 29 80% 44%;
+    --color-yellow-600: 36 77% 49%;
+    --color-yellow-500: 42 87% 55%;
+    --color-yellow-400: 44 92% 63%;
+    --color-yellow-300: 48 94% 68%;
+    --color-yellow-200: 48 95% 76%;
+    --color-yellow-100: 48 100% 88%;
+    --color-yellow-50: 49 100% 96%;
+
+    /* teal (accent/supporting) */
+    --color-green-900: 170 97% 15%;
+    --color-green-800: 168 80% 23%;
+    --color-green-700: 166 72% 28%;
+    --color-green-600: 164 71% 34%;
+    --color-green-500: 162 63% 41%;
+    --color-green-400: 160 51% 49%;
+    --color-green-300: 158 58% 62%;
+    --color-green-200: 156 73% 74%;
+    --color-green-100: 154 75% 87%;
+    --color-green-50: 152 68% 96%;
+}
