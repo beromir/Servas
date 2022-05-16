@@ -65,7 +65,7 @@ class GroupController extends Controller
         $group = Group::filterByCurrentUser()->find($groupId);
 
         if ($group === null) {
-            return Redirect::route('groups');
+            return Redirect::route('groups.index');
         }
 
         return Inertia::render('SingleGroup/Index', [

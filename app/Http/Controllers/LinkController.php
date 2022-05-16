@@ -120,7 +120,7 @@ class LinkController extends Controller
         $link = Link::filterByCurrentUser()->find($link);
 
         if ($link === null) {
-            return Redirect::route('home');
+            return Redirect::route('links.index');
         }
 
         return Inertia::render('SingleLink/Index', [
