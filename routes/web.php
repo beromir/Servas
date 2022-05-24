@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/home', [HomeViewController::class, 'index'])
+    Route::get('/', [HomeViewController::class, 'index'])
         ->name('home');
 
     Route::resource('links', LinkController::class)->except([
