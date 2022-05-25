@@ -1,6 +1,8 @@
 # Servas
 A self-hosted bookmark management tool.
 
+![](./docs/images/home.jpg "Home view")
+
 ## Features
 - **Tags:** Organize your bookmarks with tags.
 - **Groups:** Group your bookmarks. Groups can be nested.
@@ -16,3 +18,14 @@ A self-hosted bookmark management tool.
 ### Manual
 
 ## Screenshots
+![](./docs/images/links.jpg "Links view")
+Links view
+
+![](./docs/images/groups.jpg "Groups view")
+Groups view
+
+![](./docs/images/new-link.jpg "New link modal")
+New link modal
+
+![](./docs/images/command-palette.jpg "Command palette")
+Command palette

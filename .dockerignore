@@ -16,3 +16,4 @@ Dockerfile
 /node_modules
 /vendor
 /docker
+/docs
