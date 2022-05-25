@@ -26,7 +26,9 @@
     });
 
     function login() {
-        $form.post(route('login'));
+        $form.post(route('login'), {
+            onSuccess: () => $form.reset('password'),
+        });
     }
 </script>
 
