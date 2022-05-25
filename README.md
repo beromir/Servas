@@ -1,6 +1,7 @@
 # Servas
 
-A self-hosted bookmark management tool.
+A self-hosted bookmark management tool.  
+Servas is based on Laravel and Inertia.js and uses Tailwind CSS and Svelte for the frontend.
 
 ![](./docs/images/home.jpg "Home view")
 
@@ -25,13 +26,17 @@ Docker is also the preferred way to use Servas.
 **Initial steps:**
 
 1. Start the containers.
-2. Run the database migrations.
+2. Create `.env` file in the directory where the `docker-compose.yaml` is located.
+3. Copy the content of the [example env file](./docker/.env.prod.example) into the `.env` file.
+4. Change the `APP_URL`.
+5. Use a strong password for the `DB_PASSWORD` setting.
+6. Run the database migrations.
 
 ```shell
 docker exec -it servas php artisan migrate
 ```
 
-3. Generate the application key.
+7. Generate the application key.
 
 ```shell
 docker exec -it servas php artisan key:generate
@@ -67,19 +72,21 @@ npm run prod
 ```
 
 5. Create `.env` file from the `.env.example` file.
-6. Run the database migrations.
+6. Change the settings in the `.env` file according to your needs.
+7. Run the database migrations.
 
 ```shell
 php artisan migrate
 ```
 
-7. Generate the application key.
+8. Generate the application key.
 
 ```shell
 php artisan key:generate
 ```
 
 ## User Guide
+
 Register a new user at https://your-servas-instance/register.
 
 ## Screenshots
