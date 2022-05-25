@@ -11,6 +11,8 @@ A self-hosted bookmark management tool.
 
 ## How to install
 ### Docker
+[Docker Compose file](./docker/docker-compose.prod.yaml)
+
 ### Manual
 
 ## Screenshots
