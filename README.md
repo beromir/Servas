@@ -3,7 +3,7 @@
 A self-hosted bookmark management tool.  
 Servas is based on Laravel and Inertia.js and uses Tailwind CSS and Svelte for the frontend.
 
-![](./docs/images/home.jpg "Home view")
+![](./docs/images/home.png "Home view")
 
 ## Features
 
@@ -91,14 +91,14 @@ Register a new user at https://your-servas-instance/register.
 
 ## Screenshots
 
-![](./docs/images/links.jpg "Links view")
-Links view
+Links view:
+![](./docs/images/links.png "Links view")
 
-![](./docs/images/groups.jpg "Groups view")
-Groups view
+Groups view:
+![](./docs/images/groups.png "Groups view")
 
-![](./docs/images/new-link.jpg "New link modal")
-New link modal
+New link modal:
+![](./docs/images/new-link.png "New link modal")
 
-![](./docs/images/command-palette.jpg "Command palette")
-Command palette
+Command palette:
+![](./docs/images/command-palette.png "Command palette")
