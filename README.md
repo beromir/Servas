@@ -47,7 +47,7 @@ docker exec -it servas php artisan key:generate
 **Requirements:**
 
 - PHP 8.1
-- MySQL
+- MariaDB, MySQL or SQLite
 - Git
 - Node.js
 - Composer
@@ -73,13 +73,14 @@ npm run prod
 
 5. Create `.env` file from the `.env.example` file.
 6. Change the settings in the `.env` file according to your needs.
-7. Run the database migrations.
+7. If you are using SQLite, you must remove the MySQL section in the `.env`file and uncomment the SQLite section.
+8. Run the database migrations.
 
 ```shell
 php artisan migrate
 ```
 
-8. Generate the application key.
+9. Generate the application key.
 
 ```shell
 php artisan key:generate
