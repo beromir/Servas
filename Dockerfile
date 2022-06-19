@@ -6,7 +6,7 @@ COPY . ./
 RUN mkdir -p storage/framework/cache \
     && mkdir -p storage/framework/views \
     && mkdir -p storage/framework/sessions \
-    && composer install
+    && composer install --optimize-autoloader --no-dev
 
 
 FROM node:17.4-alpine As asset_builder
@@ -23,31 +23,36 @@ RUN npm install \
     && npm run prod
 
 
-FROM php:8.1-apache
+FROM php:fpm-alpine
 WORKDIR /var/www/html
 
 # Use the default production configuration
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install mysqli \
-    && apt-get update \
-    && apt-get install -y mariadb-client \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && docker-php-ext-install opcache \
+    && apk add --no-cache \
+    mariadb-client \
+    sqlite \
+    nginx
 
-COPY --chown=www-data:www-data . ./
+COPY . ./
 
-COPY --chown=www-data:www-data --from=application_builder /app/vendor ./vendor
-COPY --chown=www-data:www-data --from=application_builder /app/bootstrap/cache ./bootstrap/cache
+COPY --from=application_builder /app/vendor ./vendor
+COPY --from=application_builder /app/bootstrap/cache ./bootstrap/cache
 
-COPY --chown=www-data:www-data --from=asset_builder /app/public/assets ./public/assets
-COPY --chown=www-data:www-data --from=asset_builder /app/public/css ./public/css
-COPY --chown=www-data:www-data --from=asset_builder /app/public/js ./public/js
-COPY --chown=www-data:www-data --from=asset_builder /app/public/mix-manifest.json ./public/mix-manifest.json
+COPY --from=asset_builder /app/public/assets ./public/assets
+COPY --from=asset_builder /app/public/css ./public/css
+COPY --from=asset_builder /app/public/js ./public/js
+COPY --from=asset_builder /app/public/mix-manifest.json ./public/mix-manifest.json
 
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
-    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \
-    && a2enmod rewrite
+RUN chown -R www-data: /var/www/html \
+    && rm -rf ./docker
+
+COPY ./docker/config/servas-php.ini /usr/local/etc/php/conf.d/servas-php.ini
+COPY ./docker/config/nginx.conf /etc/nginx/nginx.conf
+COPY ./docker/config/site-nginx.conf /etc/nginx/http.d/default.conf
 
 EXPOSE 80
+
+CMD php-fpm -D && nginx -g 'daemon off;'

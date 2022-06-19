@@ -16,4 +16,5 @@ Dockerfile
 /node_modules
 /vendor
 /docker
+!/docker/config/*
 /docs
