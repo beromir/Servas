@@ -132,7 +132,7 @@ return [
     */
 
     'features' => [
-        Features::registration() => env('SERVAS_ENABLE_REGISTRATION', true),
+        env('SERVAS_ENABLE_REGISTRATION', true) ? Features::registration() : '',
         // Features::resetPasswords(),
         // Features::emailVerification(),
         Features::updateProfileInformation(),
