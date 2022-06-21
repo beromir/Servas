@@ -54,6 +54,7 @@
         if (isEditing) {
             isEditing = false;
             $linkForm.reset();
+            groupSelectMenu.reset();
             linkId = null;
             showModal = true;
             selectedGroups = [];
@@ -92,6 +93,7 @@
         $linkForm.post(route('links.store'), {
             onSuccess: () => {
                 $linkForm.reset();
+                groupSelectMenu.reset();
                 showModal = false;
                 $refreshLinks = true;
             },
@@ -105,6 +107,7 @@
             onSuccess: () => {
                 linkId = null;
                 $linkForm.reset();
+                groupSelectMenu.reset();
                 showModal = false;
                 $refreshLinks = true;
             },
