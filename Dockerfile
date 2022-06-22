@@ -46,13 +46,16 @@ COPY --from=asset_builder /app/public/css ./public/css
 COPY --from=asset_builder /app/public/js ./public/js
 COPY --from=asset_builder /app/public/mix-manifest.json ./public/mix-manifest.json
 
-RUN chown -R www-data: /var/www/html \
+RUN mkdir ./database/sqlite \
+    && chown -R www-data: /var/www/html \
     && rm -rf ./docker
 
 COPY ./docker/config/servas-php.ini /usr/local/etc/php/conf.d/servas-php.ini
 COPY ./docker/config/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/config/site-nginx.conf /etc/nginx/http.d/default.conf
 
+COPY ./docker-entrypoint.sh /
+
 EXPOSE 80
 
-CMD php-fpm -D && nginx -g 'daemon off;'
+ENTRYPOINT ["/docker-entrypoint.sh"]
