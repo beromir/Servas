@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  servas:
+    image: beromir/servas
+    container_name: servas
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./.env:/var/www/html/.env
+      - servas-db-sqlite:/var/www/html/database/sqlite
+
+volumes:
+  servas-db-sqlite:
