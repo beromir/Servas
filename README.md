@@ -107,6 +107,10 @@ After making changes to the `.env` file, you must restart the application contai
 
 Register a new user at https://your-servas-instance/register.
 
+## Browser Extensions
+
+**Chrome:** https://github.com/beromir/servas-chrome-extension
+
 ## Screenshots
 
 Links view:
