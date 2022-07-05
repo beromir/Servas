@@ -18,4 +18,5 @@ yarn-error.log
 /.idea
 /.vscode
 
+/public/build
 !/public/assets/favicons/
