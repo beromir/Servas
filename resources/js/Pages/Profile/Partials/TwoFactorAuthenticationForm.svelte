@@ -11,6 +11,7 @@
     let disabling = false;
 
     let qrCode = null;
+    let setupKey = null;
     let recoveryCodes = [];
 
     $: twoFactorEnabled = !enabling && $page.props.user.two_factor_enabled;
@@ -22,6 +23,7 @@
             preserveScroll: true,
             onSuccess: () => Promise.all([
                 showQrCode(),
+                showSetupKey(),
                 showRecoveryCodes(),
             ]),
             onFinish: () => (enabling = false),
@@ -33,6 +35,13 @@
             .then(response => {
                 qrCode = response.data.svg
             })
+    }
+
+    function showSetupKey() {
+        return axios.get('/user/two-factor-secret-key')
+            .then(response => {
+                setupKey = response.data.secretKey;
+            });
     }
 
     function showRecoveryCodes() {
@@ -92,12 +101,18 @@
                 <div class="mt-4 max-w-xl text-sm text-gray-600">
                     <p class="font-semibold">
                         Two factor authentication is now enabled. Scan the following QR code using your phone's
-                        authenticator application.
+                        authenticator application or enter the setup key.
                     </p>
                 </div>
 
                 <div class="mt-4">
                     {@html qrCode}
+                </div>
+
+                <div class="mt-4 max-w-xl text-sm text-gray-600">
+                    <p class="font-semibold">
+                        Setup Key: {@html setupKey}
+                    </p>
                 </div>
             {/if}
 
