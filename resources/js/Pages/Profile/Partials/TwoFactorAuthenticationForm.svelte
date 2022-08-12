@@ -68,11 +68,11 @@
         $confirmationForm.post('/user/confirmed-two-factor-authentication', {
             preserveScroll: true,
             preserveState: true,
-            errorBag: 'test',
             onSuccess: () => {
                 confirming = false;
                 qrCode = null;
                 $confirmationForm.reset();
+                $confirmationForm.clearErrors();
             },
         });
     }
