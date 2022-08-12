@@ -14,6 +14,7 @@
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import {page} from "@inertiajs/inertia-svelte";
 
+    export let confirmsTwoFactorAuthentication;
     export let sessions;
 
     $title = 'Profile Settings';
@@ -36,7 +37,8 @@
             {/if}
 
             {#if $page.props.jetstream.canManageTwoFactorAuthentication}
-                <TwoFactorAuthenticationForm class="mt-10 sm:mt-0"/>
+                <TwoFactorAuthenticationForm class="mt-10 sm:mt-0"
+                                             requiresConfirmation={confirmsTwoFactorAuthentication}/>
 
                 <JetSectionBorder/>
             {/if}
