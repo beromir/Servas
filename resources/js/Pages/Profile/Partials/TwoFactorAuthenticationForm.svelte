@@ -4,15 +4,25 @@
     import JetConfirmsPassword from '@/Jetstream/ConfirmsPassword.svelte';
     import JetDangerButton from '@/Jetstream/DangerButton.svelte';
     import JetSecondaryButton from '@/Jetstream/SecondaryButton.svelte';
-    import {page} from "@inertiajs/inertia-svelte";
+    import JetInput from '@/Jetstream/Input.svelte';
+    import JetInputError from '@/Jetstream/InputError.svelte';
+    import JetLabel from '@/Jetstream/Label.svelte';
+    import {page, useForm} from "@inertiajs/inertia-svelte";
     import {Inertia} from "@inertiajs/inertia";
 
+    export let requiresConfirmation;
+
     let enabling = false;
+    let confirming = false;
     let disabling = false;
 
     let qrCode = null;
     let setupKey = null;
     let recoveryCodes = [];
+
+    let confirmationForm = useForm({
+        code: '',
+    });
 
     $: twoFactorEnabled = !enabling && $page.props.user.two_factor_enabled;
 
@@ -26,7 +36,10 @@
                 showSetupKey(),
                 showRecoveryCodes(),
             ]),
-            onFinish: () => (enabling = false),
+            onFinish: () => {
+                enabling = false;
+                confirming = requiresConfirmation;
+            },
         })
     }
 
@@ -51,6 +64,19 @@
             })
     }
 
+    function confirmTwoFactorAuthentication() {
+        $confirmationForm.post('/user/confirmed-two-factor-authentication', {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: () => {
+                confirming = false;
+                qrCode = null;
+                $confirmationForm.reset();
+                $confirmationForm.clearErrors();
+            },
+        });
+    }
+
     function regenerateRecoveryCodes() {
         axios.post('/user/two-factor-recovery-codes')
             .then(response => {
@@ -63,7 +89,10 @@
 
         Inertia.delete('/user/two-factor-authentication', {
             preserveScroll: true,
-            onSuccess: () => (disabling = false),
+            onSuccess: () => {
+                disabling = false;
+                confirming = false;
+            },
         });
     }
 </script>
@@ -78,13 +107,18 @@
     </svelte:fragment>
 
     <svelte:fragment slot="content">
-        {#if twoFactorEnabled}
+        {#if twoFactorEnabled && !confirming}
             <h3 class="text-lg font-medium text-gray-900">
                 You have enabled two factor authentication.
             </h3>
 
+        {:else if confirming}
+            <h3 class="text-lg font-medium text-gray-900">
+                Finish enabling two factor authentication.
+            </h3>
+
         {:else}
-            <h3 class="text-lg font-medium text-gray-900" v-else>
+            <h3 class="text-lg font-medium text-gray-900">
                 You have not enabled two factor authentication.
             </h3>
         {/if}
@@ -99,15 +133,38 @@
         {#if twoFactorEnabled}
             {#if qrCode}
                 <div class="mt-4 max-w-xl text-sm text-gray-600">
-                    <p class="font-semibold">
-                        Two factor authentication is now enabled. Scan the following QR code using your phone's
-                        authenticator application or enter the setup key.
-                    </p>
+                    {#if confirming}
+                        <p class="font-semibold">
+                            To finish enabling two factor authentication, scan the following QR code using your phone's
+                            authenticator application or enter the setup key and provide the generated OTP code.
+                        </p>
+
+                    {:else}
+                        <p class="font-semibold">
+                            Two factor authentication is now enabled. Scan the following QR code using your phone's
+                            authenticator application or enter the setup key.
+                        </p>
+                    {/if}
                 </div>
 
                 <div class="mt-4">
                     {@html qrCode}
                 </div>
+
+                {#if confirming}
+                    <div class="mt-4">
+                        <JetLabel id="code" label="Code"/>
+
+                        <JetInput id="code" type="text" name="code"
+                                  class="block mt-1 w-1/2"
+                                  inputmode="numeric"
+                                  autofocus
+                                  autocomplete="one-time-code"
+                                  bind:value={$confirmationForm.code}/>
+
+                        <JetInputError message={$page.props.errors?.confirmTwoFactorAuthentication?.code} class="mt-2"/>
+                    </div>
+                {/if}
 
                 <div class="mt-4 max-w-xl text-sm text-gray-600">
                     <p class="font-semibold">
@@ -116,7 +173,7 @@
                 </div>
             {/if}
 
-            {#if recoveryCodes.length > 0}
+            {#if recoveryCodes.length > 0 && !confirming}
                 <div class="mt-4 max-w-xl text-sm text-gray-600">
                     <p class="font-semibold">
                         Store these recovery codes in a secure password manager. They can be used to recover access to
@@ -141,8 +198,14 @@
                 </JetConfirmsPassword>
 
             {:else}
+                <JetConfirmsPassword on:confirmed={confirmTwoFactorAuthentication}>
+                    {#if confirming}
+                        <JetButton type="button" class="mr-3">Confirm</JetButton>
+                    {/if}
+                </JetConfirmsPassword>
+
                 <JetConfirmsPassword on:confirmed={regenerateRecoveryCodes}>
-                    {#if recoveryCodes.length > 0}
+                    {#if recoveryCodes.length > 0 && !confirming}
                         <JetSecondaryButton class="mr-3">
                             Regenerate Recovery Codes
                         </JetSecondaryButton>
@@ -150,7 +213,7 @@
                 </JetConfirmsPassword>
 
                 <JetConfirmsPassword on:confirmed={showRecoveryCodes}>
-                    {#if recoveryCodes.length === 0}
+                    {#if recoveryCodes.length === 0 && !confirming}
                         <JetSecondaryButton class="mr-3">
                             Show Recovery Codes
                         </JetSecondaryButton>
@@ -158,9 +221,17 @@
                 </JetConfirmsPassword>
 
                 <JetConfirmsPassword on:confirmed={disableTwoFactorAuthentication}>
-                    <JetDangerButton class={disabling ? 'opacity-25' : ''} disabled={disabling}>
-                        Disable
-                    </JetDangerButton>
+                    {#if confirming}
+                        <JetSecondaryButton>Cancel</JetSecondaryButton>
+                    {/if}
+                </JetConfirmsPassword>
+
+                <JetConfirmsPassword on:confirmed={disableTwoFactorAuthentication}>
+                    {#if !confirming}
+                        <JetDangerButton class={disabling ? 'opacity-25' : ''} disabled={disabling}>
+                            Disable
+                        </JetDangerButton>
+                    {/if}
                 </JetConfirmsPassword>
             {/if}
         </div>
