@@ -10,9 +10,8 @@
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte'
     import JetButton from '@/Jetstream/Button.svelte'
     import JetInput from '@/Jetstream/Input.svelte'
-    // import JetCheckbox from '@/Jetstream/Checkbox.svelte'
+    import JetInputError from '@/Jetstream/InputError.svelte'
     import JetLabel from '@/Jetstream/Label.svelte'
-    import JetValidationErrors from '@/Jetstream/ValidationErrors.svelte'
 
     $title = 'Register';
 
@@ -34,30 +33,32 @@
 <JetAuthenticationCard>
     <JetAuthenticationCardLogo slot="logo"/>
 
-    <JetValidationErrors class="mb-4"/>
-
     <form on:submit|preventDefault={register}>
         <div>
             <JetLabel id="name" label="Name"/>
             <JetInput id="name" class="mt-1 block w-full" bind:value={$form.name} required autofocus
                       autocomplete="name"/>
+            <JetInputError message={$form.errors.name}/>
         </div>
 
         <div class="mt-4">
             <JetLabel id="email" label="Email"/>
             <JetInput id="email" type="email" class="mt-1 block w-full" bind:value={$form.email} required/>
+            <JetInputError message={$form.errors.email}/>
         </div>
 
         <div class="mt-4">
             <JetLabel id="password" label="Password"/>
             <JetInput id="password" type="password" class="mt-1 block w-full" bind:value={$form.password} required
                       autocomplete="new-password"/>
+            <JetInputError message={$form.errors.password}/>
         </div>
 
         <div class="mt-4">
             <JetLabel id="password_confirmation" label="Confirm Password"/>
             <JetInput id="password_confirmation" type="password" class="mt-1 block w-full"
                       bind:value={$form.password_confirmation} required autocomplete="new-password"/>
+            <JetInputError message={$form.errors.password_confirmation}/>
         </div>
 
         <!--
