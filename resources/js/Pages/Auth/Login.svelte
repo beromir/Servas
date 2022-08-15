@@ -12,7 +12,7 @@
     import JetInput from '@/Jetstream/Input.svelte'
     import JetCheckbox from '@/Jetstream/Checkbox.svelte'
     import JetLabel from '@/Jetstream/Label.svelte'
-    import ValidationErrors from "@/Jetstream/ValidationErrors.svelte";
+    import JetInputError from '@/Jetstream/InputError.svelte'
     import {route} from '@/utils';
 
     export let canResetPassword;
@@ -35,19 +35,18 @@
 <JetAuthenticationCard>
     <JetAuthenticationCardLogo slot="logo"/>
 
-    <ValidationErrors class="mt-4" errors={$form.errors} hasErrors={$form.hasErrors}/>
-
     <form on:submit|preventDefault={login}>
         <div>
             <JetLabel id="email" label="Email"/>
             <JetInput bind:value={$form.email} id="email" type="email" class="mt-1 block w-full" required autofocus/>
-            {#if $form.errors.email}{$form.errors.email}{/if}
+            <JetInputError message={$form.errors.email}/>
         </div>
 
         <div class="mt-4">
             <JetLabel id="password" label="Password"/>
             <JetInput bind:value={$form.password} id="password" type="password" class="mt-1 block w-full" required
                       autocomplete="current-password"/>
+            <JetInputError message={$form.errors.password}/>
         </div>
 
         <div class="block mt-4">

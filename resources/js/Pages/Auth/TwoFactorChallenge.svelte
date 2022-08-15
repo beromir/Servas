@@ -10,7 +10,7 @@
     import JetButton from '@/Jetstream/Button.svelte';
     import JetInput from '@/Jetstream/Input.svelte';
     import JetLabel from '@/Jetstream/Label.svelte';
-    import JetValidationErrors from '@/Jetstream/ValidationErrors.svelte';
+    import JetInputError from '@/Jetstream/InputError.svelte';
     import {useForm} from "@inertiajs/inertia-svelte";
     import {tick} from 'svelte';
     import {route} from "@/utils";
@@ -60,18 +60,18 @@
         {/if}
     </div>
 
-    <JetValidationErrors hasErrors={$form.hasErrors} class="mb-4"/>
-
     <form on:submit|preventDefault={submit}>
         {#if !recovery}
             <JetLabel id="code" label="Code"/>
             <JetInput bind:this={codeInput} id="code" type="text" inputmode="numeric" class="mt-1 block w-full"
                       bind:value={$form.code} autofocus autocomplete="one-time-code"/>
+            <JetInputError message={$form.errors.code}/>
 
         {:else}
             <JetLabel id="recovery_code" label="Recovery Code"/>
             <JetInput bind:this={recoveryCodeInput} id="recovery_code" type="text" class="mt-1 block w-full"
                       bind:value={$form.recovery_code} autocomplete="one-time-code"/>
+            <JetInputError message={$form.errors.code}/>
         {/if}
 
         <div class="flex items-center justify-end mt-4">
