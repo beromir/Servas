@@ -20,7 +20,7 @@
             case 'none':
                 return '';
             default:
-                return 'bg-primary-100 text-primary-800';
+                return '!bg-primary-100 text-primary-800';
         }
     }
 
