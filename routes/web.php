@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\MediaType;
+use App\Http\Controllers\BulkEditingController;
 use App\Http\Controllers\LaterController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\GroupController;
@@ -41,6 +42,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/media-types', function () {
         return MediaType::getMediaTypesAsArray();
     });
+
+    Route::post('/bulk-edit-links', [BulkEditingController::class, 'editLinks']);
 
     Route::post('/toggle-link-on-later-list', [LaterController::class, 'toggleLinkOnLaterList'])
         ->name('later.toggle-link');

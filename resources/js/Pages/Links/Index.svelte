@@ -12,12 +12,21 @@
     import Badge from "@/Components/Badge.svelte";
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import {debounce} from "lodash";
+    import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
 
     export let links = [];
     export let tags = [];
 
     let filteredTags = [];
     let searchString = '';
+
+    let groupSelectMenu;
+
+    let bulkEditingEnabled = false;
+    let bulkEditingAction = '';
+
+    let selectedLinks = [];
+    let selectedGroups = [];
 
     $title = 'Links';
 
@@ -54,6 +63,26 @@
             only: ['links'],
             preserveState: true,
         });
+    }
+
+    function bulkEditLinks(action) {
+        Inertia.post('/bulk-edit-links', {action: action, links: selectedLinks, groups: selectedGroups}, {
+            only: ['links'],
+            preserveScroll: true,
+            onSuccess: () => {
+                selectedLinks = (action === 'delete') ? [] : selectedLinks;
+                selectedGroups = [];
+                groupSelectMenu.reset();
+                bulkEditingAction = '';
+            },
+        });
+    }
+
+    function openGroupSelectMenu(action) {
+        groupSelectMenu.enableMultiSelectMode();
+        groupSelectMenu.openModal();
+
+        bulkEditingAction = action;
     }
 </script>
 
@@ -99,10 +128,50 @@
         </div>
     {/if}
 
+    <!-- Bulk editing -->
+    <div class="mt-4">
+        <button on:click={() => bulkEditingEnabled = !bulkEditingEnabled} type="button" class="relative">
+            Edit links
+        </button>
+
+        {#if bulkEditingEnabled}
+            {#if selectedLinks.length === 0}
+                <button on:click={() => selectedLinks = links.data.map(x => x.id)} type="button">
+                    Select all
+                </button>
+
+            {:else}
+                <button on:click={() => selectedLinks = []} type="button">
+                    Deselect all
+                </button>
+            {/if}
+        {/if}
+
+        {#if bulkEditingEnabled}
+            <div class="absolute flex flex-col p-3 bg-white z-10 space-y-2 shadow rounded">
+                <button on:click={() => openGroupSelectMenu('attachGroups')} type="button">Attach groups</button>
+                <button type="button">Add tags</button>
+                <hr/>
+                <button on:click={() => openGroupSelectMenu('detachGroups')} type="button">Detach groups</button>
+                <button type="button">Remove tags</button>
+                <hr/>
+                <button type="button" on:click={() => bulkEditLinks('delete')}>Delete links</button>
+            </div>
+        {/if}
+    </div>
+
     <!-- Link list -->
     <ul class="grid grid-cols-1 gap-3 mt-6 sm:grid-cols-2">
         {#each links.data as link (link.id)}
             <li class="flex shadow sm:rounded-lg">
+                {#if bulkEditingEnabled}
+                    <!-- Show checkbox -->
+                    <div
+                        class="flex-none flex items-center justify-center w-16 group bg-gray-50 sm:w-20 sm:rounded-l-lg">
+                        <input bind:group={selectedLinks} value={link.id} type="checkbox"/>
+                    </div>
+                {/if}
+
                 <a href={route('links.show', link.id)} use:inertia
                    class="flex-auto min-w-0 p-3 bg-white sm:px-6 sm:py-4 sm:rounded-l-lg">
                     <div class="flex justify-between">
@@ -137,17 +206,19 @@
                     {/if}
                 </a>
 
-                <!-- Open link in new tab -->
-                <a href={link.link} target="_blank" rel="noreferrer noopener nofollow" title="Open the link"
-                   class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 sm:rounded-r-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="h-6 w-6 text-gray-300 group-hover:text-gray-500"
-                         fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                    </svg>
-                </a>
+                {#if !bulkEditingEnabled}
+                    <!-- Open link in new tab -->
+                    <a href={link.link} target="_blank" rel="noreferrer noopener nofollow" title="Open the link"
+                       class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 sm:rounded-r-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="h-6 w-6 text-gray-300 group-hover:text-gray-500"
+                             fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                    </a>
+                {/if}
             </li>
 
         {:else}
@@ -169,3 +240,6 @@
 
     <Pagination links={links.links} class="mt-6"/>
 </Main>
+
+<GroupSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={groupSelectMenu}
+                 bind:selectedGroups/>

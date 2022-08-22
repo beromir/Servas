@@ -2,6 +2,7 @@
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from '@/Components/Modals/Modal.svelte';
     import {isUndefined} from "lodash";
+    import {createEventDispatcher} from 'svelte';
 
     export let selectedGroups = [];        // property to access from outside; contains group IDs; will only change when clicking "OK"
 
@@ -11,6 +12,8 @@
     let showModal = false;
     let showSelectView = true;
     let modeIsMultiSelect = false;
+
+    const dispatch = createEventDispatcher();
 
     export const enableMultiSelectMode = () => modeIsMultiSelect = true;
     export const disableMultiSelectMode = () => modeIsMultiSelect = false;
@@ -31,6 +34,8 @@
         });
 
         showModal = false;
+
+        dispatch('changesSaved');
     }
 
     async function getAllGroups() {
