@@ -24,7 +24,7 @@ class Link extends Model
     ];
 
     /**
-     * Get all of the groups for the link.
+     * Get all groups for the link.
      */
     public function groups(): MorphToMany
     {
@@ -32,18 +32,19 @@ class Link extends Model
     }
 
     /**
-     * Get all of the group IDs for the link.
+     * Get all group IDs for the link.
      */
     public function groupIds(): array
     {
-        $groupIds = [];
-        $groups = $this->groups;
+        return $this->groups()->pluck('id')->toArray();
+    }
 
-        foreach ($groups as $group) {
-            $groupIds[] = $group->id;
-        }
-
-        return $groupIds;
+    /**
+     * Get all tag IDs for the link.
+     */
+    public function tagIds(): array
+    {
+        return $this->tags()->pluck('id')->toArray();
     }
 
     public function getCreatedAtForHumansAttribute(bool $withTime = false): string
