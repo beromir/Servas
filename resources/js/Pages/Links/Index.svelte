@@ -8,11 +8,12 @@
     import {inertia} from '@inertiajs/inertia-svelte';
     import Pagination from "@/Components/Pagination.svelte";
     import {Inertia} from "@inertiajs/inertia";
-    import {dispatchCustomEvent, route} from "@/utils";
+    import {dispatchCustomEvent, route, toggleValueInArray} from "@/utils";
     import Badge from "@/Components/Badge.svelte";
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import {debounce} from "lodash";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
+    import {fly} from 'svelte/transition';
 
     export let links = [];
     export let tags = [];
@@ -166,8 +167,9 @@
             <li class="flex shadow sm:rounded-lg">
                 {#if bulkEditingEnabled}
                     <!-- Show checkbox -->
-                    <div
-                        class="flex-none flex items-center justify-center w-16 group bg-gray-50 sm:w-20 sm:rounded-l-lg">
+                    <div on:click={() => selectedLinks = toggleValueInArray(selectedLinks, link.id)}
+                         transition:fly={{x: 100, duration: 600, opacity: 1}}
+                         class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 sm:rounded-l-lg">
                         <input bind:group={selectedLinks} value={link.id} type="checkbox"/>
                     </div>
                 {/if}
@@ -209,6 +211,7 @@
                 {#if !bulkEditingEnabled}
                     <!-- Open link in new tab -->
                     <a href={link.link} target="_blank" rel="noreferrer noopener nofollow" title="Open the link"
+                       transition:fly={{x: 100, duration: 600, opacity: 1}}
                        class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 sm:rounded-r-lg">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              class="h-6 w-6 text-gray-300 group-hover:text-gray-500"
