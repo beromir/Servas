@@ -21,7 +21,6 @@ class LaterWidgetController extends Controller
                     'title' => $link->title,
                     'link' => $link->link,
                     'id' => $link->id,
-                    'mediaType' => $link->media_type,
                     'createdAt' => DateHelper::convertToDateString($link->created_at),
                 ]),
         ];
