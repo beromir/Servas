@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\ApiControllers;
 
-use App\Enums\MediaType;
 use App\Helpers\WebpageData;
 use App\Http\Controllers\Controller;
 use App\Models\Link;
@@ -19,7 +18,6 @@ class LinkController extends Controller
         return [
             'title' => 'string|min:2|nullable',
             'link' => 'url|required',
-            'mediaType' => [new Enum(MediaType::class), 'nullable'],
             'groups' => 'array',
         ];
     }

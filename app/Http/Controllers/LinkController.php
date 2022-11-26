@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\MediaType;
 use App\Helpers\WebpageData;
 use App\Models\Group;
 use App\Models\Link;
@@ -22,7 +21,6 @@ class LinkController extends Controller
         return [
             'title' => 'string|min:2|nullable',
             'link' => 'url|required',
-            'mediaType' => [new Enum(MediaType::class), 'nullable'],
             'groups' => 'array',
         ];
     }
@@ -47,10 +45,6 @@ class LinkController extends Controller
                     'title' => $link->title,
                     'link' => $link->link,
                     'id' => $link->id,
-                    'media_type' => $link->media_type !== null ? (object)[
-                        'value' => $link->media_type->value,
-                        'label' => $link->media_type->getLabel(),
-                    ] : null,
                     'tags' => TagController::getTagsOfLink($link),
                     'groups' => $link->groups
                         ->sortBy('title')
@@ -88,7 +82,6 @@ class LinkController extends Controller
 
         $link->link = Request::get('link');
         $link->title = Request::get('title');
-        $link->media_type = Request::get('mediaType');
         $link->user_id = Auth::id();
 
         if (empty($link->title)) {
@@ -128,10 +121,6 @@ class LinkController extends Controller
                 'title' => $link->title,
                 'link' => $link->link,
                 'id' => $link->id,
-                'media_type' => $link->media_type !== null ? (object)[
-                    'value' => $link->media_type->value,
-                    'label' => $link->media_type->getLabel(),
-                ] : null,
                 'tags' => TagController::getTagsOfLink($link),
                 'linkGroups' => $link->groups
                     ->sortBy('title')
@@ -170,7 +159,6 @@ class LinkController extends Controller
 
         $link->link = Request::get('link');
         $link->title = Request::get('title');
-        $link->media_type = Request::get('mediaType');
 
         if (empty($link->title)) {
             $link->title = WebpageData::getWebPageTitle($link->link);

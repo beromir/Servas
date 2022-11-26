@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\MediaType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -16,11 +15,6 @@ class Link extends Model
     protected $fillable = [
         'title',
         'link',
-        'media_type'
-    ];
-
-    protected $casts = [
-        'media_type' => MediaType::class,
     ];
 
     /**

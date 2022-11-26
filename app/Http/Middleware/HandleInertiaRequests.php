@@ -2,11 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\MediaType;
-use App\Models\Link;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
-use Spatie\Tags\Tag;
 
 class HandleInertiaRequests extends Middleware
 {
