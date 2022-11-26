@@ -109,6 +109,7 @@ Register a new user at https://your-servas-instance/register.
 
 ## Browser Extensions
 
+**Firefox:** https://github.com/beromir/servas-firefox-extension  
 **Chrome:** https://github.com/beromir/servas-chrome-extension
 
 ## Screenshots
