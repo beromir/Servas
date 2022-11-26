@@ -12,7 +12,8 @@ class BulkEditingController extends Controller
         $action = $request::get('action');
         $links = $request::get('links');
         $groups = $request::get('groups');
+        $tags = $request::get('tags');
 
-        $bulkEditingService->handleLinkEditingAction($action, $links, $groups);
+        $bulkEditingService->handleLinkEditingAction($action, $links, $groups, $tags);
     }
 }

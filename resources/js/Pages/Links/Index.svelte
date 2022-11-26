@@ -13,7 +13,6 @@
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import {debounce} from "lodash";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
-    import {fly} from 'svelte/transition';
 
     export let links = [];
     export let tags = [];
@@ -168,14 +167,13 @@
                 {#if bulkEditingEnabled}
                     <!-- Show checkbox -->
                     <div on:click={() => selectedLinks = toggleValueInArray(selectedLinks, link.id)}
-                         transition:fly={{x: 100, duration: 600, opacity: 1}}
                          class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 sm:rounded-l-lg">
                         <input bind:group={selectedLinks} value={link.id} type="checkbox"/>
                     </div>
                 {/if}
 
                 <a href={route('links.show', link.id)} use:inertia
-                   class="flex-auto min-w-0 p-3 bg-white sm:px-6 sm:py-4 sm:rounded-l-lg">
+                   class={['flex-auto min-w-0 p-3 bg-white sm:px-6 sm:py-4', bulkEditingEnabled ? 'sm:rounded-r-lg' : 'sm:rounded-l-lg'].join(' ').trim()}>
                     <div class="flex justify-between">
                         <div
                             class="text-sm font-medium text-gray-900 truncate">{link.title}</div>
@@ -211,7 +209,6 @@
                 {#if !bulkEditingEnabled}
                     <!-- Open link in new tab -->
                     <a href={link.link} target="_blank" rel="noreferrer noopener nofollow" title="Open the link"
-                       transition:fly={{x: 100, duration: 600, opacity: 1}}
                        class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 sm:rounded-r-lg">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              class="h-6 w-6 text-gray-300 group-hover:text-gray-500"
