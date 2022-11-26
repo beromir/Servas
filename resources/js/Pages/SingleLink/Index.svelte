@@ -52,12 +52,6 @@
                 </a>
             </div>
             <div class="mt-4 md:mt-0">
-                {#if link.media_type !== null}
-                    <div
-                        class="mb-1.5 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
-                        {link.media_type.label}
-                    </div>
-                {/if}
                 <h2 class="text-lg leading-6 font-medium text-gray-900">{link.title}</h2>
                 <p class="mt-1 text-sm text-gray-600 leading-snug break-all">
                     <a href={link.link} target="_blank" rel="noreferrer noopener nofollow">{link.link}</a>

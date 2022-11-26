@@ -15,7 +15,8 @@
         "pestphp/pest": "^1.16",
         "pestphp/pest-plugin-laravel": "^1.1",
         "tightenco/ziggy": "^1.0",
-        "spatie/laravel-tags": "^4.3.0"
+        "spatie/laravel-tags": "^4.3.0",
+        "doctrine/dbal": "^3.5.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

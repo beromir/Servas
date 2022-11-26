@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\MediaType;
 use App\Http\Controllers\LaterController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\GroupController;
@@ -38,9 +37,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/all-links', [LinkController::class, 'getAllLinks']);
     Route::get('/all-tags', [TagController::class, 'getAllTags']);
     Route::get('/all-groups', [GroupController::class, 'getAllGroups']);
-    Route::get('/media-types', function () {
-        return MediaType::getMediaTypesAsArray();
-    });
 
     Route::post('/toggle-link-on-later-list', [LaterController::class, 'toggleLinkOnLaterList'])
         ->name('later.toggle-link');
