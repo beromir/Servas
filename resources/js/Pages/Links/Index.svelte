@@ -13,6 +13,7 @@
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import {debounce} from "lodash";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
+    import TagSelectMenu from "@/Partials/TagSelectMenu.svelte";
 
     export let links = [];
     export let tags = [];
@@ -21,12 +22,14 @@
     let searchString = '';
 
     let groupSelectMenu;
+    let tagSelectMenu;
 
     let bulkEditingEnabled = false;
     let bulkEditingAction = '';
 
     let selectedLinks = [];
     let selectedGroups = [];
+    let selectedTags = [];
 
     $title = 'Links';
 
@@ -66,13 +69,20 @@
     }
 
     function bulkEditLinks(action) {
-        Inertia.post('/bulk-edit-links', {action: action, links: selectedLinks, groups: selectedGroups}, {
+        Inertia.post('/bulk-edit-links', {
+            action: action,
+            links: selectedLinks,
+            groups: selectedGroups,
+            tags: selectedTags
+        }, {
             only: ['links'],
             preserveScroll: true,
             onSuccess: () => {
                 selectedLinks = (action === 'delete') ? [] : selectedLinks;
                 selectedGroups = [];
                 groupSelectMenu.reset();
+                selectedGroups = [];
+                tagSelectMenu.reset();
                 bulkEditingAction = '';
             },
         });
@@ -81,6 +91,12 @@
     function openGroupSelectMenu(action) {
         groupSelectMenu.enableMultiSelectMode();
         groupSelectMenu.openModal();
+
+        bulkEditingAction = action;
+    }
+
+    function openTagSelectMenu(action) {
+        tagSelectMenu.openModal();
 
         bulkEditingAction = action;
     }
@@ -129,31 +145,50 @@
     {/if}
 
     <!-- Bulk editing -->
-    <div class="mt-4">
-        <button on:click={() => bulkEditingEnabled = !bulkEditingEnabled} type="button" class="relative">
+    <div class="flex mt-4 px-4 space-x-6 sm:px-0 md:flex-row-reverse md:space-x-reverse">
+        <button on:click={() => bulkEditingEnabled = !bulkEditingEnabled} type="button"
+                class="group inline-flex items-center font-medium text-sm text-gray-700">
+            <svg class="mr-2 h-4 w-4 flex-none text-gray-400 group-hover:text-gray-500"
+                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                    d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"/>
+            </svg>
             Edit links
         </button>
 
         {#if bulkEditingEnabled}
+            <button type="button"
+                    class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                Action
+                <svg class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                          d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                          clip-rule="evenodd"/>
+                </svg>
+            </button>
+
             {#if selectedLinks.length === 0}
-                <button on:click={() => selectedLinks = links.data.map(x => x.id)} type="button">
+                <button on:click={() => selectedLinks = links.data.map(x => x.id)} type="button"
+                        class="text-sm font-medium text-gray-700 hover:text-gray-900">
                     Select all
                 </button>
 
             {:else}
-                <button on:click={() => selectedLinks = []} type="button">
+                <button on:click={() => selectedLinks = []} type="button"
+                        class="text-sm font-medium text-gray-700 hover:text-gray-900">
                     Deselect all
                 </button>
             {/if}
         {/if}
 
-        {#if bulkEditingEnabled}
+        {#if false}
             <div class="absolute flex flex-col p-3 bg-white z-10 space-y-2 shadow rounded">
                 <button on:click={() => openGroupSelectMenu('attachGroups')} type="button">Attach groups</button>
-                <button type="button">Add tags</button>
+                <button on:click={() => openTagSelectMenu('attachTags')} type="button">Add tags</button>
                 <hr/>
                 <button on:click={() => openGroupSelectMenu('detachGroups')} type="button">Detach groups</button>
-                <button type="button">Remove tags</button>
+                <button on:click={() => openTagSelectMenu('detachTags')} type="button">Remove tags</button>
                 <hr/>
                 <button type="button" on:click={() => bulkEditLinks('delete')}>Delete links</button>
             </div>
@@ -241,5 +276,6 @@
     <Pagination links={links.links} class="mt-6"/>
 </Main>
 
+<TagSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={tagSelectMenu} bind:selectedTags/>
 <GroupSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={groupSelectMenu}
                  bind:selectedGroups/>
