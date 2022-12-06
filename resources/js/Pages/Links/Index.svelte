@@ -14,6 +14,10 @@
     import {debounce} from "lodash";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
     import TagSelectMenu from "@/Partials/TagSelectMenu.svelte";
+    import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
+    import InnerDropdownSection from "@/Components/Dropdowns/InnerDropdownSection.svelte";
+    import DropdownItem from "@/Components/Dropdowns/DropdownItem.svelte";
+    import SimpleModal from "@/Components/Modals/SimpleModal.svelte";
 
     export let links = [];
     export let tags = [];
@@ -23,6 +27,7 @@
 
     let groupSelectMenu;
     let tagSelectMenu;
+    let deleteLinksModal;
 
     let bulkEditingEnabled = false;
     let bulkEditingAction = '';
@@ -30,6 +35,8 @@
     let selectedLinks = [];
     let selectedGroups = [];
     let selectedTags = [];
+
+    let showBulkEditingDropdown = false;
 
     $title = 'Links';
 
@@ -100,6 +107,20 @@
 
         bulkEditingAction = action;
     }
+
+    function toggleBulkEditingMode() {
+        if (bulkEditingEnabled) {
+            showBulkEditingDropdown = false;
+
+            selectedLinks = [];
+            tagSelectMenu.reset();
+            groupSelectMenu.reset();
+
+            bulkEditingEnabled = false;
+        } else {
+            bulkEditingEnabled = true;
+        }
+    }
 </script>
 
 <Main>
@@ -146,7 +167,7 @@
 
     <!-- Bulk editing -->
     <div class="flex mt-4 px-4 space-x-6 sm:px-0 md:flex-row-reverse md:space-x-reverse">
-        <button on:click={() => bulkEditingEnabled = !bulkEditingEnabled} type="button"
+        <button on:click={toggleBulkEditingMode} type="button"
                 class="group inline-flex items-center font-medium text-sm text-gray-700">
             <svg class="mr-2 h-4 w-4 flex-none text-gray-400 group-hover:text-gray-500"
                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -157,16 +178,59 @@
         </button>
 
         {#if bulkEditingEnabled}
-            <button type="button"
-                    class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                Action
-                <svg class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd"
-                          d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                          clip-rule="evenodd"/>
-                </svg>
-            </button>
+            <div class="relative inline-flex">
+                <button on:click={() => showBulkEditingDropdown = !showBulkEditingDropdown} type="button"
+                        class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                    Action
+                    <svg class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </button>
+                <Dropdown showDropdown={showBulkEditingDropdown}>
+                    <InnerDropdownSection title="Tags">
+                        <DropdownItem on:clicked={() => openTagSelectMenu('attachTags')} title="Attach tags">
+                            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path
+                                    d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/>
+                            </svg>
+                        </DropdownItem>
+                        <DropdownItem on:clicked={() => openTagSelectMenu('detachTags')} title="Detach tags">
+                            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                      d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </DropdownItem>
+                    </InnerDropdownSection>
+                    <InnerDropdownSection title="Groups">
+                        <DropdownItem on:clicked={() => openGroupSelectMenu('attachGroups')} title="Attach groups">
+                            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path
+                                    d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/>
+                            </svg>
+                        </DropdownItem>
+                        <DropdownItem on:clicked={() => openGroupSelectMenu('detachGroups')} title="Detach groups">
+                            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                      d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </DropdownItem>
+                    </InnerDropdownSection>
+                    <InnerDropdownSection>
+                        <DropdownItem on:clicked={deleteLinksModal.openModal} title="Delete links" color="alert">
+                            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                      d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </DropdownItem>
+                    </InnerDropdownSection>
+                </Dropdown>
+            </div>
 
             {#if selectedLinks.length === 0}
                 <button on:click={() => selectedLinks = links.data.map(x => x.id)} type="button"
@@ -180,18 +244,6 @@
                     Deselect all
                 </button>
             {/if}
-        {/if}
-
-        {#if false}
-            <div class="absolute flex flex-col p-3 bg-white z-10 space-y-2 shadow rounded">
-                <button on:click={() => openGroupSelectMenu('attachGroups')} type="button">Attach groups</button>
-                <button on:click={() => openTagSelectMenu('attachTags')} type="button">Add tags</button>
-                <hr/>
-                <button on:click={() => openGroupSelectMenu('detachGroups')} type="button">Detach groups</button>
-                <button on:click={() => openTagSelectMenu('detachTags')} type="button">Remove tags</button>
-                <hr/>
-                <button type="button" on:click={() => bulkEditLinks('delete')}>Delete links</button>
-            </div>
         {/if}
     </div>
 
@@ -279,3 +331,6 @@
 <TagSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={tagSelectMenu} bind:selectedTags/>
 <GroupSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={groupSelectMenu}
                  bind:selectedGroups/>
+<SimpleModal title="Delete selected links" description="Are you sure you want to delete the selected links?"
+             buttonText="Delete" buttonColor="red" bind:this={deleteLinksModal}
+             on:actionButtonClicked={() => bulkEditLinks('delete')}/>
