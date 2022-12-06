@@ -1,6 +1,10 @@
 import {tick} from "svelte";
 
-export const route = window.route;
+export const route = window.route
+
+export function toggleValueInArray(arr, item) {
+    return arr.includes(item) ? arr.filter(i => i !== item) : [...arr, item]
+}
 
 export function dispatchCustomEvent(event, data = null) {
     if (data !== null) {

@@ -20,7 +20,7 @@ mix.setPublicPath('public')
         require('autoprefixer'),
     ])
     .browserSync({
-        proxy: "laravel.localhost",
+        proxy: "servas.localhost",
         // files: [
         //     './path/**/*.yaml',
         //     './path/**/*.blade.php',
