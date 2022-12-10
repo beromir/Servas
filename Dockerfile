@@ -14,13 +14,13 @@ WORKDIR /app
 
 COPY ./package.json ./
 COPY ./package-lock.json ./
-COPY ./webpack.mix.js ./
-COPY ./webpack.config.js ./
+COPY ./vite.config.js ./
+COPY ./postcss.config.js ./
 COPY ./tailwind.config.js ./
 COPY ./resources ./resources
 
 RUN npm install \
-    && npm run prod
+    && npm run build
 
 
 FROM php:fpm-alpine
@@ -42,9 +42,7 @@ COPY --from=application_builder /app/vendor ./vendor
 COPY --from=application_builder /app/bootstrap/cache ./bootstrap/cache
 
 COPY --from=asset_builder /app/public/assets ./public/assets
-COPY --from=asset_builder /app/public/css ./public/css
-COPY --from=asset_builder /app/public/js ./public/js
-COPY --from=asset_builder /app/public/mix-manifest.json ./public/mix-manifest.json
+COPY --from=asset_builder /app/public/build ./public/build
 
 RUN mkdir ./database/sqlite \
     && chown -R www-data: /var/www/html \
