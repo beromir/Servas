@@ -183,7 +183,7 @@
 
             <ul class="mt-3 divide-y divide-gray-100">
                 {#each filteredGroups as group (group.id)}
-                    <li on:click={() => filterByGroup(group.id)}
+                    <li on:click={() => filterByGroup(group.id)} aria-hidden="true"
                         class="flex justify-between items-center text-gray-900 cursor-default select-none relative py-2.5 pl-8 pr-4">
                         <div class="font-normal block truncate">{group.title}</div>
 

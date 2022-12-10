@@ -1,10 +1,9 @@
 /node_modules
 /public/hot
 /public/storage
-/public/assets/*
 /public/css
 /public/js
-/public/mix-manifest.json
+/public/build
 /storage/*.key
 /vendor
 .env
@@ -17,5 +16,3 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-
-!/public/assets/favicons/

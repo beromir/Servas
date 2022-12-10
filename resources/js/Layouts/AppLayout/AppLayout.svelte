@@ -177,22 +177,22 @@
                     </div>
                     <div class="pt-4 pb-3 border-t border-gray-700">
                         <div class="flex items-center px-5">
-                            <div on:click={() => showMobileAccountMenu = !showMobileAccountMenu}
-                                 class="flex-shrink-0 h-10 w-10 select-none">
-                            <span class="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
-                                <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
-                                </svg>
-                            </span>
-                            </div>
-                            <div on:click={() => showMobileAccountMenu = !showMobileAccountMenu}
-                                 class="ml-3 select-none">
+                            <button on:click={() => showMobileAccountMenu = !showMobileAccountMenu} type="button"
+                                    class="flex-shrink-0 h-10 w-10 select-none">
+                                <span class="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+                                    <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                    </svg>
+                                </span>
+                            </button>
+                            <button on:click={() => showMobileAccountMenu = !showMobileAccountMenu} type="button"
+                                    class="ml-3 select-none">
                                 <div
                                     class="text-base font-medium leading-none text-white">{ $page.props.user.name }</div>
                                 <div
                                     class="text-sm font-medium leading-none text-gray-400">{ $page.props.user.email }</div>
-                            </div>
+                            </button>
                             <button on:click={showCommandPaletteOnMobile} type="button"
                                     class="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                                 <span class="sr-only">View notifications</span>

@@ -253,10 +253,10 @@
             <li class="flex shadow sm:rounded-lg">
                 {#if bulkEditingEnabled}
                     <!-- Show checkbox -->
-                    <div on:click={() => selectedLinks = toggleValueInArray(selectedLinks, link.id)}
-                         class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 sm:rounded-l-lg">
+                    <button on:click={() => selectedLinks = toggleValueInArray(selectedLinks, link.id)} type="button"
+                            class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 sm:rounded-l-lg">
                         <input bind:group={selectedLinks} value={link.id} type="checkbox"/>
-                    </div>
+                    </button>
                 {/if}
 
                 <a href={route('links.show', link.id)} use:inertia

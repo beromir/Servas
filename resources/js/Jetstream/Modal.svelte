@@ -20,7 +20,7 @@
 
 {#if show}
     <div class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50">
-        <div class="fixed inset-0 transform transition-all" on:click={() => {if (closeable) dispatch('close')}}>
+        <div class="fixed inset-0 transform transition-all" on:click={() => {if (closeable) dispatch('close')}} aria-hidden="true">
             <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
 

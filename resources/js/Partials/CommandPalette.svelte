@@ -143,7 +143,7 @@
                             id={`select-option-${link.id}`}
                             class={['cursor-default select-none rounded-md px-4 py-2',
                             link.id === selectedLink ? 'bg-primary-500 text-white' : ''].join(' ').trim()}
-                            role="option" tabindex="-1">
+                            tabindex="-1" aria-hidden="true">
                             <div class="font-medium">{link.title}</div>
                             <div class={['text-xs truncate',
                                 link.id === selectedLink ? 'text-gray-100' : 'text-gray-600'].join(' ').trim()}>

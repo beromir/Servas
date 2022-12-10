@@ -5,7 +5,7 @@
     import {useForm} from "@inertiajs/inertia-svelte";
     import {route, dispatchCustomEvent} from "@/utils";
     import {refreshGroups} from "@/stores";
-    import GroupSelectMenu, {initialSelectedGroup, setSelectedGroup} from "@/Partials/GroupSelectMenu.svelte";
+    import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
 
     const dispatch = createEventDispatcher();
 

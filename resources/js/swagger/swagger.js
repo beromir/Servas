@@ -1,9 +1,9 @@
-import SwaggerUI from 'swagger-ui'
+import SwaggerUI from 'swagger-ui';
 import 'swagger-ui/dist/swagger-ui.css';
 
-const spec = require('./swagger-config.json');
+let spec = import('./swagger-config.json');
 
-const ui = SwaggerUI({
-    spec,
+SwaggerUI({
+    spec: spec,
     dom_id: '#swagger',
 });

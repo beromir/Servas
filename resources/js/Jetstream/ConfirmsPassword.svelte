@@ -58,7 +58,7 @@
 </script>
 
 <span>
-    <span on:click={startConfirmingPassword}>
+    <span on:click={startConfirmingPassword} aria-hidden="true">
         <slot/>
     </span>
 
