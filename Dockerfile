@@ -41,7 +41,6 @@ COPY . ./
 COPY --from=application_builder /app/vendor ./vendor
 COPY --from=application_builder /app/bootstrap/cache ./bootstrap/cache
 
-COPY --from=asset_builder /app/public/assets ./public/assets
 COPY --from=asset_builder /app/public/build ./public/build
 
 RUN mkdir ./database/sqlite \
