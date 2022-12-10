@@ -8,7 +8,7 @@
     <title>Swagger</title>
 
     <!-- Scripts -->
-    <script src="{{mix('js/swagger.js')}}" defer></script>
+    @vite(['resources/js/swagger/swagger.js'])
 </head>
 <body>
 <main>

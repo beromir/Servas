@@ -12,12 +12,10 @@
     <link rel="shortcut icon" href="/assets/favicons/favicon.ico"/>
     <meta name="theme-color" content="#4e64b7"/>
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-
     <!-- Scripts -->
     @routes
-    <script src="{{ mix('js/app.js') }}" defer></script>
+
+    @vite('resources/js/app.js')
 </head>
 <body class="font-sans h-full">
 @inertia

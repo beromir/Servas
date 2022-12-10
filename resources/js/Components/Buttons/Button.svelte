@@ -5,7 +5,7 @@
     const dispatch = createEventDispatcher();
     export let type = 'button';
     export let title = null;
-    export let color;
+    export let color = undefined;
     export let focusButton = false;
 
     function getColors() {
