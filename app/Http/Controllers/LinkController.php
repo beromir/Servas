@@ -36,8 +36,10 @@ class LinkController extends Controller
         return Inertia::render('Links/Index', [
             'links' => Link::orderBy('created_at', 'desc')
                 ->filterByCurrentUser()
-                ->search('title', $searchString)
-                ->additionalSearch('link', $searchString)
+                ->where(function ($query) use ($searchString) {
+                    $query->search('title', $searchString)
+                        ->additionalSearch('link', $searchString);
+                })
                 ->filterByTags($filteredTags)
                 ->paginate(20)
                 ->withQueryString()
