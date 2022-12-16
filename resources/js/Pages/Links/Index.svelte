@@ -255,7 +255,7 @@
                     <!-- Show checkbox -->
                     <button on:click={() => selectedLinks = toggleValueInArray(selectedLinks, link.id)} type="button"
                             class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 sm:rounded-l-lg">
-                        <input bind:group={selectedLinks} value={link.id} type="checkbox"/>
+                        <input bind:group={selectedLinks} value={link.id} type="checkbox" class="text-primary-500 focus:outline-primary-400"/>
                     </button>
                 {/if}
 
