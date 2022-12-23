@@ -17,9 +17,18 @@
     $title = link.title;
     $showHeader = false;
 
+    let copied = false;
+
     onDestroy(() => {
         $showHeader = true;
     });
+
+    function copyLink(link) {
+        navigator.clipboard.writeText(link);
+        copied = true;
+
+        setTimeout(() => copied = false, 500);
+    }
 
     function toggleLinkOnLaterList() {
         Inertia.post(route('later.toggle-link'), {
@@ -40,14 +49,41 @@
     <div class="max-w-3xl mx-auto px-4 py-5 bg-white shadow sm:p-6 sm:rounded-lg">
         <div class="md:flex md:flex-row-reverse md:justify-between md:gap-8">
             <div class="flex justify-end md:-mt-1.5 md:h-fit">
+                <button on:click={copyLink(link.link)} title="Copy link" type="button"
+                        class="w-max inline-flex items-center p-2  border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+
+                    {#if copied}
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                             class="w-5 h-5 text-green-500">
+                            <path fill-rule="evenodd"
+                                  d="M18 5.25a2.25 2.25 0 00-2.012-2.238A2.25 2.25 0 0013.75 1h-1.5a2.25 2.25 0 00-2.238 2.012c-.875.092-1.6.686-1.884 1.488H11A2.5 2.5 0 0113.5 7v7h2.25A2.25 2.25 0 0018 11.75v-6.5zM12.25 2.5a.75.75 0 00-.75.75v.25h3v-.25a.75.75 0 00-.75-.75h-1.5z"
+                                  clip-rule="evenodd"/>
+                            <path fill-rule="evenodd"
+                                  d="M3 6a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V7a1 1 0 00-1-1H3zm6.874 4.166a.75.75 0 10-1.248-.832l-2.493 3.739-.853-.853a.75.75 0 00-1.06 1.06l1.5 1.5a.75.75 0 001.154-.114l3-4.5z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+
+                    {:else}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20"
+                             fill="currentColor">
+                            <path fill-rule="evenodd"
+                                  d="M13.887 3.182c.396.037.79.08 1.183.128C16.194 3.45 17 4.414 17 5.517V16.75A2.25 2.25 0 0114.75 19h-9.5A2.25 2.25 0 013 16.75V5.517c0-1.103.806-2.068 1.93-2.207.393-.048.787-.09 1.183-.128A3.001 3.001 0 019 1h2c1.373 0 2.531.923 2.887 2.182zM7.5 4A1.5 1.5 0 019 2.5h2A1.5 1.5 0 0112.5 4v.5h-5V4z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    {/if}
+                </button>
+
                 <a href={link.link} target="_blank" rel="noreferrer noopener nofollow"
-                   class="w-max inline-flex items-center px-4 py-2  border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                   class="w-max inline-flex items-center ml-3 px-4 py-2  border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                     Open link
                     <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 -mr-1 h-5 w-5" viewBox="0 0 20 20"
                          fill="currentColor">
-                        <path
-                            d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/>
-                        <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/>
+                        <path fill-rule="evenodd"
+                              d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
+                              clip-rule="evenodd"/>
+                        <path fill-rule="evenodd"
+                              d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
+                              clip-rule="evenodd"/>
                     </svg>
                 </a>
             </div>
