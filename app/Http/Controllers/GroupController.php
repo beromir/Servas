@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\Link;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,17 @@ class GroupController extends Controller
     public function index(): Response
     {
         return Inertia::render('Groups/Index', [
-            'groups' => Group::filterByCurrentUser()->orderBy('title')->where('parent_group_id', null)->get(),
+            'groups' => Group::filterByCurrentUser()
+                ->orderBy('title')
+                ->where('parent_group_id', null)
+                ->withCount(['links', 'groups'])
+                ->get()
+                ->transform(fn(Group $group) => [
+                    'id' => $group->id,
+                    'title' => $group->title,
+                    'childGroupsCount' => $group->groups_count,
+                    'linksCount' => $group->links_count,
+                ]),
         ]);
     }
 
@@ -75,12 +86,15 @@ class GroupController extends Controller
                 'parentGroupId' => $group->parent_group_id,
             ],
             'groups' => Group::filterByCurrentUser()
-                ->where('parent_group_id', $groupId)
                 ->orderBy('title')
+                ->where('parent_group_id', $groupId)
+                ->withCount(['links', 'groups'])
                 ->get()
                 ->transform(fn(Group $group) => [
                     'id' => $group->id,
                     'title' => $group->title,
+                    'childGroupsCount' => $group->groups_count,
+                    'linksCount' => $group->links_count,
                 ]),
             'parentGroups' => $this->getAllParentGroups($group),
             'links' => $group
