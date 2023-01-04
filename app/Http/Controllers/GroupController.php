@@ -178,11 +178,13 @@ class GroupController extends Controller
     {
         return Group::orderBy('title')
             ->filterByCurrentUser()
+            ->withCount('groups')
             ->get()
             ->transform(fn(Group $group) => [
                 'id' => $group->id,
                 'title' => $group->title,
                 'parentGroupId' => $group->parent_group_id,
+                'childGroupsCount' => $group->groups_count,
             ]);
     }
 }

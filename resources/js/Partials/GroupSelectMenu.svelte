@@ -184,8 +184,24 @@
             <ul class="mt-3 divide-y divide-gray-100">
                 {#each filteredGroups as group (group.id)}
                     <li on:click={() => filterByGroup(group.id)} aria-hidden="true"
-                        class="flex justify-between items-center text-gray-900 cursor-default select-none relative py-2.5 pl-8 pr-4">
-                        <div class="font-normal block truncate">{group.title}</div>
+                        class="flex text-gray-900 cursor-default select-none relative py-2.5 pl-8 pr-4">
+                        <div class="flex justify-between items-center mr-3.5 w-full overflow-x-hidden">
+                            <div class="font-normal block truncate">{group.title}</div>
+                            {#if group.childGroupsCount > 0}
+                                <div class="flex items-center">
+                                    <div
+                                        class="py-0.5 px-2.5 bg-gray-600 rounded-full text-white text-xs font-medium">
+                                        {group.childGroupsCount}
+                                    </div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                         class="ml-0.5 w-5 h-5 text-gray-600">
+                                        <path fill-rule="evenodd"
+                                              d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                                              clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            {/if}
+                        </div>
 
                         {#if getIndexOfGroupId(group.id, internalSelectedGroups) !== -1}
                             <div class="text-indigo-600 absolute inset-y-0 left-0 flex items-center pl-1.5">
