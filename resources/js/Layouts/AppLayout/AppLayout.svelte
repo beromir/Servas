@@ -126,17 +126,25 @@
                         </div>
                     </div>
                 </div>
+
+                <button on:click={showCommandPaletteOnMobile} type="button"
+                        class="ml-auto mr-2 bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white md:hidden">
+                    <span class="sr-only">View notifications</span>
+                    <!-- Heroicon name: outline/search -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                         stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                    </svg>
+                </button>
+
                 <div class="-mr-2 flex md:hidden">
                     <!-- Mobile menu button -->
                     <button on:click={() => showMobileMenu = !showMobileMenu} type="button"
                             class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                             aria-controls="mobile-menu" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
-                        <!--
-                          Heroicon name: outline/menu
 
-                          Menu open: "hidden", Menu closed: "block"
-                        -->
                         {#if !showMobileMenu}
                             <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg"
                                  fill="none" viewBox="0 0 24 24"
@@ -144,13 +152,8 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M4 6h16M4 12h16M4 18h16"/>
                             </svg>
-                        {/if}
-                        <!--
-                          Heroicon name: outline/x
 
-                          Menu open: "block", Menu closed: "hidden"
-                        -->
-                        {#if showMobileMenu}
+                        {:else}
                             <svg class="block h-6 w-6"
                                  xmlns="http://www.w3.org/2000/svg"
                                  fill="none" viewBox="0 0 24 24"
@@ -194,16 +197,6 @@
                                 <div class="text-sm font-medium leading-none text-gray-400 truncate">
                                     {$page.props.user.email}
                                 </div>
-                            </button>
-                            <button on:click={showCommandPaletteOnMobile} type="button"
-                                    class="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                                <span class="sr-only">View notifications</span>
-                                <!-- Heroicon name: outline/search -->
-                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                </svg>
                             </button>
                         </div>
                         {#if showMobileAccountMenu}
