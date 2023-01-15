@@ -5,7 +5,7 @@
 </script>
 
 <script>
-    import {page} from '@inertiajs/inertia-svelte';
+    import {page} from '@inertiajs/svelte';
 
     let appName = $page.props.appName;
 </script>

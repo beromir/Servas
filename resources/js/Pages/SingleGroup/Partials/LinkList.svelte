@@ -1,6 +1,6 @@
 <script>
     import {route} from "@/utils";
-    import {inertia} from '@inertiajs/inertia-svelte';
+    import {inertia} from '@inertiajs/svelte';
 
     export let links = [];
 </script>

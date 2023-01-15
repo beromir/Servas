@@ -5,7 +5,7 @@
     import JetInput from '@/Jetstream/Input.svelte';
     import JetInputError from '@/Jetstream/InputError.svelte';
     import JetLabel from '@/Jetstream/Label.svelte';
-    import {useForm} from "@inertiajs/inertia-svelte";
+    import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
     let passwordInput;

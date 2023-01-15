@@ -5,7 +5,7 @@
     import Input from "@/Components/FormLayouts/Modals/Input.svelte";
     import Button from "@/Components/Buttons/Button.svelte";
     import Badge from '@/Components/Badge.svelte';
-    import {useForm} from "@inertiajs/inertia-svelte";
+    import {useForm} from "@inertiajs/svelte";
     import {route, clickOutside} from '@/utils';
     import {refreshLinks, refreshTags} from "@/stores";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";

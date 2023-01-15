@@ -11,7 +11,7 @@
     import JetInput from '@/Jetstream/Input.svelte';
     import JetLabel from '@/Jetstream/Label.svelte';
     import JetValidationErrors from '@/Jetstream/ValidationErrors.svelte';
-    import {useForm} from "@inertiajs/inertia-svelte";
+    import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
     export let email = '';

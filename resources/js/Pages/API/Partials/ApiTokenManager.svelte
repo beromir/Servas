@@ -12,7 +12,7 @@
     import JetLabel from '@/Jetstream/Label.svelte';
     import JetSecondaryButton from '@/Jetstream/SecondaryButton.svelte';
     import JetSectionBorder from '@/Jetstream/SectionBorder.svelte';
-    import {page, useForm} from "@inertiajs/inertia-svelte";
+    import {page, useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
     export let tokens;

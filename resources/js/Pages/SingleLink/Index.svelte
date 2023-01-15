@@ -9,8 +9,7 @@
     import {dispatchCustomEvent, route} from "@/utils";
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import Badge from "@/Components/Badge.svelte";
-    import {Inertia} from "@inertiajs/inertia";
-    import {inertia} from "@inertiajs/inertia-svelte";
+    import {inertia, router} from "@inertiajs/svelte";
 
     export let link = {};
 
@@ -31,7 +30,7 @@
     }
 
     function toggleLinkOnLaterList() {
-        Inertia.post(route('later.toggle-link'), {
+        router.post(route('later.toggle-link'), {
             linkId: link.id,
         })
     }

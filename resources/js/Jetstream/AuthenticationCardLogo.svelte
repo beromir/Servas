@@ -1,5 +1,5 @@
 <script>
-    import {inertia} from '@inertiajs/inertia-svelte';
+    import {inertia} from '@inertiajs/svelte';
 </script>
 
 <a href="/" use:inertia>

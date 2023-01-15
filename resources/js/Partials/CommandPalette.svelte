@@ -1,5 +1,5 @@
 <script>
-    import {Inertia} from '@inertiajs/inertia'
+    import {router} from '@inertiajs/svelte'
     import {fade, scale} from 'svelte/transition';
     import {backIn, backOut} from 'svelte/easing';
     import {delay} from "lodash";
@@ -50,7 +50,7 @@
     function openSingleLinkPage() {
         if (selectedLink) {
             closeCommandPalette();
-            Inertia.get(route('links.show', selectedLink));
+            router.get(route('links.show', selectedLink));
         }
     }
 

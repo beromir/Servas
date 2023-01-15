@@ -6,7 +6,7 @@
 </script>
 
 <script>
-    import {inertia, page} from '@inertiajs/inertia-svelte';
+    import {inertia, page} from '@inertiajs/svelte';
     import LinkModal from "@/Partials/LinkModal.svelte";
     import DeleteLinkModal from "@/Partials/DeleteLinkModal.svelte";
     import {route, dispatchCustomEvent, clickOutside} from '@/utils';

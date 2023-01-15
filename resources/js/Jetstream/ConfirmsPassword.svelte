@@ -5,7 +5,7 @@
     import JetInput from './Input.svelte';
     import JetInputError from './InputError.svelte';
     import JetSecondaryButton from './SecondaryButton.svelte';
-    import {useForm} from "@inertiajs/inertia-svelte";
+    import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
     const dispatch = createEventDispatcher();
