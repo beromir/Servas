@@ -15,11 +15,20 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
-        //
+        return Inertia::render('Dashboards/Index', [
+            'dashboards' => Dashboard::filterByCurrentUser()
+                ->orderBy('title')
+                ->get()
+                ->transform(fn(Dashboard $dashboard) => [
+                    'id' => $dashboard->id,
+                    'title' => $dashboard->title,
+                    'description' => $dashboard->description,
+                ]),
+        ]);
     }
 
     /**

@@ -9,10 +9,9 @@
     import FormSection from "@/Components/FormLayouts/Settings/FormSection.svelte";
     import Textarea from "@/Components/FormLayouts/Settings/Inputs/Textarea.svelte";
     import Text from "@/Components/FormLayouts/Settings/Inputs/Text.svelte";
-    import {useForm} from "@inertiajs/inertia-svelte";
+    import {useForm, router} from "@inertiajs/svelte";
     import {route} from "@/utils";
     import Button from "@/Components/Buttons/Button.svelte";
-    import router from "@inertiajs/inertia";
 
     $: $title = 'Create Dashboard';
 
