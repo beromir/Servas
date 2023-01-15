@@ -2,21 +2,18 @@
 
 namespace App\Services\Models;
 
+use App\Http\Requests\StoreDashboardRequest;
 use App\Models\Dashboard;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardService
 {
-    protected array $rules = [
-        'title' => 'string|required',
-        'description' => 'string|nullable'
-    ];
-
-    protected function store(Request $request)
+    public function store(string $title, string|null $description): void
     {
-        Request::validate($this->rules);
-
-        $dashboard = Dashboard::make();
-
+        $dashboard = Dashboard::create([
+            'title' => $title,
+            'description' => $description,
+            'user_id' => Auth::id(),
+        ]);
     }
 }

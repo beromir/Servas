@@ -11,6 +11,7 @@ class Dashboard extends Model
         'title',
         'description',
         'settings',
+        'user_id',
     ];
 
     /**

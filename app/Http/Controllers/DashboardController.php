@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreDashboardRequest;
 use App\Models\Dashboard;
+use App\Services\Models\DashboardService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -32,12 +35,17 @@ class DashboardController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param StoreDashboardRequest $request
+     * @param DashboardService $dashboardService
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreDashboardRequest $request, DashboardService $dashboardService)
     {
-        //
+        $validated = $request->validated();
+
+        $dashboardService->store($validated['title'], $validated['description']);
+
+        return to_route('dashboards.index');
     }
 
     /**

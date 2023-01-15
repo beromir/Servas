@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('title');
             $table->text('description')->nullable();
             $table->json('settings')->nullable();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
 
@@ -26,6 +27,7 @@ return new class extends Migration {
             $table->id();
             $table->string('title');
             $table->foreignIdFor(Dashboard::class)->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
 
             $table->unique(['id', 'dashboard_id']);

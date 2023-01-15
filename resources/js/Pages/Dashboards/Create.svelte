@@ -9,30 +9,44 @@
     import FormSection from "@/Components/FormLayouts/Settings/FormSection.svelte";
     import Textarea from "@/Components/FormLayouts/Settings/Inputs/Textarea.svelte";
     import Text from "@/Components/FormLayouts/Settings/Inputs/Text.svelte";
+    import {useForm} from "@inertiajs/inertia-svelte";
+    import {route} from "@/utils";
+    import Button from "@/Components/Buttons/Button.svelte";
+    import router from "@inertiajs/inertia";
 
     $: $title = 'Create Dashboard';
+
+    let form = useForm({
+        title: null,
+        description: null,
+    });
+
+    function createDashboard() {
+        $form.post(route('dashboards.store'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                $form.reset();
+            },
+        });
+    }
 </script>
 
 <Main>
-    <form class="space-y-6" action="#" method="POST">
+    <form on:submit|preventDefault={createDashboard} class="space-y-6">
         <FormSection title="General">
             <svelte:fragment slot="description">
                 Provide some information for the dashboard.
             </svelte:fragment>
 
-            <Text name="title" label="Title"/>
-            <Textarea name="description" label="Description" placeholder="Test"/>
+            <Text name="title" label="Title" bind:value={$form.title} error={$form.errors.title}/>
+            <Textarea name="description" label="Description" bind:value={$form.description}
+                      error={$form.errors.description}/>
         </FormSection>
 
         <div class="flex justify-end">
-            <button type="button"
-                    class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                Cancel
-            </button>
-            <button type="submit"
-                    class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                Save
-            </button>
+            <Button on:clicked={() => router.visit(route('dashboards.index'))} title="Cancel" color="white"
+                    class="w-auto"/>
+            <Button title="Create" type="submit" class="ml-3 w-auto"/>
         </div>
     </form>
 </Main>

@@ -1,7 +1,6 @@
 <script>
     export let name;
     export let label;
-    export let isFirst = false;
     export let type = 'text';
     export let value = null;
     export let error = null;
