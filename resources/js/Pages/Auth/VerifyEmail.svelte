@@ -8,9 +8,8 @@
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
-    import {useForm} from "@inertiajs/inertia-svelte";
+    import {useForm, inertia} from "@inertiajs/svelte";
     import {route} from "@/utils";
-    import {inertia} from '@inertiajs/inertia-svelte';
 
     export let status = '';
 

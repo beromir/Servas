@@ -2,7 +2,7 @@
     import WidgetContainer from "@/Components/Widgets/WidgetContainer.svelte";
     import Widget from "@/Components/Widgets/Widget.svelte";
     import {route} from "@/utils";
-    import {inertia} from "@inertiajs/inertia-svelte";
+    import {inertia} from "@inertiajs/svelte";
 
     export let stats = {};
 </script>

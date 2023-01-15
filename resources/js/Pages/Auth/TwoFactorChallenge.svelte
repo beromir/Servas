@@ -11,7 +11,7 @@
     import JetInput from '@/Jetstream/Input.svelte';
     import JetLabel from '@/Jetstream/Label.svelte';
     import JetInputError from '@/Jetstream/InputError.svelte';
-    import {useForm} from "@inertiajs/inertia-svelte";
+    import {useForm} from "@inertiajs/svelte";
     import {tick} from 'svelte';
     import {route} from "@/utils";
 

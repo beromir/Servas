@@ -6,7 +6,7 @@
     import JetInput from '@/Jetstream/Input.svelte'
     import JetInputError from '@/Jetstream/InputError.svelte'
     import JetSecondaryButton from '@/Jetstream/SecondaryButton.svelte'
-    import {useForm} from "@inertiajs/inertia-svelte";
+    import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
     export let sessions;

@@ -1,6 +1,5 @@
 <script>
-    import {inertia} from '@inertiajs/inertia-svelte';
-    import {route} from "@/utils";
+    import {inertia} from '@inertiajs/svelte';
     import BreadcrumbNavItem from "@/Components/BreadcrumbNavigation/BreadcrumbNavItem.svelte";
 
     export let navigationNameForSr = '';

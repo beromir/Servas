@@ -1,6 +1,6 @@
 <script>
-    import {inertia} from "@inertiajs/inertia-svelte";
-    import {page} from '@inertiajs/inertia-svelte';
+    import {inertia} from "@inertiajs/svelte";
+    import {page} from '@inertiajs/svelte';
     import {createEventDispatcher} from "svelte";
 
     const dispatch = createEventDispatcher();

@@ -1,7 +1,7 @@
 <script>
     import Modal from "@/Components/Modals/Modal.svelte";
     import Button from "@/Components/Buttons/Button.svelte";
-    import {Inertia} from '@inertiajs/inertia';
+    import {router} from '@inertiajs/svelte';
     import {dispatchCustomEvent, route} from '@/utils';
     import {refreshTags} from "@/stores";
 
@@ -15,7 +15,7 @@
     }
 
     function deleteTag() {
-        Inertia.delete(route('tags.destroy', tag.id), {
+        router.delete(route('tags.destroy', tag.id), {
             preserveScroll: true,
             onSuccess: () => {
                 // End the edit mode

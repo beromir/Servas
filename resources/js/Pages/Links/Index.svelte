@@ -5,9 +5,9 @@
 </script>
 
 <script>
-    import {inertia} from '@inertiajs/inertia-svelte';
+    import {inertia} from '@inertiajs/svelte';
     import Pagination from "@/Components/Pagination.svelte";
-    import {Inertia} from "@inertiajs/inertia";
+    import {router} from '@inertiajs/svelte';
     import {dispatchCustomEvent, route, toggleValueInArray} from "@/utils";
     import Badge from "@/Components/Badge.svelte";
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
@@ -66,7 +66,7 @@
             searchString = null;
         }
 
-        Inertia.get(route(route().current(), {
+        router.get(route(route().current(), {
             tags: filteredTags,
             search: searchString,
         }), {}, {
@@ -76,7 +76,7 @@
     }
 
     function bulkEditLinks(action) {
-        Inertia.post('/bulk-edit-links', {
+        router.post('/bulk-edit-links', {
             action: action,
             links: selectedLinks,
             groups: selectedGroups,
