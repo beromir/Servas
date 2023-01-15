@@ -67,6 +67,7 @@
                             <DesktopMenuItem title="Links" url="/links" exactMatch={false}/>
                             <DesktopMenuItem title="Groups" url="/groups"/>
                             <DesktopMenuItem title="Tags" url="/tags"/>
+                            <DesktopMenuItem title="Dashboards" url="/dashboards"/>
                         </div>
                     </div>
                 </div>
@@ -177,6 +178,7 @@
                                         on:clicked={() => showMobileMenu = false}/>
                         <MobileMenuItem title="Groups" url="/groups" on:clicked={() => showMobileMenu = false}/>
                         <MobileMenuItem title="Tags" url="/tags" on:clicked={() => showMobileMenu = false}/>
+                        <MobileMenuItem title="Dashboards" url="/dashboards" on:clicked={() => showMobileMenu = false}/>
                     </div>
                     <div class="pt-4 pb-3 border-t border-gray-700">
                         <div class="flex items-center px-5">

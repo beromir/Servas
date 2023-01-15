@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BulkEditingController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaterController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\GroupController;
@@ -34,6 +35,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('groups', GroupController::class)->except([
         'create', 'edit',
     ]);
+
+    Route::resource('dashboards', DashboardController::class);
 
     Route::get('/all-links', [LinkController::class, 'getAllLinks']);
     Route::get('/all-tags', [TagController::class, 'getAllTags']);
