@@ -12,7 +12,7 @@
     import UpdatePasswordForm from '@/Pages/Profile/Partials/UpdatePasswordForm.svelte'
     import UpdateProfileInformationForm from '@/Pages/Profile/Partials/UpdateProfileInformationForm.svelte'
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
-    import {page} from "@inertiajs/inertia-svelte";
+    import {page} from "@inertiajs/svelte";
 
     export let confirmsTwoFactorAuthentication;
     export let sessions;

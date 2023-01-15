@@ -5,7 +5,7 @@
 </script>
 
 <script>
-    import {inertia, useForm} from '@inertiajs/inertia-svelte';
+    import {inertia, useForm} from '@inertiajs/svelte';
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte'
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte'
     import JetButton from '@/Jetstream/Button.svelte'

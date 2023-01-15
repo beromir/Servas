@@ -7,8 +7,7 @@
     import JetInput from '@/Jetstream/Input.svelte';
     import JetInputError from '@/Jetstream/InputError.svelte';
     import JetLabel from '@/Jetstream/Label.svelte';
-    import {page, useForm} from "@inertiajs/inertia-svelte";
-    import {Inertia} from "@inertiajs/inertia";
+    import {page, useForm, router} from "@inertiajs/svelte";
 
     export let requiresConfirmation;
 
@@ -29,7 +28,7 @@
     function enableTwoFactorAuthentication() {
         enabling = true
 
-        Inertia.post('/user/two-factor-authentication', {}, {
+        router.post('/user/two-factor-authentication', {}, {
             preserveScroll: true,
             onSuccess: () => Promise.all([
                 showQrCode(),
@@ -87,7 +86,7 @@
     function disableTwoFactorAuthentication() {
         disabling = true
 
-        Inertia.delete('/user/two-factor-authentication', {
+        router.delete('/user/two-factor-authentication', {
             preserveScroll: true,
             onSuccess: () => {
                 disabling = false;

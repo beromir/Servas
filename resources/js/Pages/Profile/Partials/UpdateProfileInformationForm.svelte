@@ -5,9 +5,8 @@
     import JetInputError from '@/Jetstream/InputError.svelte';
     import JetLabel from '@/Jetstream/Label.svelte';
     import JetSecondaryButton from '@/Jetstream/SecondaryButton.svelte';
-    import {page, useForm} from "@inertiajs/inertia-svelte";
+    import {page, useForm, router} from "@inertiajs/svelte";
     import {route} from "@/utils";
-    import {Inertia} from "@inertiajs/inertia";
     // import JetActionMessage from '@/Jetstream/ActionMessage.vue';
 
     export let user = {};
@@ -53,7 +52,7 @@
     }
 
     function deletePhoto() {
-        Inertia.delete(route('current-user-photo.destroy'), {
+        router.delete(route('current-user-photo.destroy'), {
             preserveScroll: true,
             onSuccess: () => {
                 photoPreview = null;

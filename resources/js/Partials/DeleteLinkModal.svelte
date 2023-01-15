@@ -1,7 +1,7 @@
 <script>
     import Modal from "@/Components/Modals/Modal.svelte";
     import Button from "@/Components/Buttons/Button.svelte";
-    import {Inertia} from '@inertiajs/inertia';
+    import {router} from '@inertiajs/svelte';
     import {route} from '@/utils';
     import {refreshLinks} from "@/stores";
 
@@ -15,7 +15,7 @@
     }
 
     function deleteLink() {
-        Inertia.delete(route('links.destroy', link.id), {
+        router.delete(route('links.destroy', link.id), {
             preserveScroll: true,
             onSuccess: () => {
                 showModal = false;

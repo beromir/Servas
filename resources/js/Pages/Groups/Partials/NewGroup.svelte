@@ -2,8 +2,8 @@
     import {createEventDispatcher} from 'svelte';
     import Button from "@/Components/Buttons/Button.svelte";
     import Input from '@/Components/Inputs/Input.svelte';
-    import {useForm} from "@inertiajs/inertia-svelte";
-    import {route, dispatchCustomEvent} from "@/utils";
+    import {useForm} from "@inertiajs/svelte";
+    import {route} from "@/utils";
     import {refreshGroups} from "@/stores";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
 

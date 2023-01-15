@@ -1,7 +1,7 @@
 <script>
     import Modal from "@/Components/Modals/Modal.svelte";
     import Button from "@/Components/Buttons/Button.svelte";
-    import {Inertia} from '@inertiajs/inertia';
+    import {router} from '@inertiajs/svelte';
     import {route} from '@/utils';
     import {refreshGroups} from "@/stores";
 
@@ -15,7 +15,7 @@
     }
 
     function deleteGroup() {
-        Inertia.delete(route('groups.destroy', group.id), {
+        router.delete(route('groups.destroy', group.id), {
             preserveScroll: true,
             onSuccess: () => {
                 showModal = false;
