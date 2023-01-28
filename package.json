@@ -10,6 +10,7 @@
         "@tailwindcss/typography": "^0.5.2",
         "autoprefixer": "^10.4.13",
         "axios": "^0.27.2",
+        "clsx": "^1.2.1",
         "inter-ui": "^3.19.3",
         "laravel-vite-plugin": "^0.7.1",
         "lodash": "^4.17.21",
