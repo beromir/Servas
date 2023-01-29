@@ -6,14 +6,11 @@
 
 <script>
     import {inertia, useForm} from '@inertiajs/svelte';
-    import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte'
-    import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte'
-    import JetButton from '@/Jetstream/Button.svelte'
-    import JetInput from '@/Jetstream/Input.svelte'
-    import JetCheckbox from '@/Jetstream/Checkbox.svelte'
-    import JetLabel from '@/Jetstream/Label.svelte'
-    import JetInputError from '@/Jetstream/InputError.svelte'
+    import AuthenticationCard from '@/Components/Auth/AuthenticationCard.svelte'
     import {route} from '@/utils';
+    import Text from "@/Components/FormLayouts/Inputs/Text.svelte";
+    import SubmitButton from "@/Components/Auth/SubmitButton.svelte";
+    import Checkbox from "@/Components/FormLayouts/Inputs/Checkbox.svelte";
 
     export let canResetPassword;
 
@@ -32,41 +29,27 @@
     }
 </script>
 
-<JetAuthenticationCard>
-    <JetAuthenticationCardLogo slot="logo"/>
-
+<AuthenticationCard>
     <form on:submit|preventDefault={login}>
-        <div>
-            <JetLabel id="email" label="Email"/>
-            <JetInput bind:value={$form.email} id="email" type="email" class="mt-1 block w-full" required autofocus/>
-            <JetInputError message={$form.errors.email}/>
+        <div class="space-y-6">
+            <Text name="email" label="Email address" type="email" bind:value={$form.email} error={$form.errors.email}
+                  required
+                  autofocus/>
+
+            <Text name="password" label="Password" type="password" bind:value={$form.password}
+                  error={$form.errors.password} required
+                  autocomplete="current-password"/>
+
+            <Checkbox name="remember" label="Remember me" bind:checked={$form.remember}/>
         </div>
 
-        <div class="mt-4">
-            <JetLabel id="password" label="Password"/>
-            <JetInput bind:value={$form.password} id="password" type="password" class="mt-1 block w-full" required
-                      autocomplete="current-password"/>
-            <JetInputError message={$form.errors.password}/>
-        </div>
+        {#if canResetPassword}
+            <a href={route('password.request')} use:inertia
+               class="underline text-sm text-gray-600 hover:text-gray-800">
+                Forgot your password?
+            </a>
+        {/if}
 
-        <div class="block mt-4">
-            <label for="remember" class="flex items-center">
-                <JetCheckbox id="remember" name="remember" bind:checked={$form.remember}/>
-                <span class="ml-2 text-sm text-gray-600">Remember me</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            {#if canResetPassword}
-                <a href={route('password.request')} use:inertia
-                   class="underline text-sm text-gray-600 hover:text-gray-900">
-                    Forgot your password?
-                </a>
-            {/if}
-
-            <JetButton class="ml-4" type="submit">
-                Log in
-            </JetButton>
-        </div>
+        <SubmitButton title="Log in" class="mt-12"/>
     </form>
-</JetAuthenticationCard>
+</AuthenticationCard>

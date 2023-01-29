@@ -5,19 +5,14 @@
 </script>
 
 <script>
-    import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
-    import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
-    import JetButton from '@/Jetstream/Button.svelte';
-    import JetInput from '@/Jetstream/Input.svelte';
-    import JetLabel from '@/Jetstream/Label.svelte';
-    import JetInputError from '@/Jetstream/InputError.svelte';
+    import AuthenticationCard from "@/Components/Auth/AuthenticationCard.svelte";
     import {useForm} from "@inertiajs/svelte";
     import {tick} from 'svelte';
     import {route} from "@/utils";
+    import Text from "@/Components/FormLayouts/Inputs/Text.svelte";
+    import SubmitButton from "@/Components/Auth/SubmitButton.svelte";
 
     let recovery = false;
-    let recoveryCodeInput;
-    let codeInput;
 
     let form = useForm({
         code: '',
@@ -32,10 +27,8 @@
         await tick();
 
         if (recovery) {
-            recoveryCodeInput.focus();
             $form.code = '';
         } else {
-            codeInput.focus();
             $form.recovery_code = '';
         }
     }
@@ -45,11 +38,7 @@
     }
 </script>
 
-<JetAuthenticationCard>
-    <svelte:fragment slot="logo">
-        <JetAuthenticationCardLogo/>
-    </svelte:fragment>
-
+<AuthenticationCard>
     <div class="mb-4 text-sm text-gray-600">
         {#if !recovery}
             Please confirm access to your account by entering the authentication code provided by your authenticator
@@ -62,20 +51,18 @@
 
     <form on:submit|preventDefault={submit}>
         {#if !recovery}
-            <JetLabel id="code" label="Code"/>
-            <JetInput bind:this={codeInput} id="code" type="text" inputmode="numeric" class="mt-1 block w-full"
-                      bind:value={$form.code} autofocus autocomplete="one-time-code"/>
-            <JetInputError message={$form.errors.code}/>
+            <Text name="code" label="Code" bind:value={$form.code} error={$form.errors.code}
+                  inputmode="numeric" autofocus autocomplete="one-time-code"/>
 
         {:else}
-            <JetLabel id="recovery_code" label="Recovery Code"/>
-            <JetInput bind:this={recoveryCodeInput} id="recovery_code" type="text" class="mt-1 block w-full"
-                      bind:value={$form.recovery_code} autocomplete="one-time-code"/>
-            <JetInputError message={$form.errors.code}/>
+
+            <Text name="recovery_code" label="Recovery Code"
+                  bind:value={$form.recovery_code} error={$form.errors.recovery_code} autofocus
+                  autocomplete="one-time-code"/>
         {/if}
 
-        <div class="flex items-center justify-end mt-4">
-            <button type="button" class="text-sm text-gray-600 hover:text-gray-900 underline cursor-pointer"
+        <div class="flex justify-end mt-2">
+            <button type="button" class="text-sm text-gray-600 cursor-pointer hover:text-gray-800"
                     on:click|preventDefault={toggleRecovery}>
                 {#if !recovery}
                     Use a recovery code
@@ -84,11 +71,8 @@
                     Use an authentication code
                 {/if}
             </button>
-
-            <JetButton class={['ml-4', $form.processing ? 'opacity-25' : ''].join(' ').trim()}
-                       disabled={$form.processing} type="submit">
-                Log in
-            </JetButton>
         </div>
+
+        <SubmitButton title="Confirm" class="mt-12"/>
     </form>
-</JetAuthenticationCard>
+</AuthenticationCard>
