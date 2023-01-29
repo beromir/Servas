@@ -62,7 +62,7 @@
         {/if}
 
         <div class="flex justify-end mt-2">
-            <button type="button" class="text-sm text-gray-600 hover:text-gray-900 cursor-pointer"
+            <button type="button" class="text-sm text-gray-600 cursor-pointer hover:text-gray-800"
                     on:click|preventDefault={toggleRecovery}>
                 {#if !recovery}
                     Use a recovery code

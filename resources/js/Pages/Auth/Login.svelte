@@ -45,7 +45,7 @@
 
         {#if canResetPassword}
             <a href={route('password.request')} use:inertia
-               class="underline text-sm text-gray-600 hover:text-gray-900">
+               class="underline text-sm text-gray-600 hover:text-gray-800">
                 Forgot your password?
             </a>
         {/if}
