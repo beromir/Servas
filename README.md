@@ -49,6 +49,10 @@ docker exec -it servas php artisan key:generate --force
 7. Restart the containers with `docker-compose restart`.
 8. Open your browser and create a user account at https://your-servas-instance/register.
 
+### Easypanel
+
+Servas is available as a [Easypanel template](https://easypanel.io/docs/templates/servas)
+
 ### Manual
 
 **Requirements:**
