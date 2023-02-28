@@ -24,7 +24,7 @@
     <div>
         <div class="max-w-7xl mx-auto py-10 space-y-14 sm:px-6 sm:space-y-0 lg:px-8">
             {#if $page.props.jetstream.canUpdateProfileInformation}
-                <UpdateProfileInformationForm user={$page.props.user}/>
+                <UpdateProfileInformationForm user={$page.props.auth.user}/>
 
                 <JetSectionBorder/>
             {/if}

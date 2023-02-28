@@ -192,10 +192,10 @@
                             <button on:click={() => showMobileAccountMenu = !showMobileAccountMenu} type="button"
                                     class="ml-3 overflow-x-hidden text-left select-none">
                                 <div class="text-base font-medium leading-none text-white truncate">
-                                    {$page.props.user.name}
+                                    {$page.props.auth.user.name}
                                 </div>
                                 <div class="text-sm font-medium leading-none text-gray-400 truncate">
-                                    {$page.props.user.email}
+                                    {$page.props.auth.user.email}
                                 </div>
                             </button>
                         </div>
