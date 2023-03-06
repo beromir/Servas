@@ -13,6 +13,7 @@ echo "Starting Migration..."
 php artisan migrate --force
 
 echo "Creating caches..."
+php artisan route:cache
 php artisan config:cache
 php artisan view:cache
 
