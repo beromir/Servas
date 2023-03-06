@@ -5,6 +5,7 @@ if [ ! -f /var/www/html/database/sqlite/servas.db ]; then
 fi
 
 chown -R www-data: /var/www/html/database/sqlite
+chown -R www-data: /var/www/html/storage/logs
 
 cd /var/www/html
 
