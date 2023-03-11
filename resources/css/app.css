@@ -1,9 +1,11 @@
-@import "colors.css";
-
+/* Base styles */
 @import 'tailwindcss/base';
-@import 'tailwindcss/components';
-
+@import "colors.css";
 @import "fonts/inter-ui.css";
 @import "fonts/jetbrains-mono.css";
 
+/* Component styles */
+@import 'tailwindcss/components';
+
+/* Utility styles */
 @import 'tailwindcss/utilities';
