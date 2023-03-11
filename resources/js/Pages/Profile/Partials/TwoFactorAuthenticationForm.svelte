@@ -23,7 +23,7 @@
         code: '',
     });
 
-    $: twoFactorEnabled = !enabling && $page.props.user.two_factor_enabled;
+    $: twoFactorEnabled = !enabling && $page.props.auth.user.two_factor_enabled;
 
     function enableTwoFactorAuthentication() {
         enabling = true
