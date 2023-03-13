@@ -26,7 +26,7 @@
                 </div>
             </div>
             <a href={link.link} target="_blank" rel="noreferrer noopener nofollow" title="Open the link"
-                class="flex-none flex items-center justify-center w-16 group sm:w-20">
+                class="bg-gray-50 flex-none flex items-center justify-center w-16 group sm:w-20">
                 <svg xmlns="http://www.w3.org/2000/svg"
                         class="h-6 w-6 text-gray-300 group-hover:text-gray-500"
                         fill="none" viewBox="0 0 24 24"
