@@ -33,6 +33,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     ]);
 
     Route::get('groups/tree', [GroupTreeController::class, 'index']);
+    Route::get('groups/tree/{group}', [GroupTreeController::class, 'list']);
 
     Route::resource('groups', GroupController::class)->except([
         'create', 'edit',
