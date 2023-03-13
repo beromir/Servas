@@ -36,8 +36,20 @@
             </ul>
         </div>
 
-        <div class="grow bg-white shadow overflow-hidden sm:rounded-md">
-            <LinkList {links} />
-        </div>
+        {#if links.length > 0}
+            <div class="grow bg-white shadow overflow-hidden sm:rounded-md">
+                <LinkList {links} />
+            </div>
+        {:else}
+            <div class="col-span-2 container mx-auto">
+                <div
+                    class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center"
+                >
+                    <span class="mt-2 block text-sm font-medium text-gray-900">
+                        Select group to view links
+                    </span>
+                </div>
+            </div>
+        {/if}
     </div>
 </div>
