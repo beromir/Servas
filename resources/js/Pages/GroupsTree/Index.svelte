@@ -12,6 +12,7 @@
 
     export let current_group_id = null;
     export let groups = [];
+
     export let links = [];
 
     export function handleLinks({ detail }) {
@@ -21,8 +22,8 @@
 
 <div class="min-h-screen max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
     <div class="flex items-start">
-        <div class="sticky top-0 mr-3">
-            <ul class="w-64 bg-white rounded py-2">
+        <div class="shrink-0 sticky top-3 mr-3">
+            <ul class="w-96 bg-white rounded py-2">
                 {#each groups as group (group.id)}
                     <li>
                         <TreeItem
@@ -35,6 +36,8 @@
             </ul>
         </div>
 
-        <LinkList {links} />
+        <div class="grow bg-white shadow overflow-hidden sm:rounded-md">
+            <LinkList {links} />
+        </div>
     </div>
 </div>

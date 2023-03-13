@@ -53,7 +53,10 @@
         class="flex items-center justify-between w-full space-x-3  w-full flex px-4 py-2 space-x-6"
     >
         <div class="flex items-center">
-            <button on:click={showChildGroups}>
+            <button
+                on:click={showChildGroups}
+                class={group.childGroupsCount === 0 ? "opacity-25" : ""}
+            >
                 {#if showingChildGroups}
                     <svg
                         class="w-4 h-4"
