@@ -19,7 +19,7 @@
     function show() {
         if (current_group_id === group.id) return;
 
-        axios.get(`/groups/tree/${group.id}`).then(({ data: { data } }) => {
+        axios.get(`/grouptree/${group.id}`).then(({ data: { data } }) => {
             initializeChildGroups(data.groups);
 
             dispatch("link-retieved", { links: data.links });
@@ -34,7 +34,7 @@
 
         if (!childGroupsInitialized) {
             axios
-                .get(`/groups/tree/${group.id}?groupOnly=true`)
+                .get(`/grouptree/${group.id}?groupOnly=true`)
                 .then(({ data: { data } }) => {
                     initializeChildGroups(data.groups);
                 });

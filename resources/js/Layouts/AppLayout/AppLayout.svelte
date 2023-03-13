@@ -65,7 +65,27 @@
                         <div class="ml-10 flex items-baseline space-x-4">
                             <DesktopMenuItem title="Home" url="/"/>
                             <DesktopMenuItem title="Links" url="/links" exactMatch={false}/>
-                            <DesktopMenuItem title="Groups" url="/groups"/>
+                            <div class="flex items-center">
+                                <div class="px-3 py-2 rounded-md text-sm font-medium text-gray-300">Groups</div>
+                                 <!-- <DesktopMenuItem title="Groups" url="/groups"/> -->
+                                    
+                                <a href='/groups'
+                                    use:inertia
+                                    class={['px-3 py-2 rounded-md text-sm font-medium',
+                                    $page.url.startsWith('/groups') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:text-gray-100',
+                                    $$restProps.class].join(' ').trim()}
+                                    aria-current="page">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path d="M5.127 3.502L5.25 3.5h9.5c.041 0 .082 0 .123.002A2.251 2.251 0 0012.75 2h-5.5a2.25 2.25 0 00-2.123 1.502zM1 10.25A2.25 2.25 0 013.25 8h13.5A2.25 2.25 0 0119 10.25v5.5A2.25 2.25 0 0116.75 18H3.25A2.25 2.25 0 011 15.75v-5.5zM3.25 6.5c-.04 0-.082 0-.123.002A2.25 2.25 0 015.25 5h9.5c.98 0 1.814.627 2.123 1.502a3.819 3.819 0 00-.123-.002H3.25z"></path></svg>
+                                </a>
+                                <a href='/grouptree'
+                                    use:inertia
+                                    class={['px-3 py-2 rounded-md text-sm font-medium',
+                                    $page.url.startsWith('/grouptree') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:text-gray-100',
+                                    $$restProps.class].join(' ').trim()}
+                                    aria-current="page">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none"><path d="M2.25 5C2.94036 5 3.5 4.44036 3.5 3.75C3.5 3.05964 2.94036 2.5 2.25 2.5C1.55964 2.5 1 3.05964 1 3.75C1 4.44036 1.55964 5 2.25 5ZM2.25 9.25C2.94036 9.25 3.5 8.69036 3.5 8C3.5 7.30964 2.94036 6.75 2.25 6.75C1.55964 6.75 1 7.30964 1 8C1 8.69036 1.55964 9.25 2.25 9.25ZM7 12.25C7 12.9404 6.44036 13.5 5.75 13.5C5.05964 13.5 4.5 12.9404 4.5 12.25C4.5 11.5596 5.05964 11 5.75 11C6.44036 11 7 11.5596 7 12.25ZM5.75 3C5.33579 3 5 3.33579 5 3.75C5 4.16421 5.33579 4.5 5.75 4.5H14.25C14.6642 4.5 15 4.16421 15 3.75C15 3.33579 14.6642 3 14.25 3H5.75ZM5 8C5 7.58579 5.33579 7.25 5.75 7.25H14.25C14.6642 7.25 15 7.58579 15 8C15 8.41421 14.6642 8.75 14.25 8.75H5.75C5.33579 8.75 5 8.41421 5 8ZM9.25 11.5C8.83579 11.5 8.5 11.8358 8.5 12.25C8.5 12.6642 8.83579 13 9.25 13H14.25C14.6642 13 15 12.6642 15 12.25C15 11.8358 14.6642 11.5 14.25 11.5H9.25Z" fill="currentColor"></path></svg>
+                                </a>
+                            </div>
                             <DesktopMenuItem title="Tags" url="/tags"/>
                         </div>
                     </div>
