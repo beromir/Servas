@@ -3,28 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\WebpageData;
+use App\Http\Requests\StoreLinkRequest;
+use App\Http\Requests\UpdateLinkRequest;
 use App\Models\Group;
 use App\Models\Link;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\Rules\Enum;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Tags\Tag;
 
 class LinkController extends Controller
 {
-    protected function rules(): array
-    {
-        return [
-            'title' => 'string|min:2|nullable',
-            'link' => 'url|required',
-            'groups' => 'array',
-        ];
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -76,14 +68,14 @@ class LinkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreLinkRequest $request): RedirectResponse
     {
-        Request::validate($this->rules());
+        $validated = $request->validated();
 
         $link = Link::make();
 
-        $link->link = Request::get('link');
-        $link->title = Request::get('title');
+        $link->link = $validated['link'];
+        $link->title = $validated['title'];
         $link->user_id = Auth::id();
 
         if (empty($link->title)) {
@@ -92,13 +84,13 @@ class LinkController extends Controller
 
         $link->save();
 
-        $groupIds = Request::get('groups');
+        $groupIds = $validated['groups'];
 
         $link->groups()->sync($groupIds);
 
         $tags = [];
 
-        foreach (Request::get('tags') as $tag) {
+        foreach ($validated['tags'] as $tag) {
             $tags[] = Tag::filterByCurrentUser()->find($tag);
         }
 
@@ -155,12 +147,12 @@ class LinkController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Link $link)
+    public function update(UpdateLinkRequest $request, Link $link)
     {
-        Request::validate($this->rules());
+        $validated = $request->validated();
 
-        $link->link = Request::get('link');
-        $link->title = Request::get('title');
+        $link->link = $validated['link'];
+        $link->title = $validated['title'];
 
         if (empty($link->title)) {
             $link->title = WebpageData::getWebPageTitle($link->link);
@@ -168,13 +160,13 @@ class LinkController extends Controller
 
         $link->save();
 
-        $groupIds = Request::get('groups');
+        $groupIds = $validated['groups'];
 
         $link->groups()->sync($groupIds);
 
         $tags = [];
 
-        foreach (Request::get('tags') as $tag) {
+        foreach ($validated['tags'] as $tag) {
             $tags[] = Tag::filterByCurrentUser()->find($tag);
         }
 

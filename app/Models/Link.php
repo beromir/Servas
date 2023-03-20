@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Validation\Rule;
 use Spatie\Tags\HasTags;
 
 class Link extends Model
@@ -16,6 +18,18 @@ class Link extends Model
         'title',
         'link',
     ];
+
+    public static function rules(string $linkFromRequest, string $link = ''): array
+    {
+        return [
+            'title' => 'string|min:2|nullable',
+            'link' => [
+                'url',
+                'required',
+                $link !== $linkFromRequest ? Rule::unique(Link::class, 'link')->where(fn(Builder $query) => $query->where('user_id', \Auth::id())) : '',
+            ],
+        ];
+    }
 
     /**
      * Get all groups for the link.
