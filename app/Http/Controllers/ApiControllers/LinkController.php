@@ -4,24 +4,14 @@ namespace App\Http\Controllers\ApiControllers;
 
 use App\Helpers\WebpageData;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreLinkApiRequest;
 use App\Models\Link;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rules\Enum;
 
 class LinkController extends Controller
 {
-    protected function rules(): array
-    {
-        return [
-            'title' => 'string|min:2|nullable',
-            'link' => 'url|required',
-            'groups' => 'array',
-        ];
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -35,24 +25,14 @@ class LinkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): Response
+    public function store(StoreLinkApiRequest $request): Response
     {
-        if (!Request::user()->tokenCan('create')) {
-            return response('Missing permissions.', status: 403, headers: ['Content-Type' => 'text/plain']);
-        }
-
-        $validator = Validator::make(Request::all(), $this->rules());
-
-        if ($validator->fails()) {
-            return response('Wrong data.', status: 422, headers: ['Content-Type' => 'text/plain']);
-        }
-
-        Request::validate($this->rules());
+        $validated = $request->validated();
 
         $link = Link::make();
 
-        $link->link = Request::get('link');
-        $link->title = Request::get('title');
+        $link->link = $validated['link'];
+        $link->title = $validated['title'];
         $link->user_id = Auth::id();
 
         if (empty($link->title)) {
