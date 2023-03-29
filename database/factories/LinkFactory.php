@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class LinkFactory extends Factory
         return [
             'link' => $this->faker->url(),
             'title' => $this->faker->city(),
+            'user_id' => User::factory(),
         ];
     }
 }
