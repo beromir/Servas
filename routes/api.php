@@ -20,7 +20,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
 
-    Route::apiResource('links', LinkController::class)->only(
-        'store',
-    );
+    Route::post('links', [LinkController::class, 'store']);
 });
