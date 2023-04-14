@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Link;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,6 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Link::factory(100)->create();
+        User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@admin.com'
+        ]);
+
+        Link::factory(100)->create(['user_id' => 1]);
     }
 }
