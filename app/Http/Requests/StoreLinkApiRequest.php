@@ -24,6 +24,7 @@ class StoreLinkApiRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
+            'title' => $this->title ?: null,
             'link' => filter_var($this->link, FILTER_VALIDATE_URL) ? $this->link : "https://$this->link",
         ]);
     }
