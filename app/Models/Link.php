@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Validation\Rule;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 use Spatie\Tags\HasTags;
 
-class Link extends Model
+class Link extends Model implements Searchable
 {
     use HasFactory,
         HasTags;
@@ -18,6 +20,8 @@ class Link extends Model
         'title',
         'link',
     ];
+
+    public string $searchableType = 'Links';
 
     public static function rules(string $linkFromRequest, string $link = ''): array
     {
@@ -67,5 +71,16 @@ class Link extends Model
         if ($withTime) return $this->updated_at->format('d.m.Y H:i:s');
 
         return $this->updated_at->format('d.m.Y');
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        $url = route('links.show', $this->id);
+
+        return new SearchResult(
+            $this,
+            $this->title,
+            $url
+        );
     }
 }
