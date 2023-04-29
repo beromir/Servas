@@ -6,6 +6,7 @@ use App\Models\Group;
 use App\Models\Link;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Searchable\Search;
 use Spatie\Searchable\SearchResult;
 
@@ -19,7 +20,8 @@ class SearchController extends Controller
             ->registerModel(Link::class, 'title', 'link')
             ->registerModel(Group::class, 'title')
             ->registerModel(Tag::class, 'name')
-            ->search($searchString, \Auth::user())
+            ->search($searchString)
+            ->where('user_id', Auth::id())
             ->transform(fn(SearchResult $searchResult) => (object)[
                 'title' => $searchResult->title,
                 'url' => $searchResult->url,
