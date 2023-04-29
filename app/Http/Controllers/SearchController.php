@@ -20,18 +20,13 @@ class SearchController extends Controller
             ->registerModel(Group::class, 'title')
             ->registerModel(Tag::class, 'name')
             ->search($searchString, \Auth::user())
-            ->groupByType()
-            ->transform(fn($group, $groupTitle) => (object)[
-                'title' => $groupTitle,
-                'items' => $group->map(fn(SearchResult $searchResult) => (object)[
-                    'title' => $searchResult->title,
-                    'url' => $searchResult->url,
-                    'hash' => md5($searchResult->url),
-                    'link' => $searchResult->searchable->link,
-                ])
+            ->transform(fn(SearchResult $searchResult) => (object)[
+                'title' => $searchResult->title,
+                'url' => $searchResult->url,
+                'link' => $searchResult->searchable->link,
+                'type' => $searchResult->type,
+                'hash' => md5($searchResult->url),
             ])
-            // Reset the array keys for use in JavaScript
-            ->values()
             ->toArray();
     }
 }

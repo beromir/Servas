@@ -7,12 +7,10 @@
     import {refreshLinks} from "@/stores";
 
     let searchResults = [];
-    let ungroupedSearchResults = [];
+    let groups = [];
     let selectedModal = null;
     let showCommandPalette = false;
     let input;
-
-    $: searchResults ? searchResults.forEach(item => ungroupedSearchResults.push(item.items)) : []; console.log(ungroupedSearchResults);
 
     function openCommandPalette() {
         searchResults = [];
@@ -66,7 +64,14 @@
                 break;
             case 'Enter':
                 e.preventDefault();
-                openSingleModalPage();
+
+                if (!searchResults.length) {
+                    return;
+                }
+
+                let url = searchResults.find(result => result.hash === selectedModal).url;
+
+                openSingleModalPage(url);
 
                 break;
             default:
@@ -87,11 +92,34 @@
         }
     }
 
+    function getGroups() {
+        groups = [];
+
+        searchResults.forEach(result => {
+            if (!groups.includes(result.type)) {
+                groups.push(result.type);
+            }
+        });
+    }
+
+    function getSearchResultsByGroup(group) {
+        let resultsByGroup = [];
+
+        searchResults.forEach(result => {
+            if (result.type === group) {
+                resultsByGroup.push(result);
+            }
+        });
+
+        return resultsByGroup;
+    }
+
     const search = debounce(() => {
         axios.post(route('search'), {
             searchString: input.value.trim().toLowerCase(),
         }).then(response => {
             searchResults = response.data;
+            getGroups();
         });
     }, 400);
 
@@ -124,21 +152,21 @@
 
             <!-- Results, show/hide based on command palette state. -->
             {#if searchResults.length}
-                <div class="max-h-72 overflow-y-auto text-sm text-gray-800">
-                    {#each searchResults as group}
+                <div class="max-h-72 overflow-y-auto scroll-pt-10 text-sm text-gray-800">
+                    {#each groups as group}
 
                         <div
                             class="sticky top-0 py-2 px-6 bg-gray-50 text-gray-800 text-xs font-semibold">
-                            {group.title}
+                            {group}
                         </div>
                         <ul class="pt-1 pb-3 px-2" id="options">
-                            {#each group.items as result (result.hash)}
+                            {#each getSearchResultsByGroup(group) as result (result.hash)}
                                 <!-- Active: "bg-indigo-600 text-white" -->
                                 <li on:mouseenter={() => selectedModal = result.hash}
                                     on:mouseleave={() => selectedModal = null}
                                     on:click={() => openSingleModalPage(result.url)}
                                     id={`select-option-${result.hash}`}
-                                    class={['cursor-default select-none rounded-md px-4 py-2',
+                                    class={['px-4 py-2 cursor-default select-none rounded-md',
                                         result.hash === selectedModal ? 'bg-primary-500 text-white' : ''].join(' ').trim()}
                                     tabindex="-1" aria-hidden="true">
                                     <div>{result.title}</div>
