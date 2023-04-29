@@ -5,6 +5,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "doctrine/dbal": "^3.5.1",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^v0.6.0",
         "laravel/framework": "^10.0",
@@ -13,9 +14,9 @@
         "laravel/tinker": "^2.7",
         "pestphp/pest": "^1.16",
         "pestphp/pest-plugin-laravel": "^1.1",
-        "tightenco/ziggy": "^1.0",
+        "spatie/laravel-searchable": "^1.11",
         "spatie/laravel-tags": "^4.3.0",
-        "doctrine/dbal": "^3.5.1"
+        "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
