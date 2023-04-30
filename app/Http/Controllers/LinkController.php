@@ -118,7 +118,6 @@ class LinkController extends Controller
                 'updated_at' => $link->getUpdatedAtForHumansAttribute(),
                 'created_at_with_time' => $link->getCreatedAtForHumansAttribute(true),
                 'updated_at_with_time' => $link->getUpdatedAtForHumansAttribute(true),
-                'isInLaterList' => LaterController::isLinkOnLaterList($link->id),
             ],
         ]);
     }
@@ -158,20 +157,5 @@ class LinkController extends Controller
     public function destroy(Link $link)
     {
         $link->delete();
-    }
-
-    /**
-     * Return all links for the current user.
-     */
-    public function getAllLinks()
-    {
-        return Link::orderBy('created_at', 'desc')
-            ->filterByCurrentUser()
-            ->get()
-            ->transform(fn(Link $link) => [
-                'title' => $link->title,
-                'link' => $link->link,
-                'id' => $link->id,
-            ]);
     }
 }

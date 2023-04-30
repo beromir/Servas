@@ -63,7 +63,6 @@
                     </div>
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
-                            <DesktopMenuItem title="Home" url="/"/>
                             <DesktopMenuItem title="Links" url="/links" exactMatch={false}/>
                             <DesktopMenuItem title="Groups" url="/groups"/>
                             <DesktopMenuItem title="Tags" url="/tags"/>
@@ -172,7 +171,6 @@
 
                     <!-- Mobile main menu -->
                     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <MobileMenuItem title="Home" url="/" on:clicked={() => showMobileMenu = false}/>
                         <MobileMenuItem title="Links" url="/links" exactMatch={false}
                                         on:clicked={() => showMobileMenu = false}/>
                         <MobileMenuItem title="Groups" url="/groups" on:clicked={() => showMobileMenu = false}/>
