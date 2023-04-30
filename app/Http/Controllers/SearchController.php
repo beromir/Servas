@@ -20,8 +20,7 @@ class SearchController extends Controller
             ->registerModel(Link::class, 'title', 'link')
             ->registerModel(Group::class, 'title')
             ->registerModel(Tag::class, 'name')
-            ->search($searchString)
-            ->where('user_id', Auth::id())
+            ->search($searchString, Auth::user())
             ->transform(fn(SearchResult $searchResult) => (object)[
                 'title' => $searchResult->title,
                 'url' => $searchResult->url,
