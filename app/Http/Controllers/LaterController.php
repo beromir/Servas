@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Link;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
