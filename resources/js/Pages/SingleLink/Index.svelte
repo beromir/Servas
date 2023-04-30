@@ -29,12 +29,6 @@
         setTimeout(() => copied = false, 500);
     }
 
-    function toggleLinkOnLaterList() {
-        router.post(route('later.toggle-link'), {
-            linkId: link.id,
-        })
-    }
-
     function editLink() {
         dispatchCustomEvent('editLink', link)
     }
@@ -125,12 +119,7 @@
             </div>
         </div>
 
-        <div class="flex justify-between mt-6 w-full">
-            <button type="button" on:click={toggleLinkOnLaterList}
-                    class="text-gray-600 hover:text-gray-700 focus:outline-none focus:underline focus:decoration-gray-600/70 focus:decoration-2">
-                {link.isInLaterList ? 'Remove link from later list' : 'Add link to later list'}
-            </button>
-
+        <div class="flex justify-end mt-6 w-full">
             <div>
                 <button on:click={deleteLink} type="button"
                         class="text-red-600 hover:text-red-700 focus:outline-none focus:underline focus:decoration-red-600/70 focus:decoration-2">

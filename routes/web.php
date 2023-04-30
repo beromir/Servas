@@ -21,8 +21,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/', [HomeViewController::class, 'index'])
-        ->name('home');
+    Route::get('/', function () {
+        return redirect()->route('links.index');
+    })->name('home');
 
     Route::resource('links', LinkController::class)->except([
         'create', 'edit',
@@ -36,14 +37,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         'create', 'edit',
     ]);
 
-    Route::get('/all-links', [LinkController::class, 'getAllLinks']);
     Route::get('/all-tags', [TagController::class, 'getAllTags']);
     Route::get('/all-groups', [GroupController::class, 'getAllGroups']);
 
     Route::post('/bulk-edit-links', [BulkEditingController::class, 'editLinks']);
-
-    Route::post('/toggle-link-on-later-list', [LaterController::class, 'toggleLinkOnLaterList'])
-        ->name('later.toggle-link');
 
     Route::post('/search', [SearchController::class, 'search'])
         ->name('search');
