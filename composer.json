@@ -14,9 +14,9 @@
         "laravel/tinker": "^2.7",
         "pestphp/pest": "^1.16",
         "pestphp/pest-plugin-laravel": "^1.1",
-        "spatie/laravel-searchable": "^1.11",
         "spatie/laravel-tags": "^4.3.0",
-        "tightenco/ziggy": "^1.0"
+        "tightenco/ziggy": "^1.0",
+        "spatie/laravel-searchable": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -27,6 +27,12 @@
         "spatie/laravel-ignition": "^2.0",
         "spatie/laravel-ray": "^1.29.4"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/beromir/laravel-searchable"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "App\\": "app/",
