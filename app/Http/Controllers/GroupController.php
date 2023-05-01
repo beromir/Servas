@@ -87,16 +87,14 @@ class GroupController extends Controller
                 ]),
             'parentGroups' => $this->getAllParentGroups($group),
             'links' => $group
-                ->links
-                ->sortByDesc('created_at')
-                ->values()
-                ->transform(fn(Link $link) => [
+                ->links()
+                ->orderBy('created_at', 'desc')
+                ->paginate(20)
+                ->through(fn(Link $link) => [
                     'title' => $link->title,
                     'link' => $link->link,
                     'id' => $link->id,
-                    'createdAt' => $link->getCreatedAtForHumansAttribute(),
-                ])
-                ->all(),
+                ]),
         ]);
     }
 

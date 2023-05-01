@@ -11,7 +11,7 @@
     import GroupsGrid from "@/Pages/Groups/Partials/GroupsGrid.svelte";
     import BreadcrumbNavContainer from "@/Components/BreadcrumbNavigation/BreadcrumbNavContainer.svelte";
     import NewGroup from "@/Pages/Groups/Partials/NewGroup.svelte";
-    import LinkList from "@/Pages/SingleGroup/Partials/LinkList.svelte";
+    import LinkList from "@/Components/LinkList/LinkList.svelte";
 
     export let group = {};
     export let groups = [];
@@ -68,9 +68,7 @@
         {/if}
 
         {#if links.length !== 0}
-            <div class="mt-4">
-                <LinkList {links}/>
-            </div>
+            <LinkList {links}/>
         {/if}
     </div>
 </Main>
