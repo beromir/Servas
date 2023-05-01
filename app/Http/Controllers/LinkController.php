@@ -37,19 +37,8 @@ class LinkController extends Controller
                 ->withQueryString()
                 ->through(fn(Link $link) => [
                     'title' => $link->title,
-                    'link' => $link->link,
+                    'link' => $link->link, PHP_URL_HOST,
                     'id' => $link->id,
-                    'tags' => TagController::getTagsOfLink($link),
-                    'groups' => $link->groups
-                        ->sortBy('title')
-                        ->values()
-                        ->transform(fn(Group $group) => [
-                            'title' => $group->title,
-                        ]),
-                    'created_at' => $link->getCreatedAtForHumansAttribute(),
-                    'updated_at' => $link->getUpdatedAtForHumansAttribute(),
-                    'created_at_with_time' => $link->getCreatedAtForHumansAttribute(true),
-                    'updated_at_with_time' => $link->getUpdatedAtForHumansAttribute(true),
                 ]),
             'tags' => TagController::getAllTags(),
         ]);
