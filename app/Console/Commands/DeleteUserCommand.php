@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-class DeleteUser extends Command
+class DeleteUserCommand extends Command
 {
     /**
      * The name and signature of the console command.

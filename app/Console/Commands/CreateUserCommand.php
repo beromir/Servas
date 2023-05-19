@@ -6,7 +6,7 @@ use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Console\Command;
 use Illuminate\Validation\ValidationException;
 
-class CreateUser extends Command
+class CreateUserCommand extends Command
 {
     /**
      * The name and signature of the console command.
