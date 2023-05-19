@@ -3,32 +3,31 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use App\Services\LinkService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-class DeleteUser extends Command
+class DeleteDuplicateLinksCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'user:delete';
+    protected $signature = 'link:delete-duplicates';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Delete a user';
+    protected $description = 'Delete the duplicate links of the user';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(LinkService $linkService): int
     {
         $userId = $this->ask('User ID');
 
@@ -49,10 +48,18 @@ class DeleteUser extends Command
             return Command::FAILURE;
         }
 
-        if ($this->confirm("Are you sure you want to delete the user with the email: $user->email?")) {
-            $user->delete();
+        $duplicates = $linkService->getDuplicates($user);
 
-            $this->info('The user was deleted!');
+        if (count($duplicates) === 0) {
+            $this->info('No duplicates found.');
+
+            return Command::SUCCESS;
+        }
+
+        if ($this->confirm(count($duplicates) . ' links found. Do you want to delete them?')) {
+            $linkService->deleteDuplicates($duplicates);
+
+            $this->info('Duplicate links deleted.');
 
             return Command::SUCCESS;
         }

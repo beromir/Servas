@@ -7,7 +7,7 @@ use App\Models\Link;
 use Illuminate\Console\Command;
 use Spatie\Tags\Tag;
 
-class ShowStats extends Command
+class ShowStatsCommand extends Command
 {
     /**
      * The name and signature of the console command.
