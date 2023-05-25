@@ -13,6 +13,7 @@
     import UpdateProfileInformationForm from '@/Pages/Profile/Partials/UpdateProfileInformationForm.svelte'
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import {page} from "@inertiajs/svelte";
+    import ExportUserData from "@/Pages/Profile/Partials/ExportUserData.svelte";
 
     export let confirmsTwoFactorAuthentication;
     export let sessions;
@@ -23,6 +24,10 @@
 <Main>
     <div>
         <div class="max-w-7xl mx-auto py-10 space-y-14 sm:px-6 sm:space-y-0 lg:px-8">
+            <ExportUserData user={$page.props.auth.user}/>
+
+            <JetSectionBorder/>
+
             {#if $page.props.jetstream.canUpdateProfileInformation}
                 <UpdateProfileInformationForm user={$page.props.auth.user}/>
 
