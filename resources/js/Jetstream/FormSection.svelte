@@ -4,7 +4,13 @@
 
     const dispatch = createEventDispatcher();
 
+    let form;
+
     $: hasActions = $$slots.actions;
+
+    export function submit() {
+        form.submit();
+    }
 </script>
 
 <div class="md:grid md:grid-cols-3 md:gap-6">
@@ -18,7 +24,7 @@
     </JetSectionTitle>
 
     <div class="mt-5 md:mt-0 md:col-span-2">
-        <form on:submit|preventDefault={() => dispatch('submitted')}>
+        <form on:submit|preventDefault={() => dispatch('submitted')} bind:this={form} {...$$restProps}>
             <div class={['px-4 py-5 bg-white sm:p-6 shadow',
                  hasActions ? 'sm:rounded-tl-md sm:rounded-tr-md' : 'sm:rounded-md'].join(' ').trim()}>
                 <div class="grid grid-cols-6 gap-6">
