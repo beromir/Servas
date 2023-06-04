@@ -21,10 +21,6 @@
     }
 
     async function getUserDataExport() {
-        if (!selectedExportOptions.length) {
-            return;
-        }
-
         await setCsrfToken();
 
         formSection.submit();
@@ -52,15 +48,11 @@
                     <span class="ml-2 text-sm text-gray-600 capitalize">{option}</span>
                 </label>
             {/each}
-
-            {#if !selectedExportOptions.length}
-                <div class="text-red-500">Please select a least one export option.</div>
-            {/if}
         </div>
     </svelte:fragment>
 
     <svelte:fragment slot="actions">
-        <JetButton type="submit">
+        <JetButton type="submit" disabled={!selectedExportOptions.length}>
             Export
         </JetButton>
     </svelte:fragment>

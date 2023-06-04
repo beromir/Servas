@@ -9,13 +9,13 @@ use App\Models\User;
 
 class ImportService
 {
-    public function importUserData(array $data, User $user): void
+    public function importUserData(array $data, array $importOptions, User $user): void
     {
         if (empty($data)) {
             return;
         }
 
-        if (array_key_exists('tags', $data) && is_array($data['tags']) && !empty($data['tags'])) {
+        if (in_array('tags', $importOptions) && array_key_exists('tags', $data) && is_array($data['tags']) && !empty($data['tags'])) {
             foreach ($data['tags'] as $tag) {
                 if (is_string($tag)) {
                     Tag::create([
@@ -26,7 +26,7 @@ class ImportService
             }
         }
 
-        if (array_key_exists('groups', $data) && is_array($data['groups']) && !empty($data['groups'])) {
+        if (in_array('groups', $importOptions) && array_key_exists('groups', $data) && is_array($data['groups']) && !empty($data['groups'])) {
             foreach ($data['groups'] as $group) {
                 if (array_key_exists('title', $group) && is_string($group['title'])) {
                     Group::create([
@@ -39,7 +39,7 @@ class ImportService
             $this->createNestedGroups($data['groups'], $user);
         }
 
-        if (array_key_exists('links', $data) && is_array($data['links']) && !empty($data['links'])) {
+        if (in_array('links', $importOptions) && array_key_exists('links', $data) && is_array($data['links']) && !empty($data['links'])) {
             foreach ($data['links'] as $link) {
                 $newLink = Link::make();
 

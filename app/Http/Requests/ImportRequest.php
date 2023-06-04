@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
-class ExportRequest extends FormRequest
+class ImportRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +23,12 @@ class ExportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'exportOptions' => 'required|array',
-            'exportOptions.*' => 'string',
+            'importOptions' => 'required|array',
+            'importOptions.*' => 'string',
+            'importFile' => [
+                'required',
+                File::types('json'),
+            ],
         ];
     }
 }

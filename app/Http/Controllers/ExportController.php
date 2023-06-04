@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ExportController extends Controller
 {
-    public function export(ExportRequest $request)
+    public function export(ExportRequest $request, ExportService $exportService)
     {
-        $data = $request->validated('exportOptions');
+        $exportOptions = $request->validated('exportOptions');
 
-        $export = ExportService::exportUserData(Auth::user());
+        $export = $exportService->exportUserData($exportOptions, Auth::user());
 
         $export = json_encode($export);
 

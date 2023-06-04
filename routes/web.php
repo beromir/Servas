@@ -3,6 +3,7 @@
 use App\Http\Controllers\BulkEditingController;
 use App\Http\Controllers\CsrfController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\SearchController;
@@ -47,6 +48,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::post('/export', [ExportController::class, 'export'])
         ->name('export');
+
+    Route::post('/import', [ImportController::class, 'import'])
+        ->name('import');
 
     Route::get('/csrf-token', [CsrfController::class, 'getCsrfToken'])
         ->name('csrfToken');
