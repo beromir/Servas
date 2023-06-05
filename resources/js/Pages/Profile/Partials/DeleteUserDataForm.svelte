@@ -1,54 +1,43 @@
 <script>
-    import JetButton from '@/Jetstream/Button.svelte';
     import JetFormSection from '@/Jetstream/FormSection.svelte';
     import {useForm} from "@inertiajs/svelte";
-    import {route} from "@/utils";
-    import FileUpload from "@/Components/FormLayouts/Inputs/FileUpload.svelte";
+    import DangerButton from "@/Jetstream/DangerButton.svelte";
 
-    let importOptions = [
+    let deleteOptions = [
         'links',
         'groups',
         'tags',
     ];
 
-    let fileInput;
-
     let form = useForm({
-        importOptions: [],
-        importFile: null,
+        deleteOptions: [],
     })
 
-    function importUserData() {
-        $form.post(route('import'), {
+    function deleteUserData() {
+        $form.post(route('delete-user-data'), {
             preserveScroll: true,
             onSuccess: () => {
                 $form.reset();
-                fileInput.clearInput();
             }
         });
     }
 </script>
 
-<JetFormSection on:submitted={importUserData}>
+<JetFormSection on:submitted={deleteUserData}>
     <svelte:fragment slot="title">
-        Import Data
+        Delete Data
     </svelte:fragment>
 
     <svelte:fragment slot="description">
-        Import data from a JSON file.
+        Delete your account data.
     </svelte:fragment>
 
     <svelte:fragment slot="form">
         <div class="col-span-3 space-y-6">
             <div>
-                <FileUpload on:input={event => $form.importFile = event.detail.file} bind:this={fileInput}
-                            label="Select export file (.json)" accept=".json"/>
-            </div>
-
-            <div>
-                {#each importOptions as option}
+                {#each deleteOptions as option}
                     <label class="flex items-center">
-                        <input type="checkbox" value={option} bind:group={$form.importOptions}
+                        <input type="checkbox" value={option} bind:group={$form.deleteOptions}
                                class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50"/>
                         <span class="ml-2 text-sm text-gray-600 capitalize">{option}</span>
                     </label>
@@ -58,8 +47,8 @@
     </svelte:fragment>
 
     <svelte:fragment slot="actions">
-        <JetButton type="submit" disabled={!$form.importOptions.length || $form.importFile === null}>
-            Import
-        </JetButton>
+        <DangerButton type="submit" disabled={!$form.deleteOptions.length}>
+            Delete
+        </DangerButton>
     </svelte:fragment>
 </JetFormSection>

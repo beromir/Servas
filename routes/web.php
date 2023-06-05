@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BulkEditingController;
 use App\Http\Controllers\CsrfController;
+use App\Http\Controllers\DeleteUserDataController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\LinkController;
@@ -52,8 +53,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/import', [ImportController::class, 'import'])
         ->name('import');
 
+    Route::post('/delete-user-data', [DeleteUserDataController::class, 'delete'])
+        ->name('delete-user-data');
+
     Route::get('/csrf-token', [CsrfController::class, 'getCsrfToken'])
-        ->name('csrfToken');
+        ->name('csrf-token');
 });
 
 Route::view('/swagger', 'swagger-ui')->middleware('only.local');

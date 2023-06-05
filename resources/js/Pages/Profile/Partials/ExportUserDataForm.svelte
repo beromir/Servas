@@ -16,7 +16,7 @@
     let csrfToken = '';
 
     function setCsrfToken() {
-        return axios.get(route('csrfToken'))
+        return axios.get(route('csrf-token'))
             .then(response => csrfToken = response.data);
     }
 
@@ -30,11 +30,11 @@
 <JetFormSection on:submitted={getUserDataExport} bind:this={formSection} method="post"
                 action={route('export')}>
     <svelte:fragment slot="title">
-        Export User Data
+        Export Data
     </svelte:fragment>
 
     <svelte:fragment slot="description">
-        Export your data as a JSON file.
+        Export your account data as a JSON file.
     </svelte:fragment>
 
     <svelte:fragment slot="form">

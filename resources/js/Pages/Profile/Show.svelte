@@ -15,6 +15,7 @@
     import {page} from "@inertiajs/svelte";
     import ExportUserDataForm from "@/Pages/Profile/Partials/ExportUserDataForm.svelte";
     import ImportUserDataForm from "@/Pages/Profile/Partials/ImportUserDataForm.svelte";
+    import DeleteUserDataForm from "@/Pages/Profile/Partials/DeleteUserDataForm.svelte";
 
     export let confirmsTwoFactorAuthentication;
     export let sessions;
@@ -25,12 +26,6 @@
 <Main>
     <div>
         <div class="max-w-7xl mx-auto py-10 space-y-14 sm:px-6 sm:space-y-0 lg:px-8">
-            <ExportUserDataForm/>
-            <JetSectionBorder/>
-
-            <ImportUserDataForm/>
-            <JetSectionBorder/>
-
             {#if $page.props.jetstream.canUpdateProfileInformation}
                 <UpdateProfileInformationForm user={$page.props.auth.user}/>
 
@@ -52,6 +47,15 @@
             {/if}
 
             <LogoutOtherBrowserSessionsForm {sessions} class="mt-10 sm:mt-0"/>
+            <JetSectionBorder/>
+
+            <ExportUserDataForm/>
+            <JetSectionBorder/>
+
+            <ImportUserDataForm/>
+            <JetSectionBorder/>
+
+            <DeleteUserDataForm/>
 
             {#if $page.props.jetstream.hasAccountDeletionFeatures}
                 <JetSectionBorder/>
