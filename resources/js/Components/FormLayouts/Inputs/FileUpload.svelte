@@ -9,8 +9,6 @@
 
     export function clearInput() {
         fileInput.value = null;
-
-        console.log('123');
     }
 </script>
 

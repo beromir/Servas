@@ -9,7 +9,7 @@
     import {dispatchCustomEvent, route} from "@/utils";
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import Badge from "@/Components/Badge.svelte";
-    import {inertia, router} from "@inertiajs/svelte";
+    import {inertia} from "@inertiajs/svelte";
 
     export let link = {};
 
@@ -27,6 +27,16 @@
         copied = true;
 
         setTimeout(() => copied = false, 500);
+    }
+
+    function shareLink() {
+        if (navigator.share) {
+            navigator.share({
+                title: link.title,
+                url: link.link,
+            })
+                .catch((error) => console.log('Error sharing', error));
+        }
     }
 
     function editLink() {
@@ -118,6 +128,20 @@
                 <span class="font-medium">Updated at:</span> {link.updated_at_with_time}
             </div>
         </div>
+
+        {#if navigator.share}
+            <button type="button" on:click={shareLink}
+                    class="w-max inline-flex items-center mt-6 px-4 py-2  border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                Share link
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                     class="ml-2 -mr-1 h-5 w-5">
+                    <path fill-rule="evenodd"
+                          d="M13.75 7h-3V3.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0L6.2 4.74a.75.75 0 001.1 1.02l1.95-2.1V7h-3A2.25 2.25 0 004 9.25v7.5A2.25 2.25 0 006.25 19h7.5A2.25 2.25 0 0016 16.75v-7.5A2.25 2.25 0 0013.75 7zm-3 0h-1.5v5.25a.75.75 0 001.5 0V7z"
+                          clip-rule="evenodd"/>
+                </svg>
+            </button>
+        {/if}
 
         <div class="flex justify-end mt-6 w-full">
             <div>
