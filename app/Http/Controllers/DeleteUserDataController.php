@@ -12,8 +12,6 @@ class DeleteUserDataController extends Controller
     {
         $deleteOptions = $request->validated('deleteOptions');
 
-        $deleteUserDataService->deleteLinks(Auth::user());
-        $deleteUserDataService->deleteGroups(Auth::user());
-        $deleteUserDataService->deleteTags(Auth::user());
+        $deleteUserDataService->deleteUserData($deleteOptions, Auth::user());
     }
 }
