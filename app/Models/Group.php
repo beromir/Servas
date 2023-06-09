@@ -15,6 +15,7 @@ class Group extends Model implements Searchable
 
     protected $fillable = [
         'title',
+        'user_id'
     ];
 
     public string $searchableType = 'Groups';

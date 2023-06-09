@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\BulkEditingController;
-use App\Http\Controllers\LaterController;
+use App\Http\Controllers\CsrfController;
+use App\Http\Controllers\DeleteUserDataController;
+use App\Http\Controllers\ExportController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\ViewControllers\HomeViewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +46,18 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::post('/search', [SearchController::class, 'search'])
         ->name('search');
+
+    Route::post('/export', [ExportController::class, 'export'])
+        ->name('export');
+
+    Route::post('/import', [ImportController::class, 'import'])
+        ->name('import');
+
+    Route::post('/delete-user-data', [DeleteUserDataController::class, 'delete'])
+        ->name('delete-user-data');
+
+    Route::get('/csrf-token', [CsrfController::class, 'getCsrfToken'])
+        ->name('csrf-token');
 });
 
 Route::view('/swagger', 'swagger-ui')->middleware('only.local');
