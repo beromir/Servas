@@ -2,6 +2,9 @@
     import JetFormSection from '@/Jetstream/FormSection.svelte';
     import {useForm} from "@inertiajs/svelte";
     import DangerButton from "@/Jetstream/DangerButton.svelte";
+    import Button from "@/Components/Buttons/Button.svelte";
+    import Modal from "@/Components/Modals/Modal.svelte";
+    import SuccessMessage from "@/Jetstream/SuccessMessage.svelte";
 
     let deleteOptions = [
         'links',
@@ -13,17 +16,28 @@
         deleteOptions: [],
     })
 
+    let showModal = false;
+
+    let showSuccessMessage = false;
+
+    function requestConfirmation() {
+        showModal = true;
+        showSuccessMessage = false;
+    }
+
     function deleteUserData() {
         $form.post(route('delete-user-data'), {
             preserveScroll: true,
             onSuccess: () => {
                 $form.reset();
+                showModal = false;
+                showSuccessMessage = true;
             }
         });
     }
 </script>
 
-<JetFormSection on:submitted={deleteUserData}>
+<JetFormSection on:submitted={requestConfirmation}>
     <svelte:fragment slot="title">
         Delete Data
     </svelte:fragment>
@@ -47,8 +61,22 @@
     </svelte:fragment>
 
     <svelte:fragment slot="actions">
+        <SuccessMessage bind:show={showSuccessMessage} message="The selected data was deleted."/>
         <DangerButton type="submit" disabled={!$form.deleteOptions.length}>
             Delete
         </DangerButton>
     </svelte:fragment>
 </JetFormSection>
+
+<Modal title="Delete Data" bind:showModal>
+    <p class="text-sm text-gray-500">
+        Are you sure you want to delete the selected data?
+    </p>
+
+    <svelte:fragment slot="footer">
+        <Button on:clicked={deleteUserData} title="Delete" color="red" focusButton={true}
+                class="focus:ring-offset-gray-50 sm:ml-3"/>
+        <Button on:clicked={() => showModal = false} title="Cancel" color="white"
+                class="hidden mt-3 focus:ring-offset-gray-50 sm:inline-flex sm:mt-0"/>
+    </svelte:fragment>
+</Modal>

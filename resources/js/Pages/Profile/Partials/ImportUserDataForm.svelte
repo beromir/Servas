@@ -4,6 +4,7 @@
     import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
     import FileUpload from "@/Components/FormLayouts/Inputs/FileUpload.svelte";
+    import SuccessMessage from "@/Jetstream/SuccessMessage.svelte";
 
     let importOptions = [
         'links',
@@ -18,10 +19,15 @@
         importFile: null,
     })
 
+    let showSuccessMessage = false;
+
     function importUserData() {
+        showSuccessMessage = false;
+
         $form.post(route('import'), {
             preserveScroll: true,
             onSuccess: () => {
+                showSuccessMessage = true;
                 $form.reset();
                 fileInput.clearInput();
             }
@@ -58,6 +64,7 @@
     </svelte:fragment>
 
     <svelte:fragment slot="actions">
+        <SuccessMessage bind:show={showSuccessMessage} message="The data was imported."/>
         <JetButton type="submit" disabled={!$form.importOptions.length || $form.importFile === null}>
             Import
         </JetButton>
