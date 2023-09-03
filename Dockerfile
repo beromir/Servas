@@ -15,8 +15,8 @@ WORKDIR /app
 COPY ./package.json ./
 COPY ./package-lock.json ./
 COPY ./vite.config.js ./
-COPY ./postcss.config.js ./
-COPY ./tailwind.config.js ./
+COPY ./postcss.config.cjs ./
+COPY ./tailwind.config.cjs ./
 COPY ./resources ./resources
 
 RUN npm install \
