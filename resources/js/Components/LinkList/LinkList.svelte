@@ -210,7 +210,7 @@
     {/each}
 </ul>
 
-<Pagination links={links.links} class="mt-6"/>
+<Pagination prevPageUrl={links.prev_page_url} nextPageUrl={links.next_page_url} currentPage={links.current_page} totalPages={Math.trunc(links.total / links.per_page) + 1}/>
 
 <TagSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={tagSelectMenu} bind:selectedTags/>
 <GroupSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={groupSelectMenu}
