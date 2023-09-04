@@ -1,6 +1,7 @@
 const colors = require('tailwindcss/colors')
 const defaultTheme = require('tailwindcss/defaultTheme')
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
@@ -10,8 +11,6 @@ module.exports = {
         './resources/js/**/*.svelte',
         './resources/js/**/*.js',
     ],
-
-    darkMode: 'class',
 
     theme: {
         colors: {
@@ -98,6 +97,10 @@ module.exports = {
                 mono: ['JetBrains Mono', ...defaultTheme.fontFamily.mono],
             },
         },
+    },
+
+    future: {
+        hoverOnlyWhenSupported: true,
     },
 
     plugins: [
