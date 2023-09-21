@@ -214,8 +214,6 @@
     <Pagination prevPageUrl={links.prev_page_url} nextPageUrl={links.next_page_url} currentPage={links.current_page}
                 totalPages={Math.trunc(links.total / links.per_page) + 1}/>
 {/if}
-
-<TagSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={tagSelectMenu} bind:selectedTags/>
 <GroupSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={groupSelectMenu}
                  bind:selectedGroups/>
 <SimpleModal title="Delete selected links" description="Are you sure you want to delete the selected links?"
