@@ -53,6 +53,8 @@
 
         $linkFilter.showUntaggedOnly = showUntagged;
 
+        $linkFilter.isActive = true;
+
         showModal = false;
     }
 
