@@ -2,17 +2,17 @@
     import {dispatchCustomEvent, route, toggleValueInArray} from "@/utils";
     import Pagination from "@/Components/Pagination.svelte";
     import {Link, router} from "@inertiajs/svelte";
-    import TagSelectMenu from "@/Partials/TagSelectMenu.svelte";
     import SimpleModal from "@/Components/Modals/SimpleModal.svelte";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
     import DropdownItem from "@/Components/Dropdowns/DropdownItem.svelte";
     import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
     import InnerDropdownSection from "@/Components/Dropdowns/InnerDropdownSection.svelte";
+    import {selectedTags} from "@/stores.js";
+    import {onDestroy} from "svelte";
 
     export let links = [];
 
     let groupSelectMenu;
-    let tagSelectMenu;
     let deleteLinksModal;
 
     let showBulkEditingDropdown = false;
@@ -22,14 +22,15 @@
 
     let selectedLinks = [];
     let selectedGroups = [];
-    let selectedTags = [];
+
+    $: $selectedTags.tags.length > 0 && $selectedTags.action && bulkEditLinks($selectedTags.action);
 
     function bulkEditLinks(action) {
         router.post('/bulk-edit-links', {
             action: action,
             links: selectedLinks,
             groups: selectedGroups,
-            tags: selectedTags
+            tags: $selectedTags.tags.map(item => item.id),
         }, {
             only: ['links'],
             preserveScroll: true,
@@ -38,8 +39,8 @@
                 selectedGroups = [];
                 groupSelectMenu.reset();
                 selectedGroups = [];
-                tagSelectMenu.reset();
                 bulkEditingAction = '';
+                selectedTags.reset();
             },
         });
     }
@@ -52,7 +53,9 @@
     }
 
     function openTagSelectMenu(action) {
-        tagSelectMenu.openModal();
+        $selectedTags.action = action;
+
+        dispatchCustomEvent('selectTags', {title: action});
 
         bulkEditingAction = action;
     }
@@ -62,7 +65,6 @@
             showBulkEditingDropdown = false;
 
             selectedLinks = [];
-            tagSelectMenu.reset();
             groupSelectMenu.reset();
 
             bulkEditingEnabled = false;
@@ -70,6 +72,10 @@
             bulkEditingEnabled = true;
         }
     }
+
+    onDestroy(() => {
+        selectedTags.reset();
+    });
 </script>
 
 <div class="flex mt-4 px-4 space-x-6 sm:px-0 md:flex-row-reverse md:space-x-reverse">

@@ -1,9 +1,9 @@
 <script>
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from '@/Components/Modals/Modal.svelte';
-    import {isUndefined} from "lodash";
     import {selectedTags, linkFilter} from "@/stores.js";
 
+    let title = 'Select tags';
     let mode = '';
     let tags = [];
     let internalSelectedTags = [];          // property for internal use only; contains tag objects
@@ -22,15 +22,20 @@
         internalSelectedTags = $linkFilter.tags;
         showUntagged = $linkFilter.showUntaggedOnly;
 
-        openModal();
-
         mode = Mode.Filter;
+
+        title = 'Filter by tags';
+
+        openModal();
     }
 
-    function prepareTagSelection() {
-        openModal();
-
+    function prepareTagSelection(action) {
+        internalSelectedTags = [];
         mode = Mode.Select;
+
+        title = action === 'attachTags' ? 'Attach tags' : 'Detach tags';
+
+        openModal();
     }
 
     export async function openModal() {
@@ -40,22 +45,27 @@
     }
 
     function saveChanges() {
-        $selectedTags = [];
+        $selectedTags.tags = [];
         $linkFilter.tags = [];
 
         internalSelectedTags.forEach((tag) => {
             if (mode === Mode.Select) {
-                $selectedTags = [...$selectedTags, tag];
+                $selectedTags.tags = [...$selectedTags.tags, tag];
             } else if (mode === Mode.Filter) {
                 $linkFilter.tags = [...$linkFilter.tags, tag];
             }
         });
 
-        $linkFilter.showUntaggedOnly = showUntagged;
+        if (mode === Mode.Select) {
 
-        $linkFilter.isActive = true;
+        } else if (mode === Mode.Filter) {
+            $linkFilter.showUntaggedOnly = showUntagged;
+            $linkFilter.isActive = true;
+        }
 
         showModal = false;
+
+        internalSelectedTags = [];
     }
 
     async function getAllTags() {
@@ -74,29 +84,6 @@
         } else {
             internalSelectedTags = [...internalSelectedTags, tag];
         }
-    }
-
-    export async function setSelectedTags(tagsToSet) {
-        internalSelectedTags = [];
-        $selectedTags = [];
-
-        if (!tagsToSet.length) {
-            return;
-        }
-
-        await getAllTags();
-
-        tagsToSet.forEach((tagId) => {
-            let tag = tags.find(({id}) => {
-                return id === tagId;
-            })
-
-            if (!isUndefined(tag)) {
-                internalSelectedTags = [...internalSelectedTags, tags];
-            }
-        });
-
-        $selectedTags = tagsToSet;
     }
 
     function getIndexOfTagId(tagId, arrayToSearch) {
@@ -119,9 +106,9 @@
     }
 </script>
 
-<svelte:window on:filterTags={prepareTagFilter} on:selectTags={prepareTagSelection}/>
+<svelte:window on:filterTags={prepareTagFilter} on:selectTags={(e) => prepareTagSelection(e.detail.title)}/>
 
-<Modal title="Select tags" bind:showModal>
+<Modal title={title} bind:showModal>
     <div class="relative mt-5">
         <div class="grid grid-cols-2 gap-y-4 gap-x-2 mt-3 pb-10">
             {#each tags as tag (tag.id)}
