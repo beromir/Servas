@@ -200,7 +200,7 @@
         </li>
 
     {:else}
-        <div class="col-span-2 container mx-auto">
+        <div class="col-span-2 container mx-auto px-4 sm:px-0">
             <button on:click="{() => dispatchCustomEvent('prepareCreateNewLink')}" type="button"
                     class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:ring-offset-gray-100">
                 <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none"
@@ -209,8 +209,8 @@
                           d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
                 </svg>
                 <span class="mt-2 block text-sm font-medium text-gray-900">
-                            Add a new link
-                        </span>
+                    Add a new link
+                </span>
             </button>
         </div>
     {/each}
