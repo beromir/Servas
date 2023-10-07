@@ -12,11 +12,12 @@
     import LinkList from "@/Components/LinkList/LinkList.svelte";
     import Button from "@/Components/Buttons/Button.svelte";
     import {linkFilter} from "@/stores.js";
-    import {onDestroy} from "svelte";
+    import {onDestroy, onMount} from "svelte";
 
     export let links = [];
-
-    let searchString = '';
+    export let searchString = '';
+    export let filteredTags = [];
+    export let showUntaggedOnly = false;
 
     $title = 'Links';
 
@@ -37,11 +38,11 @@
         }
 
         router.get(route(route().current(), {
-            tags: $linkFilter.tags.map(item => item.name),
+            tags: $linkFilter.tags.length ? $linkFilter.tags.map(item => item.name).join(',') : null,
             search: searchString,
             untaggedOnly: $linkFilter.showUntaggedOnly ? true : null,
         }), {}, {
-            only: ['links'],
+            only: ['links', 'searchString'],
             preserveState: true,
         });
     }
@@ -49,6 +50,13 @@
     function removeFilteredTag(tag) {
         $linkFilter.tags = $linkFilter.tags.filter(item => item !== tag);
     }
+
+    onMount(() => {
+        if (filteredTags || showUntaggedOnly) {
+            $linkFilter.tags = filteredTags;
+            $linkFilter.showUntaggedOnly = showUntaggedOnly;
+        }
+    });
 
     onDestroy(() => {
         linkFilter.reset();
@@ -86,7 +94,8 @@
             </svg>
         </Button>
         {#if $linkFilter.showUntaggedOnly}
-            <button on:click={() => $linkFilter.showUntaggedOnly = false} type="button" class="block mt-2 mx-auto text-sm text-gray-700 sm:mt-0 sm:mr-0 sm:ml-2">
+            <button on:click={() => {$linkFilter.showUntaggedOnly = false; $linkFilter.isActive = true}} type="button"
+                    class="block mt-2 mx-auto text-sm text-gray-700 sm:mt-0 sm:mr-0 sm:ml-2">
                 Show all
             </button>
         {/if}
@@ -96,7 +105,7 @@
     {#if $linkFilter.tags.length}
         <div class="px-4 sm:px-0">
             {#each $linkFilter.tags as tag (tag.id)}
-                <button on:click={() => removeFilteredTag(tag)} type="button"
+                <button on:click={() => {removeFilteredTag(tag); $linkFilter.isActive = true}} type="button"
                         class="inline-flex items-center mr-2 mt-2 py-0.5 px-2.5 bg-primary-100 text-sm text-primary-800 font-medium rounded-full group">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                          class="mr-1 -ml-1 w-4 h-4 fill-primary-500 rounded-full group-hover:fill-primary-700 group-hover:bg-primary-200/50">

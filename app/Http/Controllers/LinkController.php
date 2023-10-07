@@ -7,7 +7,6 @@ use App\Http\Requests\StoreLinkRequest;
 use App\Http\Requests\UpdateLinkRequest;
 use App\Models\Group;
 use App\Models\Link;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,8 +23,10 @@ class LinkController extends Controller
     public function index(array $filteredTags = []): Response
     {
         $searchString = Request::get('search') ?? '';
-        $filteredTags = Request::get('tags') ?? [];
+        $filteredTags = Request::get('tags') ?? '';
         $showUntaggedOnly = Request::get('untaggedOnly') ?? false;
+
+        $filteredTags = empty($filteredTags) ? [] : explode(',', $filteredTags);
 
         return Inertia::render('Links/Index', [
             'links' => Link::orderBy('created_at', 'desc')
@@ -44,6 +45,9 @@ class LinkController extends Controller
                     'id' => $link->id,
                 ]),
             'tags' => TagController::getAllTags(),
+            'searchString' => $searchString,
+            'filteredTags' => $filteredTags ? TagController::getTagsByNames($filteredTags) : [],
+            'showUntaggedOnly' => $showUntaggedOnly,
         ]);
     }
 
