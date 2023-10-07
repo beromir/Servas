@@ -7,6 +7,7 @@ use App\Http\Requests\StoreLinkRequest;
 use App\Http\Requests\UpdateLinkRequest;
 use App\Models\Group;
 use App\Models\Link;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,7 @@ class LinkController extends Controller
     {
         $searchString = Request::get('search') ?? '';
         $filteredTags = Request::get('tags') ?? [];
+        $showUntaggedOnly = Request::get('untaggedOnly') ?? false;
 
         return Inertia::render('Links/Index', [
             'links' => Link::orderBy('created_at', 'desc')
@@ -32,7 +34,8 @@ class LinkController extends Controller
                     $query->search('title', $searchString)
                         ->additionalSearch('link', $searchString);
                 })
-                ->filterByTags($filteredTags)
+                ->when($showUntaggedOnly, fn($query) => $query->whereDoesntHave('tags'))
+                ->when(!$showUntaggedOnly, fn($query) => $query->filterByTags($filteredTags))
                 ->paginate(20)
                 ->withQueryString()
                 ->through(fn(Link $link) => [

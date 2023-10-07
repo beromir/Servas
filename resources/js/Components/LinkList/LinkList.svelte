@@ -2,17 +2,17 @@
     import {dispatchCustomEvent, route, toggleValueInArray} from "@/utils";
     import Pagination from "@/Components/Pagination.svelte";
     import {Link, router} from "@inertiajs/svelte";
-    import TagSelectMenu from "@/Partials/TagSelectMenu.svelte";
     import SimpleModal from "@/Components/Modals/SimpleModal.svelte";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
     import DropdownItem from "@/Components/Dropdowns/DropdownItem.svelte";
     import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
     import InnerDropdownSection from "@/Components/Dropdowns/InnerDropdownSection.svelte";
+    import {selectedTags} from "@/stores.js";
+    import {onDestroy} from "svelte";
 
     export let links = [];
 
     let groupSelectMenu;
-    let tagSelectMenu;
     let deleteLinksModal;
 
     let showBulkEditingDropdown = false;
@@ -22,14 +22,15 @@
 
     let selectedLinks = [];
     let selectedGroups = [];
-    let selectedTags = [];
+
+    $: $selectedTags.tags.length > 0 && $selectedTags.action && bulkEditLinks($selectedTags.action);
 
     function bulkEditLinks(action) {
         router.post('/bulk-edit-links', {
             action: action,
             links: selectedLinks,
             groups: selectedGroups,
-            tags: selectedTags
+            tags: $selectedTags.tags.map(item => item.id),
         }, {
             only: ['links'],
             preserveScroll: true,
@@ -38,8 +39,8 @@
                 selectedGroups = [];
                 groupSelectMenu.reset();
                 selectedGroups = [];
-                tagSelectMenu.reset();
                 bulkEditingAction = '';
+                selectedTags.reset();
             },
         });
     }
@@ -52,7 +53,9 @@
     }
 
     function openTagSelectMenu(action) {
-        tagSelectMenu.openModal();
+        $selectedTags.action = action;
+
+        dispatchCustomEvent('selectTags', {title: action});
 
         bulkEditingAction = action;
     }
@@ -62,7 +65,6 @@
             showBulkEditingDropdown = false;
 
             selectedLinks = [];
-            tagSelectMenu.reset();
             groupSelectMenu.reset();
 
             bulkEditingEnabled = false;
@@ -70,6 +72,10 @@
             bulkEditingEnabled = true;
         }
     }
+
+    onDestroy(() => {
+        selectedTags.reset();
+    });
 </script>
 
 <div class="flex mt-4 px-4 space-x-6 sm:px-0 md:flex-row-reverse md:space-x-reverse">
@@ -194,7 +200,7 @@
         </li>
 
     {:else}
-        <div class="col-span-2 container mx-auto">
+        <div class="col-span-2 container mx-auto px-4 sm:px-0">
             <button on:click="{() => dispatchCustomEvent('prepareCreateNewLink')}" type="button"
                     class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:ring-offset-gray-100">
                 <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none"
@@ -203,8 +209,8 @@
                           d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
                 </svg>
                 <span class="mt-2 block text-sm font-medium text-gray-900">
-                            Add a new link
-                        </span>
+                    Add a new link
+                </span>
             </button>
         </div>
     {/each}
@@ -214,8 +220,6 @@
     <Pagination prevPageUrl={links.prev_page_url} nextPageUrl={links.next_page_url} currentPage={links.current_page}
                 totalPages={Math.trunc(links.total / links.per_page) + 1}/>
 {/if}
-
-<TagSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={tagSelectMenu} bind:selectedTags/>
 <GroupSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={groupSelectMenu}
                  bind:selectedGroups/>
 <SimpleModal title="Delete selected links" description="Are you sure you want to delete the selected links?"

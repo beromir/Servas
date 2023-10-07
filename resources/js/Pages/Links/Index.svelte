@@ -6,19 +6,21 @@
 
 <script>
     import {router} from '@inertiajs/svelte';
-    import {route} from "@/utils";
-    import Badge from "@/Components/Badge.svelte";
+    import {dispatchCustomEvent, route} from "@/utils";
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import {debounce} from "lodash";
     import LinkList from "@/Components/LinkList/LinkList.svelte";
+    import Button from "@/Components/Buttons/Button.svelte";
+    import {linkFilter} from "@/stores.js";
+    import {onDestroy} from "svelte";
 
     export let links = [];
-    export let tags = [];
 
-    let filteredTags = [];
     let searchString = '';
 
     $title = 'Links';
+
+    $: $linkFilter.isActive && filterLinks();
 
     const search = debounce(() => {
         filterLinks();
@@ -29,31 +31,28 @@
         search();
     }
 
-    function addTagsToFilteredTags(tagId) {
-        let index = filteredTags.indexOf(tagId);
-        if (index !== -1) {
-            filteredTags.splice(index, 1);
-            filteredTags = filteredTags;
-        } else {
-            filteredTags = [...filteredTags, tagId];
-        }
-
-        filterLinks();
-    }
-
     function filterLinks() {
         if (searchString === '') {
             searchString = null;
         }
 
         router.get(route(route().current(), {
-            tags: filteredTags,
+            tags: $linkFilter.tags.map(item => item.name),
             search: searchString,
+            untaggedOnly: $linkFilter.showUntaggedOnly ? true : null,
         }), {}, {
             only: ['links'],
             preserveState: true,
         });
     }
+
+    function removeFilteredTag(tag) {
+        $linkFilter.tags = $linkFilter.tags.filter(item => item !== tag);
+    }
+
+    onDestroy(() => {
+        linkFilter.reset();
+    });
 </script>
 
 <Main>
@@ -77,24 +76,36 @@
                 Clear
             </button>
         {/if}
+
+        <Button on:clicked={() => dispatchCustomEvent('filterTags')}
+                title="Filter by tags" color="white" class="mt-4 sm:mt-0 sm:ml-6 sm:w-auto">
+            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-gray-600">
+                <path fill-rule="evenodd"
+                      d="M5.5 3A2.5 2.5 0 003 5.5v2.879a2.5 2.5 0 00.732 1.767l6.5 6.5a2.5 2.5 0 003.536 0l2.878-2.878a2.5 2.5 0 000-3.536l-6.5-6.5A2.5 2.5 0 008.38 3H5.5zM6 7a1 1 0 100-2 1 1 0 000 2z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </Button>
+        {#if $linkFilter.showUntaggedOnly}
+            <button on:click={() => $linkFilter.showUntaggedOnly = false} type="button" class="block mt-2 mx-auto text-sm text-gray-700 sm:mt-0 sm:mr-0 sm:ml-2">
+                Show all
+            </button>
+        {/if}
     </div>
 
     <!-- Tag filter list -->
-    {#if tags.length !== 0}
-        <div class="px-4 text-gray-800 text-sm font-medium sm:px-0">Filter by tags</div>
-        <div class="px-4 space-y-2 -mt-1 sm:px-0 sm:space-y-3">
-            {#each tags as tag (tag.id)}
-                <Badge on:clicked={() => addTagsToFilteredTags(tag.name)} title={tag.name}
-                       color={filteredTags.includes(tag.name) ? '' : 'gray'}
-                       class="bg-gray-50 first:mt-2 last:mr-0 sm:mr-1.5 sm:first:mt-3"/>
-            {/each}
-
-            {#if filteredTags.length > 0}
-                <button on:click={() => {filteredTags = []; filterLinks()}} type="button"
-                        class="text-gray-700 text-sm">
-                    Clear all
+    {#if $linkFilter.tags.length}
+        <div class="px-4 sm:px-0">
+            {#each $linkFilter.tags as tag (tag.id)}
+                <button on:click={() => removeFilteredTag(tag)} type="button"
+                        class="inline-flex items-center mr-2 mt-2 py-0.5 px-2.5 bg-primary-100 text-sm text-primary-800 font-medium rounded-full group">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="mr-1 -ml-1 w-4 h-4 fill-primary-500 rounded-full group-hover:fill-primary-700 group-hover:bg-primary-200/50">
+                        <path
+                            d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
+                    </svg>
+                    {tag.name}
                 </button>
-            {/if}
+            {/each}
         </div>
     {/if}
 

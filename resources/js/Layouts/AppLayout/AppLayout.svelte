@@ -16,6 +16,7 @@
     import Logo from "@/Components/Icons/Logo.svelte";
     import MobileMenuItem from "@/Components/Navigation/MobileMenuItem.svelte";
     import DeleteGroupModal from "@/Partials/DeleteGroupModal.svelte";
+    import TagSelectMenu from "@/Partials/TagSelectMenu.svelte";
 
     const appName = $page.props.appName;
 
@@ -248,3 +249,4 @@
 <DeleteTagModel/>
 <DeleteGroupModal/>
 <CommandPalette/>
+<TagSelectMenu/>
