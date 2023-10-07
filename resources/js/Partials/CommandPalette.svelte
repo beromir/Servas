@@ -4,7 +4,6 @@
     import {backIn, backOut} from 'svelte/easing';
     import {debounce, delay} from "lodash";
     import {route, noScroll} from '@/utils';
-    import {refreshLinks} from "@/stores";
 
     let searchResults = [];
     let groups = [];

@@ -11,7 +11,7 @@ class Tag extends \Spatie\Tags\Tag implements Searchable
 
     public function getSearchResult(): SearchResult
     {
-        $url = route('tags.show', $this->id);
+        $url = route('links.index', ['tags' => $this->name]);
 
         return new SearchResult(
             $this,

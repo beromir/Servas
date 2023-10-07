@@ -12,7 +12,7 @@
     import LinkList from "@/Components/LinkList/LinkList.svelte";
     import Button from "@/Components/Buttons/Button.svelte";
     import {linkFilter} from "@/stores.js";
-    import {onDestroy, onMount} from "svelte";
+    import {beforeUpdate, onDestroy} from "svelte";
 
     export let links = [];
     export let searchString = '';
@@ -42,7 +42,7 @@
             search: searchString,
             untaggedOnly: $linkFilter.showUntaggedOnly ? true : null,
         }), {}, {
-            only: ['links', 'searchString'],
+            only: ['links', 'searchString', 'filteredTags', 'showUntaggedOnly'],
             preserveState: true,
         });
     }
@@ -51,11 +51,9 @@
         $linkFilter.tags = $linkFilter.tags.filter(item => item !== tag);
     }
 
-    onMount(() => {
-        if (filteredTags || showUntaggedOnly) {
-            $linkFilter.tags = filteredTags;
-            $linkFilter.showUntaggedOnly = showUntaggedOnly;
-        }
+    beforeUpdate(() => {
+        $linkFilter.tags = filteredTags;
+        $linkFilter.showUntaggedOnly = showUntaggedOnly;
     });
 
     onDestroy(() => {
