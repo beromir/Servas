@@ -4,6 +4,7 @@
     import {selectedTags, linkFilter} from "@/stores.js";
 
     let title = 'Select tags';
+    let primaryButtonTitle = 'Save';
     let mode = '';
     let tags = [];
     let internalSelectedTags = [];          // property for internal use only; contains tag objects
@@ -25,6 +26,7 @@
         mode = Mode.Filter;
 
         title = 'Filter by tags';
+        primaryButtonTitle = 'Filter';
 
         openModal();
     }
@@ -34,6 +36,7 @@
         mode = Mode.Select;
 
         title = action === 'attachTags' ? 'Attach tags' : 'Detach tags';
+        primaryButtonTitle = action === 'attachTags' ? 'Attach' : 'Detach';
 
         openModal();
     }
@@ -95,20 +98,18 @@
         internalSelectedTags = [];
         showUntagged = false;
     }
-
-    function reset() {
-        $selectedTags = [];
-        $linkFilter.tags = [];
-        $linkFilter.showUntaggedOnly = false;
-        internalSelectedTags = [];
-        showUntagged = false;
-        mode = '';
-    }
 </script>
 
 <svelte:window on:filterTags={prepareTagFilter} on:selectTags={(e) => prepareTagSelection(e.detail.title)}/>
 
-<Modal title={title} bind:showModal>
+<Modal bind:showModal on:canceled={cancel} title={title} showFooterMenuOnMobile={false}>
+    <svelte:fragment slot="mobilePrimaryAction">
+        <button on:click={saveChanges}
+                class="text-right text-primary-600 font-medium focus:outline-none sm:hidden" type="button">
+            {primaryButtonTitle}
+        </button>
+    </svelte:fragment>
+
     <div class="relative mt-5">
         <div class="grid grid-cols-2 gap-y-4 gap-x-2 mt-3 pb-10">
             {#each tags as tag (tag.id)}
@@ -176,7 +177,7 @@
     </div>
 
     <svelte:fragment slot="footer">
-        <Button on:clicked={saveChanges} title="OK"
+        <Button on:clicked={saveChanges} title={primaryButtonTitle}
                 class="focus:ring-offset-gray-50 sm:ml-3"/>
         <Button on:clicked={cancel} title="Cancel" color="white"
                 class="hidden mt-3 focus:ring-offset-gray-50 sm:inline-flex sm:mt-0"/>
