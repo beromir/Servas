@@ -9,7 +9,7 @@
     import {dispatchCustomEvent, route} from "@/utils";
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import Badge from "@/Components/Badge.svelte";
-    import {inertia} from "@inertiajs/svelte";
+    import {inertia, Link} from "@inertiajs/svelte";
 
     export let link = {};
 
@@ -102,8 +102,10 @@
         {#if link.tags.length}
             <div class="mt-2 space-y-2 sm:space-y-3">
                 {#each link.tags as tag (tag.id)}
-                    <Badge title={tag.name} noHover={true}
-                           class="mr-1.5 first:mt-2 last:mr-0 sm:first:mt-3"/>
+                    <Link href={route('links.index', {tags: tag.name})}
+                          class="inline-block mr-1.5 first:mt-2 last:mr-0 sm:first:mt-3">
+                        <Badge title={tag.name} noHover={true}/>
+                    </Link>
                 {/each}
             </div>
         {/if}

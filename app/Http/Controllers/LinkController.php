@@ -23,7 +23,10 @@ class LinkController extends Controller
     public function index(array $filteredTags = []): Response
     {
         $searchString = Request::get('search') ?? '';
-        $filteredTags = Request::get('tags') ?? [];
+        $filteredTags = Request::get('tags') ?? '';
+        $showUntaggedOnly = Request::get('untaggedOnly') ?? false;
+
+        $filteredTags = empty($filteredTags) ? [] : explode(',', $filteredTags);
 
         return Inertia::render('Links/Index', [
             'links' => Link::orderBy('created_at', 'desc')
@@ -32,7 +35,8 @@ class LinkController extends Controller
                     $query->search('title', $searchString)
                         ->additionalSearch('link', $searchString);
                 })
-                ->filterByTags($filteredTags)
+                ->when($showUntaggedOnly, fn($query) => $query->whereDoesntHave('tags'))
+                ->when(!$showUntaggedOnly, fn($query) => $query->filterByTags($filteredTags))
                 ->paginate(20)
                 ->withQueryString()
                 ->through(fn(Link $link) => [
@@ -41,6 +45,9 @@ class LinkController extends Controller
                     'id' => $link->id,
                 ]),
             'tags' => TagController::getAllTags(),
+            'searchString' => $searchString,
+            'filteredTags' => $filteredTags ? TagController::getTagsByNames($filteredTags) : [],
+            'showUntaggedOnly' => $showUntaggedOnly,
         ]);
     }
 
