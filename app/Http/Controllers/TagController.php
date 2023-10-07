@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -95,7 +96,7 @@ class TagController extends Controller
     /**
      * Returns all tags for the current user.
      */
-    public static function getAllTags()
+    public static function getAllTags(): array
     {
         return Tag::orderBy('name')
             ->filterByCurrentUser()
@@ -103,7 +104,28 @@ class TagController extends Controller
             ->transform(fn(Tag $tag) => [
                 'id' => $tag->id,
                 'name' => $tag->name,
-            ]);
+            ])
+            ->toArray();
+    }
+
+    /**
+     * Returns tags by their names.
+     */
+    public static function getTagsByNames(array $names): array
+    {
+        $locale = $locale ?? Tag::getLocale();
+
+        return Tag::where(function (Builder $query) use ($names, $locale) {
+            foreach ($names as $name) {
+                $query->orWhere("name->$locale", $name);
+            }
+        })
+            ->get()
+            ->transform(fn(Tag $tag) => [
+                'id' => $tag->id,
+                'name' => $tag->name,
+            ])
+            ->toArray();
     }
 
     /**
