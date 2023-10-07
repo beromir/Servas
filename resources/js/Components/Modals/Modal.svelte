@@ -2,12 +2,15 @@
     import {noScroll} from "@/utils";
     import {fade, scale} from 'svelte/transition';
     import {backIn, backOut} from 'svelte/easing';
+    import {createEventDispatcher} from "svelte";
 
     export let showModal;
     export let size = 'normal';
     export let showFooterMenuOnMobile = true;
     export let title = '';
     export let fullWidthContent = false
+
+    const dispatch = createEventDispatcher();
 
     const getSizeClasses = () => {
         switch (size) {
@@ -22,6 +25,7 @@
         if (event.key === 'Escape') {
             event.preventDefault();
             showModal = false;
+            dispatch('canceled');
         }
     }
 </script>
@@ -32,7 +36,7 @@
          role="dialog"
          aria-modal="true">
         <div class="flex items-end justify-center min-h-screen pt-12 text-center sm:block sm:p-0">
-            <div on:click={() => showModal = false}
+            <div on:click={() => {showModal = false; dispatch('canceled')}}
                  in:fade={{duration: 300, easing: backOut}}
                  out:fade={{duration: 200, easing: backIn}}
                  class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
@@ -49,7 +53,7 @@
                  aria-hidden="true">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="grid grid-cols-5 items-end sm:block sm:items-center">
-                        <button on:click={() => showModal = false}
+                        <button on:click={() => {showModal = false; dispatch('canceled')}}
                                 class="text-left text-primary-600 focus:outline-none sm:hidden" type="button">
                             Cancel
                         </button>
