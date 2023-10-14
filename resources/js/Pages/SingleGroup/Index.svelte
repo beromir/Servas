@@ -8,13 +8,11 @@
     import {onDestroy} from 'svelte';
     import {dispatchCustomEvent, route} from "@/utils";
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
-    import GroupsGrid from "@/Pages/Groups/Partials/GroupsGrid.svelte";
     import BreadcrumbNavContainer from "@/Components/BreadcrumbNavigation/BreadcrumbNavContainer.svelte";
     import NewGroup from "@/Pages/Groups/Partials/NewGroup.svelte";
     import LinkList from "@/Components/LinkList/LinkList.svelte";
 
     export let group = {};
-    export let groups = [];
     export let parentGroups = [];
     export let links = [];
 
@@ -60,12 +58,6 @@
                 </button>
             </div>
         </div>
-
-        {#if groups.length !== 0}
-            <div class="mt-4 py-3 px-4 sm:px-0">
-                <GroupsGrid {groups}/>
-            </div>
-        {/if}
 
         {#if links.length !== 0}
             <LinkList {links}/>

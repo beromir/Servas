@@ -17,12 +17,16 @@
     import MobileMenuItem from "@/Components/Navigation/MobileMenuItem.svelte";
     import DeleteGroupModal from "@/Partials/DeleteGroupModal.svelte";
     import TagSelectMenu from "@/Partials/TagSelectMenu.svelte";
+    import {onMount} from "svelte";
+    import axios from "axios";
+    import GroupNavigationLink from "@/Layouts/AppLayout/Partials/GroupNavigationLink.svelte";
 
     const appName = $page.props.appName;
 
     let showMobileMenu = false;
     let showProfileDropdown = false;
     let showMobileAccountMenu = false;
+    let groups = [];
 
     $: if (showMobileMenu) showMobileAccountMenu = false;
 
@@ -43,6 +47,17 @@
             dispatchCustomEvent('showCommandPalette');
         }
     }
+
+    async function getAllGroups() {
+        await axios.get('/all-groups')
+            .then(response => {
+                groups = response.data
+            });
+    }
+
+    onMount(() => {
+        getAllGroups();
+    });
 </script>
 
 <svelte:head>
@@ -77,6 +92,12 @@
                 </button>
             </div>
 
+            <div class="flex flex-col gap-y-4">
+                {#each groups.filter((singleGroup) => !singleGroup.parentGroupId) as group}
+                    <GroupNavigationLink group={group} groups={groups}/>
+                {/each}
+            </div>
+
             <!-- Profile dropdown -->
             <div class="relative h-8 w-8">
                 <button on:click={() => showProfileDropdown = !showProfileDropdown} type="button"
@@ -85,7 +106,7 @@
                     <span class="sr-only">Open user menu</span>
                     <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                         <path
-                            d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
                 </button>
 

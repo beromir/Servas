@@ -74,17 +74,6 @@ class GroupController extends Controller
                 'id' => $group->id,
                 'parentGroupId' => $group->parent_group_id,
             ],
-            'groups' => Group::filterByCurrentUser()
-                ->orderBy('title')
-                ->where('parent_group_id', $groupId)
-                ->withCount(['links', 'groups'])
-                ->get()
-                ->transform(fn(Group $group) => [
-                    'id' => $group->id,
-                    'title' => $group->title,
-                    'childGroupsCount' => $group->groups_count,
-                    'linksCount' => $group->links_count,
-                ]),
             'parentGroups' => $this->getAllParentGroups($group),
             'links' => $group
                 ->links()
@@ -154,13 +143,14 @@ class GroupController extends Controller
     {
         return Group::orderBy('title')
             ->filterByCurrentUser()
-            ->withCount('groups')
+            ->withCount(['groups', 'links'])
             ->get()
             ->transform(fn(Group $group) => [
                 'id' => $group->id,
                 'title' => $group->title,
                 'parentGroupId' => $group->parent_group_id,
                 'childGroupsCount' => $group->groups_count,
+                'linksCount' => $group->links_count,
             ]);
     }
 }

@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/', function () {
-        return redirect()->route('links.index');
+        return to_route('links.index');
     })->name('home');
 
     Route::resource('links', LinkController::class)->except([
