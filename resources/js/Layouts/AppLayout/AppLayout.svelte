@@ -67,35 +67,37 @@
 <svelte:window on:keydown={handleKeydown}/>
 
 <div class="flex min-h-full">
-    <div class="sticky top-0 flex-none py-2 pl-2 w-[280px] h-screen">
-        <div class="flex flex-col justify-between p-4 w-full h-full bg-gray-800 rounded-xl shadow">
-            <div class="flex items-center">
-                <!-- Logo -->
-                <Link href={route('home')} on:click={() => showMobileMenu = false} class="mr-2.5">
-                    <Logo class="h-8 w-8"/>
-                </Link>
-                <div class="font-medium text-gray-50">
-                    <Link href={route('home')} on:click={() => showMobileMenu = false}>{appName}</Link>
+    <div class="sticky top-0 flex-none w-[300px] h-screen">
+        <div class="flex flex-col justify-between p-4 w-full h-full bg-gray-800 shadow">
+            <div>
+                <div class="flex items-center">
+                    <!-- Logo -->
+                    <Link href={route('home')} on:click={() => showMobileMenu = false} class="mr-2.5">
+                        <Logo class="h-8 w-8"/>
+                    </Link>
+                    <div class="font-medium text-gray-50">
+                        <Link href={route('home')} on:click={() => showMobileMenu = false}>{appName}</Link>
+                    </div>
+
+                    <!-- Search button -->
+                    <button on:click={() => dispatchCustomEvent('showCommandPalette')} title="Open search bar"
+                            type="button"
+                            class="ml-auto bg-gray-800 p-1 rounded-full text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                        <span class="sr-only">Open search bar</span>
+                        <!-- Heroicon name: outline/search -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
                 </div>
 
-                <!-- Search button -->
-                <button on:click={() => dispatchCustomEvent('showCommandPalette')} title="Open search bar"
-                        type="button"
-                        class="ml-auto bg-gray-800 p-1 rounded-full text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                    <span class="sr-only">Open search bar</span>
-                    <!-- Heroicon name: outline/search -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="flex flex-col gap-y-4">
-                {#each groups.filter((singleGroup) => !singleGroup.parentGroupId) as group}
-                    <GroupNavigationLink group={group} groups={groups}/>
-                {/each}
+                <div class="flex flex-col gap-y-2 mt-12">
+                    {#each groups.filter((singleGroup) => !singleGroup.parentGroupId) as group}
+                        <GroupNavigationLink group={group} groups={groups}/>
+                    {/each}
+                </div>
             </div>
 
             <!-- Profile dropdown -->
@@ -106,7 +108,7 @@
                     <span class="sr-only">Open user menu</span>
                     <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                         <path
-                                d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
                 </button>
 

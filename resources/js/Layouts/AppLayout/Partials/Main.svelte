@@ -3,7 +3,7 @@
     import {dispatchCustomEvent} from "@/utils";
 </script>
 
-<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
 
     <div class="px-4 w-full sm:flex justify-between sm:px-0">
         <slot name="toolbar">
