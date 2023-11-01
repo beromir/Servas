@@ -21,13 +21,13 @@
 
     $: $form.parentGroupId = selectedGroups[0];
 
-    export function startCreating() {
+    export function showCreationView() {
         isEditing && reset();
 
         showModal = true;
     }
 
-    function startEditing(groupToEdit) {
+    function showEditingView(groupToEdit) {
         reset();
 
         group = groupToEdit;
@@ -73,7 +73,7 @@
     }
 </script>
 
-<svelte:window on:editGroup={(event) => startEditing(event.detail)} on:createGroup={startCreating}/>
+<svelte:window on:editGroup={(event) => showEditingView(event.detail)} on:createGroup={showCreationView}/>
 
 <Modal title={isEditing ? 'Edit group' : 'Create group'} showFooterMenuOnMobile={false} bind:showModal>
     <svelte:fragment slot="mobilePrimaryAction">
