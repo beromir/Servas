@@ -20,6 +20,8 @@
     import {onMount} from "svelte";
     import axios from "axios";
     import GroupNavigationLink from "@/Layouts/AppLayout/Partials/GroupNavigationLink.svelte";
+    import GroupModal from "@/Partials/GroupModal.svelte";
+    import {refreshGroups} from "@/stores.js";
 
     const appName = $page.props.appName;
 
@@ -29,6 +31,7 @@
     let groups = [];
 
     $: if (showMobileMenu) showMobileAccountMenu = false;
+    $: $refreshGroups && getAllGroups();
 
     const showCommandPaletteOnMobile = () => {
         dispatchCustomEvent('showCommandPalette');
@@ -68,47 +71,59 @@
 
 <div class="flex min-h-full">
     <div class="sticky top-0 flex-none w-[300px] h-screen">
-        <div class="flex flex-col justify-between p-4 w-full h-full bg-gray-800 shadow">
-            <div>
-                <div class="flex items-center">
-                    <!-- Logo -->
-                    <Link href={route('home')} on:click={() => showMobileMenu = false} class="mr-2.5">
-                        <Logo class="h-8 w-8"/>
-                    </Link>
-                    <div class="font-medium text-gray-50">
-                        <Link href={route('home')} on:click={() => showMobileMenu = false}>{appName}</Link>
-                    </div>
-
-                    <!-- Search button -->
-                    <button on:click={() => dispatchCustomEvent('showCommandPalette')} title="Open search bar"
-                            type="button"
-                            class="ml-auto bg-gray-800 p-1 rounded-full text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                        <span class="sr-only">Open search bar</span>
-                        <!-- Heroicon name: outline/search -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                    </button>
+        <div class="flex flex-col p-4 w-full h-full bg-gray-800 shadow">
+            <div class="flex items-center">
+                <!-- Logo -->
+                <Link href={route('home')} on:click={() => showMobileMenu = false} class="mr-2.5">
+                    <Logo class="h-8 w-8"/>
+                </Link>
+                <div class="font-medium text-gray-50">
+                    <Link href={route('home')} on:click={() => showMobileMenu = false}>{appName}</Link>
                 </div>
 
-                <div class="flex flex-col gap-y-2 mt-12">
-                    {#each groups.filter((singleGroup) => !singleGroup.parentGroupId) as group}
-                        <GroupNavigationLink group={group} groups={groups}/>
-                    {/each}
-                </div>
+                <!-- Search button -->
+                <button on:click={() => dispatchCustomEvent('showCommandPalette')} title="Open search bar"
+                        type="button"
+                        class="ml-auto bg-gray-800 p-1 rounded-full text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                    <span class="sr-only">Open search bar</span>
+                    <!-- Heroicon name: outline/search -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="flex justify-between items-center mt-12">
+                <div class="text-xs text-gray-200 font-semibold uppercase">Groups</div>
+
+                <button on:click={() => dispatchCustomEvent('createGroup')} type="button"
+                        class="rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                         class="w-6 h-6 fill-gray-100 hover:fill-white">
+                        <path fill-rule="evenodd"
+                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </button>
+
+            </div>
+            <div class="flex flex-col grow gap-y-2 my-4 overflow-auto">
+                {#each groups.filter((singleGroup) => !singleGroup.parentGroupId) as group}
+                    <GroupNavigationLink group={group} groups={groups}/>
+                {/each}
             </div>
 
             <!-- Profile dropdown -->
-            <div class="relative h-8 w-8">
+            <div class="relative mt-auto h-8 w-8">
                 <button on:click={() => showProfileDropdown = !showProfileDropdown} type="button"
                         class="max-w-xs h-8 w-8 rounded-full overflow-hidden bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                         id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                     <span class="sr-only">Open user menu</span>
                     <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                         <path
-                            d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
                 </button>
 
@@ -149,6 +164,7 @@
 </div>
 
 <LinkModal/>
+<GroupModal/>
 <DeleteLinkModal/>
 <DeleteTagModel/>
 <DeleteGroupModal/>

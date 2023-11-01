@@ -101,7 +101,7 @@
                           clip-rule="evenodd"/>
                 </svg>
             </button>
-            <Dropdown showDropdown={showBulkEditingDropdown}>
+            <Dropdown bind:showDropdown={showBulkEditingDropdown}>
                 <InnerDropdownSection title="Tags">
                     <DropdownItem on:clicked={() => openTagSelectMenu('attachTags')} title="Attach tags">
                         <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
