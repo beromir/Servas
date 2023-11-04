@@ -3,19 +3,20 @@
     import {route} from "@/utils/index.js";
     import {fade} from "svelte/transition";
     import clsx from "clsx";
+    import {getOpenedGroups, toggleOpenedGroup} from "@/utils/local-settings.js";
 
     export let group = null;
     export let groups = [];
 
-    let showSubNav = false;
+    let openedGroups = getOpenedGroups();
 
     $: currentGroupId = $page.props.group && $page.props.group.id;
 </script>
 
 <div>
     <div class="flex items-center">
-        <button on:click={() => showSubNav = !showSubNav} type="button" class="transition group"
-                class:invisible={group.childGroupsCount === 0} class:rotate-90={showSubNav}>
+        <button on:click={() => openedGroups = toggleOpenedGroup(group.id)} type="button" class="transition duration-100 group"
+                class:invisible={group.childGroupsCount === 0} class:rotate-90={openedGroups.includes(group.id)}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                  class="w-6 h-6 fill-gray-300 group-hover:fill-gray-200">
                 <path fill-rule="evenodd"
@@ -36,8 +37,8 @@
         </Link>
     </div>
 
-    {#if group.childGroupsCount > 0 && showSubNav}
-        <div class="flex flex-col gap-y-2 mt-1 ml-6" transition:fade={{ duration: 150 }}>
+    {#if group.childGroupsCount > 0 && openedGroups.includes(group.id)}
+        <div class="flex flex-col gap-y-2 mt-1 ml-6" transition:fade={{ duration: 100 }}>
             {#each groups.filter((singleGroup) => singleGroup.parentGroupId === group.id) as childGroup}
                 <svelte:self group={childGroup} groups={groups}/>
             {/each}
