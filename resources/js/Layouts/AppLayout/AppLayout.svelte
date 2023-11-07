@@ -22,6 +22,9 @@
     import GroupNavigationLink from "@/Layouts/AppLayout/Partials/GroupNavigationLink.svelte";
     import GroupModal from "@/Partials/GroupModal.svelte";
     import {refreshGroups} from "@/stores.js";
+    import {slide, fade} from "svelte/transition";
+    import {cubicOut, cubicIn} from "svelte/easing";
+    import {sidebarIsOpen, toggleSidebar} from "@/utils/local-settings.js";
 
     const appName = $page.props.appName;
 
@@ -29,6 +32,7 @@
     let showProfileDropdown = false;
     let showMobileAccountMenu = false;
     let groups = [];
+    let showSidebar = sidebarIsOpen();
 
     $: if (showMobileMenu) showMobileAccountMenu = false;
     $: $refreshGroups && getAllGroups();
@@ -69,96 +73,131 @@
 
 <svelte:window on:keydown={handleKeydown}/>
 
-<div class="flex min-h-full">
-    <div class="sticky top-0 flex-none w-[300px] h-screen">
-        <div class="flex flex-col p-4 w-full h-full bg-gray-800 shadow">
-            <div class="flex items-center">
-                <!-- Logo -->
-                <Link href={route('home')} on:click={() => showMobileMenu = false} class="mr-2.5">
-                    <Logo class="h-8 w-8"/>
-                </Link>
-                <div class="font-medium text-gray-50">
-                    <Link href={route('home')} on:click={() => showMobileMenu = false}>{appName}</Link>
+<div class="flex min-h-screen">
+    {#if showSidebar}
+        <div in:slide={{ delay: 150, duration: 300, axis: 'x', easing: cubicOut }}
+             out:slide={{ delay: 250, duration: 500, axis: 'x', easing: cubicOut }}
+             class="sticky top-0 flex-none w-[300px] h-screen">
+            <div class="flex flex-col p-4 w-full h-full bg-gray-800 shadow">
+                <div class="flex items-center">
+                    <!-- Sidebar toggle -->
+                    <button on:click={() => showSidebar = toggleSidebar()} type="button"
+                            title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
+                            class="py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                             class="w-6 h-6">
+                            <rect width="24" height="24" fill="none"/>
+                            <rect x="2" y="3" width="20.3012" height="18.3152" rx="3" stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linejoin="round"/>
+                            <path
+                                d="M2 6C2 4.34314 3.34315 3 5 3H10.1646V21.3152H5C3.34315 21.3152 2 19.9721 2 18.3152V6Z"
+                                fill="currentColor"/>
+                        </svg>
+                    </button>
+
+                    <!-- Search button -->
+                    <button on:click={() => dispatchCustomEvent('showCommandPalette')} title="Open search bar"
+                            type="button"
+                            class="ml-auto py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500">
+                        <span class="sr-only">Open search bar</span>
+                        <!-- Heroicon name: outline/search -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
                 </div>
 
-                <!-- Search button -->
-                <button on:click={() => dispatchCustomEvent('showCommandPalette')} title="Open search bar"
-                        type="button"
-                        class="ml-auto bg-gray-800 p-1 rounded-full text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                    <span class="sr-only">Open search bar</span>
-                    <!-- Heroicon name: outline/search -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </button>
-            </div>
+                <div class="flex justify-between items-center mt-12">
+                    <div class="text-xs text-gray-200 font-semibold uppercase">Groups</div>
 
-            <div class="flex justify-between items-center mt-12">
-                <div class="text-xs text-gray-200 font-semibold uppercase">Groups</div>
+                    <button on:click={() => dispatchCustomEvent('createGroup')} type="button"
+                            class="rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                             class="w-6 h-6 fill-gray-100 hover:fill-white">
+                            <path fill-rule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </button>
 
-                <button on:click={() => dispatchCustomEvent('createGroup')} type="button"
-                        class="rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                         class="w-6 h-6 fill-gray-100 hover:fill-white">
-                        <path fill-rule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                </button>
+                </div>
+                <div class="flex flex-col grow gap-y-2 my-4 overflow-auto">
+                    {#each groups.filter((singleGroup) => !singleGroup.parentGroupId) as group}
+                        <GroupNavigationLink group={group} groups={groups}/>
+                    {/each}
+                </div>
 
-            </div>
-            <div class="flex flex-col grow gap-y-2 my-4 overflow-auto">
-                {#each groups.filter((singleGroup) => !singleGroup.parentGroupId) as group}
-                    <GroupNavigationLink group={group} groups={groups}/>
-                {/each}
-            </div>
-
-            <!-- Profile dropdown -->
-            <div class="relative mt-auto h-8 w-8">
-                <button on:click={() => showProfileDropdown = !showProfileDropdown} type="button"
-                        class="max-w-xs h-8 w-8 rounded-full overflow-hidden bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                        id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                    <span class="sr-only">Open user menu</span>
-                    <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                        <path
+                <!-- Profile dropdown -->
+                <div class="relative mt-auto h-8 w-8">
+                    <button on:click={() => showProfileDropdown = !showProfileDropdown} type="button"
+                            class="max-w-xs h-8 w-8 rounded-full overflow-hidden bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                            id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                        <span class="sr-only">Open user menu</span>
+                        <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path
                                 d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
-                    </svg>
-                </button>
+                        </svg>
+                    </button>
 
-                {#if showProfileDropdown}
-                    <div use:clickOutside on:click_outside={() => showProfileDropdown = false}
-                         class="origin-bottom-left absolute bottom-0 left-full ml-3 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                         role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
-                         tabindex="-1">
+                    {#if showProfileDropdown}
+                        <div use:clickOutside on:click_outside={() => showProfileDropdown = false}
+                             class="origin-bottom-left absolute bottom-0 left-full ml-3 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
+                             tabindex="-1">
 
-                        <a href={route('profile.show')} use:inertia
-                           on:click={() => showProfileDropdown = false}
-                           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                           role="menuitem" tabindex="-1"
-                           id="user-menu-item-0">Your Profile</a>
+                            <a href={route('profile.show')} use:inertia
+                               on:click={() => showProfileDropdown = false}
+                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                               role="menuitem" tabindex="-1"
+                               id="user-menu-item-0">Your Profile</a>
 
-                        <a href={route('api-tokens.index')} use:inertia
-                           on:click={() => showProfileDropdown = false}
-                           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                           role="menuitem" tabindex="-1"
-                           id="user-menu-item-1">API Tokens</a>
+                            <a href={route('api-tokens.index')} use:inertia
+                               on:click={() => showProfileDropdown = false}
+                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                               role="menuitem" tabindex="-1"
+                               id="user-menu-item-1">API Tokens</a>
 
-                        <button use:inertia={{ href: route('logout'), method: 'post' }}
-                                on:click={() => showProfileDropdown = false}
-                                type="button"
-                                class="block px-4 py-2 w-full text-left text-sm text-gray-700 hover:bg-gray-50"
-                                role="menuitem" tabindex="-1" id="user-menu-item-2">
-                            Log Out
-                        </button>
-                    </div>
-                {/if}
+                            <button use:inertia={{ href: route('logout'), method: 'post' }}
+                                    on:click={() => showProfileDropdown = false}
+                                    type="button"
+                                    class="block px-4 py-2 w-full text-left text-sm text-gray-700 hover:bg-gray-50"
+                                    role="menuitem" tabindex="-1" id="user-menu-item-2">
+                                Log Out
+                            </button>
+                        </div>
+                    {/if}
+                </div>
             </div>
         </div>
-    </div>
+    {/if}
 
-    <main class="flex-1">
+    <main class="relative flex-1">
+        <div class="flex items-center p-4">
+            {#if !showSidebar}
+                <button on:click={() => showSidebar = toggleSidebar()} type="button"
+                        title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
+                        in:fade={{ delay: 450, duration: 200, easing: cubicIn }}
+                        out:fade={{ delay: 150, duration: 200, easing: cubicOut }}
+                        class="py-1.5 px-2 bg-white shadow-sm rounded-md ring-1 ring-gray-200 transition hover:bg-gray-50">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                         class="w-6 h-6 text-gray-600 transition duration-300 delay-150">
+                        <rect width="24" height="24" fill="none"/>
+                        <rect x="2" y="3" width="20.3012" height="18.3152" rx="3" stroke="currentColor" stroke-width="2"
+                              stroke-linejoin="round"/>
+                        <path d="M2 6C2 4.34314 3.34315 3 5 3H10.1646V21.3152H5C3.34315 21.3152 2 19.9721 2 18.3152V6Z"
+                              fill="currentColor"/>
+                    </svg>
+                </button>
+            {/if}
+
+            <div class="py-1.5">
+                <div class="h-6"></div>
+            </div>
+        </div>
+
         <slot/>
     </main>
 </div>

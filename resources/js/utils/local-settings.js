@@ -11,6 +11,10 @@ function setLocalSettings(name, settingsToSet) {
         case 'openedGroups':
             settings.openedGroups = settingsToSet;
             break;
+
+        case 'sidebarIsOpen':
+            settings.sidebarIsOpen = settingsToSet;
+            break;
     }
 
     localStorage.setItem('servas_settings', JSON.stringify(settings));
@@ -38,4 +42,20 @@ function toggleOpenedGroup(group) {
     return openedGroups;
 }
 
-export {getOpenedGroups, toggleOpenedGroup};
+function sidebarIsOpen() {
+    const settings = getLocalSettings();
+
+    return settings.sidebarIsOpen ?? true;
+}
+
+function toggleSidebar() {
+    let showSidebar = sidebarIsOpen();
+
+    showSidebar = !showSidebar;
+
+    setLocalSettings('sidebarIsOpen', showSidebar);
+
+    return showSidebar;
+}
+
+export {getOpenedGroups, toggleOpenedGroup, sidebarIsOpen, toggleSidebar};

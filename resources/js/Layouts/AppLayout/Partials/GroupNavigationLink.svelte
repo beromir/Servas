@@ -15,7 +15,8 @@
 
 <div>
     <div class="flex items-center">
-        <button on:click={() => openedGroups = toggleOpenedGroup(group.id)} type="button" class="transition duration-100 group"
+        <button on:click={() => openedGroups = toggleOpenedGroup(group.id)} type="button"
+                class="transition duration-100 group"
                 class:invisible={group.childGroupsCount === 0} class:rotate-90={openedGroups.includes(group.id)}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                  class="w-6 h-6 fill-gray-300 group-hover:fill-gray-200">
@@ -26,7 +27,7 @@
         </button>
 
         <Link href={route('groups.show', group.id)}
-              class={clsx('flex justify-between items-center ml-1 py-1.5 px-3 w-full text-sm text-white font-medium rounded-md hover:bg-white/10', currentGroupId === group.id && 'bg-white/10')}>
+              class={clsx('flex justify-between items-center ml-1 py-1.5 px-3 w-full text-sm text-white font-medium truncate rounded-md hover:bg-white/10', currentGroupId === group.id && 'bg-white/10')}>
             {group.title}
 
             {#if group.linksCount}
