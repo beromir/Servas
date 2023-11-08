@@ -110,6 +110,17 @@
                     </button>
                 </div>
 
+                <nav class="mt-8">
+                    <ul class="space-y-4">
+                        <li>
+                            <Link href={route('links.index')} class="text-white font-medium">Home</Link>
+                        </li>
+                        <li>
+                            <Link href={route('tags.index')} class="text-white font-medium">Tags</Link>
+                        </li>
+                    </ul>
+                </nav>
+
                 <div class="flex justify-between items-center mt-12">
                     <div class="text-xs text-gray-200 font-semibold uppercase">Groups</div>
 
