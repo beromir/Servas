@@ -39,7 +39,7 @@
     </div>
 
     {#if group.childGroupsCount > 0 && openedGroups.includes(group.id)}
-        <div class="flex flex-col gap-y-2 mt-1 ml-6" transition:fade={{ duration: 100 }}>
+        <div class="flex flex-col gap-y-2 mt-1 ml-6" transition:fade|local={{ duration: 100 }}>
             {#each groups.filter((singleGroup) => singleGroup.parentGroupId === group.id) as childGroup}
                 <svelte:self group={childGroup} groups={groups}/>
             {/each}
