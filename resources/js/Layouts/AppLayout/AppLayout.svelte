@@ -43,15 +43,26 @@
     };
 
     function handleKeydown(event) {
-        if ((event.key === 'f') && (event.target.tagName !== 'INPUT')) {
-            if (event.metaKey || event.altKey || event.shiftKey || event.ctrlKey) {
-                return;
-            }
+        if (event.target.tagName === 'INPUT') {
+            return;
+        }
 
-            event.preventDefault();
-            event.stopPropagation();
+        if (event.metaKey || event.altKey || event.shiftKey || event.ctrlKey) {
+            return;
+        }
 
-            dispatchCustomEvent('showCommandPalette');
+        event.preventDefault();
+        event.stopPropagation();
+
+        event.key === 'f'
+
+        switch (event.key) {
+            case 'f':
+                dispatchCustomEvent('showCommandPalette');
+                break;
+            case 'm':
+                showSidebar = !showSidebar;
+                break;
         }
     }
 
