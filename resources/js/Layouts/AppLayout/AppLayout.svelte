@@ -88,7 +88,7 @@
     {#if showSidebar}
         <div in:slide={{ delay: 150, duration: 300, axis: 'x', easing: cubicOut }}
              out:slide={{ delay: 250, duration: 500, axis: 'x', easing: cubicOut }}
-             class="sticky top-0 flex-none w-[300px] h-screen">
+             class="fixed top-0 z-50 flex-none w-[300px] h-screen lg:sticky">
             <div class="flex flex-col p-4 w-full h-full bg-gray-800 shadow">
                 <div class="flex items-center">
                     <!-- Sidebar toggle -->
