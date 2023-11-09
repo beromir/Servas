@@ -61,7 +61,7 @@
                 dispatchCustomEvent('showCommandPalette');
                 break;
             case 'm':
-                showSidebar = !showSidebar;
+                showSidebar = toggleSidebar();
                 break;
         }
     }
