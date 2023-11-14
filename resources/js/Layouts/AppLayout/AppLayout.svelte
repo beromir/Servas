@@ -102,8 +102,8 @@
                                   stroke-width="2"
                                   stroke-linejoin="round"/>
                             <path
-                                d="M2 6C2 4.34314 3.34315 3 5 3H10.1646V21.3152H5C3.34315 21.3152 2 19.9721 2 18.3152V6Z"
-                                fill="currentColor"/>
+                                    d="M2 6C2 4.34314 3.34315 3 5 3H10.1646V21.3152H5C3.34315 21.3152 2 19.9721 2 18.3152V6Z"
+                                    fill="currentColor"/>
                         </svg>
                     </button>
 
@@ -122,12 +122,12 @@
                 </div>
 
                 <nav class="mt-8">
-                    <ul class="space-y-4">
+                    <ul class="space-y-2">
                         <li>
-                            <Link href={route('links.index')} class="text-white font-medium">Home</Link>
+                            <DesktopMenuItem title="Home" url={route('links.index')}/>
                         </li>
                         <li>
-                            <Link href={route('tags.index')} class="text-white font-medium">Tags</Link>
+                            <DesktopMenuItem title="Tags" url={route('tags.index')}/>
                         </li>
                     </ul>
                 </nav>
@@ -160,7 +160,7 @@
                         <span class="sr-only">Open user menu</span>
                         <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                             <path
-                                d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                    d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
                         </svg>
                     </button>
 
