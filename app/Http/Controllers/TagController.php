@@ -115,11 +115,12 @@ class TagController extends Controller
     {
         $locale = $locale ?? Tag::getLocale();
 
-        return Tag::where(function (Builder $query) use ($names, $locale) {
-            foreach ($names as $name) {
-                $query->orWhere("name->$locale", $name);
-            }
-        })
+        return Tag::filterByCurrentUser()
+            ->where(function (Builder $query) use ($names, $locale) {
+                foreach ($names as $name) {
+                    $query->orWhere("name->$locale", $name);
+                }
+            })
             ->get()
             ->transform(fn(Tag $tag) => [
                 'id' => $tag->id,
