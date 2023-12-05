@@ -32,10 +32,8 @@
     }
 </script>
 
-<Main>
+<Main title={group.title}>
     <svelte:fragment slot="toolbar">
-        <h1 class="text-3xl text-gray-900 font-bold">{group.title}</h1>
-
         <div class="relative inline-flex mr-6 ml-auto">
             <button on:click={() => showMenuDropdown = !showMenuDropdown} type="button"
                     class="text-gray-600 hover:text-gray-900">

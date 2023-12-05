@@ -1,11 +1,17 @@
 <script>
     import Button from "@/Components/Buttons/Button.svelte";
     import {dispatchCustomEvent} from "@/utils";
+
+    export let title = '';
 </script>
 
 <div class="max-w-7xl mx-auto pt-4 pb-12 sm:px-6 lg:px-8">
 
-    <div class="px-4 pb-4 w-full sm:flex justify-between border-b-2 border-gray-200 sm:px-0">
+    <div class="px-4 pb-4 w-full sm:flex justify-between border-b-2 sm:px-0"
+         class:border-transparent={!title} class:border-gray-200={title}>
+        {#if title}
+            <h1 class="text-3xl text-gray-900 font-bold">{title}</h1>
+        {/if}
         <slot name="toolbar">
             <div></div>
         </slot>
