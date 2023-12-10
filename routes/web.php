@@ -36,8 +36,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     ]);
 
     Route::resource('groups', GroupController::class)->except([
-        'create', 'edit',
+        'create', 'edit', 'index',
     ]);
+
+    Route::get('/groups', function () {
+        return to_route('links.index');
+    });
 
     Route::get('/all-tags', [TagController::class, 'getAllTags']);
     Route::get('/all-groups', [GroupController::class, 'getAllGroups']);

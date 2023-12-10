@@ -22,26 +22,6 @@ class GroupController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index(): Response
-    {
-        return Inertia::render('Groups/Index', [
-            'groups' => Group::filterByCurrentUser()
-                ->orderBy('title')
-                ->where('parent_group_id', null)
-                ->withCount(['links', 'groups'])
-                ->get()
-                ->transform(fn(Group $group) => [
-                    'id' => $group->id,
-                    'title' => $group->title,
-                    'childGroupsCount' => $group->groups_count,
-                    'linksCount' => $group->links_count,
-                ]),
-        ]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
