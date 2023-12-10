@@ -99,6 +99,7 @@
         }
 
         router.get(route(route().current(), {
+            group: route().params.group,
             tags: $linkFilter.tags.length ? $linkFilter.tags.map(item => item.name).join(',') : null,
             search: searchString,
             untaggedOnly: $linkFilter.showUntaggedOnly ? true : null,

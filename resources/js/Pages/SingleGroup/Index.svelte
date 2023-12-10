@@ -14,8 +14,10 @@
     import InnerDropdownSection from "@/Components/Dropdowns/InnerDropdownSection.svelte";
 
     export let group = {};
-    export let parentGroups = [];
     export let links = [];
+    export let searchString = '';
+    export let filteredTags = [];
+    export let showUntaggedOnly = false;
 
     let showMenuDropdown = false;
 
@@ -67,7 +69,7 @@
     <div class="mt-6">
 
         {#if links.length !== 0}
-            <LinkList {links}/>
+            <LinkList {links} {searchString} {filteredTags} {showUntaggedOnly}/>
         {/if}
     </div>
 </Main>

@@ -43,6 +43,11 @@ class GroupController extends Controller
     public function show(int $groupId): Response|RedirectResponse
     {
         $group = Group::filterByCurrentUser()->find($groupId);
+        $searchString = Request::get('search') ?? '';
+        $filteredTags = Request::get('tags') ?? '';
+        $showUntaggedOnly = Request::get('untaggedOnly') ?? false;
+
+        $filteredTags = empty($filteredTags) ? [] : explode(',', $filteredTags);
 
         if ($group === null) {
             return Redirect::route('home');
@@ -54,16 +59,18 @@ class GroupController extends Controller
                 'id' => $group->id,
                 'parentGroupId' => $group->parent_group_id,
             ],
-            'parentGroups' => $this->getAllParentGroups($group),
             'links' => $group
                 ->links()
-                ->orderBy('created_at', 'desc')
-                ->paginate(20)
+                ->filterByCurrentUser()
+                ->filterLinks($searchString, $filteredTags, $showUntaggedOnly)
                 ->through(fn(Link $link) => [
                     'title' => $link->title,
                     'link' => $link->link,
                     'id' => $link->id,
                 ]),
+            'searchString' => $searchString,
+            'filteredTags' => $filteredTags ? TagController::getTagsByNames($filteredTags) : [],
+            'showUntaggedOnly' => $showUntaggedOnly,
         ]);
     }
 
