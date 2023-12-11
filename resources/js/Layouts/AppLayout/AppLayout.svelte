@@ -135,7 +135,7 @@
                 <div class="flex justify-between items-center mt-12">
                     <div class="text-xs text-gray-200 font-semibold uppercase">Groups</div>
 
-                    <button on:click={() => dispatchCustomEvent('createGroup')} type="button"
+                    <button on:click={() => dispatchCustomEvent('createGroup', $page.props.group?.id)} type="button"
                             class="rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                              class="w-6 h-6 fill-gray-100 hover:fill-white">
