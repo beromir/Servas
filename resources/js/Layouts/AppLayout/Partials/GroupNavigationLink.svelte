@@ -4,6 +4,7 @@
     import {fade} from "svelte/transition";
     import clsx from "clsx";
     import {getOpenedGroups, toggleOpenedGroup} from "@/utils/local-settings.js";
+    import {closeSidebar} from "@/utils/sidebar.js";
 
     export let group = null;
     export let groups = [];
@@ -26,7 +27,7 @@
             </svg>
         </button>
 
-        <Link href={route('groups.show', group.id)}
+        <Link href={route('groups.show', group.id)} on:click={closeSidebar}
               class={clsx('flex justify-between items-center ml-1 py-1.5 px-3 w-full text-sm text-white font-medium truncate rounded-md hover:bg-white/10', currentGroupId === group.id && 'bg-white/10')}>
             {group.title}
 

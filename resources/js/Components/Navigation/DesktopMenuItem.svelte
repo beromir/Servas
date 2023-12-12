@@ -1,6 +1,7 @@
 <script>
     import {Link, page} from "@inertiajs/svelte";
     import clsx from "clsx";
+    import {closeSidebar} from "@/utils/sidebar.js";
 
     export let title;
     export let url;
@@ -20,7 +21,7 @@
     }
 </script>
 
-<Link href={url}
+<Link href={url} on:click={closeSidebar}
       class={clsx('block py-1.5 px-3 text-white font-medium rounded-md hover:bg-white/10', isCurrentPage ? 'bg-white/10' : '', $$restProps.class)}>
     {title}
 </Link>

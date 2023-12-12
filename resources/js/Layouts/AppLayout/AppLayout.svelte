@@ -72,10 +72,11 @@
     <title>{$title ? `${$title} | ${appName}` : appName}</title>
 </svelte:head>
 
-<svelte:window on:keydown={handleKeydown}/>
+<svelte:window on:keydown={handleKeydown} on:toggleSidebar={() => showSidebar = toggleSidebar()}/>
 
 <div class="flex min-h-screen">
     {#if showSidebar}
+        <!-- Background overlay -->
         <div on:click={() => showSidebar = toggleSidebar()}
              on:keydown={() => showSidebar = toggleSidebar()}
              tabindex="0" role="button"
