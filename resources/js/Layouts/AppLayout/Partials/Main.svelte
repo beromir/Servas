@@ -10,7 +10,7 @@
     <div class="flex px-4 pb-4 w-full justify-between items-center border-b-2 sm:px-0"
          class:border-transparent={!title} class:border-gray-200={title}>
         {#if title}
-            <h1 class="text-2xl text-gray-900 font-bold md:text-3xl">{title}</h1>
+            <h1 class="text-3xl text-gray-900 font-bold">{title}</h1>
         {/if}
         <slot name="toolbar">
             <div></div>
