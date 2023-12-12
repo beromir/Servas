@@ -13,8 +13,6 @@
     import DesktopMenuItem from "@/Components/Navigation/DesktopMenuItem.svelte";
     import DeleteTagModel from "@/Partials/DeleteTagModel.svelte";
     import CommandPalette from "@/Partials/CommandPalette.svelte";
-    import Logo from "@/Components/Icons/Logo.svelte";
-    import MobileMenuItem from "@/Components/Navigation/MobileMenuItem.svelte";
     import DeleteGroupModal from "@/Partials/DeleteGroupModal.svelte";
     import TagSelectMenu from "@/Partials/TagSelectMenu.svelte";
     import {onMount} from "svelte";
@@ -23,24 +21,16 @@
     import GroupModal from "@/Partials/GroupModal.svelte";
     import {refreshGroups} from "@/stores.js";
     import {slide, fade} from "svelte/transition";
-    import {cubicOut, cubicIn} from "svelte/easing";
+    import {cubicIn, cubicOut} from "svelte/easing";
     import {sidebarIsOpen, toggleSidebar} from "@/utils/local-settings.js";
 
     const appName = $page.props.appName;
 
-    let showMobileMenu = false;
     let showProfileDropdown = false;
-    let showMobileAccountMenu = false;
     let groups = [];
     let showSidebar = sidebarIsOpen();
 
-    $: if (showMobileMenu) showMobileAccountMenu = false;
     $: $refreshGroups && getAllGroups();
-
-    const showCommandPaletteOnMobile = () => {
-        dispatchCustomEvent('showCommandPalette');
-        showMobileMenu = false;
-    };
 
     function handleKeydown(event) {
         if (event.target.tagName === 'INPUT') {
@@ -86,6 +76,15 @@
 
 <div class="flex min-h-screen">
     {#if showSidebar}
+        <div on:click={() => showSidebar = toggleSidebar()}
+             on:keydown={() => showSidebar = toggleSidebar()}
+             tabindex="0" role="button"
+             in:fade={{ delay: 150, duration: 200, easing: cubicOut }}
+             out:fade={{ delay: 250, duration: 100, easing: cubicIn }}
+             class="absolute inset-0 z-40 bg-gray-500/40 lg:hidden"></div>
+    {/if}
+
+    {#if showSidebar}
         <div in:slide={{ delay: 150, duration: 300, axis: 'x', easing: cubicOut }}
              out:slide={{ delay: 250, duration: 500, axis: 'x', easing: cubicOut }}
              class="fixed top-0 z-50 flex-none w-[300px] h-screen lg:sticky">
@@ -102,8 +101,8 @@
                                   stroke-width="2"
                                   stroke-linejoin="round"/>
                             <path
-                                    d="M2 6C2 4.34314 3.34315 3 5 3H10.1646V21.3152H5C3.34315 21.3152 2 19.9721 2 18.3152V6Z"
-                                    fill="currentColor"/>
+                                d="M2 6C2 4.34314 3.34315 3 5 3H10.1646V21.3152H5C3.34315 21.3152 2 19.9721 2 18.3152V6Z"
+                                fill="currentColor"/>
                         </svg>
                     </button>
 
@@ -160,7 +159,7 @@
                         <span class="sr-only">Open user menu</span>
                         <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                             <path
-                                    d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
                         </svg>
                     </button>
 
@@ -170,17 +169,19 @@
                              role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
                              tabindex="-1">
 
-                            <a href={route('profile.show')} use:inertia
-                               on:click={() => showProfileDropdown = false}
-                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                               role="menuitem" tabindex="-1"
-                               id="user-menu-item-0">Your Profile</a>
+                            <Link href={route('profile.show')}
+                                  on:click={() => showProfileDropdown = false}
+                                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                  role="menuitem" tabindex="-1"
+                                  id="user-menu-item-0">Your Profile
+                            </Link>
 
-                            <a href={route('api-tokens.index')} use:inertia
-                               on:click={() => showProfileDropdown = false}
-                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                               role="menuitem" tabindex="-1"
-                               id="user-menu-item-1">API Tokens</a>
+                            <Link href={route('api-tokens.index')}
+                                  on:click={() => showProfileDropdown = false}
+                                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                  role="menuitem" tabindex="-1"
+                                  id="user-menu-item-1">API Tokens
+                            </Link>
 
                             <button use:inertia={{ href: route('logout'), method: 'post' }}
                                     on:click={() => showProfileDropdown = false}
