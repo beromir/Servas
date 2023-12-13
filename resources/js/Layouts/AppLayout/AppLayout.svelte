@@ -74,7 +74,7 @@
 
 <svelte:window on:keydown={handleKeydown} on:toggleSidebar={() => showSidebar = toggleSidebar()}/>
 
-<div class="flex pb-[env(safe-area-inset-bottom)] min-h-screen">
+<div class="flex min-h-screen">
     {#if showSidebar}
         <!-- Background overlay -->
         <div on:click={() => showSidebar = toggleSidebar()}
@@ -96,7 +96,7 @@
     {#if showSidebar}
         <div in:slide={{ duration: 200, axis: 'x', easing: cubicOut }}
              out:slide={{ duration: 300, axis: 'x', easing: cubicOut }}
-             class="fixed top-0 z-50 flex-none w-[300px] h-screen lg:sticky">
+             class="fixed top-0 z-50 flex-none pb-[env(safe-area-inset-bottom)] w-[300px] h-screen lg:sticky">
             <div class="flex flex-col p-4 w-full h-full bg-gray-800 shadow">
                 <div class="flex items-center">
                     <!-- Sidebar toggle -->
@@ -129,7 +129,7 @@
                     </button>
                 </div>
 
-                <nav class="mt-8">
+                <nav class="mt-4 sm:mt-8">
                     <ul class="space-y-2">
                         <li>
                             <DesktopMenuItem title="Home" url={route('links.index')}/>
@@ -140,7 +140,7 @@
                     </ul>
                 </nav>
 
-                <div class="flex justify-between items-center mt-12">
+                <div class="flex justify-between items-center mt-6 sm:mt-12">
                     <div class="text-xs text-gray-200 font-semibold uppercase">Groups</div>
 
                     <button on:click={() => dispatchCustomEvent('createGroup', $page.props.group?.id)} type="button"
@@ -206,7 +206,7 @@
         </div>
     {/if}
 
-    <main class="relative flex-1">
+    <main class="flex-1">
         <div class="hidden p-4 sm:flex sm:items-center">
             {#if !showSidebar}
                 <button on:click={() => showSidebar = toggleSidebar()} type="button"
