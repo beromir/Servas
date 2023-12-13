@@ -5,9 +5,9 @@
     export let title = '';
 </script>
 
-<div class="max-w-7xl mx-auto pt-4 pb-12 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto pb-12 sm:pt-4 sm:px-6 lg:px-8">
 
-    <div class="flex px-4 pb-4 w-full justify-between items-center border-b-2 sm:px-0"
+    <div class="flex p-4 w-full justify-between items-center bg-white shadow sm:px-0 sm:pt-0 sm:bg-transparent sm:border-b-2 sm:shadow-none"
          class:border-transparent={!title} class:border-gray-200={title}>
         {#if title}
             <h1 class="text-3xl text-gray-900 font-bold">{title}</h1>

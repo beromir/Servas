@@ -85,6 +85,14 @@
              class="absolute inset-0 z-40 bg-gray-500/40 lg:hidden"></div>
     {/if}
 
+    <button on:click={() => showSidebar = toggleSidebar()} type="button"
+            class="fixed bottom-[env(safe-area-inset-bottom)] left-4 z-10 mb-4 py-1.5 px-2 text-gray-100 bg-gray-800 rounded-md shadow sm:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+             class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+        </svg>
+    </button>
+
     {#if showSidebar}
         <div in:slide={{ duration: 200, axis: 'x', easing: cubicOut }}
              out:slide={{ duration: 300, axis: 'x', easing: cubicOut }}
@@ -94,7 +102,7 @@
                     <!-- Sidebar toggle -->
                     <button on:click={() => showSidebar = toggleSidebar()} type="button"
                             title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
-                            class="py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500">
+                            class="hidden py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500 sm:block">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                              class="w-6 h-6">
                             <rect width="24" height="24" fill="none"/>
@@ -199,7 +207,7 @@
     {/if}
 
     <main class="relative flex-1">
-        <div class="flex items-center p-4">
+        <div class="hidden p-4 sm:flex sm:items-center">
             {#if !showSidebar}
                 <button on:click={() => showSidebar = toggleSidebar()} type="button"
                         title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
