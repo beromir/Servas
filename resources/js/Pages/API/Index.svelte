@@ -15,7 +15,7 @@
     $title = 'API Tokens';
 </script>
 
-<Main>
+<Main title="API Tokens">
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
             <ApiTokenManager {tokens} {availablePermissions} {defaultPermissions}/>
