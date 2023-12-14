@@ -175,7 +175,7 @@
                     </button>
                 </div>
 
-                <nav class="flex-grow px-4 h-full overflow-y-auto md:pt-2">
+                <nav class="flex-grow mb-[env(safe-area-inset-bottom)] px-4 pb-4 h-full overflow-y-auto md:pt-2">
                     <ul class="space-y-2">
                         <li>
                             <DesktopMenuItem title="Home" url={route('links.index')}/>
