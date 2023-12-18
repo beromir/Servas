@@ -48,7 +48,7 @@
             <div on:click|stopPropagation use:noScroll
                  in:scale={{duration: 300, start: 0.95, easing: backOut}}
                  out:scale={{duration: 200, start: 0.95, easing: backIn}}
-                 class={['inline-block align-bottom pb-[env(safe-area-inset-bottom)] w-full bg-white text-left overflow-hidden rounded-t-xl shadow-xl transform transition-all sm:my-8 sm:align-middle sm:rounded-lg',
+                 class={['inline-block align-bottom] w-full bg-white text-left overflow-hidden rounded-t-xl shadow-xl transform transition-all sm:my-8 sm:align-middle sm:rounded-lg',
                  getSizeClasses()].join(' ').trim()}
                  aria-hidden="true">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
