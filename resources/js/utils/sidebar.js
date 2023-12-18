@@ -1,7 +1,7 @@
 import {dispatchCustomEvent} from "@/utils/index.js";
 
 function closeSidebar() {
-    if (window.innerWidth > 1024) {
+    if (window.innerWidth >= 1024) {
         return;
     }
 
