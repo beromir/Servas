@@ -9,7 +9,7 @@
     import {inertia, Link, page} from '@inertiajs/svelte';
     import LinkModal from "@/Partials/LinkModal.svelte";
     import DeleteLinkModal from "@/Partials/DeleteLinkModal.svelte";
-    import {route, dispatchCustomEvent, clickOutside} from '@/utils';
+    import {route, dispatchCustomEvent} from '@/utils';
     import DesktopMenuItem from "@/Components/Navigation/DesktopMenuItem.svelte";
     import DeleteTagModel from "@/Partials/DeleteTagModel.svelte";
     import CommandPalette from "@/Partials/CommandPalette.svelte";
@@ -25,7 +25,7 @@
     import {sidebarIsOpen, toggleSidebar} from "@/utils/local-settings.js";
     import InnerDropdownSection from "@/Components/Dropdowns/InnerDropdownSection.svelte";
     import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
-    import DropdownItem from "@/Components/Dropdowns/DropdownItem.svelte";
+    import {closeSidebar} from "@/utils/sidebar.js";
 
     const appName = $page.props.appName;
 
@@ -89,7 +89,7 @@
     {/if}
 
     <button on:click={() => showSidebar = toggleSidebar()} type="button"
-            class="fixed bottom-4 left-4 z-10 p-2 text-gray-100 bg-gray-800 rounded-full shadow sm:hidden">
+            class="fixed bottom-5 left-5 z-10 p-2.5 text-gray-100 bg-gray-800 rounded-full shadow sm:hidden">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              class="w-8 h-8">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
@@ -135,14 +135,14 @@
                                   class="top-full !mt-0 !w-44 !origin-top-right">
                             <InnerDropdownSection>
                                 <Link href={route('profile.show')}
-                                      on:click={() => showProfileDropdown = false}
+                                      on:click={() => {showProfileDropdown = false; closeSidebar()}}
                                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-0">Your Profile
                                 </Link>
 
                                 <Link href={route('api-tokens.index')}
-                                      on:click={() => showProfileDropdown = false}
+                                      on:click={() => {showProfileDropdown = false; closeSidebar()}}
                                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-1">API Tokens
@@ -151,7 +151,7 @@
 
                             <InnerDropdownSection>
                                 <button use:inertia={{ href: route('logout'), method: 'post' }}
-                                        on:click={() => showProfileDropdown = false}
+                                        on:click={() => {showProfileDropdown = false; closeSidebar()}}
                                         type="button"
                                         class="flex items-center px-4 py-2 w-full text-sm text-gray-700 group hover:text-red-700 hover:bg-gray-50"
                                         role="menuitem" tabindex="-1" id="user-menu-item-2">
