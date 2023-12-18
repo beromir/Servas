@@ -31,10 +31,10 @@
 </script>
 
 {#if showModal}
+    <!-- FIXME: A11y -->
     <div {...$$restProps} on:keydown|stopPropagation={handleEsc}
-         class="fixed z-10 inset-0 overflow-y-auto"
-         role="dialog"
-         aria-modal="true">
+         tabindex="0" role="button"
+         class="fixed z-[100] inset-0 overflow-y-auto">
         <div class="flex items-end justify-center min-h-screen pt-12 text-center sm:block sm:p-0">
             <div on:click={() => {showModal = false; dispatch('canceled')}}
                  in:fade={{duration: 300, easing: backOut}}
@@ -48,7 +48,7 @@
             <div on:click|stopPropagation use:noScroll
                  in:scale={{duration: 300, start: 0.95, easing: backOut}}
                  out:scale={{duration: 200, start: 0.95, easing: backIn}}
-                 class={['inline-block align-bottom w-full bg-white text-left overflow-hidden rounded-t-xl shadow-xl transform transition-all sm:my-8 sm:align-middle sm:rounded-lg',
+                 class={['inline-block align-bottom] w-full bg-white text-left overflow-hidden rounded-t-xl shadow-xl transform transition-all sm:my-8 sm:align-middle sm:rounded-lg',
                  getSizeClasses()].join(' ').trim()}
                  aria-hidden="true">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">

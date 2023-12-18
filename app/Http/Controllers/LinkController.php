@@ -31,20 +31,12 @@ class LinkController extends Controller
         return Inertia::render('Links/Index', [
             'links' => Link::orderBy('created_at', 'desc')
                 ->filterByCurrentUser()
-                ->where(function ($query) use ($searchString) {
-                    $query->search('title', $searchString)
-                        ->additionalSearch('link', $searchString);
-                })
-                ->when($showUntaggedOnly, fn($query) => $query->whereDoesntHave('tags'))
-                ->when(!$showUntaggedOnly, fn($query) => $query->filterByTags($filteredTags))
-                ->paginate(20)
-                ->withQueryString()
+                ->filterLinks($searchString, $filteredTags, $showUntaggedOnly)
                 ->through(fn(Link $link) => [
                     'title' => $link->title,
-                    'link' => $link->link, PHP_URL_HOST,
+                    'link' => $link->link,
                     'id' => $link->id,
                 ]),
-            'tags' => TagController::getAllTags(),
             'searchString' => $searchString,
             'filteredTags' => $filteredTags ? TagController::getTagsByNames($filteredTags) : [],
             'showUntaggedOnly' => $showUntaggedOnly,

@@ -44,5 +44,17 @@ class AppServiceProvider extends ServiceProvider
         Builder::macro('filterByCurrentUser', function (string $userColumn = 'user_id') {
             return $this->where($userColumn, Auth::id());
         });
+
+        Builder::macro('filterLinks', function (string $searchString, array $filteredTags, bool $showUntaggedOnly) {
+            return $this->where(function ($query) use ($searchString) {
+                $query->search('title', $searchString)
+                    ->additionalSearch('link', $searchString);
+            })
+                ->when($showUntaggedOnly, fn($query) => $query->whereDoesntHave('tags'))
+                ->when(!$showUntaggedOnly, fn($query) => $query->filterByTags($filteredTags))
+                ->orderBy('created_at', 'desc')
+                ->paginate(20)
+                ->withQueryString();
+        });
     }
 }

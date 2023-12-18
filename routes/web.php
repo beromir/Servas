@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/', function () {
-        return redirect()->route('links.index');
+        return to_route('links.index');
     })->name('home');
 
     Route::resource('links', LinkController::class)->except([
@@ -36,8 +36,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     ]);
 
     Route::resource('groups', GroupController::class)->except([
-        'create', 'edit',
+        'create', 'edit', 'index',
     ]);
+
+    Route::get('/groups', function () {
+        return to_route('links.index');
+    });
 
     Route::get('/all-tags', [TagController::class, 'getAllTags']);
     Route::get('/all-groups', [GroupController::class, 'getAllGroups']);

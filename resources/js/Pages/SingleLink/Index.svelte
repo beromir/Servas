@@ -48,7 +48,7 @@
     }
 </script>
 
-<Main>
+<Main showHeader={false}>
     <div class="max-w-3xl mx-auto px-4 py-5 bg-white shadow sm:p-6 sm:rounded-lg">
         <div class="md:flex md:flex-row-reverse md:justify-between md:gap-8">
             <div class="flex justify-end md:-mt-1.5 md:h-fit">

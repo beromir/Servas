@@ -22,26 +22,6 @@ class GroupController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index(): Response
-    {
-        return Inertia::render('Groups/Index', [
-            'groups' => Group::filterByCurrentUser()
-                ->orderBy('title')
-                ->where('parent_group_id', null)
-                ->withCount(['links', 'groups'])
-                ->get()
-                ->transform(fn(Group $group) => [
-                    'id' => $group->id,
-                    'title' => $group->title,
-                    'childGroupsCount' => $group->groups_count,
-                    'linksCount' => $group->links_count,
-                ]),
-        ]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -63,9 +43,14 @@ class GroupController extends Controller
     public function show(int $groupId): Response|RedirectResponse
     {
         $group = Group::filterByCurrentUser()->find($groupId);
+        $searchString = Request::get('search') ?? '';
+        $filteredTags = Request::get('tags') ?? '';
+        $showUntaggedOnly = Request::get('untaggedOnly') ?? false;
+
+        $filteredTags = empty($filteredTags) ? [] : explode(',', $filteredTags);
 
         if ($group === null) {
-            return Redirect::route('groups.index');
+            return Redirect::route('home');
         }
 
         return Inertia::render('SingleGroup/Index', [
@@ -74,27 +59,18 @@ class GroupController extends Controller
                 'id' => $group->id,
                 'parentGroupId' => $group->parent_group_id,
             ],
-            'groups' => Group::filterByCurrentUser()
-                ->orderBy('title')
-                ->where('parent_group_id', $groupId)
-                ->withCount(['links', 'groups'])
-                ->get()
-                ->transform(fn(Group $group) => [
-                    'id' => $group->id,
-                    'title' => $group->title,
-                    'childGroupsCount' => $group->groups_count,
-                    'linksCount' => $group->links_count,
-                ]),
-            'parentGroups' => $this->getAllParentGroups($group),
             'links' => $group
                 ->links()
-                ->orderBy('created_at', 'desc')
-                ->paginate(20)
+                ->filterByCurrentUser()
+                ->filterLinks($searchString, $filteredTags, $showUntaggedOnly)
                 ->through(fn(Link $link) => [
                     'title' => $link->title,
                     'link' => $link->link,
                     'id' => $link->id,
                 ]),
+            'searchString' => $searchString,
+            'filteredTags' => $filteredTags ? TagController::getTagsByNames($filteredTags) : [],
+            'showUntaggedOnly' => $showUntaggedOnly,
         ]);
     }
 
@@ -154,13 +130,14 @@ class GroupController extends Controller
     {
         return Group::orderBy('title')
             ->filterByCurrentUser()
-            ->withCount('groups')
+            ->withCount(['groups', 'links'])
             ->get()
             ->transform(fn(Group $group) => [
                 'id' => $group->id,
                 'title' => $group->title,
                 'parentGroupId' => $group->parent_group_id,
                 'childGroupsCount' => $group->groups_count,
+                'linksCount' => $group->links_count,
             ]);
     }
 }

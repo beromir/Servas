@@ -19,7 +19,7 @@
             preserveScroll: true,
             onSuccess: () => {
                 showModal = false;
-                $refreshGroups = true;
+                refreshGroups.update();
             },
         });
     }
