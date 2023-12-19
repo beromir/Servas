@@ -75,7 +75,7 @@ npm install
 4. Compile the assets.
 
 ```shell
-npm run prod
+npm run build
 ```
 
 5. Create `.env` file from the `.env.example` file.
