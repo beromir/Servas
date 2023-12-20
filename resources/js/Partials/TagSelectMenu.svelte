@@ -139,7 +139,7 @@
                     </button>
                 {/if}
             {:else}
-                <li class="py-2.5 px-4 text-gray-600 text-center">No tags found</li>
+                <p class="col-span-2 py-2.5 px-4 text-gray-600 text-center">No tags found</p>
             {/each}
         </div>
 
