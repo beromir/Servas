@@ -12,6 +12,7 @@
     let showModal = false;
     let showUntaggedButton = false;
     let showUntagged = false;
+    let searchInput = null;
 
     $: showUntaggedButton = mode === Mode.Filter;
 
@@ -103,6 +104,11 @@
         }
     }
 
+    function resetSearch() {
+        searchInput.value = '';
+        filteredTags = tags;
+    }
+
     function cancel() {
         showModal = false;
         internalSelectedTags = [];
@@ -120,9 +126,34 @@
         </button>
     </svelte:fragment>
 
-    <input on:input={(e) => search(e.target.value)} type="text" placeholder="Search tags ..."/>
+    <!-- Search input -->
+    <div class="relative">
+        <input on:input={(e) => search(e.target.value)} bind:this={searchInput} type="text" placeholder="Search tags..."
+               class="px-10 w-full border-0 border-b border-gray-100 peer focus:border-primary-200 focus:outline-none focus:ring-0"/>
 
-    <div class="relative mt-5">
+        <div class="absolute inset-y-0 left-2 flex items-center text-gray-300 peer-focus:text-primary-600">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                <path fill-rule="evenodd"
+                      d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+
+        {#if searchInput?.value}
+            <div class="absolute inset-y-0 right-2 flex items-center text-gray-500 hover:text-gray-600">
+                <button on:click={resetSearch} type="button" title="Clear search">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" data-slot="icon"
+                         class="size-4">
+                        <path fill-rule="evenodd"
+                              d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+        {/if}
+    </div>
+
+    <div class="relative mt-8">
         <div class="grid grid-cols-2 gap-y-4 gap-x-2 mt-3 pb-10">
             {#each filteredTags as tag (tag.id)}
                 {#if getIndexOfTagId(tag.id, internalSelectedTags) !== -1}
