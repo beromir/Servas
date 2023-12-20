@@ -27,7 +27,7 @@
     getColors(), $$restProps.class].join(' ').trim()}
     use:focusSelf={focusButton}>
     {#if $$slots.icon}
-        <span class={['h-5 w-5', title ? '-ml-1 mr-2' : ''].join(' ').trim()}>
+        <span class={['size-5', title ? '-ml-1 mr-2' : ''].join(' ').trim()}>
             <slot name="icon"/>
         </span>
     {/if}

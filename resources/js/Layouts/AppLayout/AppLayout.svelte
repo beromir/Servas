@@ -91,7 +91,7 @@
     <button on:click={() => showSidebar = toggleSidebar()} type="button"
             class="fixed bottom-5 left-5 z-10 p-2.5 text-gray-100 bg-gray-800 rounded-full shadow sm:hidden">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-             class="w-8 h-8">
+             class="size-8">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
         </svg>
     </button>
@@ -107,7 +107,7 @@
                             title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
                             class="hidden py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500 sm:block">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                             class="w-6 h-6">
+                             class="size-6">
                             <rect width="24" height="24" fill="none"/>
                             <rect x="2" y="3" width="20.3012" height="18.3152" rx="3" stroke="currentColor"
                                   stroke-width="2"
@@ -125,7 +125,7 @@
                                 class="py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500">
                             <span class="sr-only">Open user menu</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" class="w-6 h-6">
+                                 stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                       d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
@@ -156,7 +156,7 @@
                                         class="flex items-center px-4 py-2 w-full text-sm text-gray-700 group hover:text-red-700 hover:bg-gray-50"
                                         role="menuitem" tabindex="-1" id="user-menu-item-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                         class="mr-3 h-5 w-5 text-gray-400 group-hover:text-red-500">
+                                         class="mr-3 size-5 text-gray-400 group-hover:text-red-500">
                                         <path fill-rule="evenodd"
                                               d="M3 4.25A2.25 2.25 0 0 1 5.25 2h5.5A2.25 2.25 0 0 1 13 4.25v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 0-.75-.75h-5.5a.75.75 0 0 0-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 0 0 .75-.75v-2a.75.75 0 0 1 1.5 0v2A2.25 2.25 0 0 1 10.75 18h-5.5A2.25 2.25 0 0 1 3 15.75V4.25Z"
                                               clip-rule="evenodd"/>
@@ -176,7 +176,7 @@
                             class="ml-auto py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500 sm:ml-1.5">
                         <span class="sr-only">Open search bar</span>
                         <!-- Heroicon name: outline/search -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24"
                              stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -200,7 +200,7 @@
                         <button on:click={() => dispatchCustomEvent('createGroup', $page.props.group?.id)} type="button"
                                 class="rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                 class="w-6 h-6 fill-gray-100 hover:fill-white">
+                                 class="size-6 fill-gray-100 hover:fill-white">
                                 <path fill-rule="evenodd"
                                       d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"
                                       clip-rule="evenodd"/>
@@ -227,7 +227,7 @@
                         out:fade={{ duration: 50, easing: cubicIn }}
                         class="py-1.5 px-2 bg-white shadow-sm rounded-md ring-1 ring-gray-200 transition hover:bg-gray-50">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                         class="w-6 h-6 text-gray-600 transition duration-300 delay-150">
+                         class="size-6 text-gray-600 transition duration-300 delay-150">
                         <rect width="24" height="24" fill="none"/>
                         <rect x="2" y="3" width="20.3012" height="18.3152" rx="3" stroke="currentColor" stroke-width="2"
                               stroke-linejoin="round"/>

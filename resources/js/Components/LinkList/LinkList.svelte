@@ -128,7 +128,7 @@
         <div class="w-full sm:flex sm:items-center">
             <div class="relative rounded-md shadow-sm">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-gray-400" viewBox="0 0 20 20"
                          fill="currentColor">
                         <path fill-rule="evenodd"
                               d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
@@ -171,7 +171,7 @@
                 <button on:click={() => {removeFilteredTag(tag); $linkFilter.isActive = true}} type="button"
                         class="inline-flex items-center mr-2 mt-2 py-0.5 px-2.5 bg-primary-100 text-sm text-primary-800 font-medium rounded-full group">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="mr-1 -ml-1 w-4 h-4 fill-primary-500 rounded-full group-hover:fill-primary-700 group-hover:bg-primary-200/50">
+                         class="mr-1 -ml-1 size-4 fill-primary-500 rounded-full group-hover:fill-primary-700 group-hover:bg-primary-200/50">
                         <path
                             d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
                     </svg>
@@ -186,7 +186,7 @@
         <div class="flex items-center gap-x-4 mt-6 sm:flex-row-reverse">
             <button on:click={toggleBulkEditingMode} type="button"
                     class="group inline-flex items-center font-medium text-sm text-gray-700">
-                <svg class="mr-2 h-4 w-4 flex-none text-gray-400 group-hover:text-gray-500"
+                <svg class="mr-2 size-4 flex-none text-gray-400 group-hover:text-gray-500"
                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path
                         d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"/>
@@ -199,7 +199,7 @@
                     <button on:click={() => showBulkEditingDropdown = !showBulkEditingDropdown} type="button"
                             class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                         Action
-                        <svg class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                        <svg class="-mr-1 ml-1 size-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                              aria-hidden="true">
                             <path fill-rule="evenodd"
@@ -301,7 +301,7 @@
                     <a href={link.link} target="_blank" rel="noreferrer noopener nofollow" title="Open the link"
                        class="flex-none flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg"
-                             class="h-6 w-6 text-gray-300 hover:text-gray-500"
+                             class="size-6 text-gray-300 hover:text-gray-500"
                              fill="none" viewBox="0 0 24 24"
                              stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -316,7 +316,7 @@
         <div class="col-span-2 container mx-auto px-4 sm:px-0">
             <button on:click="{() => dispatchCustomEvent('prepareCreateNewLink')}" type="button"
                     class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:ring-offset-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none"
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto size-12 text-gray-400" fill="none"
                      viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>

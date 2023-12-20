@@ -185,7 +185,7 @@
             <!-- Empty state, show/hide based on command palette state. -->
             {#if (input && (input.value.length > 1 && !searchResults.length))}
                 <div class="py-14 px-4 text-center sm:px-14">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-6 w-6 text-gray-500" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto size-6 text-gray-500" fill="none"
                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>

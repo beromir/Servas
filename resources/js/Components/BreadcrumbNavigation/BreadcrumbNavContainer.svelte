@@ -13,7 +13,7 @@
         <li>
             <div>
                 <a href={homeLink} use:inertia class="text-gray-400 hover:text-gray-500">
-                    <div class="flex-shrink-0 h-5 w-5">
+                    <div class="flex-shrink-0 size-5">
                         <slot name="homeIcon"/>
                     </div>
                     <span class="sr-only">{navigationNameForSr}</span>

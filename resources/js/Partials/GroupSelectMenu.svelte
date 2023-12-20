@@ -165,7 +165,7 @@
         {#if showSelectView}
             <div class="flex gap-x-2">
                 <Button on:clicked={goBack} color="white" class="!ring-0 md:!w-full">
-                    <svg slot="icon" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                    <svg slot="icon" class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                          fill="currentColor">
                         <path fill-rule="evenodd"
                               d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
@@ -173,7 +173,7 @@
                     </svg>
                 </Button>
                 <Button on:clicked={() => filterByGroup(null)} color="white" class="!ring-0 md:!w-full">
-                    <svg slot="icon" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                    <svg slot="icon" class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                          fill="currentColor">
                         <path
                             d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
@@ -194,7 +194,7 @@
                                         {group.childGroupsCount}
                                     </div>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                         class="ml-0.5 w-5 h-5 text-gray-600">
+                                         class="ml-0.5 size-5 text-gray-600">
                                         <path fill-rule="evenodd"
                                               d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
                                               clip-rule="evenodd"/>
@@ -206,7 +206,7 @@
                         {#if getIndexOfGroupId(group.id, internalSelectedGroups) !== -1}
                             <div class="text-indigo-600 absolute inset-y-0 left-0 flex items-center pl-1.5">
                                 <!-- Heroicon name: solid/check -->
-                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                      fill="currentColor"
                                      aria-hidden="true">
                                     <path fill-rule="evenodd"
