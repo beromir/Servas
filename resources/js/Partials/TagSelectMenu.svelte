@@ -7,6 +7,7 @@
     let primaryButtonTitle = 'Save';
     let mode = '';
     let tags = [];
+    let filteredTags = [];
     let internalSelectedTags = [];          // property for internal use only; contains tag objects
     let showModal = false;
     let showUntaggedButton = false;
@@ -74,7 +75,8 @@
     async function getAllTags() {
         await axios.get('/all-tags')
             .then(response => {
-                tags = response.data
+                tags = response.data;
+                filteredTags = response.data;
             });
     }
 
@@ -91,6 +93,14 @@
 
     function getIndexOfTagId(tagId, arrayToSearch) {
         return arrayToSearch.findIndex(tag => tag.id === tagId);
+    }
+
+    function search(searchTerm) {
+        if (searchTerm) {
+            filteredTags = tags.filter(tag => tag.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        } else {
+            filteredTags = tags;
+        }
     }
 
     function cancel() {
@@ -110,9 +120,11 @@
         </button>
     </svelte:fragment>
 
+    <input on:input={(e) => search(e.target.value)} type="text" placeholder="Search tags ..."/>
+
     <div class="relative mt-5">
         <div class="grid grid-cols-2 gap-y-4 gap-x-2 mt-3 pb-10">
-            {#each tags as tag (tag.id)}
+            {#each filteredTags as tag (tag.id)}
                 {#if getIndexOfTagId(tag.id, internalSelectedTags) !== -1}
                     <button on:click|stopPropagation={() => selectTag(tag)} type="button"
                             class="flex items-center py-3 px-4 border border-primary-100 bg-primary-50 rounded-full hover:border-primary-200 focus:outline-none">
