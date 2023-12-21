@@ -57,7 +57,7 @@
                                 class="text-left text-primary-600 focus:outline-none sm:hidden" type="button">
                             Cancel
                         </button>
-                        <h3 class="col-span-3 text-lg leading-6 text-center font-semibold text-gray-900 sm:text-left">
+                        <h3 class="col-span-3 text-lg leading-6 text-center font-semibold text-gray-800 sm:text-left">
                             {title}
                         </h3>
                         <slot name="mobilePrimaryAction">
