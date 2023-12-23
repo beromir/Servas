@@ -3,6 +3,7 @@
     import {fade, scale} from 'svelte/transition';
     import {backIn, backOut} from 'svelte/easing';
     import {createEventDispatcher} from "svelte";
+    import clsx from "clsx";
 
     export let showModal;
     export let size = 'normal';
@@ -48,7 +49,7 @@
             <div on:click|stopPropagation use:noScroll
                  in:scale={{duration: 300, start: 0.95, easing: backOut}}
                  out:scale={{duration: 200, start: 0.95, easing: backIn}}
-                 class={['inline-block align-bottom] w-full bg-white text-left overflow-hidden rounded-t-xl shadow-xl transform transition-all sm:my-8 sm:align-middle sm:rounded-2xl',
+                 class={['inline-block align-bottom] w-full bg-white text-left overflow-hidden rounded-t-2xl shadow-xl transform transition-all sm:my-8 sm:align-middle sm:rounded-2xl',
                  getSizeClasses()].join(' ').trim()}
                  aria-hidden="true">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -68,8 +69,8 @@
                         <slot/>
                     </div>
                 </div>
-                <div class={[showFooterMenuOnMobile ? 'flex flex-col' : 'hidden sm:flex',
-                     'bg-gray-50 px-4 py-3 border-t border-gray-100 sm:flex-row-reverse sm:px-6'].join(' ').trim()}>
+                <div class={clsx(showFooterMenuOnMobile ? 'grid' : 'hidden sm:grid',
+                     'gap-x-4 gap-y-3 px-4 py-3 bg-gray-50 border-t border-gray-100 sm:grid-flow-col sm:auto-cols-fr sm:px-6')}>
                     <slot name="footer"/>
                 </div>
             </div>

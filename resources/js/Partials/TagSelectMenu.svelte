@@ -220,9 +220,9 @@
     </div>
 
     <svelte:fragment slot="footer">
-        <Button on:clicked={saveChanges} title={primaryButtonTitle}
-                class="focus:ring-offset-gray-50 sm:ml-3"/>
         <Button on:clicked={cancel} title="Cancel" color="white"
-                class="hidden mt-3 focus:ring-offset-gray-50 sm:inline-flex sm:mt-0"/>
+                class="focus:ring-offset-gray-50"/>
+        <Button on:clicked={saveChanges} title={primaryButtonTitle}
+                class="focus:ring-offset-gray-50"/>
     </svelte:fragment>
 </Modal>

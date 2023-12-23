@@ -33,8 +33,8 @@
 
     <svelte:fragment slot="footer">
         <Button on:clicked={actionButtonClicked} title={buttonText} color={buttonColor} focusButton={true}
-                class="focus:ring-offset-gray-50 sm:ml-3"/>
+                class="focus:ring-offset-gray-50"/>
         <Button on:clicked={() => showModal = false} title="Cancel" color="white"
-                class="hidden mt-3 focus:ring-offset-gray-50 sm:inline-flex sm:mt-0"/>
+                class="hidden focus:ring-offset-gray-50 sm:inline-flex"/>
     </svelte:fragment>
 </Modal>
