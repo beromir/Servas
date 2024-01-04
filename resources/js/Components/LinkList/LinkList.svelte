@@ -2,7 +2,6 @@
     import {dispatchCustomEvent, route, toggleValueInArray} from "@/utils";
     import Pagination from "@/Components/Pagination.svelte";
     import {Link, router} from "@inertiajs/svelte";
-    import SimpleModal from "@/Components/Modals/SimpleModal.svelte";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
     import DropdownItem from "@/Components/Dropdowns/DropdownItem.svelte";
     import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
@@ -11,6 +10,7 @@
     import {beforeUpdate, onDestroy} from "svelte";
     import {debounce} from "lodash";
     import Button from "@/Components/Buttons/Button.svelte";
+    import Modal from "@/Components/Modals/Modal.svelte";
 
     export let links = [];
     export let searchString = '';
@@ -18,9 +18,9 @@
     export let showUntaggedOnly = false;
 
     let groupSelectMenu;
-    let deleteLinksModal;
 
     let showBulkEditingDropdown = false;
+    let showLinkDeletionModal = false;
 
     let bulkEditingEnabled = false;
     let bulkEditingAction = '';
@@ -243,7 +243,7 @@
                             </DropdownItem>
                         </InnerDropdownSection>
                         <InnerDropdownSection>
-                            <DropdownItem on:clicked={deleteLinksModal.openModal} title="Delete links" color="alert">
+                            <DropdownItem on:clicked={() => showLinkDeletionModal = true} title="Delete links" color="alert">
                                 <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                      fill="currentColor">
                                     <path fill-rule="evenodd"
@@ -335,6 +335,16 @@
 {/if}
 <GroupSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={groupSelectMenu}
                  bind:selectedGroups/>
-<SimpleModal title="Delete selected links" description="Are you sure you want to delete the selected links?"
-             buttonText="Delete" buttonColor="red" bind:this={deleteLinksModal}
-             on:actionButtonClicked={() => bulkEditLinks('delete')}/>
+
+<Modal title="Delete selected links" bind:showModal={showLinkDeletionModal}>
+    <p class="text-sm text-gray-500">
+        Are you sure you want to delete the selected links?
+    </p>
+
+    <svelte:fragment slot="footer">
+        <Button on:clicked={() => showLinkDeletionModal = false} title="Cancel" color="white"
+                class="hidden focus:ring-offset-gray-50 sm:block"/>
+        <Button on:clicked={() => bulkEditLinks('delete')} title="Delete" color="red" focusButton={true}
+                class="focus:ring-offset-gray-50"/>
+    </svelte:fragment>
+</Modal>

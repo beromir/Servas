@@ -107,11 +107,11 @@
     </Container>
 
     <svelte:fragment slot="footer">
+        <Button on:clicked={() => showModal = false} title="Cancel" color="white"
+                class="focus:ring-offset-gray-50"/>
         <Button on:clicked={isEditing ? updateGroup : createGroup}
                 title={isEditing ? 'Edit group' : 'Create group'}
-                class="focus:ring-offset-gray-50 sm:ml-3"/>
-        <Button on:clicked={() => showModal = false} title="Cancel" color="white"
-                class="mt-3 focus:ring-offset-gray-50 sm:mt-0"/>
+                class="focus:ring-offset-gray-50"/>
     </svelte:fragment>
 </Modal>
 

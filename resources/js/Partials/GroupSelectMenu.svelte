@@ -137,7 +137,13 @@
     }
 </script>
 
-<Modal title="Select a group" bind:showModal>
+<Modal title="Select a group" bind:showModal showFooterMenuOnMobile={false}>
+    <svelte:fragment slot="mobilePrimaryAction">
+        <button on:click={saveChanges}
+                class="text-right text-primary-600 font-medium focus:outline-none sm:hidden" type="button">
+            Select
+        </button>
+    </svelte:fragment>
 
     <div class="border-b border-gray-200">
         <nav class="-mb-px flex space-x-8" aria-label="Tabs">
@@ -246,9 +252,9 @@
     </div>
 
     <svelte:fragment slot="footer">
-        <Button on:clicked={saveChanges} title="OK"
-                class="focus:ring-offset-gray-50 sm:ml-3"/>
         <Button on:clicked={() => showModal = false} title="Cancel" color="white"
-                class="hidden mt-3 focus:ring-offset-gray-50 sm:inline-flex sm:mt-0"/>
+                class="hidden focus:ring-offset-gray-50 sm:block"/>
+        <Button on:clicked={saveChanges} title="Select"
+                class="focus:ring-offset-gray-50"/>
     </svelte:fragment>
 </Modal>
