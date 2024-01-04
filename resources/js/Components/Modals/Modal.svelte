@@ -3,13 +3,13 @@
     import {fade, scale} from 'svelte/transition';
     import {backIn, backOut} from 'svelte/easing';
     import {createEventDispatcher} from "svelte";
+    import {clickOutside} from "@/utils";
     import clsx from "clsx";
 
     export let showModal;
     export let size = 'normal';
     export let showFooterMenuOnMobile = true;
     export let title = '';
-    export let fullWidthContent = false
 
     const dispatch = createEventDispatcher();
 
@@ -23,7 +23,7 @@
     };
 
     function handleEsc(event) {
-        if (event.key === 'Escape') {
+        if (showModal && event.key === 'Escape') {
             event.preventDefault();
             showModal = false;
             dispatch('canceled');
@@ -31,47 +31,49 @@
     }
 </script>
 
+<svelte:window on:keydown|stopPropagation={handleEsc}/>
+
 {#if showModal}
-    <!-- FIXME: A11y -->
-    <div {...$$restProps} on:keydown|stopPropagation={handleEsc}
-         tabindex="0" role="button"
-         class="fixed z-[100] inset-0 overflow-y-auto">
-        <div class="flex items-end justify-center min-h-screen pt-12 text-center sm:block sm:p-0">
-            <div on:click={() => {showModal = false; dispatch('canceled')}}
-                 in:fade={{duration: 300, easing: backOut}}
-                 out:fade={{duration: 200, easing: backIn}}
-                 class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                 aria-hidden="true"></div>
+    <div {...$$restProps} class="relative z-[100]">
+        <!-- Background overlay -->
+        <div in:fade={{duration: 300, easing: backOut}}
+             out:fade={{duration: 200, easing: backIn}}
+             class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+             aria-hidden="true"></div>
 
-            <!-- This element is to trick the browser into centering the modal contents. -->
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div class="fixed inset-0 w-full sm:overflow-y-auto">
+            <div class="flex min-h-full justify-center items-end sm:items-center sm:max-h-none">
+                <div on:click|stopPropagation use:noScroll use:clickOutside
+                     on:click_outside={() => {showModal = false; dispatch('canceled')}}
+                     in:scale={{duration: 300, start: 0.95, easing: backOut}}
+                     out:scale={{duration: 200, start: 0.95, easing: backIn}}
+                     class={clsx('mt-12 w-full bg-white text-left rounded-t-3xl shadow-xl overflow-hidden transform transition-all sm:my-8 sm:rounded-2xl', getSizeClasses())}
+                     aria-hidden="true">
+                    <div class="flex flex-col max-h-[calc(100dvh-3rem)] bg-white sm:pt-6 sm:max-h-none">
+                        <div
+                            class="fixed inset-x-0 top-0 z-10 grid grid-cols-5 items-end px-4 pt-4 pb-3 backdrop-blur-3xl sm:static sm:px-6 sm:py-0 sm:backdrop-blur-none">
+                            <button on:click={() => {showModal = false; dispatch('canceled')}}
+                                    class="text-left text-primary-600 focus:outline-none sm:hidden" type="button">
+                                Cancel
+                            </button>
+                            <h3 class="col-span-3 text-lg leading-6 text-center font-semibold text-gray-800 truncate sm:text-left">
+                                {title}
+                            </h3>
+                            <slot name="mobilePrimaryAction">
+                                <div></div>
+                            </slot>
+                        </div>
+                        <div class="flex-grow pt-12 overflow-y-auto sm:pt-5">
+                            <div class="px-4 pb-4 sm:px-6">
+                                <slot/>
+                            </div>
 
-            <div on:click|stopPropagation use:noScroll
-                 in:scale={{duration: 300, start: 0.95, easing: backOut}}
-                 out:scale={{duration: 200, start: 0.95, easing: backIn}}
-                 class={['inline-block align-bottom] w-full bg-white text-left overflow-hidden rounded-t-2xl shadow-xl transform transition-all sm:my-8 sm:align-middle sm:rounded-2xl',
-                 getSizeClasses()].join(' ').trim()}
-                 aria-hidden="true">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="grid grid-cols-5 items-end sm:block sm:items-center">
-                        <button on:click={() => {showModal = false; dispatch('canceled')}}
-                                class="text-left text-primary-600 focus:outline-none sm:hidden" type="button">
-                            Cancel
-                        </button>
-                        <h3 class="col-span-3 text-lg leading-6 text-center font-semibold text-gray-800 sm:text-left">
-                            {title}
-                        </h3>
-                        <slot name="mobilePrimaryAction">
-                            <div></div>
-                        </slot>
+                            <div
+                                class={clsx(showFooterMenuOnMobile ? 'grid' : 'hidden', 'gap-x-4 gap-y-3 px-4 py-3 bg-gray-50 border-t border-gray-100 overflow-auto sm:flex sm:justify-end sm:px-6')}>
+                                <slot name="footer"/>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-5" class:-mx-4={fullWidthContent} class:sm:-mx-6={fullWidthContent}>
-                        <slot/>
-                    </div>
-                </div>
-                <div class={clsx(showFooterMenuOnMobile ? 'grid' : 'hidden sm:grid',
-                     'gap-x-4 gap-y-3 px-4 py-3 bg-gray-50 border-t border-gray-100 sm:grid-flow-col sm:auto-cols-fr sm:px-6')}>
-                    <slot name="footer"/>
                 </div>
             </div>
         </div>
