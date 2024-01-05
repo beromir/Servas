@@ -44,7 +44,7 @@
             <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
             <div on:click={() => {showModal = false; dispatch('canceled')}}
                  class="flex min-h-full justify-center items-end sm:items-center sm:max-h-none">
-                <div on:click|stopPropagation
+                <div on:click|stopPropagation use:noScroll
                      in:scale={{duration: 300, start: 0.95, easing: backOut}}
                      out:scale={{duration: 200, start: 0.95, easing: backIn}}
                      class={clsx('mt-12 w-full bg-white text-left rounded-t-3xl shadow-xl overflow-hidden transform transition-all sm:my-8 sm:rounded-2xl', getSizeClasses())}
