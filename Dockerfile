@@ -9,7 +9,7 @@ RUN mkdir -p storage/framework/cache \
     && composer install --optimize-autoloader --no-dev
 
 
-FROM node:17.4-alpine As asset_builder
+FROM node:20.11-alpine As asset_builder
 WORKDIR /app
 
 COPY ./package.json ./
@@ -23,7 +23,7 @@ RUN npm install \
     && npm run build
 
 
-FROM php:fpm-alpine
+FROM php:8.3-fpm-alpine
 WORKDIR /var/www/html
 
 # Use the default production configuration
