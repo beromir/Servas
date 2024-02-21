@@ -4,7 +4,7 @@
     "description": "A self-hosted bookmark management tool",
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "doctrine/dbal": "^3.5.1",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^v0.6.0",
