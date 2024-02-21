@@ -187,10 +187,22 @@
                 <nav class="flex-grow px-4 pb-4 h-full overflow-y-auto md:pt-2">
                     <ul class="space-y-2">
                         <li>
-                            <DesktopMenuItem title="Home" url={route('links.index')}/>
+                            <DesktopMenuItem title="Home" url={route('links.index')}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                          d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                            </DesktopMenuItem>
                         </li>
                         <li>
-                            <DesktopMenuItem title="Tags" url={route('tags.index')}/>
+                            <DesktopMenuItem title="Tags" url={route('tags.index')}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                          d="M4.5 2A2.5 2.5 0 0 0 2 4.5v3.879a2.5 2.5 0 0 0 .732 1.767l7.5 7.5a2.5 2.5 0 0 0 3.536 0l3.878-3.878a2.5 2.5 0 0 0 0-3.536l-7.5-7.5A2.5 2.5 0 0 0 8.38 2H4.5ZM5 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                            </DesktopMenuItem>
                         </li>
                     </ul>
 
