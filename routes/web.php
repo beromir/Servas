@@ -5,6 +5,7 @@ use App\Http\Controllers\CsrfController;
 use App\Http\Controllers\DeleteUserDataController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\InboxController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\SearchController;
@@ -42,6 +43,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/groups', function () {
         return to_route('links.index');
     });
+
+    Route::get('/inbox', [InboxController::class, 'index'])->name('inbox.index');
 
     Route::get('/all-tags', [TagController::class, 'getAllTags']);
     Route::get('/all-groups', [GroupController::class, 'getAllGroups']);

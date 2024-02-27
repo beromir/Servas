@@ -16,6 +16,7 @@
     export let searchString = '';
     export let filteredTags = [];
     export let showUntaggedOnly = false;
+    export let showTagFilter = true;
 
     let groupSelectMenu;
 
@@ -146,26 +147,28 @@
                 </button>
             {/if}
 
-            <Button on:clicked={() => dispatchCustomEvent('filterTags')}
-                    title="Filter by tags" color="white" class="mt-4 sm:mt-0 sm:ml-6 sm:w-auto">
-                <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-gray-600">
-                    <path fill-rule="evenodd"
-                          d="M5.5 3A2.5 2.5 0 003 5.5v2.879a2.5 2.5 0 00.732 1.767l6.5 6.5a2.5 2.5 0 003.536 0l2.878-2.878a2.5 2.5 0 000-3.536l-6.5-6.5A2.5 2.5 0 008.38 3H5.5zM6 7a1 1 0 100-2 1 1 0 000 2z"
-                          clip-rule="evenodd"/>
-                </svg>
-            </Button>
-            {#if $linkFilter.showUntaggedOnly}
-                <button on:click={() => {$linkFilter.showUntaggedOnly = false; $linkFilter.isActive = true}}
-                        type="button"
-                        class="block mt-2 mx-auto text-sm text-gray-700 sm:mt-0 sm:mr-0 sm:ml-2">
-                    Show all
-                </button>
+            {#if showTagFilter}
+                <Button on:clicked={() => dispatchCustomEvent('filterTags')}
+                        title="Filter by tags" color="white" class="mt-4 sm:mt-0 sm:ml-6 sm:w-auto">
+                    <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-gray-600">
+                        <path fill-rule="evenodd"
+                              d="M5.5 3A2.5 2.5 0 003 5.5v2.879a2.5 2.5 0 00.732 1.767l6.5 6.5a2.5 2.5 0 003.536 0l2.878-2.878a2.5 2.5 0 000-3.536l-6.5-6.5A2.5 2.5 0 008.38 3H5.5zM6 7a1 1 0 100-2 1 1 0 000 2z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </Button>
+                {#if $linkFilter.showUntaggedOnly}
+                    <button on:click={() => {$linkFilter.showUntaggedOnly = false; $linkFilter.isActive = true}}
+                            type="button"
+                            class="block mt-2 mx-auto text-sm text-gray-700 sm:mt-0 sm:mr-0 sm:ml-2">
+                        Show all
+                    </button>
+                {/if}
             {/if}
         </div>
     </div>
 
     <!-- Tag filter list -->
-    {#if $linkFilter.tags.length}
+    {#if showTagFilter && $linkFilter.tags.length}
         <div class="mt-4">
             {#each $linkFilter.tags as tag (tag.id)}
                 <button on:click={() => {removeFilteredTag(tag); $linkFilter.isActive = true}} type="button"
@@ -243,7 +246,8 @@
                             </DropdownItem>
                         </InnerDropdownSection>
                         <InnerDropdownSection>
-                            <DropdownItem on:clicked={() => showLinkDeletionModal = true} title="Delete links" color="alert">
+                            <DropdownItem on:clicked={() => showLinkDeletionModal = true} title="Delete links"
+                                          color="alert">
                                 <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                      fill="currentColor">
                                     <path fill-rule="evenodd"

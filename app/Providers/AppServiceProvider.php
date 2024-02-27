@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
             return $this->where($userColumn, Auth::id());
         });
 
-        Builder::macro('filterLinks', function (string $searchString, array $filteredTags, bool $showUntaggedOnly) {
+        Builder::macro('filterLinks', function (string $searchString, array $filteredTags = [], bool $showUntaggedOnly = false) {
             return $this->where(function ($query) use ($searchString) {
                 $query->search('title', $searchString)
                     ->additionalSearch('link', $searchString);
