@@ -14,13 +14,15 @@ class InboxController extends Controller
      */
     public function index(): Response
     {
-        $searchString = Request::get('search') ?? '';
+        $searchString = Request::post('search') ?? '';
+        $showUntagged = Request::post('untagged') ?? true;
+        $showUngrouped = Request::post('ungrouped') ?? true;
 
         return Inertia::render('Inbox/Index', [
             'links' => Link::orderBy('created_at', 'desc')
                 ->filterByCurrentUser()
-                ->whereDoesntHave('tags')
-                ->whereDoesntHave('groups')
+                ->when($showUntagged, fn($query) => $query->whereDoesntHave('tags'))
+                ->when($showUngrouped, fn($query) => $query->whereDoesntHave('groups'))
                 ->filterLinks($searchString)
                 ->through(fn(Link $link) => [
                     'title' => $link->title,
