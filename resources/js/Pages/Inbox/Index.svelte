@@ -9,29 +9,52 @@
     import LinkList from "@/Components/LinkList/LinkList.svelte";
     import {router} from "@inertiajs/svelte";
     import {route} from "@/utils/index.js";
+    import Toggle from "@/Components/Toggles/Toggle.svelte";
 
     export let links = [];
-
-    let untagged = false;
-    let ungrouped = false;
+    export let searchString = '';
+    export let untagged = true;
+    export let ungrouped = true;
 
     $title = 'Inbox';
 
-    function filterLinks(searchString = '') {
-        router.post(route(route().current()), {
-            search: searchString,
-            untagged: untagged,
-            ungrouped: ungrouped,
-        }, {
-            only: ['links'],
+    function toggleUntagged(state) {
+        untagged = state;
+
+        if (!state && !ungrouped) {
+            ungrouped = true;
+        }
+
+        filterLinks()
+    }
+
+    function toggleUngrouped(state) {
+        ungrouped = state;
+
+        if (!state && !untagged) {
+            untagged = true;
+        }
+
+        filterLinks()
+    }
+
+    function filterLinks() {
+        router.get(route(route().current(), {
+            search: searchString ? searchString : null,
+            untagged: untagged ? null : untagged,
+            ungrouped: ungrouped ? null : ungrouped,
+        }), {}, {
+            only: ['links', 'searchString', 'untagged', 'ungrouped'],
             preserveState: true,
         });
     }
 </script>
 
 <Main title="Inbox">
-    <button type="button" on:click={() => {untagged = !untagged; filterLinks()}}>Show untagged</button>
-    <button type="button" on:click={() => {untagged = !untagged; filterLinks()}}>Show ungrouped</button>
-
-    <LinkList on:searched={(e) => filterLinks(e.detail)} {links}/>
+    <LinkList on:searched={filterLinks} {links} bind:searchString>
+        <div slot="toolbar" class="flex gap-x-5">
+            <Toggle on:toggled={(e) => toggleUntagged(e.detail)} toggled={untagged} title="Untagged"/>
+            <Toggle on:toggled={(e) => toggleUngrouped(e.detail)} toggled={ungrouped} title="Ungrouped"/>
+        </div>
+    </LinkList>
 </Main>

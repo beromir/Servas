@@ -94,8 +94,8 @@
 
 <div class="px-4 sm:px-0">
     <!-- Search input -->
-    <div class="flex flex-col sm:flex-row">
-        <div class="w-full sm:flex sm:items-center">
+    <div class="flex flex-col gap-y-4 sm:flex-row sm:gap-x-6">
+        <div class="w-full sm:flex sm:items-center sm:w-auto">
             <div class="relative rounded-md shadow-sm">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-gray-400" viewBox="0 0 20 20"
@@ -115,9 +115,9 @@
                     Clear
                 </button>
             {/if}
-
-            <slot name="toolbar"/>
         </div>
+
+        <slot name="toolbar"/>
     </div>
 
     <slot/>

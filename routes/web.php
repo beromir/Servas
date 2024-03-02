@@ -45,7 +45,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 
     Route::get('/inbox', [InboxController::class, 'index'])->name('inbox.index');
-    Route::post('/inbox', [InboxController::class, 'index']);
 
     Route::get('/all-tags', [TagController::class, 'getAllTags']);
     Route::get('/all-groups', [GroupController::class, 'getAllGroups']);

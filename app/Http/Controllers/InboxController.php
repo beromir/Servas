@@ -14,9 +14,9 @@ class InboxController extends Controller
      */
     public function index(): Response
     {
-        $searchString = Request::post('search') ?? '';
-        $showUntagged = Request::post('untagged') ?? true;
-        $showUngrouped = Request::post('ungrouped') ?? true;
+        $searchString = Request::string('search');
+        $showUntagged = Request::boolean('untagged', true);
+        $showUngrouped = Request::boolean('ungrouped', true);
 
         return Inertia::render('Inbox/Index', [
             'links' => Link::orderBy('created_at', 'desc')
@@ -28,7 +28,10 @@ class InboxController extends Controller
                     'title' => $link->title,
                     'link' => $link->link,
                     'id' => $link->id,
-                ])
+                ]),
+            'searchString' => $searchString,
+            'untagged' => $showUntagged,
+            'ungrouped' => $showUngrouped,
         ]);
     }
 }
