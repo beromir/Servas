@@ -28,8 +28,7 @@ class InboxController extends Controller
                     'title' => $link->title,
                     'link' => $link->link,
                     'id' => $link->id,
-                ]),
-            'searchString' => $searchString,
+                ])
         ]);
     }
 }
