@@ -8,10 +8,10 @@
     import {onDestroy} from 'svelte';
     import {dispatchCustomEvent} from "@/utils";
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
-    import LinkList from "@/Components/LinkList/LinkList.svelte";
     import DropdownItem from "@/Components/Dropdowns/DropdownItem.svelte";
     import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
     import InnerDropdownSection from "@/Components/Dropdowns/InnerDropdownSection.svelte";
+    import LinkListWithTagFilter from "@/Components/LinkList/LinkListWithTagFilter.svelte";
 
     export let group = {};
     export let links = [];
@@ -70,6 +70,6 @@
     </svelte:fragment>
 
     {#if links.length !== 0}
-        <LinkList {links} {searchString} {filteredTags} {showUntaggedOnly}/>
+        <LinkListWithTagFilter {links} {searchString} {filteredTags} {showUntaggedOnly}/>
     {/if}
 </Main>

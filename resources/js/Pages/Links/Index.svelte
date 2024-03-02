@@ -6,7 +6,7 @@
 
 <script>
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
-    import LinkList from "@/Components/LinkList/LinkList.svelte";
+    import LinkListWithTagFilter from "@/Components/LinkList/LinkListWithTagFilter.svelte";
 
     export let links = [];
     export let searchString = '';
@@ -17,5 +17,5 @@
 </script>
 
 <Main title="Home">
-    <LinkList {links} {searchString} {filteredTags} {showUntaggedOnly}/>
+    <LinkListWithTagFilter {links} {searchString} {filteredTags} {showUntaggedOnly}/>
 </Main>
