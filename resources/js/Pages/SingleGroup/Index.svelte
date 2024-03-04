@@ -6,15 +6,18 @@
 
 <script>
     import {onDestroy} from 'svelte';
-    import {dispatchCustomEvent} from "@/utils";
+    import {dispatchCustomEvent, route} from "@/utils";
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import DropdownItem from "@/Components/Dropdowns/DropdownItem.svelte";
     import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
     import InnerDropdownSection from "@/Components/Dropdowns/InnerDropdownSection.svelte";
     import LinkListWithTagFilter from "@/Components/LinkList/LinkListWithTagFilter.svelte";
+    import {router} from "@inertiajs/svelte";
+    import {refreshGroups} from "@/stores.js";
 
     export let group = {};
     export let links = [];
+    export let publicLink = {};
     export let searchString = '';
     export let filteredTags = [];
     export let showUntaggedOnly = false;
@@ -24,14 +27,28 @@
     $: $title = group.title;
     $showHeader = false;
 
-    onDestroy(() => {
-        $showHeader = true;
-    });
-
     function handleGroupMenuAction(action) {
         dispatchCustomEvent(action, group);
         showMenuDropdown = false;
     }
+
+    function createPublicLink() {
+        router.post(route('publicLinks.store'), {
+            groupId: group.id,
+        }, {
+            only: ['publicLink'],
+        });
+    }
+
+    function deletePublicLink() {
+        router.delete(route('publicLinks.destroy', publicLink.id), {
+            only: ['publicLink'],
+        });
+    }
+
+    onDestroy(() => {
+        $showHeader = true;
+    });
 </script>
 
 <Main title={group.title}>
@@ -56,6 +73,26 @@
                                 d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0010 3H4.75A2.75 2.75 0 002 5.75v9.5A2.75 2.75 0 004.75 18h9.5A2.75 2.75 0 0017 15.25V10a.75.75 0 00-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5z"/>
                         </svg>
                     </DropdownItem>
+
+                    {#if publicLink.id}
+                        <DropdownItem on:clicked={deletePublicLink} title="Stop sharing" color="alert">
+                            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path
+                                    d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z"/>
+                            </svg>
+                        </DropdownItem>
+
+                    {:else}
+                        <DropdownItem on:clicked={createPublicLink} title="Share">
+                            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path
+                                    d="M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z"/>
+                                <path
+                                    d="M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z"/>
+                            </svg>
+                        </DropdownItem>
+                    {/if}
+
                     <DropdownItem on:clicked={() => handleGroupMenuAction('deleteGroup')} title="Delete"
                                   color="alert">
                         <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

@@ -8,6 +8,7 @@ use App\Http\Controllers\ImportController;
 use App\Http\Controllers\InboxController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\PublicLinkController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::resource('groups', GroupController::class)->except([
         'create', 'edit', 'index',
+    ]);
+
+    Route::resource('publicLinks', PublicLinkController::class)->except([
+        'create', 'edit',
     ]);
 
     Route::get('/groups', function () {

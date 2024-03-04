@@ -68,6 +68,10 @@ class GroupController extends Controller
                     'link' => $link->link,
                     'id' => $link->id,
                 ]),
+            'publicLink' => (object)[
+                'id' => $group->publicLink?->id,
+                'link' => $group->publicLink?->getLink(),
+            ],
             'searchString' => $searchString,
             'filteredTags' => $filteredTags ? TagController::getTagsByNames($filteredTags) : [],
             'showUntaggedOnly' => $showUntaggedOnly,

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
@@ -34,6 +35,14 @@ class Group extends Model implements Searchable
     public function groups(): HasMany
     {
         return $this->hasMany(Group::class, 'parent_group_id');
+    }
+
+    /**
+     * Get the group's public link.
+     */
+    public function publicLink(): MorphOne
+    {
+        return $this->morphOne(PublicLink::class, 'public_linkable');
     }
 
     public function getSearchResult(): SearchResult
