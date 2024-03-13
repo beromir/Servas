@@ -45,6 +45,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         'create', 'edit',
     ]);
 
+    Route::get('/share/{shareId}', [PublicLinkController::class, 'show'])->name('share');
+
     Route::get('/groups', function () {
         return to_route('links.index');
     });

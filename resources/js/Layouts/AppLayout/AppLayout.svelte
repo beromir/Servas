@@ -141,6 +141,13 @@
                                       id="user-menu-item-0">Your Profile
                                 </Link>
 
+                                <Link href={route('publicLinks.index')}
+                                      on:click={() => {showProfileDropdown = false; closeSidebar()}}
+                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                      role="menuitem" tabindex="-1"
+                                      id="user-menu-item-1">Shared
+                                </Link>
+
                                 <Link href={route('api-tokens.index')}
                                       on:click={() => {showProfileDropdown = false; closeSidebar()}}
                                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"

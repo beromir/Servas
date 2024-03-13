@@ -6,18 +6,38 @@ use App\Helpers\PermissionHelper;
 use App\Http\Requests\StorePublicLinkRequest;
 use App\Http\Requests\UpdatePublicLinkRequest;
 use App\Models\Group;
+use App\Models\Link;
 use App\Models\PublicLink;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Request;
+use Inertia\Inertia;
+use Inertia\Response;
+use Sqids\Sqids;
 
 class PublicLinkController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
-        //
+        return Inertia::render('PublicLink/Index', [
+            'publicLinks' => PublicLink::filterByCurrentUser()
+                ->get()
+                ->transform(fn(PublicLink $publicLink) => [
+                    'id' => $publicLink->id,
+                    'shareId' => $publicLink->share_id,
+                    'group' => (object)[
+                        'title' => $publicLink->publicLinkable->title,
+                        'id' => $publicLink->publicLinkable->id,
+                    ]
+                ])
+                ->sortBy(function (array $publicLink) {
+                    return $publicLink['group']->title;
+                })
+                ->values()
+                ->all(),
+        ]);
     }
 
     /**
@@ -39,9 +59,15 @@ class PublicLinkController extends Controller
 
         $publicLink = PublicLink::make();
 
-        $publicLink->share_id = Str::take(sha1(Str::uuid()), 12);
         $publicLink->user_id = Auth::id();
+        $publicLink->share_id = time();
         $publicLink->publicLinkable()->associate($group);
+
+        $publicLink->save();
+
+        $sqids = new Sqids(minLength: 10);
+
+        $publicLink->share_id = $sqids->encode([$publicLink->id]);
 
         $publicLink->save();
     }
@@ -49,9 +75,36 @@ class PublicLinkController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PublicLink $publicLink)
+    public function show(string $shareId, Sqids $sqids): Response
     {
-        //
+        $publicLinkId = $sqids->decode($shareId)[0];
+
+        $publicLink = PublicLink::find($publicLinkId);
+
+        if (is_null($publicLink)) {
+
+        }
+
+        $group = $publicLink->publicLinkable;
+
+        if (is_null($group)) {
+
+        }
+
+        $searchString = Request::get('search') ?? '';
+
+        return Inertia::render('PublicLink/Show', [
+            'title' => $group->title,
+            'links' => $group
+                ->links()
+                ->filterLinks($searchString)
+                ->through(fn(Link $link) => [
+                    'title' => $link->title,
+                    'link' => $link->link,
+                    'id' => $link->id,
+                ]),
+            'searchString' => $searchString,
+        ]);
     }
 
     /**
