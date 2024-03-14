@@ -11,7 +11,16 @@
 
     export let publicLinks = [];
 
+    let copied = null;
+
     $title = 'Shared Groups';
+
+    function copyLink(shareId, id) {
+        navigator.clipboard.writeText(route('share', shareId));
+        copied = id;
+
+        setTimeout(() => copied = null, 500);
+    }
 
     function deletePublicLink(id) {
         router.delete(route('publicLinks.destroy', id), {
@@ -46,21 +55,37 @@
                             <tr>
                                 <td class="py-4 pl-4 pr-3 sm:pl-6">
                                     <Link
-                                        class="text-sm text-gray-900 font-medium  whitespace-nowrap hover:text-gray-700"
+                                        class="text-sm text-gray-900 font-medium  whitespace-nowrap hover:text-primary-700"
                                         href={route('groups.show', publicLink.group.id)}>{publicLink.group.title}</Link>
                                 </td>
                                 <td class="px-3 py-4">
-                                    <button type="button" class="flex items-center gap-x-2 w-fit group">
-                                        <div class="text-sm text-gray-500 whitespace-nowrap">{publicLink.shareId}</div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
-                                             class="size-4 fill-gray-400 group-hover:fill-gray-700">
-                                            <path fill-rule="evenodd"
-                                                  d="M10.986 3H12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h1.014A2.25 2.25 0 0 1 7.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM9.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z"
-                                                  clip-rule="evenodd"/>
-                                        </svg>
+                                    <button on:click={() => copyLink(publicLink.shareId, publicLink.id)} type="button"
+                                            class="flex items-center gap-x-2 w-fit group">
+                                        <span class="text-sm text-gray-500 whitespace-nowrap">{publicLink.shareId}</span>
+
+                                        {#if copied === publicLink.id}
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+                                                 fill="currentColor"
+                                                 class="size-4 fill-green-500">
+                                                <path fill-rule="evenodd"
+                                                      d="M11.986 3H12a2 2 0 0 1 2 2v6a2 2 0 0 1-1.5 1.937V7A2.5 2.5 0 0 0 10 4.5H4.063A2 2 0 0 1 6 3h.014A2.25 2.25 0 0 1 8.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM10.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z"
+                                                      clip-rule="evenodd"/>
+                                                <path fill-rule="evenodd"
+                                                      d="M2 7a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7Zm6.585 1.08a.75.75 0 0 1 .336 1.005l-1.75 3.5a.75.75 0 0 1-1.16.234l-1.75-1.5a.75.75 0 0 1 .977-1.139l1.02.875 1.321-2.64a.75.75 0 0 1 1.006-.336Z"
+                                                      clip-rule="evenodd"/>
+                                            </svg>
+
+                                        {:else}
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+                                                 class="size-4 fill-gray-400 group-hover:fill-primary-500">
+                                                <path fill-rule="evenodd"
+                                                      d="M10.986 3H12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h1.014A2.25 2.25 0 0 1 7.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM9.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z"
+                                                      clip-rule="evenodd"/>
+                                            </svg>
+                                        {/if}
                                     </button>
                                 </td>
-                                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm sm:pr-6">
                                     <button on:click={() => deletePublicLink(publicLink.id)} type="button"
                                             class="text-red-600 hover:text-red-700">
                                         Delete<span class="sr-only">, {publicLink.group.title}</span>
