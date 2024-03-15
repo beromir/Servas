@@ -145,7 +145,7 @@
                                       on:click={() => {showProfileDropdown = false; closeSidebar()}}
                                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                                       role="menuitem" tabindex="-1"
-                                      id="user-menu-item-1">Shared
+                                      id="user-menu-item-1">Shared Groups
                                 </Link>
 
                                 <Link href={route('api-tokens.index')}
