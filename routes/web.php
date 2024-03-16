@@ -42,10 +42,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     ]);
 
     Route::resource('publicLinks', PublicLinkController::class)->except([
-        'create', 'edit',
+        'create', 'edit', 'update',
     ]);
-
-    Route::get('/share/{shareId}', [PublicLinkController::class, 'show'])->name('share');
 
     Route::get('/groups', function () {
         return to_route('links.index');
@@ -73,5 +71,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/csrf-token', [CsrfController::class, 'getCsrfToken'])
         ->name('csrf-token');
 });
+
+Route::get('/share/{shareId}', [PublicLinkController::class, 'show'])->name('share');
 
 Route::view('/swagger', 'swagger-ui')->middleware('only.local');
