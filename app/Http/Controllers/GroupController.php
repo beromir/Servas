@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\Link;
+use App\Models\PublicLink;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -100,6 +101,11 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
+        /** @var PublicLink $publicLink */
+        if ($publicLink = $group->publicLink) {
+            $publicLink->delete();
+        }
+
         $group->delete();
     }
 
