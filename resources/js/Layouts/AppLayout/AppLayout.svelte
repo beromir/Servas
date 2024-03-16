@@ -26,6 +26,7 @@
     import InnerDropdownSection from "@/Components/Dropdowns/InnerDropdownSection.svelte";
     import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
     import {closeSidebar} from "@/utils/sidebar.js";
+    import DeletePublicLinkModal from "@/Partials/DeletePublicLinkModal.svelte";
 
     const appName = $page.props.appName;
 
@@ -281,3 +282,4 @@
 <DeleteGroupModal/>
 <CommandPalette/>
 <TagSelectMenu/>
+<DeletePublicLinkModal/>

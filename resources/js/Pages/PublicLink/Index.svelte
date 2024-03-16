@@ -6,8 +6,8 @@
 
 <script>
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
-    import {Link, router} from "@inertiajs/svelte";
-    import {route} from "@/utils/index.js";
+    import {Link} from "@inertiajs/svelte";
+    import {dispatchCustomEvent} from "@/utils";
 
     export let publicLinks = [];
 
@@ -22,10 +22,8 @@
         setTimeout(() => copied = null, 500);
     }
 
-    function deletePublicLink(id) {
-        router.delete(route('publicLinks.destroy', id), {
-            only: ['publicLinks'],
-        });
+    function showPublicLinkDeleteModal(publicLink) {
+        dispatchCustomEvent('deletePublicLink', publicLink);
     }
 </script>
 
@@ -85,7 +83,7 @@
                                 </button>
                             </td>
                             <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm sm:pr-6">
-                                <button on:click={() => deletePublicLink(publicLink.id)} type="button"
+                                <button on:click={() => showPublicLinkDeleteModal(publicLink)} type="button"
                                         class="text-red-600 hover:text-red-700">
                                     Delete<span class="sr-only">, {publicLink.group.title}</span>
                                 </button>
