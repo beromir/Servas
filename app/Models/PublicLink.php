@@ -17,6 +17,6 @@ class PublicLink extends Model
 
     public function getLink(): string
     {
-        return url("share/{$this->share_id}");
+        return url("share/$this->share_id");
     }
 }

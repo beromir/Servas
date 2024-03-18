@@ -15,15 +15,15 @@
 
     $title = 'Shared Groups';
 
-    function copyLink(shareId, id) {
-        navigator.clipboard.writeText(route('share', shareId));
+    function copyLink(link, id) {
+        navigator.clipboard.writeText(link);
         copied = id;
 
         setTimeout(() => copied = null, 500);
     }
 
     function showPublicLinkDeleteModal(publicLink) {
-        dispatchCustomEvent('deletePublicLink', publicLink);
+        dispatchCustomEvent('deletePublicLink', {id: publicLink.id, title: publicLink.group.title});
     }
 </script>
 
@@ -56,7 +56,7 @@
                                     href={route('groups.show', publicLink.group.id)}>{publicLink.group.title}</Link>
                             </td>
                             <td class="px-3 py-4">
-                                <button on:click={() => copyLink(publicLink.shareId, publicLink.id)} type="button"
+                                <button on:click={() => copyLink(publicLink.link, publicLink.id)} type="button"
                                         class="flex items-center gap-x-2 w-fit group">
                                     <span class="text-sm text-gray-500 whitespace-nowrap">{publicLink.shareId}</span>
 

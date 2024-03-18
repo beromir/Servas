@@ -5,17 +5,19 @@
     import {route} from '@/utils';
 
     let showModal = false;
-    let publicLink = null;
+    let publicLinkId = null;
+    let publicLinkTitle = '';
 
     function prepareDeletePublicLink(e) {
-        publicLink = e.detail;
+        publicLinkId = e.detail.id;
+        publicLinkTitle = e.detail.title;
 
         showModal = true;
     }
 
     function deletePublicLink() {
-        router.delete(route('publicLinks.destroy', publicLink.id), {
-            only: ['publicLinks'],
+        router.delete(route('publicLinks.destroy', publicLinkId), {
+            only: ['publicLink', 'publicLinks'],
             preserveScroll: true,
             onSuccess: () => {
                 showModal = false;
@@ -31,7 +33,7 @@
         Are you sure you want to delete this public link and stop the sharing of the group?
     </p>
     <div class="mt-1 text-sm text-gray-700 font-medium">
-        {publicLink.group.title}
+        {publicLinkTitle}
     </div>
 
     <svelte:fragment slot="footer">

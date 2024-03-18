@@ -27,6 +27,7 @@ class PublicLinkController extends Controller
                 ->transform(fn(PublicLink $publicLink) => [
                     'id' => $publicLink->id,
                     'shareId' => $publicLink->share_id,
+                    'link' => $publicLink->getLink(),
                     'group' => (object)[
                         'title' => $publicLink->publicLinkable->title,
                         'id' => $publicLink->publicLinkable->id,
