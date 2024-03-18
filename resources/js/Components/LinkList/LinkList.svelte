@@ -230,8 +230,8 @@
             <Link href={route('links.show', link.id)}
                   class="flex-auto min-w-0 p-3 sm:px-6 sm:py-4">
                 <div class="flex justify-between">
-                    <div
-                        class="text-sm font-medium text-gray-900 truncate">{link.title}</div>
+                    <div title={link.title}
+                         class="text-sm font-medium text-gray-900 truncate">{link.title}</div>
                 </div>
                 <div class="mt-0.5 text-xs text-gray-500 truncate">
                     {new URL(link.link).host}
