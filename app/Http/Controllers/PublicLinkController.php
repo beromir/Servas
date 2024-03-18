@@ -104,6 +104,7 @@ class PublicLinkController extends Controller
                     'link' => $link->link,
                     'id' => $link->id,
                 ]),
+            'shareId' => $shareId,
             'searchString' => $searchString,
         ]);
     }
