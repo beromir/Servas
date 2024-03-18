@@ -26,6 +26,7 @@
     import InnerDropdownSection from "@/Components/Dropdowns/InnerDropdownSection.svelte";
     import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
     import {closeSidebar} from "@/utils/sidebar.js";
+    import DeletePublicLinkModal from "@/Partials/DeletePublicLinkModal.svelte";
 
     const appName = $page.props.appName;
 
@@ -139,6 +140,13 @@
                                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-0">Your Profile
+                                </Link>
+
+                                <Link href={route('publicLinks.index')}
+                                      on:click={() => {showProfileDropdown = false; closeSidebar()}}
+                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                      role="menuitem" tabindex="-1"
+                                      id="user-menu-item-1">Shared Groups
                                 </Link>
 
                                 <Link href={route('api-tokens.index')}
@@ -274,3 +282,4 @@
 <DeleteGroupModal/>
 <CommandPalette/>
 <TagSelectMenu/>
+<DeletePublicLinkModal/>

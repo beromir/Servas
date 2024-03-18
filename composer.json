@@ -14,9 +14,10 @@
         "laravel/tinker": "^2.7",
         "pestphp/pest": "^v2.27.0",
         "pestphp/pest-plugin-laravel": "^v2.2.0",
+        "spatie/laravel-searchable": "dev-main",
         "spatie/laravel-tags": "^4.3.0",
-        "tightenco/ziggy": "^1.0",
-        "spatie/laravel-searchable": "dev-main"
+        "sqids/sqids": "^0.4.1",
+        "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

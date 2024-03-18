@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\Link;
+use App\Models\PublicLink;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,6 +69,10 @@ class GroupController extends Controller
                     'link' => $link->link,
                     'id' => $link->id,
                 ]),
+            'publicLink' => (object)[
+                'id' => $group->publicLink?->id,
+                'link' => $group->publicLink?->getLink(),
+            ],
             'searchString' => $searchString,
             'filteredTags' => $filteredTags ? TagController::getTagsByNames($filteredTags) : [],
             'showUntaggedOnly' => $showUntaggedOnly,
@@ -96,6 +101,11 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
+        /** @var PublicLink $publicLink */
+        if ($publicLink = $group->publicLink) {
+            $publicLink->delete();
+        }
+
         $group->delete();
     }
 
