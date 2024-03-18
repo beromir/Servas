@@ -5,13 +5,18 @@
     export let nextPageUrl = '';
     export let currentPage = 0;
     export let totalPages = 0;
+    export let totalLinks = 0;
+
+    let showLinksCount = false;
 </script>
 
 <nav class="flex flex-col justify-center items-center mt-8 px-4 sm:flex-row sm:justify-end sm:px-0"
      aria-label="Pagination">
-    <div class="order-last mt-4 text-sm text-gray-600 font-medium sm:order-none sm:mt-0 sm:mr-4">
-        {currentPage} of {totalPages}
-    </div>
+    <button on:click={() => showLinksCount = !showLinksCount} type="button"
+            title={!showLinksCount ? `${totalLinks} links in total` : `${currentPage} of ${totalPages}`}
+            class="order-last mt-4 text-sm text-gray-600 font-medium sm:order-none sm:mt-0 sm:mr-4">
+        {showLinksCount ? `${totalLinks} links in total` : `${currentPage} of ${totalPages}`}
+    </button>
     <div class="flex bg-white ring-1 ring-[#DFDFDF] divide-x divide-gray-100 shadow-sm rounded-md overflow-hidden">
         <Link href={prevPageUrl} aria-disabled={!prevPageUrl}
               class="inline-flex items-center px-5 py-3 text-gray-500 hover:bg-gray-50 aria-disabled:text-gray-200 aria-disabled:pointer-events-none">

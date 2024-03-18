@@ -274,7 +274,7 @@
 
 {#if links.data.length && links.total > links.per_page}
     <Pagination prevPageUrl={links.prev_page_url} nextPageUrl={links.next_page_url} currentPage={links.current_page}
-                totalPages={Math.trunc(links.total / links.per_page) + 1}/>
+                totalPages={Math.trunc(links.total / links.per_page) + 1} totalLinks={links.total}/>
 {/if}
 <GroupSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={groupSelectMenu}
                  bind:selectedGroups/>
