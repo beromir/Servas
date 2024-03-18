@@ -83,13 +83,13 @@ class PublicLinkController extends Controller
         $publicLink = PublicLink::find($publicLinkId);
 
         if (is_null($publicLink)) {
-
+            abort(404);
         }
 
         $group = $publicLink->publicLinkable;
 
         if (is_null($group)) {
-
+            abort(404);
         }
 
         $searchString = Request::get('search') ?? '';
