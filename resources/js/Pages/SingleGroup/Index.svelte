@@ -135,7 +135,7 @@
     </p>
 
     <div class="flex justify-between items-center gap-x-4 mt-1">
-        <div class="text-sm text-gray-700 font-medium select-all">{publicLink.link}</div>
+        <div class="text-sm text-gray-700 font-medium break-words select-all">{publicLink.link}</div>
 
         <button on:click={() => copyLink(publicLink.link, publicLink.id)} type="button"
                 class="flex items-center gap-x-1.5 group">
