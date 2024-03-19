@@ -8,12 +8,19 @@
     export let totalLinks = 0;
 
     let showLinksCount = false;
+
+    function toggleLinksCount() {
+        showLinksCount = true;
+
+        setTimeout(() => {
+            showLinksCount = false;
+        }, 1500);
+    }
 </script>
 
 <nav class="flex flex-col justify-center items-center mt-8 px-4 sm:flex-row sm:justify-end sm:px-0"
      aria-label="Pagination">
-    <button on:click={() => showLinksCount = !showLinksCount} type="button"
-            title={!showLinksCount ? `${totalLinks} links in total` : `${currentPage} of ${totalPages}`}
+    <button on:click={toggleLinksCount} type="button" title={`${totalLinks} links in total`}
             class="order-last mt-4 text-sm text-gray-600 font-medium sm:order-none sm:mt-0 sm:mr-4">
         {showLinksCount ? `${totalLinks} links in total` : `${currentPage} of ${totalPages}`}
     </button>
