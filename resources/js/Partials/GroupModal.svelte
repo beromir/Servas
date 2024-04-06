@@ -5,23 +5,28 @@
     import Button from "@/Components/Buttons/Button.svelte";
     import {useForm} from "@inertiajs/svelte";
     import {route} from '@/utils';
-    import {refreshGroups} from "@/stores";
+    import {refreshGroups, refreshTags} from "@/stores";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
+    import Badge from "@/Components/Badge.svelte";
 
     let showModal = false;
     let isEditing = false;
     let group = null;
     let groupSelectMenu;
     let selectedGroups = [];
+    let tags = [];
 
     let form = useForm({
         title: null,
         parentGroupId: null,
+        tags: [],
     });
 
     $: $form.parentGroupId = selectedGroups[0];
 
     export function showCreationView(parentGroupId = null) {
+        getAllTags();
+
         if (parentGroupId !== null) {
             groupSelectMenu.setSelectedGroups([parentGroupId]);
         } else {
@@ -34,6 +39,8 @@
     }
 
     function showEditingView(groupToEdit) {
+        getAllTags();
+
         reset();
 
         group = groupToEdit;
@@ -70,6 +77,23 @@
         });
     }
 
+    function toggleValueInArray(tagId) {
+        let index = $form.tags.indexOf(tagId);
+        if (index !== -1) {
+            $form.tags.splice(index, 1);
+            $form.tags = $form.tags;
+        } else {
+            $form.tags = [...$form.tags, tagId];
+        }
+    }
+
+    function getAllTags() {
+        axios.get('/all-tags')
+            .then(response => {
+                tags = response.data;
+            });
+    }
+
     function reset() {
         $form.reset();
         groupSelectMenu.reset();
@@ -103,6 +127,17 @@
                         title={selectedGroups.length ? `${selectedGroups.length} Group${selectedGroups.length > 1 ? 's' : ''} selected` : 'Select group'}
                         color="white"/>
             </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="space-y-3 sm:border-t sm:border-gray-200 sm:pt-2">
+            {#each tags as tag (tag.id)}
+                <Badge
+                    on:clicked={() => toggleValueInArray(tag.id)}
+                    title={tag.name} large={false}
+                    color={$form.tags.includes(tag.id) ? '' : 'gray'}
+                    class="mr-1.5 first:mt-3 last:mr-0"/>
+            {/each}
         </div>
     </Container>
 

@@ -19,6 +19,10 @@ class Group extends Model implements Searchable
         'user_id'
     ];
 
+    protected $casts = [
+        'query_options' => 'array',
+    ];
+
     public string $searchableType = 'Groups';
 
     /**

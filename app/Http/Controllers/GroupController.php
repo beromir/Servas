@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\Link;
 use App\Models\PublicLink;
+use App\Models\Tag;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +20,8 @@ class GroupController extends Controller
     {
         return [
             'title' => 'string|min:3',
-            'parentGroupId' => 'exists:App\Models\Group,id|numeric|nullable'
+            'parentGroupId' => 'exists:App\Models\Group,id|numeric|nullable',
+            'tags' => 'array',
         ];
     }
 
@@ -34,6 +37,11 @@ class GroupController extends Controller
         $group->title = Request::get('title');
         $group->parent_group_id = Request::get('parentGroupId');
         $group->user_id = Auth::id();
+
+        $group->query_options = [
+            'containsTagsOr' => Request::get('tags'),
+            'containsTagsAnd' => [],
+        ];
 
         $group->save();
     }
@@ -54,14 +62,32 @@ class GroupController extends Controller
             return Redirect::route('home');
         }
 
+        $tags = [];
+
+        if ($group->query_options['containsTagsOr'] ?? false) {
+            foreach ($group->query_options['containsTagsOr'] as $tag) {
+                $tags[] = Tag::find($tag);
+            }
+        }
+
         return Inertia::render('SingleGroup/Index', [
             'group' => (object)[
                 'title' => $group->title,
                 'id' => $group->id,
                 'parentGroupId' => $group->parent_group_id,
             ],
-            'links' => $group
-                ->links()
+            'links' => Link::leftJoin('groupables', 'links.id', '=', 'groupables.groupable_id')
+                ->where(function (Builder $query) use ($group, $tags) {
+                    $query->where(function (Builder $query) use ($group) {
+                        $query->where('groupables.group_id', $group->id)
+                            ->where('groupables.groupable_type', Link::class);
+                    })
+                        ->when($tags, function (Builder $query, array $tags) {
+                            $query->orWhere(function (Builder $query) use ($tags) {
+                                $query->withAnyTags($tags);
+                            });
+                        });
+                })
                 ->filterByCurrentUser()
                 ->filterLinks($searchString, $filteredTags, $showUntaggedOnly)
                 ->through(fn(Link $link) => [
@@ -92,6 +118,11 @@ class GroupController extends Controller
         if ($group->id !== Request::get('parentGroupId')) {
             $group->parent_group_id = Request::get('parentGroupId');
         }
+
+        $group->query_options = [
+            'containsTagsOr' => Request::get('tags'),
+            'containsTagsAnd' => [],
+        ];
 
         $group->save();
     }
