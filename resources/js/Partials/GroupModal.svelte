@@ -22,7 +22,7 @@
         tags: [],
     });
 
-    $: $form.parentGroupId = selectedGroups[0];
+    $: $form.parentGroupId = selectedGroups[0] ?? null;
 
     export function showCreationView(parentGroupId = null) {
         getAllTags();

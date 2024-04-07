@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreGroupRequest;
+use App\Http\Requests\UpdateGroupRequest;
 use App\Models\Group;
 use App\Models\Link;
 use App\Models\PublicLink;
@@ -16,30 +18,21 @@ use Inertia\Response;
 
 class GroupController extends Controller
 {
-    protected function rules(): array
-    {
-        return [
-            'title' => 'string|min:3',
-            'parentGroupId' => 'exists:App\Models\Group,id|numeric|nullable',
-            'tags' => 'array',
-        ];
-    }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreGroupRequest $request)
     {
-        Request::validate($this->rules());
+        $validated = $request->validated();
 
         $group = Group::make();
 
-        $group->title = Request::get('title');
-        $group->parent_group_id = Request::get('parentGroupId');
+        $group->title = $validated['title'];
+        $group->parent_group_id = $validated['parentGroupId'];
         $group->user_id = Auth::id();
 
         $group->query_options = [
-            'containsTagsOr' => Request::get('tags'),
+            'containsTagsOr' => $validated['tags'],
             'containsTagsAnd' => [],
         ];
 
@@ -108,19 +101,19 @@ class GroupController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Group $group)
+    public function update(UpdateGroupRequest $request, Group $group)
     {
-        Request::validate($this->rules());
+        $validated = $request->validated();
 
-        $group->title = Request::get('title');
+        $group->title = $validated['title'];
 
         // The parent group cannot be itself.
-        if ($group->id !== Request::get('parentGroupId')) {
-            $group->parent_group_id = Request::get('parentGroupId');
+        if ($group->id !== $validated['parentGroupId']) {
+            $group->parent_group_id = $validated['parentGroupId'];
         }
 
         $group->query_options = [
-            'containsTagsOr' => Request::get('tags'),
+            'containsTagsOr' => $validated['tags'],
             'containsTagsAnd' => [],
         ];
 

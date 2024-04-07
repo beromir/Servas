@@ -25,6 +25,15 @@ class Group extends Model implements Searchable
 
     public string $searchableType = 'Groups';
 
+    public static function rules(): array
+    {
+        return [
+            'title' => 'string|min:3',
+            'parentGroupId' => 'exists:App\Models\Group,id|numeric|nullable',
+            'tags' => 'array',
+        ];
+    }
+
     /**
      * Get all of the links that are assigned this group.
      */
