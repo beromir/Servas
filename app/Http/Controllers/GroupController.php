@@ -117,6 +117,8 @@ class GroupController extends Controller
             'containsTagsAnd' => [],
         ];
 
+        $group->updateLinksCount();
+
         $group->save();
     }
 
@@ -164,7 +166,7 @@ class GroupController extends Controller
     {
         return Group::orderBy('title')
             ->filterByCurrentUser()
-            ->withCount(['groups', 'links'])
+            ->withCount(['groups'])
             ->get()
             ->transform(fn(Group $group) => [
                 'id' => $group->id,

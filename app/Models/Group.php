@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Models\GroupService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -67,5 +68,12 @@ class Group extends Model implements Searchable
             $this->title,
             $url
         );
+    }
+
+    public function updateLinksCount(): int
+    {
+        $groupService = app(GroupService::class);
+
+        return $this->links_count = $groupService->getGroupLinksQuery($this)->count();
     }
 }
