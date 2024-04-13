@@ -8,7 +8,7 @@ use App\Models\Group;
 use App\Models\Link;
 use App\Models\PublicLink;
 use App\Models\Tag;
-use Illuminate\Database\Eloquent\Builder;
+use App\Services\Models\GroupService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,13 +36,15 @@ class GroupController extends Controller
             'containsTagsAnd' => [],
         ];
 
+        $group->updateLinksCount();
+
         $group->save();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(int $groupId): Response|RedirectResponse
+    public function show(int $groupId, GroupService $groupService): Response|RedirectResponse
     {
         $group = Group::filterByCurrentUser()->find($groupId);
         $searchString = Request::get('search') ?? '';
@@ -69,18 +71,7 @@ class GroupController extends Controller
                 'id' => $group->id,
                 'parentGroupId' => $group->parent_group_id,
             ],
-            'links' => Link::leftJoin('groupables', 'links.id', '=', 'groupables.groupable_id')
-                ->where(function (Builder $query) use ($group, $tags) {
-                    $query->where(function (Builder $query) use ($group) {
-                        $query->where('groupables.group_id', $group->id)
-                            ->where('groupables.groupable_type', Link::class);
-                    })
-                        ->when($tags, function (Builder $query, array $tags) {
-                            $query->orWhere(function (Builder $query) use ($tags) {
-                                $query->withAnyTags($tags);
-                            });
-                        });
-                })
+            'links' => $groupService->getGroupLinksQuery($group)
                 ->filterByCurrentUser()
                 ->filterLinks($searchString, $filteredTags, $showUntaggedOnly)
                 ->through(fn(Link $link) => [

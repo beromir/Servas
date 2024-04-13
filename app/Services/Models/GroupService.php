@@ -5,6 +5,7 @@ namespace App\Services\Models;
 use App\Models\Group;
 use App\Models\Link;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
 class GroupService
@@ -25,6 +26,17 @@ class GroupService
                         });
                     });
             });
+    }
+
+    public function updateUserGroupsLinkCount(User $user)
+    {
+        $groups = Group::where('user_id', $user->id)->get();
+
+        foreach ($groups as $group) {
+            $group->updateLinksCount();
+
+            $group->save();
+        }
     }
 
     protected function getOrTags(Group $group): array
