@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\Models\GroupService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -38,9 +38,30 @@ class Group extends Model implements Searchable
     /**
      * Get all of the links that are assigned this group.
      */
-    public function links(): MorphToMany
+    public function directLinks(): MorphToMany
     {
         return $this->morphedByMany(Link::class, 'groupable');
+    }
+
+    /**
+     * Get all group links.
+     */
+    public function links(): Builder
+    {
+        $tags = $this->getOrTags();
+
+        return Link::leftJoin('groupables', 'links.id', '=', 'groupables.groupable_id')
+            ->where(function (Builder $query) use ($tags) {
+                $query->where(function (Builder $query) {
+                    $query->where('groupables.group_id', $this->id)
+                        ->where('groupables.groupable_type', Link::class);
+                })
+                    ->when($tags, function (Builder $query, array $tags) {
+                        $query->orWhere(function (Builder $query) use ($tags) {
+                            $query->withAnyTags($tags);
+                        });
+                    });
+            });
     }
 
     /**
@@ -72,8 +93,34 @@ class Group extends Model implements Searchable
 
     public function updateLinksCount(): int
     {
-        $groupService = app(GroupService::class);
+        return $this->links_count = $this->links()->count();
+    }
 
-        return $this->links_count = $groupService->getGroupLinksQuery($this)->count();
+    public function getOrTags(): array
+    {
+        return $this->getQueryOption('containsTagsOr');
+    }
+
+    public function getAndTags(): array
+    {
+        return $this->getQueryOption('containsTagsAnd');
+    }
+
+    public function getNotTags(): array
+    {
+        return $this->getQueryOption('containsTagsNot');
+    }
+
+    protected function getQueryOption(string $queryOption): array
+    {
+        $tags = [];
+
+        if ($this->query_options[$queryOption] ?? false) {
+            foreach ($this->query_options[$queryOption] as $tag) {
+                $tags[] = Tag::find($tag);
+            }
+        }
+
+        return $tags;
     }
 }

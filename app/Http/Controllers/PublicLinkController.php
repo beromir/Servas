@@ -97,7 +97,7 @@ class PublicLinkController extends Controller
 
         return Inertia::render('PublicLink/Show', [
             'title' => $group->title,
-            'links' => $groupService->getGroupLinksQuery($group)
+            'links' => $group->links()
                 ->filterLinks($searchString)
                 ->through(fn(Link $link) => [
                     'title' => $link->title,

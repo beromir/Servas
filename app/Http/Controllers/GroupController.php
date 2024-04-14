@@ -71,7 +71,7 @@ class GroupController extends Controller
                 'id' => $group->id,
                 'parentGroupId' => $group->parent_group_id,
             ],
-            'links' => $groupService->getGroupLinksQuery($group)
+            'links' => $group->links()
                 ->filterByCurrentUser()
                 ->filterLinks($searchString, $filteredTags, $showUntaggedOnly)
                 ->through(fn(Link $link) => [
