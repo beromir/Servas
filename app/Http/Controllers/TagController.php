@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Models\GroupService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -11,6 +12,13 @@ use Illuminate\Support\Facades\Request;
 
 class TagController extends Controller
 {
+    public function __construct(
+        protected GroupService $groupService,
+    )
+    {
+        //
+    }
+
     protected function rules(): array
     {
         return [
@@ -91,6 +99,8 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         $tag->delete();
+
+        $this->groupService->updateUserGroupsLinkCount(Auth::user());
     }
 
     /**
