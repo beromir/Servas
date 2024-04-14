@@ -18,6 +18,13 @@ use Spatie\Tags\Tag;
 
 class LinkController extends Controller
 {
+    public function __construct(
+        protected GroupService $groupService,
+    )
+    {
+        //
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -47,7 +54,7 @@ class LinkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreLinkRequest $request, GroupService $groupService): RedirectResponse
+    public function store(StoreLinkRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -75,7 +82,7 @@ class LinkController extends Controller
 
         $link->syncTags($tags);
 
-        $groupService->updateUserGroupsLinkCount(Auth::user());
+        $this->groupService->updateUserGroupsLinkCount(Auth::user());
 
         return Redirect::route('links.show', $link->id);
     }
@@ -116,7 +123,7 @@ class LinkController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateLinkRequest $request, Link $link, GroupService $groupService)
+    public function update(UpdateLinkRequest $request, Link $link)
     {
         $validated = $request->validated();
 
@@ -141,7 +148,7 @@ class LinkController extends Controller
 
         $link->syncTags($tags);
 
-        $groupService->updateUserGroupsLinkCount(Auth::user());
+        $this->groupService->updateUserGroupsLinkCount(Auth::user());
     }
 
     /**
@@ -150,5 +157,7 @@ class LinkController extends Controller
     public function destroy(Link $link)
     {
         $link->delete();
+
+        $this->groupService->updateUserGroupsLinkCount(Auth::user());
     }
 }
