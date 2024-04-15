@@ -31,7 +31,12 @@ class Group extends Model implements Searchable
         return [
             'title' => 'string|min:3',
             'parentGroupId' => 'exists:App\Models\Group,id|numeric|nullable',
-            'tags' => 'array',
+            'orTags' => 'array',
+            'orTags.*' => 'integer',
+            'andTags' => 'array',
+            'andTags.*' => 'integer',
+            'notTags' => 'array',
+            'notTags.*' => 'integer',
         ];
     }
 
@@ -46,19 +51,31 @@ class Group extends Model implements Searchable
     /**
      * Get all group links.
      */
-    public function links(): Builder
+    public function links()
     {
-        $tags = $this->getOrTags();
+        $orTags = $this->getOrTags();
+        $andTags = $this->getAndTags();
+        $notTags = $this->getNotTags();
 
         return Link::leftJoin('groupables', 'links.id', '=', 'groupables.groupable_id')
-            ->where(function (Builder $query) use ($tags) {
+            ->where(function (Builder $query) use ($orTags, $andTags, $notTags) {
                 $query->where(function (Builder $query) {
                     $query->where('groupables.group_id', $this->id)
                         ->where('groupables.groupable_type', Link::class);
                 })
-                    ->when($tags, function (Builder $query, array $tags) {
-                        $query->orWhere(function (Builder $query) use ($tags) {
-                            $query->withAnyTags($tags);
+                    ->when($orTags, function (Builder $query, array $orTags) {
+                        $query->orWhere(function (Builder $query) use ($orTags) {
+                            $query->withAnyTags($orTags);
+                        });
+                    })
+                    ->when($andTags, function (Builder $query, array $andTags) {
+                        $query->orWhere(function (Builder $query) use ($andTags) {
+                            $query->withAllTags($andTags);
+                        });
+                    })
+                    ->when($notTags, function (Builder $query, array $notTags) {
+                        $query->andWhere(function (Builder $query) use ($notTags) {
+                            $query->withoutTags($notTags);
                         });
                     });
             });

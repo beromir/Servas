@@ -39,8 +39,9 @@ class GroupController extends Controller
         $group->user_id = Auth::id();
 
         $queryOptions = [
-            'containsTagsOr' => $validated['tags'],
-            'containsTagsAnd' => [],
+            'containsTagsOr' => $validated['orTags'],
+            'containsTagsAnd' => $validated['andTags'],
+            'containsTagsNot' => $validated['notTags'],
         ];
 
         $queryOptions = $this->groupService->cleanupQueryOptions($queryOptions);
@@ -115,8 +116,9 @@ class GroupController extends Controller
         }
 
         $queryOptions = [
-            'containsTagsOr' => $validated['tags'],
-            'containsTagsAnd' => [],
+            'containsTagsOr' => $validated['orTags'],
+            'containsTagsAnd' => $validated['andTags'],
+            'containsTagsNot' => $validated['notTags'],
         ];
 
         $queryOptions = $this->groupService->cleanupQueryOptions($queryOptions);
