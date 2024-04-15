@@ -100,6 +100,7 @@ class TagController extends Controller
     {
         $tag->delete();
 
+        $this->groupService->removeDeletedTagFromQueryOptions($tag->id, Auth::user());
         $this->groupService->updateUserGroupsLinkCount(Auth::user());
     }
 

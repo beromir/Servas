@@ -18,6 +18,13 @@ use Inertia\Response;
 
 class GroupController extends Controller
 {
+    public function __construct(
+        protected GroupService $groupService,
+    )
+    {
+        //
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -31,10 +38,14 @@ class GroupController extends Controller
         $group->parent_group_id = $validated['parentGroupId'];
         $group->user_id = Auth::id();
 
-        $group->query_options = [
+        $queryOptions = [
             'containsTagsOr' => $validated['tags'],
             'containsTagsAnd' => [],
         ];
+
+        $queryOptions = $this->groupService->cleanupQueryOptions($queryOptions);
+
+        $group->query_options = $queryOptions;
 
         $group->updateLinksCount();
 
@@ -44,7 +55,7 @@ class GroupController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $groupId, GroupService $groupService): Response|RedirectResponse
+    public function show(int $groupId): Response|RedirectResponse
     {
         $group = Group::filterByCurrentUser()->find($groupId);
         $searchString = Request::get('search') ?? '';
@@ -103,10 +114,14 @@ class GroupController extends Controller
             $group->parent_group_id = $validated['parentGroupId'];
         }
 
-        $group->query_options = [
+        $queryOptions = [
             'containsTagsOr' => $validated['tags'],
             'containsTagsAnd' => [],
         ];
+
+        $queryOptions = $this->groupService->cleanupQueryOptions($queryOptions);
+
+        $group->query_options = $queryOptions;
 
         $group->updateLinksCount();
 
