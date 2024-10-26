@@ -4,9 +4,10 @@
     import Input from "@/Components/FormLayouts/Modals/Input.svelte";
     import Button from "@/Components/Buttons/Button.svelte";
     import {useForm} from "@inertiajs/svelte";
-    import {route} from '@/utils';
-    import {refreshGroups, refreshTags} from "@/stores";
+    import {route, dispatchCustomEvent} from '@/utils';
+    import {refreshGroups} from "@/stores";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
+    import {getTagIdsFromArray} from "@/utils/tag.js";
 
     let showModal = false;
     let isEditing = false;
@@ -17,13 +18,14 @@
     let form = useForm({
         title: null,
         parentGroupId: null,
+        orTags: [],
+        andTags: [],
+        notTags: [],
     });
 
     $: $form.parentGroupId = selectedGroups[0] ?? null;
 
     export function showCreationView(parentGroupId = null) {
-        getAllTags();
-
         if (parentGroupId !== null) {
             groupSelectMenu.setSelectedGroups([parentGroupId]);
         } else {
@@ -36,8 +38,6 @@
     }
 
     function showEditingView(groupToEdit) {
-        getAllTags();
-
         reset();
 
         group = groupToEdit;
@@ -63,6 +63,11 @@
     }
 
     function updateGroup() {
+        // Only save the tag IDs
+        $form.orTags = getTagIdsFromArray(group.orTags);
+        $form.andTags = getTagIdsFromArray(group.andTags);
+        $form.notTags = getTagIdsFromArray(group.notTags);
+
         $form.clearErrors();
         $form.patch(route('groups.update', group.id), {
             preserveScroll: true,
@@ -74,19 +79,29 @@
         });
     }
 
-    function getAllTags() {
-        axios.get('/all-tags')
-            .then(response => {
-                tags = response.data;
-            });
-    }
-
     function reset() {
         $form.reset();
         groupSelectMenu.reset();
         isEditing = false;
         group = null;
         selectedGroups = [];
+    }
+
+    function handleSelectTagsButtonClick(option, tags) {
+        dispatchCustomEvent('tags.select', {tags: tags});
+
+        window.addEventListener('tags.selected', (e) => {
+            switch (option) {
+                case 'or':
+                    group.orTags = e.detail;
+                    break;
+                case 'and':
+                    group.andTags = e.detail;
+                    break;
+                case 'not':
+                    group.notTags = e.detail;
+            }
+        }, {once: true});
     }
 </script>
 
@@ -114,6 +129,20 @@
                         title={selectedGroups.length ? `${selectedGroups.length} Group${selectedGroups.length > 1 ? 's' : ''} selected` : 'Select group'}
                         color="white"/>
             </div>
+        </div>
+
+        <div class="grid gap-4">
+            <button on:click={() => handleSelectTagsButtonClick('or', group.orTags)} type="button">
+                Or Tags {group.orTags.length ? group.orTags.length : ''}
+            </button>
+
+            <button on:click={() => handleSelectTagsButtonClick('and', group.andTags)} type="button">
+                And Tags {group.andTags.length ? group.andTags.length : ''}
+            </button>
+
+            <button on:click={() => handleSelectTagsButtonClick('not', group.notTags)} type="button">
+                Not Tags {group.notTags.length ? group.notTags.length : ''}
+            </button>
         </div>
     </Container>
 

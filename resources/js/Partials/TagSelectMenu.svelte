@@ -22,6 +22,8 @@
     };
 
     function initTagSelection(data) {
+        internalSelectedTags = Array.isArray(data.tags) ? data.tags : [];
+
         mode = Mode.Select;
 
         title = data.action === 'attachTags' ? 'Attach tags' : 'Detach tags';
