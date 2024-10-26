@@ -132,16 +132,16 @@
         </div>
 
         <div class="grid gap-4">
-            <button on:click={() => handleSelectTagsButtonClick('or', group.orTags)} type="button">
-                Or Tags {group.orTags.length ? group.orTags.length : ''}
+            <button on:click={() => handleSelectTagsButtonClick('or', group?.orTags)} type="button">
+                Or Tags {group?.orTags.length ? group.orTags.length : ''}
             </button>
 
-            <button on:click={() => handleSelectTagsButtonClick('and', group.andTags)} type="button">
-                And Tags {group.andTags.length ? group.andTags.length : ''}
+            <button on:click={() => handleSelectTagsButtonClick('and', group?.andTags)} type="button">
+                And Tags {group?.andTags.length ? group.andTags.length : ''}
             </button>
 
-            <button on:click={() => handleSelectTagsButtonClick('not', group.notTags)} type="button">
-                Not Tags {group.notTags.length ? group.notTags.length : ''}
+            <button on:click={() => handleSelectTagsButtonClick('not', group?.notTags)} type="button">
+                Not Tags {group?.notTags.length ? group.notTags.length : ''}
             </button>
         </div>
     </Container>
