@@ -60,7 +60,10 @@
     function openTagSelectMenu(action) {
         $selectedTags.action = action;
 
-        dispatchCustomEvent('tags.select', {action: action});
+        dispatchCustomEvent('tags.select', {
+            title: action === 'attachTags' ? 'Attach tags' : 'Detach tags',
+            buttonTitle: action === 'attachTags' ? 'Attach' : 'Detach',
+        });
 
         window.addEventListener('tags.selected', (e) => {
             $selectedTags.tags = e.detail;
