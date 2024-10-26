@@ -60,7 +60,12 @@
     function openTagSelectMenu(action) {
         $selectedTags.action = action;
 
-        dispatchCustomEvent('selectTags', {title: action});
+        dispatchCustomEvent('tags.select', {action: action});
+
+        window.addEventListener('tags.selected', (e) => {
+            $selectedTags.tags = e.detail;
+
+        }, {once: true});
 
         bulkEditingAction = action;
     }
