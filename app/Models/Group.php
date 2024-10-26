@@ -74,7 +74,7 @@ class Group extends Model implements Searchable
                         });
                     })
                     ->when($notTags, function (Builder $query, array $notTags) {
-                        $query->andWhere(function (Builder $query) use ($notTags) {
+                        $query->where(function (Builder $query) use ($notTags) {
                             $query->withoutTags($notTags);
                         });
                     });
