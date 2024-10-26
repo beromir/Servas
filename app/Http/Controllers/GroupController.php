@@ -82,6 +82,18 @@ class GroupController extends Controller
                 'title' => $group->title,
                 'id' => $group->id,
                 'parentGroupId' => $group->parent_group_id,
+                'orTags' => collect($group->getOrTags())->transform(fn(Tag $tag) => [
+                    'id' => $tag->id,
+                    'name' => $tag->name,
+                ]),
+                'andTags' => collect($group->getAndTags())->transform(fn(Tag $tag) => [
+                    'id' => $tag->id,
+                    'name' => $tag->name,
+                ]),
+                'notTags' => collect($group->getNotTags())->transform(fn(Tag $tag) => [
+                    'id' => $tag->id,
+                    'name' => $tag->name,
+                ]),
             ],
             'links' => $group->links()
                 ->filterByCurrentUser()
