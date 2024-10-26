@@ -26,8 +26,8 @@
 
         mode = Mode.Select;
 
-        title = data.action === 'attachTags' ? 'Attach tags' : 'Detach tags';
-        primaryButtonTitle = data.action === 'attachTags' ? 'Attach' : 'Detach';
+        title = data.title ?? 'Select tags';
+        primaryButtonTitle = data.buttonTitle ?? 'Select';
 
         openModal();
     }
