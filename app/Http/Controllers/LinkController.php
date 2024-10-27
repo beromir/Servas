@@ -7,6 +7,7 @@ use App\Http\Requests\StoreLinkRequest;
 use App\Http\Requests\UpdateLinkRequest;
 use App\Models\Group;
 use App\Models\Link;
+use App\Services\Models\GroupService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,13 @@ use Spatie\Tags\Tag;
 
 class LinkController extends Controller
 {
+    public function __construct(
+        protected GroupService $groupService,
+    )
+    {
+        //
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -73,6 +81,8 @@ class LinkController extends Controller
         }
 
         $link->syncTags($tags);
+
+        $this->groupService->updateUserGroupsLinkCount(Auth::user());
 
         return Redirect::route('links.show', $link->id);
     }
@@ -137,6 +147,8 @@ class LinkController extends Controller
         }
 
         $link->syncTags($tags);
+
+        $this->groupService->updateUserGroupsLinkCount(Auth::user());
     }
 
     /**
@@ -145,5 +157,7 @@ class LinkController extends Controller
     public function destroy(Link $link)
     {
         $link->delete();
+
+        $this->groupService->updateUserGroupsLinkCount(Auth::user());
     }
 }

@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Helpers\PermissionHelper;
 use App\Models\Group;
+use App\Services\Models\GroupService;
 use App\Services\Models\LinkService;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Tags\Tag;
 
 class BulkEditingService
@@ -44,5 +46,9 @@ class BulkEditingService
                     return;
             }
         }
+
+        $groupService = app(GroupService::class);
+
+        $groupService->updateUserGroupsLinkCount(Auth::user());
     }
 }

@@ -1,7 +1,7 @@
 <script>
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from '@/Components/Modals/Modal.svelte';
-    import {selectedTags, linkFilter} from "@/stores.js";
+    import {dispatchCustomEvent} from "@/utils/index.js";
 
     let title = 'Select tags';
     let primaryButtonTitle = 'Save';
@@ -21,9 +21,20 @@
         Filter: 'filter',
     };
 
-    function prepareTagFilter() {
-        internalSelectedTags = $linkFilter.tags;
-        showUntagged = $linkFilter.showUntaggedOnly;
+    function initTagSelection(data) {
+        internalSelectedTags = Array.isArray(data.tags) ? data.tags : [];
+
+        mode = Mode.Select;
+
+        title = data.title ?? 'Select tags';
+        primaryButtonTitle = data.buttonTitle ?? 'Select';
+
+        openModal();
+    }
+
+    function initTagFilter(data) {
+        internalSelectedTags = data.tags;
+        showUntagged = data.showUntaggedOnly;
 
         mode = Mode.Filter;
 
@@ -33,44 +44,34 @@
         openModal();
     }
 
-    function prepareTagSelection(action) {
-        internalSelectedTags = [];
-        mode = Mode.Select;
-
-        title = action === 'attachTags' ? 'Attach tags' : 'Detach tags';
-        primaryButtonTitle = action === 'attachTags' ? 'Attach' : 'Detach';
-
-        openModal();
-    }
-
-    export async function openModal() {
+    async function openModal() {
         await getAllTags();
 
         showModal = true;
     }
 
     function saveChanges() {
-        $selectedTags.tags = [];
-        $linkFilter.tags = [];
+        let selectedTags = [];
+        let filteredTags = [];
 
         internalSelectedTags.forEach((tag) => {
             if (mode === Mode.Select) {
-                $selectedTags.tags = [...$selectedTags.tags, tag];
+                selectedTags = [...selectedTags, tag];
             } else if (mode === Mode.Filter) {
-                $linkFilter.tags = [...$linkFilter.tags, tag];
+                filteredTags = [...filteredTags, tag];
             }
         });
 
         if (mode === Mode.Select) {
-
+            dispatchCustomEvent('tags.selected', selectedTags);
         } else if (mode === Mode.Filter) {
-            $linkFilter.showUntaggedOnly = showUntagged;
-            $linkFilter.isActive = true;
+            dispatchCustomEvent('tags.filtered', {
+                tags: filteredTags,
+                showUntaggedOnly: showUntagged,
+            });
         }
 
-        showModal = false;
-
-        internalSelectedTags = [];
+        reset();
     }
 
     async function getAllTags() {
@@ -109,16 +110,17 @@
         filteredTags = tags;
     }
 
-    function cancel() {
+    function reset() {
         showModal = false;
+        resetSearch();
         internalSelectedTags = [];
         showUntagged = false;
     }
 </script>
 
-<svelte:window on:filterTags={prepareTagFilter} on:selectTags={(e) => prepareTagSelection(e.detail.title)}/>
+<svelte:window on:tags.select={e => initTagSelection(e.detail)} on:tags.filter={e => initTagFilter(e.detail)}/>
 
-<Modal bind:showModal on:canceled={cancel} title={title} showFooterMenuOnMobile={false}>
+<Modal bind:showModal on:canceled={reset} title={title} showFooterMenuOnMobile={false}>
     <svelte:fragment slot="mobilePrimaryAction">
         <button on:click={saveChanges}
                 class="text-right text-primary-600 font-medium focus:outline-none sm:hidden" type="button">
@@ -220,7 +222,7 @@
     </div>
 
     <svelte:fragment slot="footer">
-        <Button on:clicked={cancel} title="Cancel" color="white"
+        <Button on:clicked={reset} title="Cancel" color="white"
                 class="focus:ring-offset-gray-50"/>
         <Button on:clicked={saveChanges} title={primaryButtonTitle}
                 class="focus:ring-offset-gray-50"/>

@@ -60,7 +60,15 @@
     function openTagSelectMenu(action) {
         $selectedTags.action = action;
 
-        dispatchCustomEvent('selectTags', {title: action});
+        dispatchCustomEvent('tags.select', {
+            title: action === 'attachTags' ? 'Attach tags' : 'Detach tags',
+            buttonTitle: action === 'attachTags' ? 'Attach' : 'Detach',
+        });
+
+        window.addEventListener('tags.selected', (e) => {
+            $selectedTags.tags = e.detail;
+
+        }, {once: true});
 
         bulkEditingAction = action;
     }

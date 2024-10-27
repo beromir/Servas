@@ -4,9 +4,13 @@
     import Input from "@/Components/FormLayouts/Modals/Input.svelte";
     import Button from "@/Components/Buttons/Button.svelte";
     import {useForm} from "@inertiajs/svelte";
-    import {route} from '@/utils';
+    import {route, dispatchCustomEvent, toggleValueInArray} from '@/utils';
     import {refreshGroups} from "@/stores";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
+    import {getTagIdsFromArray} from "@/utils/tag.js";
+    import PlusCircle from "@/Heroicons/Mini/PlusCircle.svelte";
+    import XMark from "@/Heroicons/Micro/XMark.svelte";
+    import QueryOption from "@/Components/QueryOptions/QueryOption.svelte";
 
     let showModal = false;
     let isEditing = false;
@@ -17,9 +21,12 @@
     let form = useForm({
         title: null,
         parentGroupId: null,
+        orTags: [],
+        andTags: [],
+        notTags: [],
     });
 
-    $: $form.parentGroupId = selectedGroups[0];
+    $: $form.parentGroupId = selectedGroups[0] ?? null;
 
     export function showCreationView(parentGroupId = null) {
         if (parentGroupId !== null) {
@@ -29,6 +36,12 @@
         }
 
         isEditing && reset();
+
+        group = {
+            orTags: [],
+            andTags: [],
+            notTags: [],
+        };
 
         showModal = true;
     }
@@ -47,6 +60,11 @@
     }
 
     function createGroup() {
+        // Only save the tag IDs
+        $form.orTags = getTagIdsFromArray(group.orTags);
+        $form.andTags = getTagIdsFromArray(group.andTags);
+        $form.notTags = getTagIdsFromArray(group.notTags);
+
         $form.clearErrors();
         $form.post(route('groups.store'), {
             preserveScroll: true,
@@ -59,6 +77,11 @@
     }
 
     function updateGroup() {
+        // Only save the tag IDs
+        $form.orTags = getTagIdsFromArray(group.orTags);
+        $form.andTags = getTagIdsFromArray(group.andTags);
+        $form.notTags = getTagIdsFromArray(group.notTags);
+
         $form.clearErrors();
         $form.patch(route('groups.update', group.id), {
             preserveScroll: true,
@@ -102,6 +125,17 @@
                 <Button on:clicked={groupSelectMenu.openModal}
                         title={selectedGroups.length ? `${selectedGroups.length} Group${selectedGroups.length > 1 ? 's' : ''} selected` : 'Select group'}
                         color="white"/>
+            </div>
+        </div>
+
+        <div class="sm:border-t sm:border-gray-200 sm:pt-5">
+            <div class="text-gray-800 font-medium">Smart group settings</div>
+            <div class="-mt-0.5 text-sm text-gray-500">Show tagged links in the group</div>
+
+            <div class="mt-4 grid gap-3">
+                <QueryOption bind:tags={group.orTags} optionMode="or" title="any of these"/>
+                <QueryOption bind:tags={group.andTags} optionMode="and" title="all of these"/>
+                <QueryOption bind:tags={group.notTags} optionMode="not"  title="none of these"/>
             </div>
         </div>
     </Container>

@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreGroupRequest;
+use App\Http\Requests\UpdateGroupRequest;
 use App\Models\Group;
 use App\Models\Link;
 use App\Models\PublicLink;
+use App\Models\Tag;
+use App\Services\Models\GroupService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,26 +18,33 @@ use Inertia\Response;
 
 class GroupController extends Controller
 {
-    protected function rules(): array
+    public function __construct(
+        protected GroupService $groupService,
+    )
     {
-        return [
-            'title' => 'string|min:3',
-            'parentGroupId' => 'exists:App\Models\Group,id|numeric|nullable'
-        ];
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreGroupRequest $request)
     {
-        Request::validate($this->rules());
+        $validated = $request->validated();
 
         $group = Group::make();
 
-        $group->title = Request::get('title');
-        $group->parent_group_id = Request::get('parentGroupId');
+        $group->title = $validated['title'];
+        $group->parent_group_id = $validated['parentGroupId'];
         $group->user_id = Auth::id();
+
+        $group->query_options = $this->groupService->cleanupQueryOptions([
+            'containsTagsOr' => $validated['orTags'],
+            'containsTagsAnd' => $validated['andTags'],
+            'containsTagsNot' => $validated['notTags'],
+        ]);
+
+        $group->updateLinksCount();
 
         $group->save();
     }
@@ -59,9 +70,20 @@ class GroupController extends Controller
                 'title' => $group->title,
                 'id' => $group->id,
                 'parentGroupId' => $group->parent_group_id,
+                'orTags' => collect($group->getOrTags())->transform(fn(Tag $tag) => [
+                    'id' => $tag->id,
+                    'name' => $tag->name,
+                ]),
+                'andTags' => collect($group->getAndTags())->transform(fn(Tag $tag) => [
+                    'id' => $tag->id,
+                    'name' => $tag->name,
+                ]),
+                'notTags' => collect($group->getNotTags())->transform(fn(Tag $tag) => [
+                    'id' => $tag->id,
+                    'name' => $tag->name,
+                ]),
             ],
-            'links' => $group
-                ->links()
+            'links' => $group->links()
                 ->filterByCurrentUser()
                 ->filterLinks($searchString, $filteredTags, $showUntaggedOnly)
                 ->through(fn(Link $link) => [
@@ -82,16 +104,24 @@ class GroupController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Group $group)
+    public function update(UpdateGroupRequest $request, Group $group)
     {
-        Request::validate($this->rules());
+        $validated = $request->validated();
 
-        $group->title = Request::get('title');
+        $group->title = $validated['title'];
 
         // The parent group cannot be itself.
-        if ($group->id !== Request::get('parentGroupId')) {
-            $group->parent_group_id = Request::get('parentGroupId');
+        if ($group->id !== $validated['parentGroupId']) {
+            $group->parent_group_id = $validated['parentGroupId'];
         }
+
+        $group->query_options = $this->groupService->cleanupQueryOptions([
+            'containsTagsOr' => $validated['orTags'],
+            'containsTagsAnd' => $validated['andTags'],
+            'containsTagsNot' => $validated['notTags'],
+        ]);
+
+        $group->updateLinksCount();
 
         $group->save();
     }
@@ -140,7 +170,7 @@ class GroupController extends Controller
     {
         return Group::orderBy('title')
             ->filterByCurrentUser()
-            ->withCount(['groups', 'links'])
+            ->withCount(['groups'])
             ->get()
             ->transform(fn(Group $group) => [
                 'id' => $group->id,
