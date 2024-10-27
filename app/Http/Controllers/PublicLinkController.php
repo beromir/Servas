@@ -8,7 +8,6 @@ use App\Http\Requests\UpdatePublicLinkRequest;
 use App\Models\Group;
 use App\Models\Link;
 use App\Models\PublicLink;
-use App\Services\Models\GroupService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -77,7 +76,7 @@ class PublicLinkController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $shareId, Sqids $sqids, GroupService $groupService): Response
+    public function show(string $shareId, Sqids $sqids): Response
     {
         $publicLinkId = $sqids->decode($shareId)[0];
 
