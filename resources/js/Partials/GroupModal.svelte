@@ -11,12 +11,15 @@
     import PlusCircle from "@/Heroicons/Mini/PlusCircle.svelte";
     import XMark from "@/Heroicons/Micro/XMark.svelte";
     import QueryOption from "@/Components/QueryOptions/QueryOption.svelte";
+    import Minus from "@/Heroicons/Mini/Minus.svelte";
+    import Plus from "@/Heroicons/Mini/Plus.svelte";
 
     let showModal = false;
     let isEditing = false;
     let group = null;
     let groupSelectMenu;
     let selectedGroups = [];
+    let showSmartGroupSettings = false;
 
     let form = useForm({
         title: null,
@@ -55,6 +58,10 @@
         groupSelectMenu.setSelectedGroups([group.parentGroupId]);
 
         isEditing = true;
+
+        if (group.orTags.length || group.andTags.length || group.notTags.length) {
+            showSmartGroupSettings = true;
+        }
 
         showModal = true;
     }
@@ -99,6 +106,7 @@
         isEditing = false;
         group = null;
         selectedGroups = [];
+        showSmartGroupSettings = false;
     }
 </script>
 
@@ -129,14 +137,28 @@
         </div>
 
         <div class="sm:border-t sm:border-gray-200 sm:pt-5">
-            <div class="text-gray-800 font-medium">Smart group settings</div>
-            <div class="-mt-0.5 text-sm text-gray-500">Show tagged links in the group</div>
+            <button on:click={() => showSmartGroupSettings = !showSmartGroupSettings} type="button"
+                    class="flex justify-between items-center w-full group">
+                <span class="text-left">
+                    <span class="block text-gray-800 font-medium">Smart group settings</span>
+                    <span class="block -mt-0.5 text-sm text-gray-500">Show tagged links in the group</span>
+                </span>
 
-            <div class="mt-4 grid gap-3">
-                <QueryOption bind:tags={group.orTags} optionMode="or" title="any of these"/>
-                <QueryOption bind:tags={group.andTags} optionMode="and" title="all of these"/>
-                <QueryOption bind:tags={group.notTags} optionMode="not"  title="none of these"/>
-            </div>
+                {#if showSmartGroupSettings}
+                    <Minus className="text-gray-600 group-hover:text-gray-900"/>
+
+                {:else}
+                    <Plus className="text-gray-600 group-hover:text-gray-900"/>
+                {/if}
+            </button>
+
+            {#if showSmartGroupSettings}
+                <div class="mt-4 grid gap-3">
+                    <QueryOption bind:tags={group.orTags} optionMode="or" title="any of these"/>
+                    <QueryOption bind:tags={group.andTags} optionMode="and" title="all of these"/>
+                    <QueryOption bind:tags={group.notTags} optionMode="not" title="none of these"/>
+                </div>
+            {/if}
         </div>
     </Container>
 
