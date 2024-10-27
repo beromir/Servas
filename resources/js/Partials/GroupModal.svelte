@@ -10,6 +10,7 @@
     import {getTagIdsFromArray} from "@/utils/tag.js";
     import PlusCircle from "@/Heroicons/Mini/PlusCircle.svelte";
     import XMark from "@/Heroicons/Micro/XMark.svelte";
+    import QueryOption from "@/Components/QueryOptions/QueryOption.svelte";
 
     let showModal = false;
     let isEditing = false;
@@ -28,12 +29,6 @@
     $: $form.parentGroupId = selectedGroups[0] ?? null;
 
     export function showCreationView(parentGroupId = null) {
-        group = {
-            orTags: [],
-            andTags: [],
-            notTags: [],
-        };
-
         if (parentGroupId !== null) {
             groupSelectMenu.setSelectedGroups([parentGroupId]);
         } else {
@@ -41,6 +36,12 @@
         }
 
         isEditing && reset();
+
+        group = {
+            orTags: [],
+            andTags: [],
+            notTags: [],
+        };
 
         showModal = true;
     }
@@ -99,23 +100,6 @@
         group = null;
         selectedGroups = [];
     }
-
-    function handleSelectTagsButtonClick(option, tags) {
-        dispatchCustomEvent('tags.select', {tags: tags});
-
-        window.addEventListener('tags.selected', (e) => {
-            switch (option) {
-                case 'or':
-                    group.orTags = e.detail;
-                    break;
-                case 'and':
-                    group.andTags = e.detail;
-                    break;
-                case 'not':
-                    group.notTags = e.detail;
-            }
-        }, {once: true});
-    }
 </script>
 
 <svelte:window on:editGroup={(event) => showEditingView(event.detail)}
@@ -149,56 +133,9 @@
             <div class="-mt-0.5 text-sm text-gray-500">Show tagged links in the group</div>
 
             <div class="mt-4 grid gap-3">
-                <div>
-                    <div class="text-sm text-gray-700 font-medium">any of these</div>
-
-                    {#each group.orTags as tag (tag.id)}
-                        <button on:click={() => group.orTags = toggleValueInArray(group.orTags, tag)} type="button"
-                                class="inline-flex items-center mr-2 mt-2 py-0.5 px-2.5 bg-primary-100 text-sm text-primary-800 font-medium rounded-full group">
-                            <XMark
-                                className="mr-1 -ml-1 fill-primary-500 rounded-full group-hover:fill-primary-700 group-hover:bg-primary-200/50"/>
-                            {tag.name}
-                        </button>
-                    {/each}
-
-                    <button on:click={() => handleSelectTagsButtonClick('or', group.orTags)} type="button" class="mt-1 block">
-                        <PlusCircle className="text-gray-600"/>
-                    </button>
-                </div>
-
-                <div>
-                    <div class="text-sm text-gray-700 font-medium">all of these</div>
-
-                    {#each group.andTags as tag (tag.id)}
-                        <button on:click={() => group.andTags = toggleValueInArray(group.andTags, tag)} type="button"
-                                class="inline-flex items-center mr-2 mt-2 py-0.5 px-2.5 bg-primary-100 text-sm text-primary-800 font-medium rounded-full group">
-                            <XMark
-                                className="mr-1 -ml-1 fill-primary-500 rounded-full group-hover:fill-primary-700 group-hover:bg-primary-200/50"/>
-                            {tag.name}
-                        </button>
-                    {/each}
-
-                    <button on:click={() => handleSelectTagsButtonClick('and', group.andTags)} type="button" class="mt-1 block">
-                        <PlusCircle className="text-gray-600"/>
-                    </button>
-                </div>
-
-                <div>
-                    <div class="text-sm text-gray-700 font-medium">none of these</div>
-
-                    {#each group.notTags as tag (tag.id)}
-                        <button on:click={() => group.notTags = toggleValueInArray(group.notTags, tag)} type="button"
-                                class="inline-flex items-center mr-2 mt-2 py-0.5 px-2.5 bg-primary-100 text-sm text-primary-800 font-medium rounded-full group">
-                            <XMark
-                                className="mr-1 -ml-1 fill-primary-500 rounded-full group-hover:fill-primary-700 group-hover:bg-primary-200/50"/>
-                            {tag.name}
-                        </button>
-                    {/each}
-
-                    <button on:click={() => handleSelectTagsButtonClick('not', group.notTags)} type="button" class="mt-1 block">
-                        <PlusCircle className="text-gray-600"/>
-                    </button>
-                </div>
+                <QueryOption bind:tags={group.orTags} optionMode="or" title="any of these"/>
+                <QueryOption bind:tags={group.andTags} optionMode="and" title="all of these"/>
+                <QueryOption bind:tags={group.notTags} optionMode="not"  title="none of these"/>
             </div>
         </div>
     </Container>
