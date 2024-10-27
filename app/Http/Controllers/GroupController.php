@@ -38,15 +38,11 @@ class GroupController extends Controller
         $group->parent_group_id = $validated['parentGroupId'];
         $group->user_id = Auth::id();
 
-        $queryOptions = [
+        $group->query_options = $this->groupService->cleanupQueryOptions([
             'containsTagsOr' => $validated['orTags'],
             'containsTagsAnd' => $validated['andTags'],
             'containsTagsNot' => $validated['notTags'],
-        ];
-
-        $queryOptions = $this->groupService->cleanupQueryOptions($queryOptions);
-
-        $group->query_options = $queryOptions;
+        ]);
 
         $group->updateLinksCount();
 
@@ -67,14 +63,6 @@ class GroupController extends Controller
 
         if ($group === null) {
             return Redirect::route('home');
-        }
-
-        $tags = [];
-
-        if ($group->query_options['containsTagsOr'] ?? false) {
-            foreach ($group->query_options['containsTagsOr'] as $tag) {
-                $tags[] = Tag::find($tag);
-            }
         }
 
         return Inertia::render('SingleGroup/Index', [
@@ -127,15 +115,11 @@ class GroupController extends Controller
             $group->parent_group_id = $validated['parentGroupId'];
         }
 
-        $queryOptions = [
+        $group->query_options = $this->groupService->cleanupQueryOptions([
             'containsTagsOr' => $validated['orTags'],
             'containsTagsAnd' => $validated['andTags'],
             'containsTagsNot' => $validated['notTags'],
-        ];
-
-        $queryOptions = $this->groupService->cleanupQueryOptions($queryOptions);
-
-        $group->query_options = $queryOptions;
+        ]);
 
         $group->updateLinksCount();
 
