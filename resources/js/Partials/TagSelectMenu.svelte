@@ -156,19 +156,17 @@
     </div>
 
     <div class="relative mt-8">
-        <div class="grid grid-cols-2 gap-y-4 gap-x-2 mt-3 pb-10">
+        <div class="grid grid-cols-2 gap-y-3 gap-x-2 mt-3 pb-10 sm:grid-cols-3">
             {#each filteredTags as tag (tag.id)}
                 {#if getIndexOfTagId(tag.id, internalSelectedTags) !== -1}
-                    <button on:click|stopPropagation={() => selectTag(tag)} type="button"
-                            class="flex items-center py-3 px-4 border border-primary-100 bg-primary-50 rounded-full hover:border-primary-200 focus:outline-none">
-                        <span class="size-2 bg-primary-500 rounded-full"></span>
-                        <span class="ml-3 text-sm text-primary-900 truncate">{tag.name}</span>
+                    <button on:click|stopPropagation={() => selectTag(tag)} type="button" title={tag.name}
+                            class="flex items-center py-1.5 px-3 border border-primary-100 bg-primary-50 rounded-full hover:border-primary-200 focus:outline-none">
+                        <span class="text-sm text-primary-900 truncate">{tag.name}</span>
                     </button>
                 {:else}
-                    <button on:click|stopPropagation={() => selectTag(tag)} type="button"
-                            class="flex items-center py-3 px-4 border border-gray-100 bg-gray-50 rounded-full hover:border-gray-200 focus:outline-none">
-                        <span class="size-2 bg-primary-500 rounded-full"></span>
-                        <span class="ml-3 text-sm text-gray-900 truncate">{tag.name}</span>
+                    <button on:click|stopPropagation={() => selectTag(tag)} type="button" title={tag.name}
+                            class="flex items-center py-1.5 px-3 border border-gray-100 bg-gray-50 rounded-full hover:border-gray-200 focus:outline-none">
+                        <span class="text-sm text-gray-900 truncate">{tag.name}</span>
                     </button>
                 {/if}
             {:else}
