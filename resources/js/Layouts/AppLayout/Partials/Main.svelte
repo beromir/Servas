@@ -10,9 +10,9 @@
 
     {#if title}
         <div
-            class="flex p-4 w-full justify-between items-center bg-white shadow sm:px-0 sm:pt-0 sm:bg-transparent sm:border-b-2 sm:border-gray-200 sm:shadow-none">
+            class="flex p-4 w-full justify-between items-center bg-white shadow sm:px-0 sm:pt-0 sm:bg-transparent sm:border-b-2 sm:border-gray-200 sm:shadow-none dark:border-gray-700">
             {#if title}
-                <h1 class="text-3xl text-gray-900 font-bold">{title}</h1>
+                <h1 class="text-3xl text-gray-900 font-bold dark:text-white">{title}</h1>
             {/if}
             <slot name="toolbar">
                 <div></div>

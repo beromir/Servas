@@ -225,13 +225,13 @@
 <!-- Link list -->
 <ul class="grid grid-cols-1 mt-2 divide-y divide-gray-200 sm:grid-cols-2 sm:gap-3 sm:mt-4 sm:divide-none">
     {#each links.data as link (link.id)}
-        <li class="flex bg-white shadow sm:overflow-hidden sm:rounded-lg">
+        <li class="flex bg-white shadow ring-contrast sm:overflow-hidden sm:rounded-lg dark:bg-gray-800">
             {#if bulkEditingEnabled}
                 <!-- Show checkbox -->
                 <button on:click={() => selectedLinks = toggleValueInArray(selectedLinks, link.id)} type="button"
-                        class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20">
+                        class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 dark:bg-gray-900">
                     <input bind:group={selectedLinks} value={link.id} type="checkbox"
-                           class="text-primary-500 focus:outline-primary-400"/>
+                           class="text-primary-500 focus:outline-primary-400 dark:bg-gray-800 dark:focus:ring-offset-gray-700"/>
                 </button>
             {/if}
 
@@ -239,9 +239,9 @@
                   class="flex-auto min-w-0 p-3 sm:px-6 sm:py-4">
                 <div class="flex justify-between">
                     <div title={link.title}
-                         class="text-sm font-medium text-gray-900 truncate">{link.title}</div>
+                         class="text-sm font-medium text-gray-900 truncate dark:text-white">{link.title}</div>
                 </div>
-                <div class="mt-0.5 text-xs text-gray-500 truncate">
+                <div class="mt-0.5 text-xs text-gray-500 truncate dark:text-gray-400">
                     {new URL(link.link).host}
                 </div>
             </Link>
@@ -252,7 +252,7 @@
                     <a href={link.link} target="_blank" rel="noreferrer noopener nofollow" title="Open the link"
                        class="flex-none flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg"
-                             class="size-6 text-gray-300 hover:text-gray-500"
+                             class="size-6 text-gray-300 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-300"
                              fill="none" viewBox="0 0 24 24"
                              stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
