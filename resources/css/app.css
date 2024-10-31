@@ -9,3 +9,9 @@
 
 /* Utility styles */
 @import 'tailwindcss/utilities';
+
+@layer components {
+    .ring-contrast {
+        @apply dark:ring-1 dark:ring-white/15;
+    }
+}

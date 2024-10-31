@@ -31,6 +31,7 @@ module.exports = {
                 50: 'hsl(var(--color-primary-50) / <alpha-value>)',
             },
             gray: {
+                950: 'hsl(var(--color-gray-950) / <alpha-value>)',
                 900: 'hsl(var(--color-gray-900) / <alpha-value>)',
                 800: 'hsl(var(--color-gray-800) / <alpha-value>)',
                 700: 'hsl(var(--color-gray-700) / <alpha-value>)',
