@@ -241,7 +241,7 @@
                     <div title={link.title}
                          class="text-sm font-medium text-gray-900 truncate dark:text-white">{link.title}</div>
                 </div>
-                <div class="mt-0.5 text-xs text-gray-500 truncate dark:text-gray-400">
+                <div class="mt-0.5 text-xs text-gray-500 truncate dark:text-gray-200">
                     {new URL(link.link).host}
                 </div>
             </Link>
@@ -252,7 +252,7 @@
                     <a href={link.link} target="_blank" rel="noreferrer noopener nofollow" title="Open the link"
                        class="flex-none flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg"
-                             class="size-6 text-gray-300 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-300"
+                             class="size-6 text-gray-300 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-200"
                              fill="none" viewBox="0 0 24 24"
                              stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
