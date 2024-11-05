@@ -13,7 +13,7 @@
             case 'red':
                 return 'border-transparent text-white bg-red-600 hover:bg-red-700 focus:ring-red-500';
             case 'white':
-                return 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-primary-400 dark:bg-gray-700  dark:text-white dark:border-gray-500 dark:hover:bg-gray-600';
+                return 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-primary-400 dark:bg-gray-800  dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700';
             default:
                 return 'border-transparent text-white bg-primary-500 hover:bg-primary-600 focus:ring-primary-400';
         }
@@ -23,7 +23,7 @@
 <button
     {...$$restProps} {type}
     on:click={() => {dispatch('clicked')}}
-    class={['w-full inline-flex justify-center items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md select-none focus:outline-none focus:ring-2 focus:ring-offset-2 md:w-auto',
+    class={['w-full inline-flex justify-center items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md select-none focus:outline-none focus:ring-2 focus:ring-offset-2 md:w-auto dark:focus:ring-offset-gray-900',
     getColors(), $$restProps.class].join(' ').trim()}
     use:focusSelf={focusButton}>
     {#if $$slots.icon}
