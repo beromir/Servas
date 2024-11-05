@@ -170,7 +170,7 @@
                     </button>
                 {/if}
             {:else}
-                <p class="col-span-2 py-2.5 px-4 text-gray-600 text-center">No tags found</p>
+                <p class="col-span-2 py-2.5 px-4 text-gray-600 text-center sm:col-span-3">No tags found</p>
             {/each}
         </div>
 
