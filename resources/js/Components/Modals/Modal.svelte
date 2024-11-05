@@ -53,10 +53,10 @@
                         <div
                             class="fixed inset-x-0 top-0 z-10 grid grid-cols-5 items-end px-4 pt-4 pb-3 backdrop-blur-3xl sm:static sm:px-6 sm:py-0 sm:backdrop-blur-none">
                             <button on:click={() => {showModal = false; dispatch('canceled')}}
-                                    class="text-left text-primary-600 focus:outline-none sm:hidden" type="button">
+                                    class="text-left text-primary-600 focus:outline-none sm:hidden dark:text-gray-100" type="button">
                                 Cancel
                             </button>
-                            <h3 class="col-span-3 text-lg leading-6 text-center font-semibold text-gray-800 truncate sm:text-left">
+                            <h3 class="col-span-3 text-lg leading-6 text-center font-semibold text-gray-800 truncate sm:text-left dark:text-white">
                                 {title}
                             </h3>
                             <slot name="mobilePrimaryAction">
