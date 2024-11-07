@@ -69,7 +69,7 @@
                             </div>
 
                             <div
-                                class={clsx(showFooterMenuOnMobile ? 'grid' : 'hidden', 'gap-x-4 gap-y-3 px-4 py-3 bg-gray-50 border-t border-gray-100 overflow-auto sm:flex sm:justify-end sm:px-6 dark:bg-gray-950 dark:border-gray-800')}>
+                                class={clsx(showFooterMenuOnMobile ? 'grid' : 'hidden', 'gap-x-4 gap-y-3 px-4 py-3 bg-gray-100 border-t border-gray-200 overflow-auto sm:flex sm:justify-end sm:px-6 dark:bg-gray-950 dark:border-gray-800')}>
                                 <slot name="footer"/>
                             </div>
                         </div>

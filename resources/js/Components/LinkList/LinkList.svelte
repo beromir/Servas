@@ -114,7 +114,7 @@
                     </svg>
                 </div>
                 <input type="text" bind:value={searchString} on:input={search}
-                       class="block w-full pl-10 border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-600"
+                       class="block w-full pl-10 border-gray-400 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-600"
                        placeholder="Search links..." enterkeyhint="search">
             </div>
             {#if searchString}
@@ -252,7 +252,7 @@
                     <a href={link.link} target="_blank" rel="noreferrer noopener nofollow" title="Open the link"
                        class="flex-none flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg"
-                             class="size-6 text-gray-300 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-300"
+                             class="size-6 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
                              fill="none" viewBox="0 0 24 24"
                              stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

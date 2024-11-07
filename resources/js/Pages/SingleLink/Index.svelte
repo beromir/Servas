@@ -53,7 +53,7 @@
         <div class="md:flex md:flex-row-reverse md:justify-between md:gap-8">
             <div class="flex justify-end md:-mt-1.5 md:h-fit">
                 <button on:click={copyLink(link.link)} title="Copy link" type="button"
-                        class="w-max inline-flex items-center p-2  border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        class="w-max inline-flex items-center p-2  border border-gray-400 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
 
                     {#if copied}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -77,7 +77,7 @@
                 </button>
 
                 <a href={link.link} target="_blank" rel="noreferrer noopener nofollow"
-                   class="w-max inline-flex items-center ml-3 px-4 py-2  border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                   class="w-max inline-flex items-center ml-3 px-4 py-2  border border-gray-400 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                     Open link
                     <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 -mr-1 size-5" viewBox="0 0 20 20"
                          fill="currentColor">
@@ -133,7 +133,7 @@
 
         {#if navigator.share}
             <button type="button" on:click={shareLink}
-                    class="w-max inline-flex items-center mt-6 px-4 py-2  border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                    class="w-max inline-flex items-center mt-6 px-4 py-2  border border-gray-400 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                 Share link
 
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"

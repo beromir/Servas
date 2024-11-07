@@ -13,7 +13,7 @@
             case 'red':
                 return 'border-transparent text-white bg-red-600 hover:bg-red-700 focus:ring-red-500';
             case 'white':
-                return 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-primary-400 dark:bg-gray-800  dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700';
+                return 'border-gray-400 text-gray-700 bg-white hover:bg-gray-50 focus:ring-primary-400 dark:bg-gray-800  dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700';
             default:
                 return 'border-transparent text-white bg-primary-500 hover:bg-primary-600 focus:ring-primary-400';
         }
