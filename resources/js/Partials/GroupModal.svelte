@@ -140,7 +140,7 @@
             <button on:click={() => showSmartGroupSettings = !showSmartGroupSettings} type="button"
                     class="flex justify-between items-center w-full group">
                 <span class="text-left">
-                    <span class="block text-gray-800 font-medium">Smart group settings</span>
+                    <span class="block text-gray-800 font-medium">Smart Group settings</span>
                     <span class="block -mt-0.5 text-sm text-gray-500">Show tagged links in the group</span>
                 </span>
 

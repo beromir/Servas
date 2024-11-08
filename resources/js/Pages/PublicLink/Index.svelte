@@ -55,14 +55,14 @@
                             <tr>
                                 <td class="py-4 pl-4 pr-3 sm:pl-6">
                                     <Link
-                                        class="text-sm text-gray-900 font-medium  whitespace-nowrap hover:text-primary-700"
+                                        class="text-sm text-gray-900 font-medium whitespace-nowrap hover:text-primary-700"
                                         href={route('groups.show', publicLink.group.id)}>{publicLink.group.title}</Link>
                                 </td>
                                 <td class="px-3 py-4">
                                     <button on:click={() => copyLink(publicLink.link, publicLink.id)} type="button"
                                             class="flex items-center gap-x-2 w-fit group">
                                         <span
-                                            class="text-sm text-gray-500 whitespace-nowrap">{publicLink.shareId}</span>
+                                            class="text-sm text-gray-600 whitespace-nowrap">{publicLink.shareId}</span>
 
                                         {#if copied === publicLink.id}
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
@@ -78,7 +78,7 @@
 
                                         {:else}
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
-                                                 class="size-4 fill-gray-400 group-hover:fill-primary-500">
+                                                 class="size-4 fill-gray-500 group-hover:fill-primary-600">
                                                 <path fill-rule="evenodd"
                                                       d="M10.986 3H12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h1.014A2.25 2.25 0 0 1 7.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM9.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z"
                                                       clip-rule="evenodd"/>

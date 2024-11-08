@@ -16,7 +16,7 @@
     </label>
     <div class="mt-1 sm:mt-0 sm:col-span-4">
         <input id={name} {name} {type} {...$$restProps} {value} on:input={(e) => value = e.target.value}
-               class="block max-w-xl w-full shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm border-gray-300 rounded-md">
+               class="block max-w-xl w-full shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm border-gray-400 rounded-md">
         {#if error}
             <div class="text-yellow-800">{error}</div>
         {/if}

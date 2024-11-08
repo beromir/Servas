@@ -33,16 +33,16 @@
             <button on:click={() => tags = toggleValueInArray(tags, tag)} type="button"
                     class="inline-flex items-center mr-2 mt-2 py-0.5 px-2.5 bg-primary-100 text-sm text-primary-800 font-medium rounded-full group">
                 <XMark
-                    className="mr-1 -ml-1 fill-primary-500 rounded-full group-hover:fill-primary-700 group-hover:bg-primary-200/50"/>
+                    className="mr-1 -ml-1 fill-primary-500 rounded-full group-hover:fill-primary-700 group-hover:bg-primary-200/60"/>
                 {tag.name}
             </button>
         {/each}
     {/if}
 
     <button on:click={handleSelectTagsButtonClick} type="button"
-            class="inline-flex items-center mr-2 mt-2 py-0.5 px-2.5 text-sm text-gray-700 font-medium border border-gray-100 rounded-full group">
+            class="inline-flex items-center mr-2 mt-2 py-0.5 px-2.5 text-sm text-gray-700 font-medium border border-gray-200 rounded-full group">
         <Plus
-            className="mr-1 -ml-1 fill-gray-500 rounded-full group-hover:fill-gray-700 group-hover:bg-gray-200/40"/>
+            className="mr-1 -ml-1 fill-gray-500 rounded-full group-hover:fill-gray-700 group-hover:bg-gray-200/60"/>
         add tag
     </button>
 </div>
