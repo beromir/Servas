@@ -86,11 +86,11 @@
              tabindex="0" role="button"
              in:fade={{ duration: 100, easing: cubicOut }}
              out:fade={{ duration: 200, easing: cubicIn }}
-             class="fixed inset-0 z-40 bg-gray-500/40 lg:hidden"></div>
+             class="fixed inset-0 z-40 bg-gray-500/40 lg:hidden dark:bg-gray-900/60"></div>
     {/if}
 
     <button on:click={() => showSidebar = toggleSidebar()} type="button"
-            class="fixed bottom-5 left-5 z-10 p-2.5 text-gray-100 bg-gray-800 rounded-full shadow sm:hidden">
+            class="fixed bottom-5 left-5 z-10 p-2.5 text-gray-100 bg-gray-800 rounded-full shadow sm:hidden dark:bg-gray-50 dark:text-gray-900">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              class="size-8">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
@@ -101,12 +101,12 @@
         <div in:slide={{ duration: 200, axis: 'x', easing: cubicOut }}
              out:slide={{ duration: 300, axis: 'x', easing: cubicOut }}
              class="fixed top-0 z-50 flex-none w-[300px] h-screen lg:sticky">
-            <div class="flex flex-col w-full h-full bg-gray-700 shadow">
+            <div class="flex flex-col w-full h-full bg-gray-700 shadow ring-contrast dark:bg-gray-800">
                 <div class="flex items-center p-4">
                     <!-- Sidebar toggle -->
                     <button on:click={() => showSidebar = toggleSidebar()} type="button"
                             title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
-                            class="hidden py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500 sm:block">
+                            class="hidden py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-600 hover:ring-1 hover:ring-gray-500 sm:block dark:hover:bg-gray-700">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                              class="size-6">
                             <rect width="24" height="24" fill="none"/>
@@ -123,7 +123,7 @@
                     <div class="relative sm:ml-auto">
                         <button on:click={() => showProfileDropdown = !showProfileDropdown} title="Open user menu"
                                 type="button"
-                                class="py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500">
+                                class="py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-600 hover:ring-1 hover:ring-gray-500 dark:hover:bg-gray-700">
                             <span class="sr-only">Open user menu</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                  stroke="currentColor" class="size-6">
@@ -181,7 +181,7 @@
                     <!-- Search button -->
                     <button on:click={() => dispatchCustomEvent('showCommandPalette')} title="Open search bar"
                             type="button"
-                            class="ml-auto py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500 sm:ml-1.5">
+                            class="ml-auto py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-600 hover:ring-1 hover:ring-gray-500 sm:ml-1.5 dark:hover:bg-gray-700">
                         <span class="sr-only">Open search bar</span>
                         <!-- Heroicon name: outline/search -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24"

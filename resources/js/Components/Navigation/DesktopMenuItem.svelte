@@ -22,7 +22,7 @@
 </script>
 
 <Link href={url} on:click={closeSidebar}
-      class={clsx('flex items-center gap-x-3 py-1.5 px-3 text-white font-medium rounded-md hover:bg-white/10', isCurrentPage ? 'bg-white/10' : '', $$restProps.class)}>
+      class={clsx('flex items-center gap-x-3 py-1.5 px-3 text-white font-medium rounded-md hover:bg-white/10 dark:hover:bg-gray-700/60', isCurrentPage ? 'bg-white/10 dark:bg-gray-700/60' : '', $$restProps.class)}>
     <div class={clsx('flex-none size-5', isCurrentPage ? 'text-gray-100' : 'text-gray-300')}>
         <slot/>
     </div>
