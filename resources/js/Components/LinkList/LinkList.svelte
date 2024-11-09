@@ -223,7 +223,7 @@
 </div>
 
 <!-- Link list -->
-<ul class="grid grid-cols-1 mt-2 divide-y divide-gray-200 sm:grid-cols-2 sm:gap-3 sm:mt-4 sm:divide-none">
+<ul class="grid grid-cols-1 mt-2 divide-y divide-gray-200 sm:grid-cols-2 sm:gap-3 sm:mt-4 sm:divide-none dark:divide-gray-800">
     {#each links.data as link (link.id)}
         <li class="flex bg-white shadow ring-contrast sm:overflow-hidden sm:rounded-lg dark:bg-gray-800">
             {#if bulkEditingEnabled}
