@@ -128,9 +128,11 @@
             <div>
                 <span class="font-medium">Created at:</span> {link.created_at_with_time}
             </div>
-            <div class="mt-1.5">
-                <span class="font-medium">Updated at:</span> {link.updated_at_with_time}
-            </div>
+            {#if link.updated_at_with_time !== link.created_at_with_time}
+                <div class="mt-1.5">
+                    <span class="font-medium">Updated at:</span> {link.updated_at_with_time}
+                </div>
+            {/if}
         </div>
 
         {#if navigator.share}
