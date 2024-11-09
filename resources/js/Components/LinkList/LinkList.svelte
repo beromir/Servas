@@ -134,8 +134,8 @@
     {#if links.data.length}
         <div class="flex items-center gap-x-4 mt-6 sm:flex-row-reverse">
             <button on:click={toggleBulkEditingMode} type="button"
-                    class="group inline-flex items-center font-medium text-sm text-gray-700">
-                <svg class="mr-2 size-4 flex-none text-gray-400 group-hover:text-gray-500"
+                    class="group inline-flex items-center font-medium text-sm text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300">
+                <svg class="mr-2 size-4 flex-none text-gray-500 group-hover:text-gray-600 dark:text-gray-300 dark:group-hover:text-gray-400"
                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path
                         d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"/>
@@ -146,9 +146,9 @@
             {#if bulkEditingEnabled}
                 <div class="relative inline-flex">
                     <button on:click={() => showBulkEditingDropdown = !showBulkEditingDropdown} type="button"
-                            class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                            class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300">
                         Action
-                        <svg class="-mr-1 ml-1 size-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                        <svg class="-mr-1 ml-1 size-5 flex-shrink-0 text-gray-500 group-hover:text-gray-600 dark:text-gray-300 dark:group-hover:text-gray-400"
                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                              aria-hidden="true">
                             <path fill-rule="evenodd"
@@ -207,13 +207,13 @@
 
                 {#if selectedLinks.length === 0}
                     <button on:click={() => selectedLinks = links.data.map(x => x.id)} type="button"
-                            class="text-sm font-medium text-gray-700 hover:text-gray-900">
+                            class="text-sm font-medium text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300">
                         Select all
                     </button>
 
                 {:else}
                     <button on:click={() => selectedLinks = []} type="button"
-                            class="text-sm font-medium text-gray-700 hover:text-gray-900">
+                            class="text-sm font-medium text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300">
                         Deselect all
                     </button>
                 {/if}
