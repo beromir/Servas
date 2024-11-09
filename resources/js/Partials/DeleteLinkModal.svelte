@@ -28,10 +28,10 @@
 <svelte:window on:deleteLink={prepareDeleteLink}/>
 
 <Modal title="Delete Link" bind:showModal>
-    <p class="text-sm text-gray-500">
+    <p class="text-sm text-gray-600 dark:text-gray-300">
         Are you sure you want to delete this link?
     </p>
-    <div class="mt-1 text-sm text-gray-700 font-medium">
+    <div class="mt-1 text-sm text-gray-700 font-medium dark:text-gray-50">
         {link.title}
     </div>
 
