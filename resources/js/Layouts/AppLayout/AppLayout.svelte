@@ -101,7 +101,7 @@
         <div in:slide={{ duration: 200, axis: 'x', easing: cubicOut }}
              out:slide={{ duration: 300, axis: 'x', easing: cubicOut }}
              class="fixed top-0 z-50 flex-none w-[300px] h-screen lg:sticky">
-            <div class="flex flex-col w-full h-full bg-gray-700 shadow ring-contrast dark:bg-gray-800">
+            <div class="flex flex-col w-full h-full bg-gray-700 shadow ring-contrast transition duration-300 dark:bg-gray-800">
                 <div class="flex items-center p-4">
                     <!-- Sidebar toggle -->
                     <button on:click={() => showSidebar = toggleSidebar()} type="button"
@@ -254,9 +254,9 @@
                         title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
                         in:fade={{ duration: 100, easing: cubicOut }}
                         out:fade={{ duration: 50, easing: cubicIn }}
-                        class="py-1.5 px-2 bg-white shadow-sm rounded-md ring-1 ring-gray-300 transition hover:bg-gray-50">
+                        class="py-1.5 px-2 bg-white shadow-sm rounded-md ring-1 ring-gray-300 transition hover:bg-gray-50 dark:bg-gray-800 dark:ring-contrast dark:hover:bg-gray-700">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                         class="size-6 text-gray-600 transition duration-300 delay-150">
+                         class="size-6 text-gray-600 transition duration-300 delay-150 dark:text-gray-100">
                         <rect width="24" height="24" fill="none"/>
                         <rect x="2" y="3" width="20.3012" height="18.3152" rx="3" stroke="currentColor" stroke-width="2"
                               stroke-linejoin="round"/>
