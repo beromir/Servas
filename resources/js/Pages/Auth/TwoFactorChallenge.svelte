@@ -39,7 +39,7 @@
 </script>
 
 <AuthenticationCard>
-    <div class="mb-4 text-sm text-gray-600">
+    <div class="mb-4 text-sm text-gray-600 dark:text-gray-200">
         {#if !recovery}
             Please confirm access to your account by entering the authentication code provided by your authenticator
             application.
@@ -62,7 +62,7 @@
         {/if}
 
         <div class="flex justify-end mt-2">
-            <button type="button" class="text-sm text-gray-600 cursor-pointer hover:text-gray-800"
+            <button type="button" class="text-sm text-gray-600 cursor-pointer hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-400"
                     on:click|preventDefault={toggleRecovery}>
                 {#if !recovery}
                     Use a recovery code
