@@ -11,7 +11,7 @@
 
     switch (color) {
         case 'alert':
-            textColorClassNames = 'hover:text-red-700 hover:text-red-400';
+            textColorClassNames = 'hover:text-red-700 dark:hover:text-red-400';
             iconColorClassNames = 'group-hover:text-red-500';
             break;
         default:

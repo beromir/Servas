@@ -6,7 +6,7 @@
 </script>
 
 <script>
-    import {inertia, Link, page} from '@inertiajs/svelte';
+    import {inertia, Link, page, router} from '@inertiajs/svelte';
     import LinkModal from "@/Partials/LinkModal.svelte";
     import DeleteLinkModal from "@/Partials/DeleteLinkModal.svelte";
     import {route, dispatchCustomEvent} from '@/utils';
@@ -27,6 +27,7 @@
     import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
     import {closeSidebar} from "@/utils/sidebar.js";
     import DeletePublicLinkModal from "@/Partials/DeletePublicLinkModal.svelte";
+    import DropdownItem from "@/Components/Dropdowns/DropdownItem.svelte";
 
     const appName = $page.props.appName;
 
@@ -101,7 +102,8 @@
         <div in:slide={{ duration: 200, axis: 'x', easing: cubicOut }}
              out:slide={{ duration: 300, axis: 'x', easing: cubicOut }}
              class="fixed top-0 z-50 flex-none w-[300px] h-screen lg:sticky">
-            <div class="flex flex-col w-full h-full bg-gray-700 shadow ring-contrast transition duration-300 dark:bg-gray-800">
+            <div
+                class="flex flex-col w-full h-full bg-gray-700 shadow ring-contrast transition duration-300 dark:bg-gray-800">
                 <div class="flex items-center p-4">
                     <!-- Sidebar toggle -->
                     <button on:click={() => showSidebar = toggleSidebar()} type="button"
@@ -137,21 +139,21 @@
                             <InnerDropdownSection>
                                 <Link href={route('profile.show')}
                                       on:click={() => {showProfileDropdown = false; closeSidebar()}}
-                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-0">Your Profile
                                 </Link>
 
                                 <Link href={route('publicLinks.index')}
                                       on:click={() => {showProfileDropdown = false; closeSidebar()}}
-                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-1">Shared Groups
                                 </Link>
 
                                 <Link href={route('api-tokens.index')}
                                       on:click={() => {showProfileDropdown = false; closeSidebar()}}
-                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-1">API Tokens
                                 </Link>
@@ -161,7 +163,7 @@
                                 <button use:inertia={{ href: route('logout'), method: 'post' }}
                                         on:click={() => {showProfileDropdown = false; closeSidebar()}}
                                         type="button"
-                                        class="flex items-center px-4 py-2 w-full text-sm text-gray-700 group hover:text-red-700 hover:bg-gray-50"
+                                        class="flex items-center px-4 py-2 w-full text-sm text-gray-700 group hover:text-red-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800 dark:hover:text-red-400"
                                         role="menuitem" tabindex="-1" id="user-menu-item-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                          class="mr-3 size-5 text-gray-400 group-hover:text-red-500">
