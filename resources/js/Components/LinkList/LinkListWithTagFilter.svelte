@@ -87,9 +87,9 @@
         <div class="mt-4">
             {#each $linkFilter.tags as tag (tag.id)}
                 <button on:click={() => {removeFilteredTag(tag); $linkFilter.isActive = true}} type="button"
-                        class="inline-flex items-center mr-2 mt-2 py-0.5 px-2.5 bg-primary-100 text-sm text-primary-800 font-medium rounded-full group">
+                        class="inline-flex items-center mr-2 mt-2 py-0.5 px-2.5 bg-primary-100 text-sm text-primary-800 font-medium rounded-full group dark:bg-primary-700/80 dark:text-primary-50">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="mr-1 -ml-1 size-4 fill-primary-500 rounded-full group-hover:fill-primary-700 group-hover:bg-primary-200/50">
+                         class="mr-1 -ml-1 size-4 fill-primary-500 rounded-full group-hover:fill-primary-700 group-hover:bg-primary-200/50 dark:fill-primary-300 dark:group-hover:fill-primary-200 dark:group-hover:bg-primary-500/50">
                         <path
                             d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
                     </svg>
