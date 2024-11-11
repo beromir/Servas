@@ -139,8 +139,8 @@
         <Input label="Title" name="title" placeholder="optional" bind:value={$linkForm.title}
                error={$linkForm.errors.title}/>
 
-        <div class="sm:grid sm:grid-cols-5 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-            <span class="block text-sm text-left font-medium text-gray-700 sm:mt-px sm:pt-2">
+        <div class="sm:grid sm:grid-cols-5 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5 dark:border-gray-700">
+            <span class="block text-sm text-left font-medium text-gray-700 sm:mt-px sm:pt-2 dark:text-gray-200">
                 Groups
             </span>
             <div class="max-w-xl mt-1 relative sm:mt-0 sm:col-span-2">
@@ -151,7 +151,7 @@
         </div>
 
         <!-- Tags -->
-        <div class="space-y-3 sm:border-t sm:border-gray-200 sm:pt-2">
+        <div class="space-y-3 sm:border-t sm:border-gray-200 sm:pt-2 dark:border-gray-700">
             {#each tags as tag (tag.id)}
                 <Badge
                     on:clicked={() => toggleValueInArray(tag.id)}
