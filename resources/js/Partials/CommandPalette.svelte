@@ -144,7 +144,7 @@
              class="mx-auto max-w-xl transform rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
             <div class="p-2">
                 <input bind:this={input} on:input={search} on:keydown={handleKeydown} type="text"
-                       class="w-full rounded-md border-0 bg-gray-100 px-4 py-2.5 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                       class="w-full rounded-md border-0 bg-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                        placeholder="Search..." role="combobox" aria-expanded="false" aria-controls="options"
                        autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
             </div>
@@ -155,7 +155,7 @@
                     {#each groups as group}
 
                         <div
-                            class="sticky top-0 py-2 px-6 bg-gray-50 text-gray-800 text-xs font-semibold">
+                            class="sticky top-0 py-2 px-6 bg-gray-100 text-gray-800 text-xs font-semibold">
                             {group}
                         </div>
                         <ul class="pt-1 pb-3 px-2" id="options">
@@ -172,7 +172,7 @@
                                     {#if result.link}
                                         <div class={['text-xs truncate',
                                             result.hash === selectedModal ? 'text-gray-100' : 'text-gray-600'].join(' ').trim()}>
-                                            {result.link}
+                                            {new URL(result.link).host}
                                         </div>
                                     {/if}
                                 </li>
