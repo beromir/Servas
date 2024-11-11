@@ -75,7 +75,7 @@
             {#if $linkFilter.showUntaggedOnly}
                 <button on:click={() => {$linkFilter.showUntaggedOnly = false; $linkFilter.isActive = true}}
                         type="button"
-                        class="block mt-2 mx-auto text-sm text-gray-700 sm:mt-0 sm:mr-0 sm:ml-2">
+                        class="block mt-2 mx-auto text-sm text-gray-700 sm:mt-0 sm:mr-0 sm:ml-2 dark:text-gray-200">
                     Show all
                 </button>
             {/if}

@@ -84,7 +84,7 @@
             </Button>
 
             <button on:click={endEditMode} type="button"
-                    class="w-full text-gray-700 text-sm focus:outline-none focus:ring-primary-400 focus:ring-offset-gray-100 focus:ring-2 focus:ring-offset-2 sm:ml-3">
+                    class="w-full text-gray-700 text-sm focus:outline-none focus:ring-primary-400 focus:ring-offset-gray-100 focus:ring-2 focus:ring-offset-2 sm:ml-3 dark:text-gray-200">
                 Cancel
             </button>
         </div>
