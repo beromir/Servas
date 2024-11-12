@@ -1,6 +1,7 @@
 <script>
     import {createEventDispatcher} from 'svelte';
     import {focusSelf} from "@/utils";
+    import clsx from "clsx";
 
     const dispatch = createEventDispatcher();
     export let type = 'button';
@@ -13,9 +14,17 @@
             case 'red':
                 return 'border-transparent text-white bg-red-600 hover:bg-red-700 focus:ring-red-500';
             case 'white':
-                return 'border-gray-400 text-gray-700 bg-white hover:bg-gray-50 focus:ring-primary-400 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700';
+                return clsx(
+                    'border-gray-400 text-gray-700 bg-white hover:bg-gray-50 focus:ring-primary-400 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700',
+                    '[&>svg]:fill-gray-500 dark:[&>svg]:fill-gray-300',
+                    title ? '[&>svg]:-ml-1 [&>svg]:mr-2' : '',
+                );
             default:
-                return 'border-transparent text-white bg-primary-500 hover:bg-primary-600 focus:ring-primary-400';
+                return clsx(
+                    'border-transparent text-white bg-primary-500 hover:bg-primary-600 focus:ring-primary-400',
+                    '[&>svg]:fill-gray-100',
+                    title ? '[&>svg]:-ml-1 [&>svg]:mr-2' : '',
+                );
         }
     }
 </script>
@@ -23,13 +32,16 @@
 <button
     {...$$restProps} {type}
     on:click={() => {dispatch('clicked')}}
-    class={['w-full inline-flex justify-center items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md select-none focus:outline-none focus:ring-2 focus:ring-offset-2 md:w-auto dark:focus:ring-offset-gray-900',
-    getColors(), $$restProps.class].join(' ').trim()}
+    class={clsx(
+        'w-full inline-flex justify-center items-center py-2 border shadow-sm text-sm font-medium rounded-md select-none focus:outline-none focus:ring-2 focus:ring-offset-2 md:w-auto dark:focus:ring-offset-gray-900',
+        '[&>svg]:size-5',
+        title ? 'px-4' : 'px-2',
+        getColors(),
+        $$restProps.class
+    )}
     use:focusSelf={focusButton}>
     {#if $$slots.icon}
-        <span class={['size-5', title ? '-ml-1 mr-2' : ''].join(' ').trim()}>
-            <slot name="icon"/>
-        </span>
+        <slot name="icon"/>
     {/if}
     {#if title}
         {title}
