@@ -166,7 +166,7 @@
                                         class="flex items-center px-4 py-2 w-full text-sm text-gray-700 group hover:text-red-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800 dark:hover:text-red-400"
                                         role="menuitem" tabindex="-1" id="user-menu-item-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                         class="mr-3 size-5 text-gray-400 group-hover:text-red-500">
+                                         class="mr-3 size-5 text-gray-500 group-hover:text-red-500 dark:text-gray-400">
                                         <path fill-rule="evenodd"
                                               d="M3 4.25A2.25 2.25 0 0 1 5.25 2h5.5A2.25 2.25 0 0 1 13 4.25v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 0-.75-.75h-5.5a.75.75 0 0 0-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 0 0 .75-.75v-2a.75.75 0 0 1 1.5 0v2A2.25 2.25 0 0 1 10.75 18h-5.5A2.25 2.25 0 0 1 3 15.75V4.25Z"
                                               clip-rule="evenodd"/>
