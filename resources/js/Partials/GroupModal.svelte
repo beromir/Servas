@@ -116,7 +116,7 @@
 <Modal title={isEditing ? 'Edit group' : 'Create group'} showFooterMenuOnMobile={false} bind:showModal>
     <svelte:fragment slot="mobilePrimaryAction">
         <button on:click={isEditing ? updateGroup : createGroup}
-                class="text-right text-primary-600 font-medium focus:outline-none sm:hidden" type="button">
+                class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100" type="button">
             {isEditing ? 'Edit' : 'Create'}
         </button>
     </svelte:fragment>

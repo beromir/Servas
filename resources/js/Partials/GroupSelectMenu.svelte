@@ -140,7 +140,7 @@
 <Modal title="Select a group" bind:showModal showFooterMenuOnMobile={false}>
     <svelte:fragment slot="mobilePrimaryAction">
         <button on:click={saveChanges}
-                class="text-right text-primary-600 font-medium focus:outline-none sm:hidden" type="button">
+                class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100" type="button">
             Select
         </button>
     </svelte:fragment>
