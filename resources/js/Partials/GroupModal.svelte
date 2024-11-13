@@ -125,8 +125,8 @@
         <Input label="Title" name="title" isFirst={true} bind:value={$form.title}
                error={$form.errors.title} autofocus={!isEditing}/>
 
-        <div class="sm:grid sm:grid-cols-5 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-            <span class="block text-sm text-left font-medium text-gray-700 sm:mt-px sm:pt-2">
+        <div class="sm:grid sm:grid-cols-5 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5 dark:border-gray-700">
+            <span class="block text-sm text-left font-medium text-gray-700 sm:mt-px sm:pt-2 dark:text-gray-200">
                 Groups
             </span>
             <div class="max-w-xl mt-1 relative sm:mt-0 sm:col-span-2">
@@ -136,19 +136,19 @@
             </div>
         </div>
 
-        <div class="sm:border-t sm:border-gray-200 sm:pt-5">
+        <div class="sm:border-t sm:border-gray-200 sm:pt-5 dark:border-gray-700">
             <button on:click={() => showSmartGroupSettings = !showSmartGroupSettings} type="button"
                     class="flex justify-between items-center w-full group">
                 <span class="text-left">
-                    <span class="block text-gray-800 font-medium">Smart Group settings</span>
-                    <span class="block -mt-0.5 text-sm text-gray-500">Show tagged links in the group</span>
+                    <span class="block text-gray-800 font-medium dark:text-gray-100">Smart Group settings</span>
+                    <span class="block -mt-0.5 text-sm text-gray-500 dark:text-gray-400">Show tagged links in the group</span>
                 </span>
 
                 {#if showSmartGroupSettings}
-                    <Minus className="text-gray-600 group-hover:text-gray-900"/>
+                    <Minus className="text-gray-600 group-hover:text-gray-900 dark:text-gray-200 dark:group-hover:text-white"/>
 
                 {:else}
-                    <Plus className="text-gray-600 group-hover:text-gray-900"/>
+                    <Plus className="text-gray-600 group-hover:text-gray-900 dark:text-gray-200 dark:group-hover:text-white"/>
                 {/if}
             </button>
 
