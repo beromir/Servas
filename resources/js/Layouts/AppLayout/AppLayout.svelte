@@ -6,7 +6,7 @@
 </script>
 
 <script>
-    import {inertia, Link, page, router} from '@inertiajs/svelte';
+    import {inertia, Link, page} from '@inertiajs/svelte';
     import LinkModal from "@/Partials/LinkModal.svelte";
     import DeleteLinkModal from "@/Partials/DeleteLinkModal.svelte";
     import {route, dispatchCustomEvent} from '@/utils';
@@ -28,12 +28,17 @@
     import {closeSidebar} from "@/utils/sidebar.js";
     import DeletePublicLinkModal from "@/Partials/DeletePublicLinkModal.svelte";
     import DropdownItem from "@/Components/Dropdowns/DropdownItem.svelte";
+    import Sun from "@/Heroicons/Mini/Sun.svelte";
+    import Moon from "@/Heroicons/Mini/Moon.svelte";
+    import ComputerDesktop from "@/Heroicons/Mini/ComputerDesktop.svelte";
+    import {initTheme, changeTheme} from "@/utils/theme.js";
 
     const appName = $page.props.appName;
 
     let showProfileDropdown = false;
     let groups = [];
     let showSidebar = sidebarIsOpen();
+    let theme = initTheme();
 
     $: $refreshGroups && getAllGroups();
 
@@ -157,6 +162,25 @@
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-1">API Tokens
                                 </Link>
+                            </InnerDropdownSection>
+
+                            <!-- Theme toggle -->
+                            <InnerDropdownSection>
+                                {#if theme === 'dark'}
+                                    <DropdownItem on:clicked={() => (theme = changeTheme('light'))} title="Dark Theme">
+                                        <Moon slot="icon"/>
+                                    </DropdownItem>
+
+                                {:else if theme === 'light'}
+                                    <DropdownItem on:clicked={() => (theme = changeTheme())} title="Light Theme">
+                                        <Sun slot="icon"/>
+                                    </DropdownItem>
+
+                                {:else}
+                                    <DropdownItem on:clicked={() => (theme = changeTheme('dark'))} title="System Theme">
+                                        <ComputerDesktop slot="icon"/>
+                                    </DropdownItem>
+                                {/if}
                             </InnerDropdownSection>
 
                             <InnerDropdownSection>

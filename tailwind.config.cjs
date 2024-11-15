@@ -88,6 +88,8 @@ module.exports = {
         },
     },
 
+    darkMode: 'selector',
+
     future: {
         hoverOnlyWhenSupported: true,
     },
