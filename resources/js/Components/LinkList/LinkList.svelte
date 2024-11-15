@@ -11,6 +11,8 @@
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from "@/Components/Modals/Modal.svelte";
     import {createEventDispatcher, onDestroy} from "svelte";
+    import EmptyStateWithAction from "@/Components/EmptyStates/EmptyStateWithAction.svelte";
+    import LinkIcon from "@/Heroicons/Outline/Link.svelte";
 
     export let links = [];
     export let searchString = '';
@@ -106,7 +108,8 @@
         <div class="w-full sm:flex sm:items-center sm:w-auto">
             <div class="relative rounded-md shadow-sm">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-gray-400 dark:text-gray-500" viewBox="0 0 20 20"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-gray-400 dark:text-gray-500"
+                         viewBox="0 0 20 20"
                          fill="currentColor">
                         <path fill-rule="evenodd"
                               d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
@@ -135,8 +138,9 @@
         <div class="flex items-center gap-x-4 mt-6 sm:flex-row-reverse">
             <button on:click={toggleBulkEditingMode} type="button"
                     class="group inline-flex items-center font-medium text-sm text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300">
-                <svg class="mr-2 size-4 flex-none text-gray-500 group-hover:text-gray-600 dark:text-gray-300 dark:group-hover:text-gray-400"
-                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <svg
+                    class="mr-2 size-4 flex-none text-gray-500 group-hover:text-gray-600 dark:text-gray-300 dark:group-hover:text-gray-400"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path
                         d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"/>
                 </svg>
@@ -148,9 +152,10 @@
                     <button on:click={() => showBulkEditingDropdown = !showBulkEditingDropdown} type="button"
                             class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300">
                         Action
-                        <svg class="-mr-1 ml-1 size-5 flex-shrink-0 text-gray-500 group-hover:text-gray-600 dark:text-gray-300 dark:group-hover:text-gray-400"
-                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             aria-hidden="true">
+                        <svg
+                            class="-mr-1 ml-1 size-5 flex-shrink-0 text-gray-500 group-hover:text-gray-600 dark:text-gray-300 dark:group-hover:text-gray-400"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            aria-hidden="true">
                             <path fill-rule="evenodd"
                                   d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
                                   clip-rule="evenodd"/>
@@ -264,19 +269,10 @@
         </li>
 
     {:else}
-        <div class="col-span-2 container mx-auto px-4 sm:px-0">
-            <button on:click="{() => dispatchCustomEvent('prepareCreateNewLink')}" type="button"
-                    class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:ring-offset-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto size-12 text-gray-400" fill="none"
-                     viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-                </svg>
-                <span class="mt-2 block text-sm font-medium text-gray-900">
-                    Add a new link
-                </span>
-            </button>
-        </div>
+        <EmptyStateWithAction on:clicked={() => dispatchCustomEvent('prepareCreateNewLink')} title="Add a new link"
+                              class="mt-2 px-4 col-span-2 sm:px-0">
+            <LinkIcon slot="icon"/>
+        </EmptyStateWithAction>
     {/each}
 </ul>
 
