@@ -14,13 +14,13 @@
             case 'red':
                 return 'bg-red-100 text-red-800';
             case 'gray':
-                return 'bg-gray-100 text-gray-800';
+                return 'bg-gray-200 text-gray-800 dark:!bg-white/10 dark:text-gray-200';
             case 'blue':
                 return 'bg-blue-100 text-blue-800';
             case 'none':
                 return '';
             default:
-                return '!bg-primary-100 text-primary-800';
+                return '!bg-primary-100 text-primary-800 dark:!bg-primary-700/80 dark:text-primary-50';
         }
     }
 

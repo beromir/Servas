@@ -4,7 +4,7 @@
 
     $: props = {
         ...$$restProps,
-        class: `block font-medium text-sm text-gray-700 ${$$restProps.class || ''}`,
+        class: `block font-medium text-sm text-gray-700 dark:text-gray-200 ${$$restProps.class || ''}`,
     }
 </script>
 

@@ -15,6 +15,10 @@ function setLocalSettings(name, settingsToSet) {
         case 'sidebarIsOpen':
             settings.sidebarIsOpen = settingsToSet;
             break;
+
+        case 'theme':
+            settings.theme = settingsToSet;
+            break;
     }
 
     localStorage.setItem('servas_settings', JSON.stringify(settings));
@@ -58,4 +62,14 @@ function toggleSidebar() {
     return showSidebar;
 }
 
-export {getOpenedGroups, toggleOpenedGroup, sidebarIsOpen, toggleSidebar};
+function getTheme() {
+    const settings = getLocalSettings();
+
+    return settings.theme ?? '';
+}
+
+function setTheme(theme) {
+    setLocalSettings('theme', theme);
+}
+
+export {getOpenedGroups, toggleOpenedGroup, sidebarIsOpen, toggleSidebar, getTheme, setTheme};

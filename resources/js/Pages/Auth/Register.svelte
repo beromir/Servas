@@ -48,7 +48,7 @@
         <div class="flex flex-col items-center mt-12">
             <SubmitButton title="Register"/>
 
-            <Link href="/login" class="mt-4 text-sm text-gray-600 hover:text-gray-800">
+            <Link href="/login" class="mt-4 text-sm text-gray-600 hover:text-gray-800 dark:text-gray-200 dark:hover:text-white">
                 Already registered
             </Link>
         </div>

@@ -68,7 +68,7 @@
     <svelte:fragment slot="toolbar">
         <div class="relative inline-flex ml-auto">
             <button on:click={() => showMenuDropdown = !showMenuDropdown} type="button"
-                    class="text-gray-600 hover:text-gray-900">
+                    class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="size-8">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -112,15 +112,14 @@
         </div>
 
         {#if publicLink.id}
-            <button on:click={() => showPublicLinkModal = true} type="button" title="Public link"
-                    class="ml-4 py-2 px-2 bg-gray-50 shadow-sm rounded-md ring-1 ring-gray-200 md:bg-white md:hover:bg-gray-50">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="size-5 fill-gray-800">
+            <Button on:clicked={() => showPublicLinkModal = true} color="white" hoverTitle="Public link" class="ml-4 !w-auto">
+                <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                     <path
                         d="M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z"/>
                     <path
                         d="M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z"/>
                 </svg>
-            </button>
+            </Button>
         {/if}
     </svelte:fragment>
 
@@ -130,12 +129,12 @@
 </Main>
 
 <Modal title="Public link" bind:showModal={showPublicLinkModal}>
-    <p class="text-sm text-gray-500">
+    <p class="text-sm text-gray-600 dark:text-gray-300">
         Share this group with this link:
     </p>
 
     <div class="flex justify-between items-center gap-x-4 mt-1">
-        <div class="text-sm text-gray-700 font-medium break-all select-all">{publicLink.link}</div>
+        <div class="text-sm text-gray-700 font-medium break-all select-all dark:text-gray-50">{publicLink.link}</div>
 
         <button on:click={() => copyLink(publicLink.link, publicLink.id)} type="button"
                 class="flex items-center gap-x-1.5 group">
@@ -152,21 +151,21 @@
 
             {:else}
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                     class="size-5 fill-gray-400 group-hover:fill-primary-500">
+                     class="size-5 fill-gray-500 group-hover:fill-primary-500 dark:fill-gray-300 dark:group-hover:fill-primary-400">
                     <path fill-rule="evenodd"
                           d="M13.887 3.182c.396.037.79.08 1.183.128C16.194 3.45 17 4.414 17 5.517V16.75A2.25 2.25 0 0 1 14.75 19h-9.5A2.25 2.25 0 0 1 3 16.75V5.517c0-1.103.806-2.068 1.93-2.207.393-.048.787-.09 1.183-.128A3.001 3.001 0 0 1 9 1h2c1.373 0 2.531.923 2.887 2.182ZM7.5 4A1.5 1.5 0 0 1 9 2.5h2A1.5 1.5 0 0 1 12.5 4v.5h-5V4Z"
                           clip-rule="evenodd"/>
                 </svg>
             {/if}
 
-            <span class="text-sm text-gray-500 font-medium">Copy</span>
+            <span class="text-sm text-gray-700 font-medium dark:text-gray-200">Copy</span>
         </button>
     </div>
 
     <svelte:fragment slot="footer">
         <Button on:clicked={showPublicLinkDeleteModal} color="red"
                 class="focus:ring-offset-gray-50">
-            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                 <path fill-rule="evenodd"
                       d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
                       clip-rule="evenodd"/>

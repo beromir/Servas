@@ -29,10 +29,10 @@
 <svelte:window on:deletePublicLink={prepareDeletePublicLink}/>
 
 <Modal title="Delete Public link" bind:showModal>
-    <p class="text-sm text-gray-500">
+    <p class="text-sm text-gray-600 dark:text-gray-300">
         Are you sure you want to delete this public link and stop the sharing of the group?
     </p>
-    <div class="mt-1 text-sm text-gray-700 font-medium">
+    <div class="mt-1 text-sm text-gray-700 font-medium dark:text-gray-50">
         {publicLinkTitle}
     </div>
 

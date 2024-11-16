@@ -134,28 +134,28 @@
         <div on:click={closeCommandPalette}
              in:fade={{duration: 300, easing: backOut}}
              out:fade={{duration: 200, easing: backIn}}
-             class="fixed inset-0 bg-gray-500 bg-opacity-50 transition-opacity" aria-hidden="true">
+             class="fixed inset-0 bg-gray-500/75 transition-opacity dark:bg-gray-900/75" aria-hidden="true">
         </div>
 
         <!-- Command palette, show/hide based on modal state. -->
         <div in:scale={{duration: 300, start: 0.95, easing: backOut}}
              out:scale={{duration: 200, start: 0.95, easing: backIn}}
              use:noScroll
-             class="mx-auto max-w-xl transform rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
+             class="mx-auto max-w-xl transform rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all dark:bg-gray-950 dark:ring-contrast">
             <div class="p-2">
                 <input bind:this={input} on:input={search} on:keydown={handleKeydown} type="text"
-                       class="w-full rounded-md border-0 bg-gray-100 px-4 py-2.5 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                       class="w-full rounded-md border-0 bg-gray-200 px-4 py-2.5 placeholder-gray-600 focus:ring-0 sm:text-sm dark:bg-gray-900 dark:text-white dark:placeholder-gray-400"
                        placeholder="Search..." role="combobox" aria-expanded="false" aria-controls="options"
                        autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
             </div>
 
             <!-- Results, show/hide based on command palette state. -->
             {#if searchResults.length}
-                <div class="max-h-72 overflow-y-auto scroll-pt-10 text-sm text-gray-800">
+                <div class="max-h-72 overflow-y-auto scroll-pt-10 text-sm text-gray-800 dark:text-white">
                     {#each groups as group}
 
                         <div
-                            class="sticky top-0 py-2 px-6 bg-gray-50 text-gray-800 text-xs font-semibold">
+                            class="sticky top-0 py-2 px-6 bg-gray-100 text-gray-800 text-xs font-semibold dark:bg-gray-900 dark:text-gray-200">
                             {group}
                         </div>
                         <ul class="pt-1 pb-3 px-2" id="options">
@@ -166,13 +166,13 @@
                                     on:click={() => openSingleModalPage(result.url)}
                                     id={`select-option-${result.hash}`}
                                     class={['px-4 py-2 cursor-default select-none rounded-md',
-                                        result.hash === selectedModal ? 'bg-primary-500 text-white' : ''].join(' ').trim()}
+                                        result.hash === selectedModal ? 'bg-primary-500 text-white dark:bg-primary-700' : ''].join(' ').trim()}
                                     tabindex="-1" aria-hidden="true">
                                     <div>{result.title}</div>
                                     {#if result.link}
                                         <div class={['text-xs truncate',
-                                            result.hash === selectedModal ? 'text-gray-100' : 'text-gray-600'].join(' ').trim()}>
-                                            {result.link}
+                                            result.hash === selectedModal ? 'text-gray-100 dark:text-gray-200' : 'text-gray-600 dark:text-gray-400'].join(' ').trim()}>
+                                            {new URL(result.link).host}
                                         </div>
                                     {/if}
                                 </li>
@@ -185,12 +185,12 @@
             <!-- Empty state, show/hide based on command palette state. -->
             {#if (input && (input.value.length > 1 && !searchResults.length))}
                 <div class="py-14 px-4 text-center sm:px-14">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto size-6 text-gray-500" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto size-6 text-gray-500 dark:text-gray-300" fill="none"
                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <p class="mt-4 text-sm text-gray-900">Nothing found using that search term.</p>
+                    <p class="mt-4 text-sm text-gray-900 dark:text-gray-100">Nothing found using that search term.</p>
                 </div>
             {/if}
         </div>

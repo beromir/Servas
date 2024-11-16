@@ -107,22 +107,22 @@
 
     <svelte:fragment slot="content">
         {#if twoFactorEnabled && !confirming}
-            <h3 class="text-lg font-medium text-gray-900">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 You have enabled two factor authentication.
             </h3>
 
         {:else if confirming}
-            <h3 class="text-lg font-medium text-gray-900">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 Finish enabling two factor authentication.
             </h3>
 
         {:else}
-            <h3 class="text-lg font-medium text-gray-900">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 You have not enabled two factor authentication.
             </h3>
         {/if}
 
-        <div class="mt-3 max-w-xl text-sm text-gray-600">
+        <div class="mt-3 max-w-xl text-sm text-gray-600 dark:text-gray-400">
             <p>
                 When two factor authentication is enabled, you will be prompted for a secure, random token during
                 authentication. You may retrieve this token from your phone's Google Authenticator application.
@@ -131,7 +131,7 @@
 
         {#if twoFactorEnabled}
             {#if qrCode}
-                <div class="mt-4 max-w-xl text-sm text-gray-600">
+                <div class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-400">
                     {#if confirming}
                         <p class="font-semibold">
                             To finish enabling two factor authentication, scan the following QR code using your phone's
@@ -165,7 +165,7 @@
                     </div>
                 {/if}
 
-                <div class="mt-4 max-w-xl text-sm text-gray-600">
+                <div class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-400">
                     <p class="font-semibold">
                         Setup Key: <span class="select-all">{@html setupKey}</span>
                     </p>
@@ -173,14 +173,14 @@
             {/if}
 
             {#if recoveryCodes.length > 0 && !confirming}
-                <div class="mt-4 max-w-xl text-sm text-gray-600">
+                <div class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-400">
                     <p class="font-semibold">
                         Store these recovery codes in a secure password manager. They can be used to recover access to
                         your account if your two factor authentication device is lost.
                     </p>
                 </div>
 
-                <div class="grid gap-1 max-w-xl mt-4 px-4 py-4 font-mono text-sm bg-gray-100 rounded-lg select-all">
+                <div class="grid gap-1 max-w-xl mt-4 px-4 py-4 font-mono text-sm bg-gray-100 rounded-lg select-all dark:bg-gray-950 dark:text-white">
                     {#each recoveryCodes as code (code)}
                         {code}<br/>
                     {/each}

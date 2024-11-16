@@ -27,12 +27,18 @@
     import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
     import {closeSidebar} from "@/utils/sidebar.js";
     import DeletePublicLinkModal from "@/Partials/DeletePublicLinkModal.svelte";
+    import DropdownItem from "@/Components/Dropdowns/DropdownItem.svelte";
+    import Sun from "@/Heroicons/Mini/Sun.svelte";
+    import Moon from "@/Heroicons/Mini/Moon.svelte";
+    import ComputerDesktop from "@/Heroicons/Mini/ComputerDesktop.svelte";
+    import {initTheme, changeTheme} from "@/utils/theme.js";
 
     const appName = $page.props.appName;
 
     let showProfileDropdown = false;
     let groups = [];
     let showSidebar = sidebarIsOpen();
+    let theme = initTheme();
 
     $: $refreshGroups && getAllGroups();
 
@@ -86,11 +92,11 @@
              tabindex="0" role="button"
              in:fade={{ duration: 100, easing: cubicOut }}
              out:fade={{ duration: 200, easing: cubicIn }}
-             class="fixed inset-0 z-40 bg-gray-500/40 lg:hidden"></div>
+             class="fixed inset-0 z-40 bg-gray-500/40 lg:hidden dark:bg-gray-900/60"></div>
     {/if}
 
     <button on:click={() => showSidebar = toggleSidebar()} type="button"
-            class="fixed bottom-5 left-5 z-10 p-2.5 text-gray-100 bg-gray-800 rounded-full shadow sm:hidden">
+            class="fixed bottom-5 left-5 z-10 p-2.5 text-gray-100 bg-gray-800 rounded-full shadow sm:hidden dark:bg-gray-50 dark:text-gray-900">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              class="size-8">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
@@ -101,12 +107,13 @@
         <div in:slide={{ duration: 200, axis: 'x', easing: cubicOut }}
              out:slide={{ duration: 300, axis: 'x', easing: cubicOut }}
              class="fixed top-0 z-50 flex-none w-[300px] h-screen lg:sticky">
-            <div class="flex flex-col w-full h-full bg-gray-800 shadow">
+            <div
+                class="flex flex-col w-full h-full bg-gray-700 shadow ring-contrast transition duration-300 dark:bg-gray-800">
                 <div class="flex items-center p-4">
                     <!-- Sidebar toggle -->
                     <button on:click={() => showSidebar = toggleSidebar()} type="button"
                             title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
-                            class="hidden py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500 sm:block">
+                            class="hidden py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-600 hover:ring-1 hover:ring-gray-500 sm:block dark:hover:bg-gray-700">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                              class="size-6">
                             <rect width="24" height="24" fill="none"/>
@@ -123,7 +130,7 @@
                     <div class="relative sm:ml-auto">
                         <button on:click={() => showProfileDropdown = !showProfileDropdown} title="Open user menu"
                                 type="button"
-                                class="py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500">
+                                class="py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-600 hover:ring-1 hover:ring-gray-500 dark:hover:bg-gray-700">
                             <span class="sr-only">Open user menu</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                  stroke="currentColor" class="size-6">
@@ -137,34 +144,53 @@
                             <InnerDropdownSection>
                                 <Link href={route('profile.show')}
                                       on:click={() => {showProfileDropdown = false; closeSidebar()}}
-                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-0">Your Profile
                                 </Link>
 
                                 <Link href={route('publicLinks.index')}
                                       on:click={() => {showProfileDropdown = false; closeSidebar()}}
-                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-1">Shared Groups
                                 </Link>
 
                                 <Link href={route('api-tokens.index')}
                                       on:click={() => {showProfileDropdown = false; closeSidebar()}}
-                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-1">API Tokens
                                 </Link>
+                            </InnerDropdownSection>
+
+                            <!-- Theme toggle -->
+                            <InnerDropdownSection>
+                                {#if theme === 'dark'}
+                                    <DropdownItem on:clicked={() => (theme = changeTheme('light'))} title="Dark Theme">
+                                        <Moon slot="icon"/>
+                                    </DropdownItem>
+
+                                {:else if theme === 'light'}
+                                    <DropdownItem on:clicked={() => (theme = changeTheme())} title="Light Theme">
+                                        <Sun slot="icon"/>
+                                    </DropdownItem>
+
+                                {:else}
+                                    <DropdownItem on:clicked={() => (theme = changeTheme('dark'))} title="System Theme">
+                                        <ComputerDesktop slot="icon"/>
+                                    </DropdownItem>
+                                {/if}
                             </InnerDropdownSection>
 
                             <InnerDropdownSection>
                                 <button use:inertia={{ href: route('logout'), method: 'post' }}
                                         on:click={() => {showProfileDropdown = false; closeSidebar()}}
                                         type="button"
-                                        class="flex items-center px-4 py-2 w-full text-sm text-gray-700 group hover:text-red-700 hover:bg-gray-50"
+                                        class="flex items-center px-4 py-2 w-full text-sm text-gray-700 group hover:text-red-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800 dark:hover:text-red-400"
                                         role="menuitem" tabindex="-1" id="user-menu-item-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                         class="mr-3 size-5 text-gray-400 group-hover:text-red-500">
+                                         class="mr-3 size-5 text-gray-500 group-hover:text-red-500 dark:text-gray-400">
                                         <path fill-rule="evenodd"
                                               d="M3 4.25A2.25 2.25 0 0 1 5.25 2h5.5A2.25 2.25 0 0 1 13 4.25v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 0-.75-.75h-5.5a.75.75 0 0 0-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 0 0 .75-.75v-2a.75.75 0 0 1 1.5 0v2A2.25 2.25 0 0 1 10.75 18h-5.5A2.25 2.25 0 0 1 3 15.75V4.25Z"
                                               clip-rule="evenodd"/>
@@ -181,7 +207,7 @@
                     <!-- Search button -->
                     <button on:click={() => dispatchCustomEvent('showCommandPalette')} title="Open search bar"
                             type="button"
-                            class="ml-auto py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-700 hover:ring-1 hover:ring-gray-500 sm:ml-1.5">
+                            class="ml-auto py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-600 hover:ring-1 hover:ring-gray-500 sm:ml-1.5 dark:hover:bg-gray-700">
                         <span class="sr-only">Open search bar</span>
                         <!-- Heroicon name: outline/search -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24"
@@ -254,9 +280,9 @@
                         title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
                         in:fade={{ duration: 100, easing: cubicOut }}
                         out:fade={{ duration: 50, easing: cubicIn }}
-                        class="py-1.5 px-2 bg-white shadow-sm rounded-md ring-1 ring-gray-200 transition hover:bg-gray-50">
+                        class="py-1.5 px-2 bg-white shadow-sm rounded-md ring-1 ring-gray-300 transition hover:bg-gray-50 dark:bg-gray-800 dark:ring-contrast dark:hover:bg-gray-700">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                         class="size-6 text-gray-600 transition duration-300 delay-150">
+                         class="size-6 text-gray-600 transition duration-300 delay-150 dark:text-gray-100">
                         <rect width="24" height="24" fill="none"/>
                         <rect x="2" y="3" width="20.3012" height="18.3152" rx="3" stroke="currentColor" stroke-width="2"
                               stroke-linejoin="round"/>

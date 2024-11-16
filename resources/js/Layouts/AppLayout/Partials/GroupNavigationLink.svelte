@@ -28,7 +28,7 @@
         </button>
 
         <Link href={route('groups.show', group.id)} on:click={closeSidebar}
-              class={clsx('flex justify-between items-center ml-1 py-1.5 px-3 w-full text-sm text-white font-medium truncate rounded-md hover:bg-white/10', currentGroupId === group.id && 'bg-white/10')}>
+              class={clsx('flex justify-between items-center ml-1 py-1.5 px-3 w-full text-sm text-white font-medium truncate rounded-md hover:bg-white/10 dark:hover:bg-gray-700/60', currentGroupId === group.id && 'bg-white/10 dark:bg-gray-700/60')}>
             {group.title}
 
             {#if group.linksCount}

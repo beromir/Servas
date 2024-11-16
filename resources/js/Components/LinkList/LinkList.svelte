@@ -11,6 +11,8 @@
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from "@/Components/Modals/Modal.svelte";
     import {createEventDispatcher, onDestroy} from "svelte";
+    import EmptyStateWithAction from "@/Components/EmptyStates/EmptyStateWithAction.svelte";
+    import LinkIcon from "@/Heroicons/Outline/Link.svelte";
 
     export let links = [];
     export let searchString = '';
@@ -106,7 +108,8 @@
         <div class="w-full sm:flex sm:items-center sm:w-auto">
             <div class="relative rounded-md shadow-sm">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-gray-400" viewBox="0 0 20 20"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-gray-400 dark:text-gray-500"
+                         viewBox="0 0 20 20"
                          fill="currentColor">
                         <path fill-rule="evenodd"
                               d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
@@ -114,12 +117,12 @@
                     </svg>
                 </div>
                 <input type="text" bind:value={searchString} on:input={search}
-                       class="focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                       class="block w-full pl-10 border-gray-400 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-600"
                        placeholder="Search links..." enterkeyhint="search">
             </div>
             {#if searchString}
                 <button on:click={clearSearchInput} type="button"
-                        class="ml-2 text-sm text-gray-700">
+                        class="ml-2 text-sm text-gray-700 dark:text-gray-200">
                     Clear
                 </button>
             {/if}
@@ -134,9 +137,10 @@
     {#if links.data.length}
         <div class="flex items-center gap-x-4 mt-6 sm:flex-row-reverse">
             <button on:click={toggleBulkEditingMode} type="button"
-                    class="group inline-flex items-center font-medium text-sm text-gray-700">
-                <svg class="mr-2 size-4 flex-none text-gray-400 group-hover:text-gray-500"
-                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    class="group inline-flex items-center font-medium text-sm text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300">
+                <svg
+                    class="mr-2 size-4 flex-none text-gray-500 group-hover:text-gray-600 dark:text-gray-300 dark:group-hover:text-gray-400"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path
                         d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"/>
                 </svg>
@@ -146,11 +150,12 @@
             {#if bulkEditingEnabled}
                 <div class="relative inline-flex">
                     <button on:click={() => showBulkEditingDropdown = !showBulkEditingDropdown} type="button"
-                            class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                            class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300">
                         Action
-                        <svg class="-mr-1 ml-1 size-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             aria-hidden="true">
+                        <svg
+                            class="-mr-1 ml-1 size-5 flex-shrink-0 text-gray-500 group-hover:text-gray-600 dark:text-gray-300 dark:group-hover:text-gray-400"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            aria-hidden="true">
                             <path fill-rule="evenodd"
                                   d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
                                   clip-rule="evenodd"/>
@@ -207,13 +212,13 @@
 
                 {#if selectedLinks.length === 0}
                     <button on:click={() => selectedLinks = links.data.map(x => x.id)} type="button"
-                            class="text-sm font-medium text-gray-700 hover:text-gray-900">
+                            class="text-sm font-medium text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300">
                         Select all
                     </button>
 
                 {:else}
                     <button on:click={() => selectedLinks = []} type="button"
-                            class="text-sm font-medium text-gray-700 hover:text-gray-900">
+                            class="text-sm font-medium text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300">
                         Deselect all
                     </button>
                 {/if}
@@ -223,15 +228,15 @@
 </div>
 
 <!-- Link list -->
-<ul class="grid grid-cols-1 mt-2 divide-y divide-gray-200 sm:grid-cols-2 sm:gap-3 sm:mt-4 sm:divide-none">
+<ul class="grid grid-cols-1 mt-2 divide-y divide-gray-200 sm:grid-cols-2 sm:gap-3 sm:mt-4 sm:divide-none dark:divide-gray-800">
     {#each links.data as link (link.id)}
-        <li class="flex bg-white shadow sm:overflow-hidden sm:rounded-lg">
+        <li class="flex bg-white shadow ring-contrast sm:overflow-hidden sm:rounded-lg dark:bg-gray-800">
             {#if bulkEditingEnabled}
                 <!-- Show checkbox -->
                 <button on:click={() => selectedLinks = toggleValueInArray(selectedLinks, link.id)} type="button"
-                        class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20">
+                        class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 dark:bg-gray-900">
                     <input bind:group={selectedLinks} value={link.id} type="checkbox"
-                           class="text-primary-500 focus:outline-primary-400"/>
+                           class="text-primary-500 focus:outline-primary-400 dark:bg-gray-800 dark:focus:ring-offset-gray-700"/>
                 </button>
             {/if}
 
@@ -239,9 +244,9 @@
                   class="flex-auto min-w-0 p-3 sm:px-6 sm:py-4">
                 <div class="flex justify-between">
                     <div title={link.title}
-                         class="text-sm font-medium text-gray-900 truncate">{link.title}</div>
+                         class="text-sm font-medium text-gray-900 truncate dark:text-white">{link.title}</div>
                 </div>
-                <div class="mt-0.5 text-xs text-gray-500 truncate">
+                <div class="mt-0.5 text-xs text-gray-500 truncate dark:text-gray-400">
                     {new URL(link.link).host}
                 </div>
             </Link>
@@ -252,7 +257,7 @@
                     <a href={link.link} target="_blank" rel="noreferrer noopener nofollow" title="Open the link"
                        class="flex-none flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg"
-                             class="size-6 text-gray-300 hover:text-gray-500"
+                             class="size-6 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
                              fill="none" viewBox="0 0 24 24"
                              stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -264,19 +269,10 @@
         </li>
 
     {:else}
-        <div class="col-span-2 container mx-auto px-4 sm:px-0">
-            <button on:click="{() => dispatchCustomEvent('prepareCreateNewLink')}" type="button"
-                    class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:ring-offset-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto size-12 text-gray-400" fill="none"
-                     viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-                </svg>
-                <span class="mt-2 block text-sm font-medium text-gray-900">
-                    Add a new link
-                </span>
-            </button>
-        </div>
+        <EmptyStateWithAction on:clicked={() => dispatchCustomEvent('prepareCreateNewLink')} title="Add a new link"
+                              class="mt-2 px-4 col-span-2 sm:px-0">
+            <LinkIcon slot="icon"/>
+        </EmptyStateWithAction>
     {/each}
 </ul>
 
