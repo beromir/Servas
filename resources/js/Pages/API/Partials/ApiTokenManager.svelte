@@ -100,8 +100,8 @@
                         {#each availablePermissions as permission (permission)}
                             <label class="flex items-center">
                                 <input value={permission} bind:group={$createApiTokenForm.permissions} type="checkbox"
-                                       class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50"/>
-                                <span class="ml-2 text-sm text-gray-600">{permission}</span>
+                                       class="rounded border-gray-400 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
+                                <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">{permission}</span>
                             </label>
                         {/each}
                     </div>
@@ -142,26 +142,26 @@
                     <div class="space-y-6">
                         {#each tokens as token (token.id)}
                             <div class="flex items-center justify-between">
-                                <div class="truncate">
+                                <div class="truncate dark:text-white">
                                     {token.name}
                                 </div>
 
                                 <div class="flex items-center">
-                                    {#if token.last_used_ago}
-                                        <div class="text-sm text-gray-400">
+                                    {#if true}
+                                        <div class="text-sm text-gray-500 dark:text-gray-400">
                                             Last used {token.last_used_ago}
                                         </div>
                                     {/if}
 
                                     {#if availablePermissions.length > 0}
                                         <button
-                                            class="cursor-pointer ml-6 text-sm text-gray-400 underline"
+                                            class="cursor-pointer ml-6 text-sm text-gray-500 underline dark:text-gray-400"
                                             on:click={() => manageApiTokenPermissions(token)}>
                                             Permissions
                                         </button>
                                     {/if}
 
-                                    <button class="cursor-pointer ml-6 text-sm text-red-500"
+                                    <button class="cursor-pointer ml-6 text-sm text-red-500 dark:text-red-400"
                                             on:click={() => confirmApiTokenDeletion(token)}>
                                         Delete
                                     </button>
@@ -181,12 +181,12 @@
         </svelte:fragment>
 
         <svelte:fragment slot="content">
-            <div>
+            <div class="dark:text-white">
                 Please copy your new API token. For your security, it won't be shown again.
             </div>
 
             {#if $page.props.jetstream.flash.token}
-                <div class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 select-all">
+                <div class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-600 select-all dark:bg-gray-950 dark:text-gray-300">
                     {$page.props.jetstream.flash.token}
                 </div>
             {/if}
@@ -210,8 +210,8 @@
                 {#each availablePermissions as permission (permission)}
                     <label class="flex items-center">
                         <input value={permission} bind:group={$updateApiTokenForm.permissions} type="checkbox"
-                               class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50"/>
-                        <span class="ml-2 text-sm text-gray-600">{permission}</span>
+                               class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
+                        <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">{permission}</span>
                     </label>
                 {/each}
             </div>
