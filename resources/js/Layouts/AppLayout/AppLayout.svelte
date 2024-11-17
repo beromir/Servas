@@ -32,6 +32,9 @@
     import Moon from "@/Heroicons/Mini/Moon.svelte";
     import ComputerDesktop from "@/Heroicons/Mini/ComputerDesktop.svelte";
     import {initTheme, changeTheme} from "@/utils/theme.js";
+    import Home from "@/Heroicons/Mini/Home.svelte";
+    import Inbox from "@/Heroicons/Mini/Inbox.svelte";
+    import Tag from "@/Heroicons/Mini/Tag.svelte";
 
     const appName = $page.props.appName;
 
@@ -222,29 +225,17 @@
                     <ul class="space-y-2">
                         <li>
                             <DesktopMenuItem title="Home" url={route('links.index')}>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                          d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
-                                          clip-rule="evenodd"/>
-                                </svg>
+                                <Home/>
                             </DesktopMenuItem>
                         </li>
                         <li>
                             <DesktopMenuItem title="Inbox" url={route('inbox.index')} exactMatch={false}>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                          d="M1 11.27c0-.246.033-.492.099-.73l1.523-5.521A2.75 2.75 0 0 1 5.273 3h9.454a2.75 2.75 0 0 1 2.651 2.019l1.523 5.52c.066.239.099.485.099.732V15a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3.73Zm3.068-5.852A1.25 1.25 0 0 1 5.273 4.5h9.454a1.25 1.25 0 0 1 1.205.918l1.523 5.52c.006.02.01.041.015.062H14a1 1 0 0 0-.86.49l-.606 1.02a1 1 0 0 1-.86.49H8.236a1 1 0 0 1-.894-.553l-.448-.894A1 1 0 0 0 6 11H2.53l.015-.062 1.523-5.52Z"
-                                          clip-rule="evenodd"/>
-                                </svg>
+                                <Inbox/>
                             </DesktopMenuItem>
                         </li>
                         <li>
                             <DesktopMenuItem title="Tags" url={route('tags.index')}>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                          d="M4.5 2A2.5 2.5 0 0 0 2 4.5v3.879a2.5 2.5 0 0 0 .732 1.767l7.5 7.5a2.5 2.5 0 0 0 3.536 0l3.878-3.878a2.5 2.5 0 0 0 0-3.536l-7.5-7.5A2.5 2.5 0 0 0 8.38 2H4.5ZM5 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                                          clip-rule="evenodd"/>
-                                </svg>
+                                <Tag/>
                             </DesktopMenuItem>
                         </li>
                     </ul>

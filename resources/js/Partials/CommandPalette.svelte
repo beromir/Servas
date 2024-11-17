@@ -4,16 +4,30 @@
     import {backIn, backOut} from 'svelte/easing';
     import {debounce, delay} from "lodash";
     import {route, noScroll} from '@/utils';
+    import Home from "@/Heroicons/Mini/Home.svelte";
+    import Inbox from "@/Heroicons/Mini/Inbox.svelte";
+    import Tag from "@/Heroicons/Mini/Tag.svelte";
+    import Link from "@/Heroicons/Mini/Link.svelte";
+    import clsx from "clsx";
+
+    const pages = [
+        {id: 'home', title: 'Home', icon: Home, url: route('links.index')},
+        {id: 'inbox', title: 'Inbox', icon: Inbox, url: route('inbox.index')},
+        {id: 'tags', title: 'Tags', icon: Tag, url: route('tags.index')},
+        {id: 'shared-groups', title: 'Shared Groups', icon: Link, url: route('publicLinks.index')},
+    ];
 
     let searchResults = [];
     let groups = [];
     let selectedModal = null;
+    let selectedPage = null;
     let showCommandPalette = false;
     let input;
 
     function openCommandPalette() {
         searchResults = [];
         selectedModal = null;
+        selectedPage = null;
         showCommandPalette = true;
 
         delay(() => focus(), 200);
@@ -21,6 +35,14 @@
 
     function closeCommandPalette() {
         showCommandPalette = false;
+    }
+
+    function openPage(url) {
+        if (selectedPage) {
+            closeCommandPalette();
+
+            router.get(url);
+        }
     }
 
     function openSingleModalPage(url) {
@@ -55,6 +77,22 @@
                         }
                     }
                     document.getElementById(`select-option-${selectedModal}`).scrollIntoView({block: 'nearest'})
+
+                    break;
+                }
+
+                if (selectedPage === null) {
+                    selectedPage = e.key === 'ArrowDown' ? pages[0].id : pages[pages.length - 1].id;
+                } else {
+                    let index = pages.findIndex((e) => {
+                        return e.id === selectedPage;
+                    });
+
+                    if (e.key === 'ArrowDown' ? pages[++index] : pages[--index]) {
+                        selectedPage = pages[index].id;
+                    } else {
+                        selectedPage = e.key === 'ArrowDown' ? pages[0].id : pages[pages.length - 1].id;
+                    }
                 }
 
                 break;
@@ -64,13 +102,17 @@
             case 'Enter':
                 e.preventDefault();
 
-                if (!searchResults.length) {
-                    return;
+                if (searchResults.length) {
+                    let url = searchResults.find(result => result.hash === selectedModal).url;
+
+                    openSingleModalPage(url);
+
+                    break;
                 }
 
-                let url = searchResults.find(result => result.hash === selectedModal).url;
+                let url = pages.find(result => result.id === selectedPage).url;
 
-                openSingleModalPage(url);
+                openPage(url);
 
                 break;
             default:
@@ -114,6 +156,16 @@
     }
 
     const search = debounce(() => {
+        const searchString = input.value.trim().toLowerCase();
+
+        if (!searchString) {
+            searchResults = [];
+            groups = [];
+            selectedModal = null;
+
+            return;
+        }
+
         axios.post(route('search'), {
             searchString: input.value.trim().toLowerCase(),
         }).then(response => {
@@ -149,9 +201,31 @@
                        autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
             </div>
 
+            <!-- Page navigation -->
+            {#if (input && (input.value.length < 1 && !searchResults.length))}
+                <div class="overflow-y-auto scroll-pt-10">
+                    <ul class="pt-1 pb-3 px-2 text-gray-800 font-medium dark:text-gray-100">
+                        {#each pages as page}
+                            <li on:mouseenter={() => selectedPage = page.id}
+                                on:mouseleave={() => selectedModal = null}
+                                on:click={() => openPage(page.url)}
+                                id={`select-option-${page.id}`}
+                                class={clsx(
+                            'flex items-center gap-x-3 px-4 py-2 cursor-default select-none rounded-md',
+                            selectedPage === page.id ? 'bg-primary-500 text-white [&>svg]:text-gray-100 dark:bg-primary-700 dark:text-gray-100' : ''
+                        )}
+                                tabindex="-1" aria-hidden="true">
+                                <svelte:component this={page.icon} className="text-gray-500 dark:text-gray-300"/>
+                                {page.title}
+                            </li>
+                        {/each}
+                    </ul>
+                </div>
+            {/if}
+
             <!-- Results, show/hide based on command palette state. -->
             {#if searchResults.length}
-                <div class="max-h-72 overflow-y-auto scroll-pt-10 text-sm text-gray-800 dark:text-white">
+                <div class="max-h-72 overflow-y-auto scroll-pt-10 text-sm text-gray-800 dark:text-gray-100">
                     {#each groups as group}
 
                         <div
@@ -166,7 +240,7 @@
                                     on:click={() => openSingleModalPage(result.url)}
                                     id={`select-option-${result.hash}`}
                                     class={['px-4 py-2 cursor-default select-none rounded-md',
-                                        result.hash === selectedModal ? 'bg-primary-500 text-white dark:bg-primary-700' : ''].join(' ').trim()}
+                                        result.hash === selectedModal ? 'bg-primary-500 text-white dark:bg-primary-700 dark:text-gray-100' : ''].join(' ').trim()}
                                     tabindex="-1" aria-hidden="true">
                                     <div>{result.title}</div>
                                     {#if result.link}
@@ -185,7 +259,8 @@
             <!-- Empty state, show/hide based on command palette state. -->
             {#if (input && (input.value.length > 1 && !searchResults.length))}
                 <div class="py-14 px-4 text-center sm:px-14">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto size-6 text-gray-500 dark:text-gray-300" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto size-6 text-gray-500 dark:text-gray-300"
+                         fill="none"
                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
