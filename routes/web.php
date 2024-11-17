@@ -73,5 +73,3 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 });
 
 Route::get('/share/{shareId}', [PublicLinkController::class, 'show'])->name('share');
-
-Route::view('/swagger', 'swagger-ui')->middleware('only.local');
