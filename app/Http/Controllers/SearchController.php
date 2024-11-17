@@ -14,7 +14,7 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        $searchString = $request->input('searchString');
+        $searchString = $request->input('searchString') ?? '';
 
         return (new Search())
             ->registerModel(Link::class, 'title', 'link')
