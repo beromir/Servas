@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ApiControllers\GroupController;
 use App\Http\Controllers\ApiControllers\LinkController;
+use App\Http\Controllers\ApiControllers\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,5 +22,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
 
-    Route::post('links', [LinkController::class, 'store']);
+    Route::get('/all-tags', [TagController::class, 'getAllTags']);
+    Route::get('/all-groups', [GroupController::class, 'getAllGroups']);
+
+    Route::post('/links', [LinkController::class, 'store']);
 });
