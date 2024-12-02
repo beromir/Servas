@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Group;
 use App\Models\Link;
+use App\Models\Tag;
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -36,7 +39,30 @@ class StoreLinkApiRequest extends FormRequest
      */
     public function rules(): array
     {
-        return Link::rules($this->request->get('link'));
+        return array_merge(Link::rules($this->request->get('link')), [
+            'groups' => 'nullable|array',
+            'groups.*' => [
+                'integer',
+                'exists:groups,id',
+                function (string $attribute, int $value, Closure $fail) {
+                    $group = Group::find($value);
+                    if ($group && $group->user_id !== auth()->id()) {
+                        $fail('You do not own this group.');
+                    }
+                }
+            ],
+            'tags' => 'nullable|array',
+            'tags.*' => [
+                'integer',
+                'exists:tags,id',
+                function (string $attribute, int $value, Closure $fail) {
+                    $tag = Tag::find($value);
+                    if ($tag && $tag->user_id !== auth()->id()) {
+                        $fail('You do not own this tag.');
+                    }
+                }
+            ],
+        ]);
     }
 
     public function failedValidation(Validator $validator)
