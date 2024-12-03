@@ -9,10 +9,11 @@ Servas is based on Laravel and Inertia.js and uses Tailwind CSS and Svelte for t
 
 - **Tags:** Organize your bookmarks with tags.
 - **Groups:** Group your bookmarks. Groups can be nested.
-- **Later list:** Add bookmarks to the "later list" to access them later.
-- **Chrome browser extension:** Add sites to Servas right from your browser.
+- **Smart Groups:** Group your bookmarks based on their belonging tags.
+- **Firefox and Chrome browser extension:** Add sites to Servas right from your browser.
 - **Multiple users:** You can create multiple user accounts.
 - **Responsive design:** Servas looks good on all your devices.
+- **Dark/light theme.**
 - **Two Factor Authentication available.**
 
 ## How to install
