@@ -11,7 +11,8 @@ RUN mkdir -p storage/framework/cache \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer \
-    && composer install --optimize-autoloader --no-dev
+    && composer install --optimize-autoloader --no-dev \
+    && composer dump-autoload --no-dev --classmap-authoritative
 
 
 FROM node:20.11-alpine AS asset_builder
