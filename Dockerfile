@@ -54,6 +54,8 @@ COPY --from=asset_builder /app/public/build ./public/build
 
 RUN rm -rf ./docker
 
+COPY ./docker/config/servas-php.ini /usr/local/etc/php/conf.d/servas-php.ini
+
 COPY ./docker-entrypoint.sh /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
