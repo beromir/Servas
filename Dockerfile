@@ -11,10 +11,11 @@ RUN mkdir -p storage/framework/cache \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer \
-    && composer install --optimize-autoloader --no-dev
+    && composer install --optimize-autoloader --no-dev \
+    && composer dump-autoload --no-dev --classmap-authoritative
 
 
-FROM node:20.11-alpine As asset_builder
+FROM node:20.11-alpine AS asset_builder
 WORKDIR /app
 
 COPY ./package.json ./
@@ -28,19 +29,21 @@ RUN npm install \
     && npm run build
 
 
-FROM php:8.3-fpm-alpine
-WORKDIR /var/www/html
+FROM dunglas/frankenphp:1.3-php8.3-alpine
+WORKDIR /app
 
-# Use the default production configuration
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
-    && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install mysqli \
-    && docker-php-ext-install opcache \
-    && docker-php-ext-install bcmath \
+ENV SERVER_NAME=:80
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+RUN install-php-extensions \
+	pdo_mysql \
+	mysqli \
+	opcache \
+	bcmath \
     && apk add --no-cache \
     mariadb-client \
-    sqlite \
-    nginx
+    sqlite
 
 COPY . ./
 
@@ -49,16 +52,10 @@ COPY --from=application_builder /app/bootstrap/cache ./bootstrap/cache
 
 COPY --from=asset_builder /app/public/build ./public/build
 
-RUN mkdir ./database/sqlite \
-    && chown -R www-data: /var/www/html \
-    && rm -rf ./docker
+RUN rm -rf ./docker
 
 COPY ./docker/config/servas-php.ini /usr/local/etc/php/conf.d/servas-php.ini
-COPY ./docker/config/nginx.conf /etc/nginx/nginx.conf
-COPY ./docker/config/site-nginx.conf /etc/nginx/http.d/default.conf
 
 COPY ./docker-entrypoint.sh /
-
-EXPOSE 80
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
