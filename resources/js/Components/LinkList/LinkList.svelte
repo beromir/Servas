@@ -1,18 +1,18 @@
 <script>
-    import {dispatchCustomEvent, route, toggleValueInArray} from "@/utils";
-    import Pagination from "@/Components/Pagination.svelte";
-    import {Link, router} from "@inertiajs/svelte";
-    import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
-    import DropdownItem from "@/Components/Dropdowns/DropdownItem.svelte";
-    import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
-    import InnerDropdownSection from "@/Components/Dropdowns/InnerDropdownSection.svelte";
-    import {selectedTags} from "@/stores.js";
-    import {debounce} from "lodash";
-    import Button from "@/Components/Buttons/Button.svelte";
-    import Modal from "@/Components/Modals/Modal.svelte";
-    import {createEventDispatcher, onDestroy} from "svelte";
-    import EmptyStateWithAction from "@/Components/EmptyStates/EmptyStateWithAction.svelte";
-    import LinkIcon from "@/Heroicons/Outline/Link.svelte";
+    import { dispatchCustomEvent, route, toggleValueInArray } from '@/utils';
+    import Pagination from '@/Components/Pagination.svelte';
+    import { Link, router } from '@inertiajs/svelte';
+    import GroupSelectMenu from '@/Partials/GroupSelectMenu.svelte';
+    import DropdownItem from '@/Components/Dropdowns/DropdownItem.svelte';
+    import Dropdown from '@/Components/Dropdowns/Dropdown.svelte';
+    import InnerDropdownSection from '@/Components/Dropdowns/InnerDropdownSection.svelte';
+    import { selectedTags } from '@/stores.js';
+    import { debounce } from 'lodash';
+    import Button from '@/Components/Buttons/Button.svelte';
+    import Modal from '@/Components/Modals/Modal.svelte';
+    import { createEventDispatcher, onDestroy } from 'svelte';
+    import EmptyStateWithAction from '@/Components/EmptyStates/EmptyStateWithAction.svelte';
+    import LinkIcon from '@/Heroicons/Outline/Link.svelte';
 
     export let links = [];
     export let searchString = '';
@@ -70,7 +70,7 @@
         window.addEventListener('tags.selected', (e) => {
             $selectedTags.tags = e.detail;
 
-        }, {once: true});
+        }, { once: true });
 
         bulkEditingAction = action;
     }
@@ -95,7 +95,7 @@
     const clearSearchInput = () => {
         searchString = '';
         search();
-    }
+    };
 
     onDestroy(() => {
         selectedTags.reset();
@@ -241,13 +241,19 @@
             {/if}
 
             <Link href={route('links.show', link.id)}
-                  class="flex-auto min-w-0 p-3 sm:px-6 sm:py-4">
-                <div class="flex justify-between">
-                    <div title={link.title}
-                         class="text-sm font-medium text-gray-900 truncate dark:text-white">{link.title}</div>
-                </div>
-                <div class="mt-0.5 text-xs text-gray-500 truncate dark:text-gray-400">
-                    {new URL(link.link).host}
+                  class="flex-auto min-w-0 p-3 sm:p-4">
+                <div class="flex items-center gap-2">
+                    <img src="{route('link.favicon', link.id)}" alt=""
+                         class="shrink-0 w-8 aspect-square">
+                    <div class="flex flex-col">
+                        <p title={link.title}
+                           class="text-sm font-medium text-gray-900 line-clamp-1 dark:text-white">
+                            {link.title}
+                        </p>
+                        <p class="mt-0.5 text-xs text-gray-500 line-clamp-1 dark:text-gray-400">
+                            {new URL(link.link).host}
+                        </p>
+                    </div>
                 </div>
             </Link>
 
