@@ -17,10 +17,6 @@ class GroupRepository
 
     ) {
         $searchString = Request::get('search', '');
-        $filteredTags = empty($queryTags = Request::get('tags', ''))
-            ? []
-            : explode(',', $queryTags);
-        $showUntaggedOnly = Request::get('untaggedOnly', false);
 
         $group = is_int($group) ? Group::find($group) : $group;
 
@@ -56,6 +52,11 @@ class GroupRepository
             });
 
         if ($user || $filterByCurrentUser) {
+            $filteredTags = empty($queryTags = Request::get('tags', ''))
+                ? []
+                : explode(',', $queryTags);
+            $showUntaggedOnly = Request::get('untaggedOnly', false);
+
             $query = $query
                 ->filterByCurrentUser()
                 ->filterLinks($searchString, $filteredTags, $showUntaggedOnly);
