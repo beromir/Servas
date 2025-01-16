@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,11 +14,12 @@ use Spatie\Searchable\SearchResult;
 
 class Group extends Model implements Searchable
 {
+    /** @use HasFactory<\Database\Factories\GroupFactory> */
     use HasFactory;
+    use BelongsToUser;
 
     protected $fillable = [
         'title',
-        'user_id'
     ];
 
     protected $casts = [
