@@ -41,44 +41,11 @@ class Group extends Model implements Searchable
     }
 
     /**
-     * Get all of the links that are assigned this group.
+     * Get all the links that are assigned this group.
      */
-    public function directLinks(): MorphToMany
+    public function links(): MorphToMany
     {
         return $this->morphedByMany(Link::class, 'groupable');
-    }
-
-    /**
-     * Get all group links.
-     */
-    public function links()
-    {
-        $orTags = $this->getOrTags();
-        $andTags = $this->getAndTags();
-        $notTags = $this->getNotTags();
-
-        return Link::leftJoin('groupables', 'links.id', '=', 'groupables.groupable_id')
-            ->where(function (Builder $query) use ($orTags, $andTags, $notTags) {
-                $query->where(function (Builder $query) {
-                    $query->where('groupables.group_id', $this->id)
-                        ->where('groupables.groupable_type', Link::class);
-                })
-                    ->when($orTags, function (Builder $query, array $orTags) {
-                        $query->orWhere(function (Builder $query) use ($orTags) {
-                            $query->withAnyTags($orTags);
-                        });
-                    })
-                    ->when($andTags, function (Builder $query, array $andTags) {
-                        $query->orWhere(function (Builder $query) use ($andTags) {
-                            $query->withAllTags($andTags);
-                        });
-                    })
-                    ->when($notTags, function (Builder $query, array $notTags) {
-                        $query->where(function (Builder $query) use ($notTags) {
-                            $query->withoutTags($notTags);
-                        });
-                    });
-            });
     }
 
     /**

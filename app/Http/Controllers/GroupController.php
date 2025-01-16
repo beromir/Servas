@@ -8,6 +8,7 @@ use App\Models\Group;
 use App\Models\Link;
 use App\Models\PublicLink;
 use App\Models\Tag;
+use App\Repositories\GroupRepository;
 use App\Services\Models\GroupService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Request;
@@ -20,8 +21,7 @@ class GroupController extends Controller
 {
     public function __construct(
         protected GroupService $groupService,
-    )
-    {
+    ) {
         //
     }
 
@@ -83,14 +83,7 @@ class GroupController extends Controller
                     'name' => $tag->name,
                 ]),
             ],
-            'links' => $group->links()
-                ->filterByCurrentUser()
-                ->filterLinks($searchString, $filteredTags, $showUntaggedOnly)
-                ->through(fn(Link $link) => [
-                    'title' => $link->title,
-                    'link' => $link->link,
-                    'id' => $link->id,
-                ]),
+            'links' => GroupRepository::getLinks($group, filterByCurrentUser: true),
             'publicLink' => (object)[
                 'id' => $group->publicLink?->id,
                 'link' => $group->publicLink?->getLink(),
