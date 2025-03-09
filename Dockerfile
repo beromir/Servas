@@ -1,17 +1,12 @@
-FROM php:8.3-alpine AS application_builder
+FROM dunglas/frankenphp:php8.3-alpine AS application_builder
 WORKDIR /app
 
 COPY . ./
 
-RUN mkdir -p storage/framework/cache \
-    && mkdir -p storage/framework/views \
-    && mkdir -p storage/framework/sessions \
-    && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-    && php composer-setup.php \
-    && php -r "unlink('composer-setup.php');" \
-    && mv composer.phar /usr/local/bin/composer \
-    && composer install --optimize-autoloader --no-dev \
+RUN install-php-extensions \
+    @composer
+
+RUN composer install --optimize-autoloader --no-dev \
     && composer dump-autoload --no-dev --classmap-authoritative
 
 
@@ -29,7 +24,7 @@ RUN npm install \
     && npm run build
 
 
-FROM dunglas/frankenphp:1.3-php8.3-alpine
+FROM dunglas/frankenphp:php8.3-alpine
 WORKDIR /app
 
 ENV SERVER_NAME=:80
@@ -54,7 +49,12 @@ COPY --from=asset_builder /app/public/build ./public/build
 
 RUN rm -rf ./docker
 
-COPY ./docker/config/servas-php.ini /usr/local/etc/php/conf.d/servas-php.ini
+COPY ./Caddyfile /etc/caddy/Caddyfile
+COPY docker/config/custom-php.ini /usr/local/etc/php/conf.d/zzz-custom-php.ini
+COPY docker/config/custom-php-fpm.conf /usr/local/etc/php-fpm.d/zzz-custom-php-fpm.conf
+
+RUN mkdir -p /var/cache/php/opcache \
+    chmod 700 /var/cache/php/opcache
 
 COPY ./docker-entrypoint.sh /
 
