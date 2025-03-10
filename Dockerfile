@@ -6,8 +6,8 @@ COPY . ./
 RUN install-php-extensions \
     @composer
 
-RUN composer install --optimize-autoloader --no-dev \
-    && composer dump-autoload --no-dev --classmap-authoritative
+RUN composer install --optimize-autoloader --no-dev && \
+    composer dump-autoload --no-dev --classmap-authoritative
 
 
 FROM node:20.11-alpine AS asset_builder
@@ -20,8 +20,8 @@ COPY ./postcss.config.cjs ./
 COPY ./tailwind.config.cjs ./
 COPY ./resources ./resources
 
-RUN npm install \
-    && npm run build
+RUN npm install && \
+    npm run build
 
 
 FROM dunglas/frankenphp:php8.3-alpine
@@ -53,7 +53,7 @@ COPY ./Caddyfile /etc/caddy/Caddyfile
 COPY docker/config/custom-php.ini /usr/local/etc/php/conf.d/zzz-custom-php.ini
 COPY docker/config/custom-php-fpm.conf /usr/local/etc/php-fpm.d/zzz-custom-php-fpm.conf
 
-RUN mkdir -p /var/cache/php/opcache \
+RUN mkdir -p /var/cache/php/opcache && \
     chmod 700 /var/cache/php/opcache
 
 COPY ./docker-entrypoint.sh /
