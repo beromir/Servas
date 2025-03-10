@@ -32,7 +32,7 @@
         permissions: [],
     });
 
-    let deleteApiTokenForm = useForm();
+    let deleteApiTokenForm = useForm({});
 
     function createApiToken() {
         $createApiTokenForm.post(route('api-tokens.store'), {
