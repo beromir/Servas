@@ -22,7 +22,7 @@ Servas is based on Laravel and Inertia.js and uses Tailwind CSS and Svelte for t
 
 Servas is available as an [official Docker image](https://hub.docker.com/r/beromir/servas).
 
-The preferred way to use Servas is with SQLite. This variant does not need an additional database container.  
+The preferred way to use Servas is with **SQLite**. This variant does not need an additional database container.  
 You can find the example files here:
 
 - [compose.yaml](docker/compose.prod.yaml)
