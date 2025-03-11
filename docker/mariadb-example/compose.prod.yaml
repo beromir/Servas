@@ -22,7 +22,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./.env:/var/www/html/.env
+      - ./.env:/app/.env
 
 volumes:
   servas-db-data:
