@@ -10,7 +10,7 @@
     import LinkModal from "@/Partials/LinkModal.svelte";
     import DeleteLinkModal from "@/Partials/DeleteLinkModal.svelte";
     import {route, dispatchCustomEvent} from '@/utils';
-    import DesktopMenuItem from "@/Components/Navigation/DesktopMenuItem.svelte";
+    import MenuItem from "@/Components/Navigation/MenuItem.svelte";
     import DeleteTagModel from "@/Partials/DeleteTagModel.svelte";
     import CommandPalette from "@/Partials/CommandPalette.svelte";
     import DeleteGroupModal from "@/Partials/DeleteGroupModal.svelte";
@@ -224,19 +224,19 @@
                 <nav class="flex-grow px-4 pb-4 h-full overflow-y-auto md:pt-2">
                     <ul class="space-y-2">
                         <li>
-                            <DesktopMenuItem title="Home" url={route('links.index')}>
+                            <MenuItem title="Home" url={route('links.index')}>
                                 <Home/>
-                            </DesktopMenuItem>
+                            </MenuItem>
                         </li>
                         <li>
-                            <DesktopMenuItem title="Inbox" url={route('inbox.index')} exactMatch={false}>
+                            <MenuItem title="Inbox" url={route('inbox.index')} exactMatch={false}>
                                 <Inbox/>
-                            </DesktopMenuItem>
+                            </MenuItem>
                         </li>
                         <li>
-                            <DesktopMenuItem title="Tags" url={route('tags.index')}>
+                            <MenuItem title="Tags" url={route('tags.index')}>
                                 <Tag/>
-                            </DesktopMenuItem>
+                            </MenuItem>
                         </li>
                     </ul>
 
