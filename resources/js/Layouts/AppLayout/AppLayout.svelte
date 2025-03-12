@@ -35,6 +35,8 @@
     import Home from "@/Heroicons/Mini/Home.svelte";
     import Inbox from "@/Heroicons/Mini/Inbox.svelte";
     import Tag from "@/Heroicons/Mini/Tag.svelte";
+    import Plus from "@/Heroicons/Mini/Plus.svelte";
+    import MenuButton from "@/Components/Navigation/MenuButton.svelte";
 
     const appName = $page.props.appName;
 
@@ -237,6 +239,11 @@
                             <MenuItem title="Tags" url={route('tags.index')}>
                                 <Tag/>
                             </MenuItem>
+                        </li>
+                        <li class="!mt-4 sm:hidden">
+                            <MenuButton on:clicked={() => dispatchCustomEvent('prepareCreateNewLink')} title="New link">
+                                <Plus/>
+                            </MenuButton>
                         </li>
                     </ul>
 
