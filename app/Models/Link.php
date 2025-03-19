@@ -23,7 +23,7 @@ class Link extends Model implements Searchable
 
     public string $searchableType = 'Links';
 
-    public static function rules(string $linkFromRequest, string $link = ''): array
+    public static function rules($linkFromRequest, $link = ''): array
     {
         return [
             'title' => 'string|min:2|nullable',
