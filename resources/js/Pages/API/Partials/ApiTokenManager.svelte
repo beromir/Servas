@@ -1,5 +1,4 @@
 <script>
-    // import JetActionMessage from '@/Jetstream/ActionMessage.vue';
     import JetActionSection from '@/Jetstream/ActionSection.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
     import JetConfirmationModal from '@/Jetstream/ConfirmationModal.svelte';
@@ -7,12 +6,11 @@
     import JetDialogModal from '@/Jetstream/DialogModal.svelte';
     import JetFormSection from '@/Jetstream/FormSection.svelte';
     import JetInput from '@/Jetstream/Input.svelte';
-    import JetCheckbox from '@/Jetstream/Checkbox.svelte';
     import JetInputError from '@/Jetstream/InputError.svelte';
     import JetLabel from '@/Jetstream/Label.svelte';
     import JetSecondaryButton from '@/Jetstream/SecondaryButton.svelte';
     import JetSectionBorder from '@/Jetstream/SectionBorder.svelte';
-    import {page, useForm} from "@inertiajs/svelte";
+    import {page, router, useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
     export let tokens;
@@ -31,8 +29,6 @@
     let updateApiTokenForm = useForm({
         permissions: [],
     });
-
-    let deleteApiTokenForm = useForm();
 
     function createApiToken() {
         $createApiTokenForm.post(route('api-tokens.store'), {
@@ -63,7 +59,7 @@
     }
 
     function deleteApiToken() {
-        $deleteApiTokenForm.delete(route('api-tokens.destroy', apiTokenBeingDeleted), {
+        router.delete(route('api-tokens.destroy', apiTokenBeingDeleted), {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => (apiTokenBeingDeleted = null),
@@ -245,9 +241,7 @@
                 Cancel
             </JetSecondaryButton>
 
-            <JetDangerButton on:clicked={deleteApiToken}
-                             class="ml-3 disabled:opacity-25"
-                             disabled={$deleteApiTokenForm.processing}>
+            <JetDangerButton on:clicked={deleteApiToken} class="ml-3 disabled:opacity-25">
                 Delete
             </JetDangerButton>
         </svelte:fragment>
