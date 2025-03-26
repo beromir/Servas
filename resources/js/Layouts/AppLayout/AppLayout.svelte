@@ -206,6 +206,14 @@
                                     Log Out
                                 </button>
                             </InnerDropdownSection>
+
+                            <InnerDropdownSection>
+                                <a href="https://github.com/beromir/Servas/releases/tag/v0.5.1" target="_blank"
+                                   rel="noreferrer noopener nofollow"
+                                   class="block px-4 py-1 w-full group text-gray-600 text-xs hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">
+                                    v0.5.1
+                                </a>
+                            </InnerDropdownSection>
                         </Dropdown>
                     </div>
 
