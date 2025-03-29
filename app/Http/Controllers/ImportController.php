@@ -21,9 +21,12 @@ class ImportController extends Controller
         $importFile = $validated['importFile'];
 
         if (!Str::isJson($importFile->getContent())) {
-            Redirect::back();
+
+            return back();
         }
 
         $importService->importUserData(json_decode($importFile->getContent(), true), $importOptions, Auth::user());
+
+        return back();
     }
 }

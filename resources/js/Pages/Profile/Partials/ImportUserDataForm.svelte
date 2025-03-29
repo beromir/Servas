@@ -15,6 +15,7 @@
     let fileInput;
 
     let form = useForm({
+        importSource: 'json',
         importOptions: [],
         importFile: null,
     })
@@ -46,9 +47,26 @@
 
     <svelte:fragment slot="form">
         <div class="col-span-3 space-y-6">
+            <fieldset class="dark:text-white">
+                <legend>Import source</legend>
+
+                <div>
+                    <input type="radio" bind:group={$form.importSource} id="import-json" name="import-source"
+                           value="json"/>
+                    <label for="import-json">JSON (Servas export)</label>
+                </div>
+
+                <div>
+                    <input type="radio" bind:group={$form.importSource} id="import-html" name="import-source"
+                           value="html"/>
+                    <label for="import-html">HTML (Browser bookmarks)</label>
+                </div>
+            </fieldset>
+
             <div>
                 <FileUpload on:input={event => $form.importFile = event.detail.file} bind:this={fileInput}
-                            label="Select export file (.json)" accept=".json"/>
+                            label={`Select export file (${$form.importSource === 'json' ? '.json' : '.html'})`}
+                            accept={$form.importSource === 'json' ? '.json' : '.html'}/>
             </div>
 
             <div>
