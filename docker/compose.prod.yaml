@@ -6,7 +6,7 @@ services:
     container_name: servas
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "8080:8080"
     volumes:
       - ./.env:/app/.env
       - servas-db-sqlite:/app/database/database.sqlite
