@@ -38,6 +38,8 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'appName' => config('app.name'),
+            'appVersion' => config('app.version'),
+            'showAppVersion' => config('app.show_app_version'),
         ]);
     }
 }

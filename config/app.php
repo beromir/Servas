@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -195,5 +195,15 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // ...
     ])->toArray(),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Version
+    |--------------------------------------------------------------------------
+    */
+
+    'version' => '0.5.1',
+
+    'show_app_version' => (bool)env('SERVAS_SHOW_APP_VERSION', true),
 
 ];

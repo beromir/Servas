@@ -98,9 +98,10 @@ php artisan key:generate
 
 You can change some application settings in the `.env` file.
 
-| Description                      | `.env` key                   | Options        |
-|:---------------------------------|:-----------------------------|:---------------|
-| Enable/Disable user registration | `SERVAS_ENABLE_REGISTRATION` | `true`/`false` |
+| Description                                  | `.env` key                   | Options        |
+|:---------------------------------------------|:-----------------------------|:---------------|
+| Enable/Disable user registration             | `SERVAS_ENABLE_REGISTRATION` | `true`/`false` |
+| Show/Hide version number in profile dropdown | `SERVAS_SHOW_APP_VERSION`    | `true`/`false` |
 
 After making changes to the `.env` file, you must restart the application container.
 

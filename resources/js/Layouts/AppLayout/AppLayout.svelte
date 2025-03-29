@@ -39,6 +39,8 @@
     import MenuButton from "@/Components/Navigation/MenuButton.svelte";
 
     const appName = $page.props.appName;
+    const appVersion = $page.props.appVersion;
+    const showAppVersion = $page.props.showAppVersion;
 
     let showProfileDropdown = false;
     let groups = [];
@@ -206,6 +208,17 @@
                                     Log Out
                                 </button>
                             </InnerDropdownSection>
+
+                            {#if showAppVersion}
+                                <InnerDropdownSection>
+                                    <a href={`https://github.com/beromir/Servas/releases/tag/v${appVersion}`}
+                                       target="_blank"
+                                       rel="noreferrer noopener nofollow"
+                                       class="block px-4 py-1 w-full group text-gray-600 text-xs hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">
+                                        v{appVersion}
+                                    </a>
+                                </InnerDropdownSection>
+                            {/if}
                         </Dropdown>
                     </div>
 
