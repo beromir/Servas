@@ -156,6 +156,8 @@ class LinkController extends Controller
      */
     public function destroy(Link $link)
     {
+        $link->groups()->detach();
+
         $link->delete();
 
         $this->groupService->updateUserGroupsLinkCount(Auth::user());
