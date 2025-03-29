@@ -6,8 +6,14 @@
 
 <script>
     import {page} from '@inertiajs/svelte';
+    import {initTheme} from "@/utils/theme.js";
+    import {onMount} from "svelte";
 
     let appName = $page.props.appName;
+
+    onMount(() => {
+        initTheme();
+    });
 </script>
 
 <svelte:head>
