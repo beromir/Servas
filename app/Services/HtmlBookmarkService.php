@@ -81,6 +81,20 @@ class HtmlBookmarkService
             $data['tags'] = Arr::collapse([$data['tags'], $tags]);
         }
 
+        // Get all anchor elements directly using getElementsByTagName
+        $groupElements = $dom->getElementsByTagName('h3');
+
+        // Iterate through each anchor element
+        /** @var DOMNode $groupElement */
+        foreach ($groupElements as $groupElement) {
+            $group = [
+                'title' => trim($groupElement->textContent),
+                'childGroups' => [],
+            ];
+
+            $data['groups'][] = $group;
+        }
+
         // Remove duplicates
         $data['tags'] = array_unique($data['tags']);
 
