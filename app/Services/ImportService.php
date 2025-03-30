@@ -61,6 +61,12 @@ class ImportService
                     continue;
                 }
 
+                if (array_key_exists('updatedAt', $link) && is_string($link['updatedAt'])) {
+                    $newLink->updated_at = $link['updatedAt'];
+                } else {
+                    continue;
+                }
+
                 $newLink->user_id = $user->id;
 
                 $newLink->save();
