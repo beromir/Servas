@@ -5,13 +5,18 @@ namespace App\Services;
 use Carbon\Carbon;
 use DOMDocument;
 use DOMNode;
+use Illuminate\Support\Arr;
 
 class HtmlBookmarkService
 {
     public function extractLinks(string $htmlContent): array
     {
         // Initialize empty array to store links and titles
-        $links = [];
+        $data = [
+            'links' => [],
+            'groups' => [],
+            'tags' => [],
+        ];
 
         // Create a new DOMDocument instance
         $dom = new DOMDocument();
@@ -59,15 +64,26 @@ class HtmlBookmarkService
                 $lastModified = Carbon::createFromTimestamp(intval($timestamp))->toDateTimeString();
             }
 
+            $tags = $anchor->attributes->getNamedItem('tags')?->textContent ?? [];
+            if ($tags) {
+                $tags = explode(',', $tags);
+            }
+
             // Add the link, title, and dates to the array
-            $links['links'][] = [
+            $data['links'][] = [
                 'title' => $title,
                 'link' => $href,
                 'createdAt' => $addDate,
-                'updatedAt' => $lastModified
+                'updatedAt' => $lastModified,
+                'tags' => array_unique($tags),
             ];
+
+            $data['tags'] = Arr::collapse([$data['tags'], $tags]);
         }
 
-        return $links;
+        // Remove duplicates
+        $data['tags'] = array_unique($data['tags']);
+
+        return $data;
     }
 }
