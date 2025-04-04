@@ -10,6 +10,8 @@ class HtmlBookmarkService
     {
         $lines = explode("\n", $htmlContent);
 
+        $groups = [];
+
         foreach ($lines as $line) {
             // Get link
             $linkMatches = [];
@@ -21,10 +23,11 @@ class HtmlBookmarkService
 
                 $link = [
                     'title' => $linkMatches[2] ?? '',
-                    'href' => $this->extractAttributeValue('href', $attributes),
+                    'link' => $this->extractAttributeValue('href', $attributes),
+                    'createdAt' => Carbon::createFromTimestamp($this->extractAttributeValue('add_date', $attributes))->toDateTimeString(),
+                    'updatedAt' => Carbon::createFromTimestamp($this->extractAttributeValue('last_modified', $attributes))->toDateTimeString(),
+                    'groups' => array_slice($groups, -1)[0] ? [array_slice($groups, -1)[0]] : [],
                     'tags' => explode(',', $this->extractAttributeValue('tags', $attributes)),
-                    'addDate' => Carbon::createFromTimestamp($this->extractAttributeValue('add_date', $attributes))->toDateTimeString(),
-                    'lastModified' => Carbon::createFromTimestamp($this->extractAttributeValue('last_modified', $attributes))->toDateTimeString(),
                 ];
             }
 
@@ -33,10 +36,12 @@ class HtmlBookmarkService
 
             preg_match('@<h3.*>(.+)</h3>@mi', $line, $groupMatches);
 
-            if ($groupMatches) {
+            if ($groupMatches && $groupMatches[1] ?? false) {
                 $group = [
-                    'title' => $groupMatches[1] ?? '',
+                    'title' => $groupMatches[1],
                 ];
+
+                $groups[] = $group['title'];
             }
 
             // Group opened
@@ -44,6 +49,10 @@ class HtmlBookmarkService
 
             // Group closed
             $groupClosed = str_contains(strtolower($line), '</dl>');
+
+            if ($groupClosed) {
+                array_pop($groups);
+            }
         }
 
         die();
