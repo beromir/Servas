@@ -3,101 +3,60 @@
 namespace App\Services;
 
 use Carbon\Carbon;
-use DOMDocument;
-use DOMNode;
-use Illuminate\Support\Arr;
 
 class HtmlBookmarkService
 {
     public function extractLinks(string $htmlContent): array
     {
-        // Initialize empty array to store links and titles
-        $data = [
-            'links' => [],
-            'groups' => [],
-            'tags' => [],
-        ];
+        $lines = explode("\n", $htmlContent);
 
-        // Create a new DOMDocument instance
-        $dom = new DOMDocument();
+        foreach ($lines as $line) {
+            // Get link
+            $linkMatches = [];
 
-        // Suppress warnings that might be generated from malformed HTML
-        libxml_use_internal_errors(true);
+            preg_match('@<a(.+)>(.+)</a>@mi', $line, $linkMatches);
 
-        // Load the HTML content
-        $dom->loadHTML($htmlContent);
+            if ($linkMatches) {
+                $attributes = $linkMatches[1] ?? '';
 
-        // Clear any errors that might have been generated
-        libxml_clear_errors();
-
-        // Get all anchor elements directly using getElementsByTagName
-        $anchorElements = $dom->getElementsByTagName('a');
-
-        // Iterate through each anchor element
-        /** @var DOMNode $anchor */
-        foreach ($anchorElements as $anchor) {
-            // Check if the anchor has an href attribute
-            if (empty($href = $anchor->attributes->getNamedItem('href')->textContent)) {
-                continue;
+                $link = [
+                    'title' => $linkMatches[2] ?? '',
+                    'href' => $this->extractAttributeValue('href', $attributes),
+                    'tags' => explode(',', $this->extractAttributeValue('tags', $attributes)),
+                    'addDate' => Carbon::createFromTimestamp($this->extractAttributeValue('add_date', $attributes))->toDateTimeString(),
+                    'lastModified' => Carbon::createFromTimestamp($this->extractAttributeValue('last_modified', $attributes))->toDateTimeString(),
+                ];
             }
 
-            // Get the text content of the anchor (the title)
-            $title = trim($anchor->textContent);
+            // Get group
+            $groupMatches = [];
 
-            // Only allow links that start with http:// or https://
-            if (!str_starts_with($href, 'http://') && !str_starts_with($href, 'https://')) {
-                continue;
+            preg_match('@<h3.*>(.+)</h3>@mi', $line, $groupMatches);
+
+            if ($groupMatches) {
+                $group = [
+                    'title' => $groupMatches[1] ?? '',
+                ];
             }
 
-            // Get ADD_DATE and LAST_MODIFIED attributes if they exist
-            $addDate = null;
-            $lastModified = null;
+            // Group opened
+            $groupOpened = str_contains(strtolower($line), '<dl>');
 
-            // Convert Unix timestamp to datetime string using Carbon
-            $timestamp = $anchor->attributes->getNamedItem('add_date')?->textContent;
-            if ($timestamp) {
-                $addDate = Carbon::createFromTimestamp(intval($timestamp))->toDateTimeString();
-            }
-
-            $timestamp = $anchor->attributes->getNamedItem('last_modified')?->textContent;
-            if ($timestamp) {
-                $lastModified = Carbon::createFromTimestamp(intval($timestamp))->toDateTimeString();
-            }
-
-            $tags = $anchor->attributes->getNamedItem('tags')?->textContent ?? [];
-            if ($tags) {
-                $tags = explode(',', $tags);
-            }
-
-            // Add the link, title, and dates to the array
-            $data['links'][] = [
-                'title' => $title,
-                'link' => $href,
-                'createdAt' => $addDate,
-                'updatedAt' => $lastModified,
-                'tags' => array_unique($tags),
-            ];
-
-            $data['tags'] = Arr::collapse([$data['tags'], $tags]);
+            // Group closed
+            $groupClosed = str_contains(strtolower($line), '</dl>');
         }
 
-        // Get all anchor elements directly using getElementsByTagName
-        $groupElements = $dom->getElementsByTagName('h3');
+        die();
 
-        // Iterate through each anchor element
-        /** @var DOMNode $groupElement */
-        foreach ($groupElements as $groupElement) {
-            $group = [
-                'title' => trim($groupElement->textContent),
-                'childGroups' => [],
-            ];
+        return $matches;
+    }
 
-            $data['groups'][] = $group;
-        }
+    protected function extractAttributeValue(string $attributeName, string $subject)
+    {
+        $matches = [];
 
-        // Remove duplicates
-        $data['tags'] = array_unique($data['tags']);
+        preg_match("@$attributeName=\"(.+)\"(?:\s|$)@miU", $subject, $matches);
 
-        return $data;
+        return $matches[1] ?? '';
     }
 }
