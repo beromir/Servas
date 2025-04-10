@@ -8,6 +8,12 @@ class HtmlBookmarkService
 {
     public function extractLinks(string $htmlContent): array
     {
+        $data = [
+            'links' => [],
+            'groups' => [],
+            'tags' => [],
+        ];
+
         $lines = explode("\n", $htmlContent);
 
         $groups = [];
@@ -21,14 +27,20 @@ class HtmlBookmarkService
             if ($linkMatches) {
                 $attributes = $linkMatches[1] ?? '';
 
+                $tags = $this->extractAttributeValue('tags', $attributes);
+                $tags = $tags ? explode(',', $this->extractAttributeValue('tags', $attributes)) : [];
+
                 $link = [
                     'title' => $linkMatches[2] ?? '',
                     'link' => $this->extractAttributeValue('href', $attributes),
                     'createdAt' => Carbon::createFromTimestamp($this->extractAttributeValue('add_date', $attributes))->toDateTimeString(),
                     'updatedAt' => Carbon::createFromTimestamp($this->extractAttributeValue('last_modified', $attributes))->toDateTimeString(),
                     'groups' => array_slice($groups, -1)[0] ? [array_slice($groups, -1)[0]] : [],
-                    'tags' => explode(',', $this->extractAttributeValue('tags', $attributes)),
+                    'tags' => $tags,
                 ];
+
+                $data['links'][] = $link;
+                $data['tags'] = array_unique(array_merge($data['tags'], $tags));
             }
 
             // Get group
@@ -42,6 +54,8 @@ class HtmlBookmarkService
                 ];
 
                 $groups[] = $group['title'];
+
+                $data['groups'][] = $group;
             }
 
             // Group opened
@@ -54,6 +68,8 @@ class HtmlBookmarkService
                 array_pop($groups);
             }
         }
+
+        dump($data);
 
         die();
 
