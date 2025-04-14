@@ -4,9 +4,9 @@ namespace App\Services;
 
 use Carbon\Carbon;
 
-class HtmlBookmarkService
+class HtmlBookmarkImportService
 {
-    public function extractLinks(string $htmlContent): array
+    public function extractData(string $htmlContent): array
     {
         $data = [
             'links' => [],
@@ -51,6 +51,7 @@ class HtmlBookmarkService
             if ($groupMatches && $groupMatches[1] ?? false) {
                 $group = [
                     'title' => $groupMatches[1],
+                    'childGroups' => [],
                 ];
 
                 $groups[] = $group['title'];
@@ -69,11 +70,7 @@ class HtmlBookmarkService
             }
         }
 
-        dump($data);
-
-        die();
-
-        return $matches;
+        return $data;
     }
 
     protected function extractAttributeValue(string $attributeName, string $subject)
