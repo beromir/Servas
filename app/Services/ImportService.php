@@ -57,14 +57,12 @@ class ImportService
 
                 if (array_key_exists('createdAt', $link) && is_string($link['createdAt'])) {
                     $newLink->created_at = $link['createdAt'];
-                } else {
-                    continue;
                 }
 
                 if (array_key_exists('updatedAt', $link) && is_string($link['updatedAt'])) {
                     $newLink->updated_at = $link['updatedAt'];
-                } else {
-                    continue;
+                } elseif (array_key_exists('createdAt', $link) && is_string($link['createdAt'])) {
+                    $newLink->updated_at = $link['createdAt'];
                 }
 
                 $newLink->user_id = $user->id;
