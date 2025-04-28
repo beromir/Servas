@@ -18,7 +18,7 @@
         importSource: 'json',
         importOptions: [],
         importFile: null,
-    })
+    });
 
     let showSuccessMessage = false;
 
