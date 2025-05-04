@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Tags\Tag;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,7 +39,31 @@ class AppServiceProvider extends ServiceProvider
                 return $this;
             }
 
-            return $this->withAllTags($tags);
+            $locale = app()->getLocale();
+
+            $tags = array_filter($tags);
+
+            if (empty($tags)) {
+                return $this;
+            }
+
+            // Filter tags by current user
+            $tagModels = Tag::filterByCurrentUser()
+                ->where(function ($query) use ($tags, $locale) {
+                    foreach ($tags as $tag) {
+                        $query->orWhere(function ($subQuery) use ($tag, $locale) {
+                            $subQuery->where("name->{$locale}", $tag)
+                                ->orWhere("slug->{$locale}", $tag);
+                        });
+                    }
+                })
+                ->get();
+
+            if ($tagModels->isEmpty()) {
+                return $this;
+            }
+
+            return $this->withAllTags($tagModels);
         });
 
         Builder::macro('filterByCurrentUser', function (string $userColumn = 'user_id') {
