@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -14,7 +15,8 @@ use Spatie\Tags\HasTags;
 class Link extends Model implements Searchable
 {
     use HasFactory,
-        HasTags;
+        HasTags,
+        BelongsToUser;
 
     protected $fillable = [
         'title',
