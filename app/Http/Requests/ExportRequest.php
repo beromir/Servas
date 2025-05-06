@@ -22,6 +22,7 @@ class ExportRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'exportFormat' => 'required|in:json,html',
             'exportOptions' => 'required|array',
             'exportOptions.*' => 'string',
         ];
