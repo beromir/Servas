@@ -20,6 +20,7 @@ class ExportService
                     'title' => $link->title,
                     'link' => $link->link,
                     'createdAt' => $link->created_at->jsonSerialize(),
+                    'updatedAt' => $link->updated_at->jsonSerialize(),
                     'groups' => $link
                         ->groups()
                         ->get(['title'])
