@@ -56,7 +56,7 @@ HTML;
         $updatedAt = Carbon::parse($link['updatedAt'])->unix();
 
         return <<<HTML
-<DT><A HREF="$url" ADD_DATE="$createdAt" LAST_MODIFIED="$updatedAt">$title</A>
+        <DT><A HREF="$url" ADD_DATE="$createdAt" LAST_MODIFIED="$updatedAt">$title</A>
 HTML
             . "\n";
     }
