@@ -54,9 +54,16 @@ HTML;
         $title = htmlspecialchars($link['title'] ?? $url);
         $createdAt = Carbon::parse($link['createdAt'])->unix();
         $updatedAt = Carbon::parse($link['updatedAt'])->unix();
+        $tagsAttribute = '';
+
+        if (!empty($link['tags'])) {
+            $tags = implode(',', $link['tags']);
+
+            $tagsAttribute = " TAGS=\"$tags\"";
+        }
 
         return <<<HTML
-        <DT><A HREF="$url" ADD_DATE="$createdAt" LAST_MODIFIED="$updatedAt">$title</A>
+        <DT><A HREF="$url" ADD_DATE="$createdAt" LAST_MODIFIED="$updatedAt"$tagsAttribute>$title</A>
 HTML
             . "\n";
     }
