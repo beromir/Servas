@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Carbon;
+
 class HtmlBookmarkExportService
 {
     public function createHtmlExport(array $links): string
@@ -32,16 +34,17 @@ class HtmlBookmarkExportService
 <TITLE>Bookmarks</TITLE>
 <H1>Servas export</H1>
 <DL><p>
-    <DT><H3 ADD_DATE="$date" LAST_MODIFIED="$date">Links</H3>
+    <DT><H3 ADD_DATE="$date" LAST_MODIFIED="$date">Servas export</H3>
     <DL><p>
-HTML;
+HTML
+            . "\n";
     }
 
     private function getBookmarkFileFooter(): string
     {
         return <<<HTML
     </DL><p>
-</DL><p>
+</DL>
 HTML;
     }
 
@@ -49,8 +52,8 @@ HTML;
     {
         $url = htmlspecialchars($link['link']);
         $title = htmlspecialchars($link['title'] ?? $url);
-        $createdAt = $link['createdAt'];
-        $updatedAt = $link['createdAt'];
+        $createdAt = Carbon::parse($link['createdAt'])->unix();
+        $updatedAt = Carbon::parse($link['updatedAt'])->unix();
 
         return <<<HTML
 <DT><A HREF="$url" ADD_DATE="$createdAt" LAST_MODIFIED="$updatedAt">$title</A>
