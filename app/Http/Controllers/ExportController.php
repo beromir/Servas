@@ -19,19 +19,19 @@ class ExportController extends Controller
         $export = $exportService->exportUserData($exportOptions, Auth::user());
 
         if ($exportFormat === 'json') {
-            header('Content-Type: application/json');
-            header('Cache-Control: no-store, no-cache');
-            header('Content-Disposition: attachment; filename="export.json"');
 
-            echo json_encode($export);
+            return response()->streamDownload(function () use ($export) {
+                echo json_encode($export);
+            }, 'export.json', [
+                'Content-Type' => 'application/json',
+            ]);
         } elseif ($exportFormat === 'html' && array_key_exists('links', $export)) {
-            $html = $htmlBookmarkExportService->createHtmlExport($export['links']);
 
-            header('Content-Type: text/html');
-            header('Cache-Control: no-store, no-cache');
-            header('Content-Disposition: attachment; filename="export.html"');
-
-            echo $html;
+            return response()->streamDownload(function () use ($htmlBookmarkExportService, $export) {
+                echo $htmlBookmarkExportService->createHtmlExport($export['links']);
+            }, 'export.html', [
+                'Content-Type' => 'text/html',
+            ]);
         }
 
         return back();
