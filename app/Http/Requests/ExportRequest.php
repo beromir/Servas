@@ -23,8 +23,6 @@ class ExportRequest extends FormRequest
     {
         return [
             'exportFormat' => 'required|in:json,html',
-            'exportOptions' => 'required|array',
-            'exportOptions.*' => 'string',
         ];
     }
 }

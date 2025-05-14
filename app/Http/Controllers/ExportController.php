@@ -14,9 +14,8 @@ class ExportController extends Controller
         $validated = $request->validated();
 
         $exportFormat = $validated['exportFormat'];
-        $exportOptions = $validated['exportOptions'];
 
-        $export = $exportService->exportUserData($exportOptions, Auth::user());
+        $export = $exportService->exportUserData(Auth::user());
 
         if ($exportFormat === 'json') {
 
