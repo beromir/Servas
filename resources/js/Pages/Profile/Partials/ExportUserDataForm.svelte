@@ -2,11 +2,10 @@
     import JetButton from '@/Jetstream/Button.svelte';
     import JetFormSection from '@/Jetstream/FormSection.svelte';
     import {route} from "@/utils";
+    import RadioGroup from "@/Components/FormLayouts/Inputs/RadioGroup.svelte";
+    import Radio from "@/Components/FormLayouts/Inputs/Radio.svelte";
 
     let formSection;
-    let form = {
-        exportFormat: 'json',
-    };
     let csrfToken = '';
 
     async function exportUserData() {
@@ -33,22 +32,11 @@
     <svelte:fragment slot="form">
         <input type="hidden" name="_token" bind:value={csrfToken}/>
 
-        <div class="col-span-3 space-y-6">
-            <fieldset class="dark:text-white">
-                <legend>Export format</legend>
-
-                <div>
-                    <input type="radio" bind:group={form.exportFormat} id="export-json" name="exportFormat"
-                           value="json"/>
-                    <label for="export-json">JSON (Servas export)</label>
-                </div>
-
-                <div>
-                    <input type="radio" bind:group={form.exportFormat} id="export-html" name="exportFormat"
-                           value="html"/>
-                    <label for="export-html">HTML (Browser bookmarks)</label>
-                </div>
-            </fieldset>
+        <div class="col-span-3">
+            <RadioGroup label="Export format">
+                <Radio id="export-json" name="exportFormat" value="json" label="JSON (Servas export)" checked/>
+                <Radio id="export-html" name="exportFormat" value="html" label="HTML (Browser bookmarks)"/>
+            </RadioGroup>
         </div>
     </svelte:fragment>
 

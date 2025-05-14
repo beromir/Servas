@@ -5,6 +5,8 @@
     import {route} from "@/utils";
     import FileUpload from "@/Components/FormLayouts/Inputs/FileUpload.svelte";
     import SuccessMessage from "@/Jetstream/SuccessMessage.svelte";
+    import RadioGroup from "@/Components/FormLayouts/Inputs/RadioGroup.svelte";
+    import Radio from "@/Components/FormLayouts/Inputs/Radio.svelte";
 
     let importOptions = [
         'links',
@@ -47,21 +49,12 @@
 
     <svelte:fragment slot="form">
         <div class="col-span-3 space-y-6">
-            <fieldset class="dark:text-white">
-                <legend>Import source</legend>
-
-                <div>
-                    <input type="radio" bind:group={$form.importSource} id="import-json" name="import-source"
-                           value="json"/>
-                    <label for="import-json">JSON (Servas export)</label>
-                </div>
-
-                <div>
-                    <input type="radio" bind:group={$form.importSource} id="import-html" name="import-source"
-                           value="html"/>
-                    <label for="import-html">HTML (Browser bookmarks)</label>
-                </div>
-            </fieldset>
+            <RadioGroup label="Import source">
+                <Radio bind:currentValue={$form.importSource} id="import-json" name="exportFormat" value="json"
+                       label="JSON (Servas export)"/>
+                <Radio bind:currentValue={$form.importSource} id="import-html" name="exportFormat" value="html"
+                       label="HTML (Browser bookmarks)"/>
+            </RadioGroup>
 
             <div>
                 <FileUpload on:input={event => $form.importFile = event.detail.file} bind:this={fileInput}
