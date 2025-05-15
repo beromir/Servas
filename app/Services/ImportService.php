@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Group;
 use App\Models\Link;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Tags\Tag;
 use App\Models\User;
 
@@ -41,24 +42,39 @@ class ImportService
 
         if (in_array('links', $importOptions) && array_key_exists('links', $data) && is_array($data['links']) && !empty($data['links'])) {
             foreach ($data['links'] as $link) {
-                $newLink = Link::make();
+                $linkData = [];
 
                 if (array_key_exists('title', $link) && is_string($link['title'])) {
-                    $newLink->title = $link['title'];
+                    $linkData['title'] = $link['title'];
                 } else {
                     continue;
                 }
 
                 if (array_key_exists('link', $link) && is_string($link['link'])) {
-                    $newLink->link = $link['link'];
+                    $linkData['link'] = $link['link'];
                 } else {
                     continue;
                 }
 
+                $validator = Validator::make($linkData, Link::rules($linkData['link']));
+
+                if ($validator->fails()) {
+                    continue;
+                }
+
+                $newLink = Link::make();
+
+                $newLink->title = $linkData['title'];
+                $newLink->link = $linkData['link'];
+
                 if (array_key_exists('createdAt', $link) && is_string($link['createdAt'])) {
                     $newLink->created_at = $link['createdAt'];
-                } else {
-                    continue;
+                }
+
+                if (array_key_exists('updatedAt', $link) && is_string($link['updatedAt'])) {
+                    $newLink->updated_at = $link['updatedAt'];
+                } elseif (array_key_exists('createdAt', $link) && is_string($link['createdAt'])) {
+                    $newLink->updated_at = $link['createdAt'];
                 }
 
                 $newLink->user_id = $user->id;

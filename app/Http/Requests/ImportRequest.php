@@ -22,13 +22,24 @@ class ImportRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
+            'importSource' => 'required|in:json,html',
             'importOptions' => 'required|array',
             'importOptions.*' => 'string',
             'importFile' => [
                 'required',
-                File::types('json'),
             ],
         ];
+
+        switch ($this->importSource) {
+            case 'json':
+                $rules['importFile'][] = File::types('json');
+                break;
+            case 'html':
+                $rules['importFile'][] = File::types('html');
+                break;
+        }
+
+        return $rules;
     }
 }

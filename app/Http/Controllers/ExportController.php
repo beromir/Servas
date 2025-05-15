@@ -4,22 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ExportRequest;
 use App\Services\ExportService;
+use App\Services\HtmlBookmarkExportService;
 use Illuminate\Support\Facades\Auth;
 
 class ExportController extends Controller
 {
-    public function export(ExportRequest $request, ExportService $exportService)
+    public function export(ExportRequest $request, HtmlBookmarkExportService $htmlBookmarkExportService, ExportService $exportService)
     {
-        $exportOptions = $request->validated('exportOptions');
+        $validated = $request->validated();
 
-        $export = $exportService->exportUserData($exportOptions, Auth::user());
+        $exportFormat = $validated['exportFormat'];
 
-        $export = json_encode($export);
+        $export = $exportService->exportUserData(Auth::user());
 
-        header('Content-Type: application/json');
-        header('Cache-Control: no-store, no-cache');
-        header('Content-Disposition: attachment; filename="export.json"');
+        if ($exportFormat === 'json') {
 
-        echo $export;
+            return response()->streamDownload(function () use ($export) {
+                echo json_encode($export);
+            }, 'export.json', [
+                'Content-Type' => 'application/json',
+            ]);
+        } elseif ($exportFormat === 'html' && array_key_exists('links', $export)) {
+
+            return response()->streamDownload(function () use ($htmlBookmarkExportService, $export) {
+                echo $htmlBookmarkExportService->createHtmlExport($export);
+            }, 'export.html', [
+                'Content-Type' => 'text/html',
+            ]);
+        }
+
+        return back();
     }
 }
