@@ -27,7 +27,7 @@ class ExportController extends Controller
         } elseif ($exportFormat === 'html' && array_key_exists('links', $export)) {
 
             return response()->streamDownload(function () use ($htmlBookmarkExportService, $export) {
-                echo $htmlBookmarkExportService->createHtmlExport($export['links']);
+                echo $htmlBookmarkExportService->createHtmlExport($export);
             }, 'export.html', [
                 'Content-Type' => 'text/html',
             ]);

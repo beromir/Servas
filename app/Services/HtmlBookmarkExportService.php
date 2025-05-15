@@ -6,14 +6,20 @@ use Illuminate\Support\Carbon;
 
 class HtmlBookmarkExportService
 {
-    public function createHtmlExport(array $links): string
+    public function createHtmlExport(array $data): string
     {
         $currentDate = time();
 
         $html = $this->getBookmarkFileHeader($currentDate);
 
-        foreach ($links as $link) {
-            $html .= $this->createBookmarkItem($link);
+        foreach ($data['links'] as $link) {
+            if (empty($link['groups'])) {
+                $html .= $this->createBookmarkItem($link);
+            }
+        }
+
+        foreach ($data['groups'] as $group) {
+            $html .= $this->processGroupWithLinks($group, $data['links'], $currentDate);
         }
 
         $html .= $this->getBookmarkFileFooter();
@@ -48,7 +54,7 @@ HTML
 HTML;
     }
 
-    private function createBookmarkItem(array $link): string
+    private function createBookmarkItem(array $link, int $indentLevel = 0): string
     {
         $url = htmlspecialchars($link['link']);
         $title = htmlspecialchars($link['title'] ?? $url);
@@ -62,9 +68,55 @@ HTML;
             $tagsAttribute = " TAGS=\"$tags\"";
         }
 
+        $indent = str_repeat("\t", $indentLevel);
+
         return <<<HTML
-        <DT><A HREF="$url" ADD_DATE="$createdAt" LAST_MODIFIED="$updatedAt"$tagsAttribute>$title</A>
+        $indent<DT><A HREF="$url" ADD_DATE="$createdAt" LAST_MODIFIED="$updatedAt"$tagsAttribute>$title</A>
 HTML
             . "\n";
+    }
+
+    private function openFolder(string $name, int $date): string
+    {
+        return <<<HTML
+            <DT><H3 ADD_DATE="$date" LAST_MODIFIED="$date">$name</H3>
+            <DL><p>
+    HTML
+            . "\n";
+    }
+
+    private function closeFolder(): string
+    {
+        return <<<HTML
+            </DL></p>
+    HTML
+            . "\n";
+    }
+
+    private function getGroupLinks(string $groupTitle, array $links): array
+    {
+        return array_filter($links, function ($link) use ($groupTitle) {
+            // If the link has no groups defined, skip it
+            if (!isset($link['groups']) || !is_array($link['groups'])) {
+                return false;
+            }
+
+            // Check if the groupTitle exists in the link's groups array
+            return in_array($groupTitle, $link['groups']);
+        });
+    }
+
+    private function processGroupWithLinks(array $group, array $links, int $currentDate): string
+    {
+        $content = $this->openFolder($group['title'], $currentDate);
+        $groupLinks = $this->getGroupLinks($group['title'], $links);
+
+        foreach ($groupLinks as $link) {
+            $content .= $this->createBookmarkItem($link, 1);
+        }
+
+        $content .= $this->closeFolder();
+
+        return $content;
     }
 }
