@@ -20,7 +20,7 @@ class ExportController extends Controller
         if ($exportFormat === 'json') {
 
             return response()->streamDownload(function () use ($export) {
-                echo json_encode($export);
+                echo json_encode($export, JSON_PRETTY_PRINT);
             }, 'export.json', [
                 'Content-Type' => 'application/json',
             ]);
