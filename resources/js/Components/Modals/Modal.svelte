@@ -49,11 +49,13 @@
                      out:scale={{duration: 200, start: 0.95, easing: backIn}}
                      class={clsx('mt-12 w-full bg-white text-left rounded-t-3xl shadow-xl overflow-hidden transform transition-all ring-contrast sm:my-8 sm:rounded-2xl', getSizeClasses())}
                      aria-hidden="true">
-                    <div class="flex flex-col max-h-[calc(100dvh-3rem)] bg-white sm:pt-6 sm:max-h-none dark:bg-gray-900">
+                    <div
+                        class="flex flex-col max-h-[calc(100dvh-3rem)] bg-white sm:pt-6 sm:max-h-none dark:bg-gray-900">
                         <div
                             class="fixed inset-x-0 top-0 z-10 grid grid-cols-5 items-end px-4 pt-4 pb-3 backdrop-blur-3xl sm:static sm:px-6 sm:py-0 sm:backdrop-blur-none">
                             <button on:click={() => {showModal = false; dispatch('canceled')}}
-                                    class="text-left text-primary-600 focus:outline-none sm:hidden dark:text-gray-100" type="button">
+                                    class="text-left text-primary-600 focus:outline-none sm:hidden dark:text-gray-100"
+                                    type="button">
                                 Cancel
                             </button>
                             <h3 class="col-span-3 text-lg leading-6 text-center font-semibold text-gray-800 truncate sm:text-left dark:text-white">
@@ -69,7 +71,7 @@
                             </div>
 
                             <div
-                                class={clsx(showFooterMenuOnMobile ? 'grid' : 'hidden', 'gap-x-4 gap-y-3 px-4 py-3 bg-gray-100 border-t border-gray-200 overflow-auto sm:flex sm:justify-end sm:px-6 dark:bg-gray-950 dark:border-gray-800')}>
+                                class={clsx(showFooterMenuOnMobile ? 'grid' : 'hidden', 'gap-x-4 gap-y-3 mb-[env(safe-area-inset-bottom)] px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] bg-gray-100 border-t border-gray-200 overflow-auto sm:flex sm:justify-end sm:px-6 dark:bg-gray-950 dark:border-gray-800')}>
                                 <slot name="footer"/>
                             </div>
                         </div>
