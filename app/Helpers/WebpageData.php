@@ -20,7 +20,10 @@ class WebpageData
 
             if (empty($matches[1])) return '';
 
-            return html_entity_decode($matches[1][0]);
+            $title = trim(html_entity_decode($matches[1][0]));
+            $title = strip_tags($title);
+
+            return mb_substr($title, 0, 255);
         } catch (RequestException) {
 
             return '';
