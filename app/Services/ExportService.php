@@ -16,7 +16,7 @@ class ExportService
         $export['links'] = Link::where('user_id', $user->id)
             ->get()
             ->transform(fn(Link $link) => [
-                'title' => $link->title,
+                'title' => trim($link->title),
                 'link' => $link->link,
                 'createdAt' => $link->created_at->jsonSerialize(),
                 'updatedAt' => $link->updated_at->jsonSerialize(),
