@@ -48,7 +48,7 @@
     </svelte:fragment>
 
     <svelte:fragment slot="form">
-        <div class="col-span-3 space-y-6">
+        <div class="col-span-full space-y-6">
             <RadioGroup label="Import source">
                 <Radio bind:currentValue={$form.importSource} id="import-json" name="exportFormat" value="json"
                        label="JSON (Servas export)"/>

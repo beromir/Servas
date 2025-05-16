@@ -32,7 +32,7 @@
     <svelte:fragment slot="form">
         <input type="hidden" name="_token" bind:value={csrfToken}/>
 
-        <div class="col-span-3">
+        <div class="col-span-full">
             <RadioGroup label="Export format">
                 <Radio id="export-json" name="exportFormat" value="json" label="JSON (Servas export)" checked/>
                 <Radio id="export-html" name="exportFormat" value="html" label="HTML (Browser bookmarks)"/>
