@@ -76,7 +76,7 @@
                             </div>
 
                             <div
-                                class={clsx('h-[env(safe-area-inset-bottom)]', showFooterMenuOnMobile ? 'bg-gray-100 dark:bg-gray-950' : '')}></div>
+                                class={clsx('h-[env(safe-area-inset-bottom)] sm:hidden', showFooterMenuOnMobile ? 'bg-gray-100 dark:bg-gray-950' : '')}></div>
                         </div>
                     </div>
                 </div>
