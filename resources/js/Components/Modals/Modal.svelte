@@ -49,7 +49,7 @@
                      out:scale={{duration: 200, start: 0.95, easing: backIn}}
                      class={clsx('mt-12 w-full bg-white text-left rounded-t-3xl shadow-xl overflow-hidden transform transition-all ring-contrast sm:my-8 sm:rounded-2xl', getSizeClasses())}
                      aria-hidden="true">
-                    <div class="flex flex-col max-h-[calc(100dvh-3rem)] bg-white sm:pt-6 sm:max-h-none dark:bg-gray-900">
+                    <div class="flex flex-col pb-[env(safe-area-inset-bottom)] max-h-[calc(100dvh-3rem)] bg-white sm:pt-6 sm:max-h-none dark:bg-gray-900">
                         <div
                             class="fixed inset-x-0 top-0 z-10 grid grid-cols-5 items-end px-4 pt-4 pb-3 backdrop-blur-3xl sm:static sm:px-6 sm:py-0 sm:backdrop-blur-none">
                             <button on:click={() => {showModal = false; dispatch('canceled')}}
