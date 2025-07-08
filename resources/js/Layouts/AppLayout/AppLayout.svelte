@@ -115,7 +115,7 @@
              out:slide={{ duration: 300, axis: 'x', easing: cubicOut }}
              class="fixed top-0 z-50 flex-none w-[300px] h-screen lg:sticky">
             <div
-                class="flex flex-col w-full h-full bg-gray-700 shadow ring-contrast transition duration-300 dark:bg-gray-800">
+                class="flex flex-col w-full h-dvh bg-gray-700 shadow ring-contrast transition duration-300 dark:bg-gray-800">
                 <div class="flex items-center p-4">
                     <!-- Sidebar toggle -->
                     <button on:click={() => showSidebar = toggleSidebar()} type="button"
@@ -236,7 +236,7 @@
                     </button>
                 </div>
 
-                <nav class="flex-grow px-4 pb-4 h-full overflow-y-auto md:pt-2">
+                <nav class="flex-grow px-4 pb-4 h-dvh overflow-y-auto md:pt-2">
                     <ul class="space-y-2">
                         <li>
                             <MenuItem title="Home" url={route('links.index')}>

@@ -5,6 +5,8 @@
     import {route} from "@/utils";
     import FileUpload from "@/Components/FormLayouts/Inputs/FileUpload.svelte";
     import SuccessMessage from "@/Jetstream/SuccessMessage.svelte";
+    import RadioGroup from "@/Components/FormLayouts/Inputs/RadioGroup.svelte";
+    import Radio from "@/Components/FormLayouts/Inputs/Radio.svelte";
 
     let importOptions = [
         'links',
@@ -15,9 +17,10 @@
     let fileInput;
 
     let form = useForm({
+        importSource: 'json',
         importOptions: [],
         importFile: null,
-    })
+    });
 
     let showSuccessMessage = false;
 
@@ -45,10 +48,18 @@
     </svelte:fragment>
 
     <svelte:fragment slot="form">
-        <div class="col-span-3 space-y-6">
+        <div class="col-span-full space-y-6">
+            <RadioGroup label="Import source">
+                <Radio bind:currentValue={$form.importSource} id="import-json" name="exportFormat" value="json"
+                       label="JSON (Servas export)"/>
+                <Radio bind:currentValue={$form.importSource} id="import-html" name="exportFormat" value="html"
+                       label="HTML (Browser bookmarks)"/>
+            </RadioGroup>
+
             <div>
                 <FileUpload on:input={event => $form.importFile = event.detail.file} bind:this={fileInput}
-                            label="Select export file (.json)" accept=".json"/>
+                            label={`Select export file (${$form.importSource === 'json' ? '.json' : '.html'})`}
+                            accept={$form.importSource === 'json' ? '.json' : '.html'}/>
             </div>
 
             <div>
