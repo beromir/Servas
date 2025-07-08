@@ -202,7 +202,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'version' => '0.5.1',
+    'version' => '1.0.0',
 
     'show_app_version' => (bool)env('SERVAS_SHOW_APP_VERSION', true),
 
