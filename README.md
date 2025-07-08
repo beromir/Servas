@@ -3,7 +3,7 @@
 A self-hosted bookmark management tool.  
 Servas is based on Laravel and Inertia.js and uses Tailwind CSS and Svelte for the frontend.
 
-![](./docs/images/home.png "Home view")
+![](./docs/images/home.jpg "Home view")
 
 ## Features
 
@@ -13,6 +13,7 @@ Servas is based on Laravel and Inertia.js and uses Tailwind CSS and Svelte for t
 - **Firefox and Chrome browser extension:** Add sites to Servas right from your browser.
 - **Multiple users:** You can create multiple user accounts.
 - **Responsive design:** Servas looks good on all your devices.
+- **Import/Export:** Support for JSON and HTML bookmarks.
 - **Dark/light theme.**
 - **Two Factor Authentication available.**
 
@@ -115,14 +116,4 @@ Register a new user at https://your-servas-instance/register.
 
 ## Screenshots
 
-Links view:
-![](./docs/images/links.png "Links view")
-
-Groups view:
-![](./docs/images/groups.png "Groups view")
-
-New link modal:
-![](./docs/images/new-link.png "New link modal")
-
-Command palette:
-![](./docs/images/command-palette.png "Command palette")
+Visit the [website](https://servas.app#screenshots).
