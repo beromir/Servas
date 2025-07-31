@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePublicLinkRequest;
 use App\Models\Group;
 use App\Models\Link;
 use App\Models\PublicLink;
+use App\Repositories\GroupRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -31,7 +32,7 @@ class PublicLinkController extends Controller
                     'group' => (object)[
                         'title' => $publicLink->publicLinkable->title,
                         'id' => $publicLink->publicLinkable->id,
-                    ]
+                    ],
                 ])
                 ->sortBy(function (array $publicLink) {
                     return $publicLink['group']->title;
@@ -96,13 +97,7 @@ class PublicLinkController extends Controller
 
         return Inertia::render('PublicLink/Show', [
             'title' => $group->title,
-            'links' => $group->links()
-                ->filterLinks($searchString)
-                ->through(fn(Link $link) => [
-                    'title' => $link->title,
-                    'link' => $link->link,
-                    'id' => $link->id,
-                ]),
+            'links' => GroupRepository::getLinks($group),
             'shareId' => $shareId,
             'searchString' => $searchString,
         ]);
