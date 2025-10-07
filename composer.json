@@ -13,8 +13,6 @@
         "laravel/jetstream": "^v5.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.7",
-        "pestphp/pest": "^v3.0",
-        "pestphp/pest-plugin-laravel": "^3.2.0",
         "spatie/laravel-searchable": "dev-main",
         "spatie/laravel-tags": "^4.3.0",
         "sqids/sqids": "^0.5.0",
@@ -25,7 +23,8 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^v8.1",
-        "phpunit/phpunit": "^11.0",
+        "pestphp/pest": "^4.1.2",
+        "pestphp/pest-plugin-laravel": "^4.0.0",
         "spatie/laravel-ignition": "^2.0",
         "spatie/laravel-ray": "^1.29.4"
     },
