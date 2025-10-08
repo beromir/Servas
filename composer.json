@@ -4,7 +4,7 @@
     "description": "A self-hosted bookmark management tool",
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "ext-dom": "*",
         "ext-libxml": "*",
         "guzzlehttp/guzzle": "^7.2",
