@@ -25,7 +25,6 @@
         "nunomaduro/collision": "^v8.1",
         "pestphp/pest": "^4.1.2",
         "pestphp/pest-plugin-laravel": "^4.0.0",
-        "spatie/laravel-ignition": "^2.0",
         "spatie/laravel-ray": "^1.29.4"
     },
     "repositories": [
