@@ -14,6 +14,11 @@ createInertiaApp({
     setup({el, App, props}) {
         new App({target: el, props});
     },
+    defaults: {
+        visitOptions: (href, options) => {
+            return {viewTransition: true}
+        },
+    },
     progress: {
         color: '#4e64b7',
     },
