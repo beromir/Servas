@@ -29,6 +29,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return to_route('links.index');
     })->name('home');
 
+    Route::get('links/{link}/favicon', [\App\Http\Controllers\FaviconController::class, 'show'])
+        ->name('link.favicon');
+
     Route::resource('links', LinkController::class)->except([
         'create', 'edit',
     ]);
