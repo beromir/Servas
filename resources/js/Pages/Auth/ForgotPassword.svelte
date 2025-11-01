@@ -1,10 +1,12 @@
-<script context="module">
+<script module>
     import GuestLayout, {title} from "@/Layouts/GuestLayout.svelte";
 
     export const layout = GuestLayout;
 </script>
 
 <script>
+    import { preventDefault } from 'svelte/legacy';
+
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
@@ -28,9 +30,11 @@
 </script>
 
 <JetAuthenticationCard>
-    <svelte:fragment slot="logo">
-        <JetAuthenticationCardLogo/>
-    </svelte:fragment>
+    {#snippet logo()}
+    
+            <JetAuthenticationCardLogo/>
+        
+    {/snippet}
 
     <div class="mb-4 text-sm text-gray-600">
         Forgot your password? No problem. Just let us know your email address and we will email you a password reset
@@ -45,7 +49,7 @@
 
     <JetValidationErrors hasErrors={$form.hasErrors} class="mb-4"/>
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={preventDefault(submit)}>
         <div>
             <JetLabel id="email" label="Email"/>
             <JetInput id="email" type="email" class="mt-1 block w-full" bind:value={$form.email} required autofocus/>

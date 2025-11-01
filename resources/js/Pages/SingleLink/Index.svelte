@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import AppLayout, {title, showHeader} from "@/Layouts/AppLayout/AppLayout.svelte";
 
     export const layout = AppLayout;
@@ -12,12 +12,12 @@
     import {inertia, Link} from "@inertiajs/svelte";
     import Button from "@/Components/Buttons/Button.svelte";
 
-    export let link = {};
+    let { link = {} } = $props();
 
     $title = link.title;
     $showHeader = false;
 
-    let copied = false;
+    let copied = $state(false);
 
     onDestroy(() => {
         $showHeader = true;
@@ -53,7 +53,7 @@
     <div class="max-w-3xl mx-auto px-4 py-5 bg-white shadow ring-contrast sm:p-6 sm:rounded-lg dark:bg-gray-800">
         <div class="md:flex md:flex-row-reverse md:justify-between md:gap-8">
             <div class="flex justify-end md:-mt-1.5 md:h-fit">
-                <button on:click={copyLink(link.link)} title="Copy link" type="button"
+                <button onclick={copyLink(link.link)} title="Copy link" type="button"
                         class="w-max inline-flex items-center p-2 border border-gray-400 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800">
 
                     {#if copied}
@@ -136,7 +136,7 @@
         </div>
 
         {#if navigator.share}
-            <button type="button" on:click={shareLink}
+            <button type="button" onclick={shareLink}
                     class="w-max inline-flex items-center mt-6 px-4 py-2  border border-gray-400 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800">
                 Share link
 
@@ -151,11 +151,11 @@
 
         <div class="flex justify-end mt-6 w-full">
             <div>
-                <button on:click={deleteLink} type="button"
+                <button onclick={deleteLink} type="button"
                         class="text-red-600 hover:text-red-700 focus:outline-none focus:underline focus:decoration-red-600/70 focus:decoration-2 dark:text-red-300 dark:hover:text-red-400 dark:focus:decoration-red-400/70">
                     Delete
                 </button>
-                <button on:click={editLink} type="button"
+                <button onclick={editLink} type="button"
                         class="ml-3 text-primary-600 hover:text-primary-700 focus:outline-none focus:underline focus:decoration-primary-600/70 focus:decoration-2 dark:text-primary-300 dark:hover:text-primary-400 dark:focus:decoration-primary-400/70">
                     Edit link
                 </button>

@@ -5,8 +5,8 @@
     import {dispatchCustomEvent, route} from '@/utils';
     import {refreshTags} from "@/stores";
 
-    let showModal = false;
-    let tag = {};
+    let showModal = $state(false);
+    let tag = $state({});
 
     function prepareDeleteTag(e) {
         tag = e.detail;
@@ -27,7 +27,7 @@
     }
 </script>
 
-<svelte:window on:deleteTag={prepareDeleteTag}/>
+<svelte:window ondeleteTag={prepareDeleteTag}/>
 
 <Modal title="Delete Tag" bind:showModal>
     <p class="text-sm text-gray-600 dark:text-gray-300">
@@ -37,10 +37,12 @@
         {tag.name}
     </div>
 
-    <svelte:fragment slot="footer">
-        <Button on:clicked={deleteTag} title="Delete" color="red" focusButton={true}
-                class="focus:ring-offset-gray-50 sm:ml-3"/>
-        <Button on:clicked={() => showModal = false} title="Cancel" color="white"
-                class="hidden mt-3 focus:ring-offset-gray-50 sm:inline-flex sm:mt-0"/>
-    </svelte:fragment>
+    {#snippet footer()}
+    
+            <Button on:clicked={deleteTag} title="Delete" color="red" focusButton={true}
+                    class="focus:ring-offset-gray-50 sm:ml-3"/>
+            <Button on:clicked={() => showModal = false} title="Cancel" color="white"
+                    class="hidden mt-3 focus:ring-offset-gray-50 sm:inline-flex sm:mt-0"/>
+        
+    {/snippet}
 </Modal>

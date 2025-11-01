@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import AppLayout, {title} from "@/Layouts/AppLayout/AppLayout.svelte";
 
     export const layout = AppLayout;
@@ -8,9 +8,7 @@
     import ApiTokenManager from '@/Pages/API/Partials/ApiTokenManager.svelte'
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
 
-    export let tokens;
-    export let availablePermissions;
-    export let defaultPermissions;
+    let { tokens, availablePermissions, defaultPermissions } = $props();
 
     $title = 'API Tokens';
 </script>

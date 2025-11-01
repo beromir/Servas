@@ -1,23 +1,31 @@
-<script context="module">
+<script module>
     import GuestLayout, {title} from "@/Layouts/GuestLayout.svelte";
 
     export const layout = GuestLayout;
 </script>
 
 <script>
+    import { preventDefault } from 'svelte/legacy';
+
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
     import {useForm, inertia} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    export let status = '';
+    /**
+     * @typedef {Object} Props
+     * @property {string} [status]
+     */
+
+    /** @type {Props} */
+    let { status = '' } = $props();
 
     let form = useForm({});
 
     $title = 'Email Verification';
 
-    $: verificationLinkSent = status === 'verification-link-sent';
+    let verificationLinkSent = $derived(status === 'verification-link-sent');
 
     function submit() {
         $form.post(route('verification.send'));
@@ -25,9 +33,11 @@
 </script>
 
 <JetAuthenticationCard>
-    <svelte:fragment slot="logo">
-        <JetAuthenticationCardLogo/>
-    </svelte:fragment>
+    {#snippet logo()}
+    
+            <JetAuthenticationCardLogo/>
+        
+    {/snippet}
 
     <div class="mb-4 text-sm text-gray-600">
         Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we
@@ -40,7 +50,7 @@
         </div>
     {/if}
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={preventDefault(submit)}>
         <div class="mt-4 flex items-center justify-between">
             <JetButton class={$form.processing ? 'opacity-25' : ''} disabled={$form.processing} type="submit">
                 Resend Verification Email

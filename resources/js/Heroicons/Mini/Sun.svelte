@@ -1,7 +1,13 @@
 <script>
     import clsx from "clsx";
 
-    export let className = '';
+    /**
+     * @typedef {Object} Props
+     * @property {string} [className]
+     */
+
+    /** @type {Props} */
+    let { className = '' } = $props();
 </script>
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class={clsx('size-5', className)}>

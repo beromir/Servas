@@ -10,12 +10,24 @@
 
     const dispatch = createEventDispatcher();
 
-    export let title = 'Confirm Password';
-    export let content = 'For your security, please confirm your password to continue.';
-    export let button = 'Confirm';
+    /**
+     * @typedef {Object} Props
+     * @property {string} [title]
+     * @property {string} [content]
+     * @property {string} [button]
+     * @property {import('svelte').Snippet} [children]
+     */
 
-    let confirmingPassword = false;
-    let passwordInput;
+    /** @type {Props} */
+    let {
+        title = 'Confirm Password',
+        content = 'For your security, please confirm your password to continue.',
+        button = 'Confirm',
+        children
+    } = $props();
+
+    let confirmingPassword = $state(false);
+    let passwordInput = $state();
 
     let form = useForm({
         password: '',
@@ -58,36 +70,42 @@
 </script>
 
 <span>
-    <span on:click={startConfirmingPassword} aria-hidden="true">
-        <slot/>
+    <span onclick={startConfirmingPassword} aria-hidden="true">
+        {@render children?.()}
     </span>
 
     <JetDialogModal show={confirmingPassword} on:close={closeModal}>
-        <svelte:fragment slot="title">
-            {title}
-        </svelte:fragment>
+        {#snippet title()}
+            
+                {title}
+            
+            {/snippet}
 
-        <svelte:fragment slot="content">
-            {content}
+        {#snippet content()}
+            
+                {content}
 
-            <div class="mt-4">
-                <JetInput type="password" class="mt-1 block w-3/4" placeholder="Password"
-                          bind:this={passwordInput} bind:value={$form.password}/>
+                <div class="mt-4">
+                    <JetInput type="password" class="mt-1 block w-3/4" placeholder="Password"
+                              bind:this={passwordInput} bind:value={$form.password}/>
 
-                <JetInputError message={$form.errors.password} class="mt-2"/>
-            </div>
-        </svelte:fragment>
+                    <JetInputError message={$form.errors.password} class="mt-2"/>
+                </div>
+            
+            {/snippet}
 
-            <svelte:fragment slot="footer">
-            <JetSecondaryButton on:clicked={closeModal}>
-                Cancel
-            </JetSecondaryButton>
+            {#snippet footer()}
+            
+                <JetSecondaryButton on:clicked={closeModal}>
+                    Cancel
+                </JetSecondaryButton>
 
-            <JetButton class={['ml-3', $form.processing ? 'opacity-25' : ''].join(' ').trim()}
-                       on:clicked={confirmPassword}
-                       disabled={$form.processing}>
-                {button}
-            </JetButton>
-            </svelte:fragment>>
+                <JetButton class={['ml-3', $form.processing ? 'opacity-25' : ''].join(' ').trim()}
+                           on:clicked={confirmPassword}
+                           disabled={$form.processing}>
+                    {button}
+                </JetButton>
+                
+            {/snippet}>
     </JetDialogModal>
 </span>

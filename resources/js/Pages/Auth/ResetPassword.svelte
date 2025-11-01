@@ -1,10 +1,12 @@
-<script context="module">
+<script module>
     import GuestLayout, {title} from "@/Layouts/GuestLayout.svelte";
 
     export const layout = GuestLayout;
 </script>
 
 <script>
+    import { preventDefault } from 'svelte/legacy';
+
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
@@ -14,8 +16,14 @@
     import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    export let email = '';
-    export let token = '';
+    /**
+     * @typedef {Object} Props
+     * @property {string} [email]
+     * @property {string} [token]
+     */
+
+    /** @type {Props} */
+    let { email = '', token = '' } = $props();
 
     let form = useForm({
         token: token,
@@ -34,13 +42,15 @@
 </script>
 
 <JetAuthenticationCard>
-    <svelte:fragment slot="logo">
-        <JetAuthenticationCardLogo/>
-    </svelte:fragment>
+    {#snippet logo()}
+    
+            <JetAuthenticationCardLogo/>
+        
+    {/snippet}
 
     <JetValidationErrors hasErrors={$form.hasErrors} class="mb-4"/>
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={preventDefault(submit)}>
         <div>
             <JetLabel id="email" label="Email"/>
             <JetInput id="email" type="email" class="mt-1 block w-full" bind:value={$form.email} required autofocus/>

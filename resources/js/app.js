@@ -1,7 +1,9 @@
+import {mount} from "svelte";
+import {createInertiaApp} from '@inertiajs/svelte';
+
 import('./bootstrap');
 import '../css/app.css';
 
-import {createInertiaApp} from '@inertiajs/svelte';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -12,7 +14,7 @@ createInertiaApp({
         return pages[`./Pages/${name}.svelte`];
     },
     setup({el, App, props}) {
-        new App({target: el, props});
+        mount(App, {target: el, props})
     },
     defaults: {
         visitOptions: (href, options) => {

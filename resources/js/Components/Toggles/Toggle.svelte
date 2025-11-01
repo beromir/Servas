@@ -2,8 +2,14 @@
     import {createEventDispatcher} from "svelte";
     import clsx from "clsx";
 
-    export let title = '';
-    export let toggled = false;
+    /**
+     * @typedef {Object} Props
+     * @property {string} [title]
+     * @property {boolean} [toggled]
+     */
+
+    /** @type {Props} */
+    let { title = '', toggled = $bindable(false) } = $props();
 
     const dispatch = createEventDispatcher();
 
@@ -15,7 +21,7 @@
 </script>
 
 <div class="flex items-center gap-x-2 text-sm text-gray-700 font-medium dark:text-gray-200">
-    <button on:click={toggle} type="button"
+    <button onclick={toggle} type="button"
             class={clsx(
                 'relative inline-flex h-5 w-8 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none',
                 toggled ? 'bg-primary-500' : 'bg-gray-400 dark:bg-gray-700',
@@ -27,7 +33,7 @@
               class:translate-x-3={toggled}></span>
     </button>
 
-    <span on:click={toggle} on:keydown={toggle} role="button" tabindex="-1">
+    <span onclick={toggle} onkeydown={toggle} role="button" tabindex="-1">
         {title}
     </span>
 </div>

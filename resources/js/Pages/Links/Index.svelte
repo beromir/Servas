@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import AppLayout, {title} from "@/Layouts/AppLayout/AppLayout.svelte";
 
     export const layout = AppLayout;
@@ -8,10 +8,21 @@
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import LinkListWithTagFilter from "@/Components/LinkList/LinkListWithTagFilter.svelte";
 
-    export let links = [];
-    export let searchString = '';
-    export let filteredTags = [];
-    export let showUntaggedOnly = false;
+    /**
+     * @typedef {Object} Props
+     * @property {any} [links]
+     * @property {string} [searchString]
+     * @property {any} [filteredTags]
+     * @property {boolean} [showUntaggedOnly]
+     */
+
+    /** @type {Props} */
+    let {
+        links = [],
+        searchString = '',
+        filteredTags = [],
+        showUntaggedOnly = false
+    } = $props();
 
     $title = 'Links';
 </script>

@@ -8,8 +8,8 @@
     import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    let confirmingUserDeletion = false;
-    let passwordInput;
+    let confirmingUserDeletion = $state(false);
+    let passwordInput = $state();
 
     let form = useForm({
         password: '',
@@ -38,56 +38,68 @@
 </script>
 
 <JetActionSection>
-    <svelte:fragment slot="title">
-        Delete Account
-    </svelte:fragment>
+    {#snippet title()}
+    
+            Delete Account
+        
+    {/snippet}
     >
 
-    <svelte:fragment slot="description">
-        Permanently delete your account.
-    </svelte:fragment>
+    {#snippet description()}
+    
+            Permanently delete your account.
+        
+    {/snippet}
     >
 
-    <svelte:fragment slot="content">
-        <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
-            Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting
-            your account, please download any data or information that you wish to retain.
-        </div>
+    {#snippet content()}
+    
+            <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
+                Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting
+                your account, please download any data or information that you wish to retain.
+            </div>
 
-        <div class="mt-5">
-            <JetDangerButton on:clicked={showConfirmUserDeletionModal}>
-                Delete Account
-            </JetDangerButton>
-        </div>
-
-        <!-- Delete Account Confirmation Modal -->
-        <JetDialogModal show={confirmingUserDeletion} on:close={closeModal}>
-            <svelte:fragment slot="title">
-                Delete Account
-            </svelte:fragment>
-
-            <svelte:fragment slot="content">
-                Are you sure you want to delete your account? Once your account is deleted, all of its resources and
-                data will be permanently deleted. Please enter your password to confirm you would like to permanently
-                delete your account.
-
-                <div class="mt-4">
-                    <JetInput type="password" class="mt-1 block w-3/4" placeholder="Password"
-                              bind:this={passwordInput} bind:value={$form.password}/>
-
-                    <JetInputError message={$form.errors.password} class="mt-2"/>
-                </div>
-            </svelte:fragment>
-
-            <svelte:fragment slot="footer">
-                <JetSecondaryButton on:clicked={closeModal}>
-                    Cancel
-                </JetSecondaryButton>
-
-                <JetDangerButton class="ml-3" on:clicked={deleteUser}>
+            <div class="mt-5">
+                <JetDangerButton on:clicked={showConfirmUserDeletionModal}>
                     Delete Account
                 </JetDangerButton>
-            </svelte:fragment>
-        </JetDialogModal>
-    </svelte:fragment>
+            </div>
+
+            <!-- Delete Account Confirmation Modal -->
+            <JetDialogModal show={confirmingUserDeletion} on:close={closeModal}>
+                {#snippet title()}
+                    
+                        Delete Account
+                    
+                    {/snippet}
+
+                {#snippet content()}
+                    
+                        Are you sure you want to delete your account? Once your account is deleted, all of its resources and
+                        data will be permanently deleted. Please enter your password to confirm you would like to permanently
+                        delete your account.
+
+                        <div class="mt-4">
+                            <JetInput type="password" class="mt-1 block w-3/4" placeholder="Password"
+                                      bind:this={passwordInput} bind:value={$form.password}/>
+
+                            <JetInputError message={$form.errors.password} class="mt-2"/>
+                        </div>
+                    
+                    {/snippet}
+
+                {#snippet footer()}
+                    
+                        <JetSecondaryButton on:clicked={closeModal}>
+                            Cancel
+                        </JetSecondaryButton>
+
+                        <JetDangerButton class="ml-3" on:clicked={deleteUser}>
+                            Delete Account
+                        </JetDangerButton>
+                    
+                    {/snippet}
+            </JetDialogModal>
+        
+    {/snippet}
 </JetActionSection>

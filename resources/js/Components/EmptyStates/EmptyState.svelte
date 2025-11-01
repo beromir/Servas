@@ -1,6 +1,12 @@
 <script>
-    export let title = '';
-    export let tag = 'div';
+    /**
+     * @typedef {Object} Props
+     * @property {string} [title]
+     * @property {string} [tag]
+     */
+
+    /** @type {Props} */
+    let { title = '', tag = 'div' } = $props();
 </script>
 
 <svelte:element this={tag}

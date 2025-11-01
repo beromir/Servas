@@ -1,8 +1,14 @@
 <script>
     import {inertia} from "@inertiajs/svelte";
 
-    export let link = '';
-    export let title = '';
+    /**
+     * @typedef {Object} Props
+     * @property {string} [link]
+     * @property {string} [title]
+     */
+
+    /** @type {Props} */
+    let { link = '', title = '' } = $props();
 </script>
 
 <li>

@@ -1,19 +1,26 @@
 <script>
     import {inertia} from '@inertiajs/svelte';
 
-    export let href;
-    export let type = 'button';
+    /**
+     * @typedef {Object} Props
+     * @property {any} href
+     * @property {string} [type]
+     * @property {import('svelte').Snippet} [children]
+     */
+
+    /** @type {Props & { [key: string]: any }} */
+    let { href, type = 'button', children, ...rest } = $props();
 </script>
 
 {#if !href}
-    <button {...$$restProps} {type}
-            class={[$$restProps.class,
+    <button {...rest} {type}
+            class={[rest.class,
             'block w-full px-4 py-2 text-sm leading-5 text-gray-700 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition'].join(' ').trim()}>
-        <slot/>
+        {@render children?.()}
     </button>
 {:else}
-    <a {...$$restProps} {href} use:inertia
+    <a {...rest} {href} use:inertia
        class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">
-        <slot/>
+        {@render children?.()}
     </a>
 {/if}

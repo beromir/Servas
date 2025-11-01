@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import {writable} from 'svelte/store';
 
     export const title = writable(null);
@@ -6,6 +6,8 @@
 </script>
 
 <script>
+    import { run } from 'svelte/legacy';
+
     import {inertia, Link, page} from '@inertiajs/svelte';
     import LinkModal from "@/Partials/LinkModal.svelte";
     import DeleteLinkModal from "@/Partials/DeleteLinkModal.svelte";
@@ -37,17 +39,23 @@
     import Tag from "@/Heroicons/Mini/Tag.svelte";
     import Plus from "@/Heroicons/Mini/Plus.svelte";
     import MenuButton from "@/Components/Navigation/MenuButton.svelte";
+    /**
+     * @typedef {Object} Props
+     * @property {import('svelte').Snippet} [children]
+     */
+
+    /** @type {Props} */
+    let { children } = $props();
 
     const appName = $page.props.appName;
     const appVersion = $page.props.appVersion;
     const showAppVersion = $page.props.showAppVersion;
 
-    let showProfileDropdown = false;
-    let groups = [];
-    let showSidebar = sidebarIsOpen();
-    let theme = initTheme();
+    let showProfileDropdown = $state(false);
+    let groups = $state([]);
+    let showSidebar = $state(sidebarIsOpen());
+    let theme = $state(initTheme());
 
-    $: $refreshGroups && getAllGroups();
 
     function handleKeydown(event) {
         if (event.target.tagName === 'INPUT') {
@@ -83,26 +91,29 @@
     onMount(() => {
         getAllGroups();
     });
+    run(() => {
+        $refreshGroups && getAllGroups();
+    });
 </script>
 
 <svelte:head>
     <title>{$title ? `${$title} | ${appName}` : appName}</title>
 </svelte:head>
 
-<svelte:window on:keydown={handleKeydown} on:toggleSidebar={() => showSidebar = toggleSidebar()}/>
+<svelte:window onkeydown={handleKeydown} ontoggleSidebar={() => showSidebar = toggleSidebar()}/>
 
 <div class="flex min-h-screen">
     {#if showSidebar}
         <!-- Background overlay -->
-        <div on:click={() => showSidebar = toggleSidebar()}
-             on:keydown={() => showSidebar = toggleSidebar()}
+        <div onclick={() => showSidebar = toggleSidebar()}
+             onkeydown={() => showSidebar = toggleSidebar()}
              tabindex="0" role="button"
              in:fade={{ duration: 100, easing: cubicOut }}
              out:fade={{ duration: 200, easing: cubicIn }}
              class="fixed inset-0 z-40 bg-gray-500/40 lg:hidden dark:bg-gray-900/60"></div>
     {/if}
 
-    <button on:click={() => showSidebar = toggleSidebar()} type="button"
+    <button onclick={() => showSidebar = toggleSidebar()} type="button"
             class="fixed bottom-5 left-5 z-10 p-2.5 text-gray-100 bg-gray-800 rounded-full shadow sm:hidden dark:bg-gray-50 dark:text-gray-900">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              class="size-8">
@@ -118,7 +129,7 @@
                 class="flex flex-col w-full h-dvh bg-gray-700 shadow ring-contrast transition duration-300 dark:bg-gray-800">
                 <div class="flex items-center p-4">
                     <!-- Sidebar toggle -->
-                    <button on:click={() => showSidebar = toggleSidebar()} type="button"
+                    <button onclick={() => showSidebar = toggleSidebar()} type="button"
                             title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
                             class="hidden py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-600 hover:ring-1 hover:ring-gray-500 sm:block dark:hover:bg-gray-700">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +146,7 @@
 
                     <!-- Profile dropdown -->
                     <div class="relative sm:ml-auto">
-                        <button on:click={() => showProfileDropdown = !showProfileDropdown} title="Open user menu"
+                        <button onclick={() => showProfileDropdown = !showProfileDropdown} title="Open user menu"
                                 type="button"
                                 class="py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-600 hover:ring-1 hover:ring-gray-500 dark:hover:bg-gray-700">
                             <span class="sr-only">Open user menu</span>
@@ -175,24 +186,30 @@
                             <InnerDropdownSection>
                                 {#if theme === 'dark'}
                                     <DropdownItem on:clicked={() => (theme = changeTheme('light'))} title="Dark Theme">
-                                        <Moon slot="icon"/>
+                                        {#snippet icon()}
+                                                                                <Moon />
+                                                                            {/snippet}
                                     </DropdownItem>
 
                                 {:else if theme === 'light'}
                                     <DropdownItem on:clicked={() => (theme = changeTheme())} title="Light Theme">
-                                        <Sun slot="icon"/>
+                                        {#snippet icon()}
+                                                                                        <Sun />
+                                                                                    {/snippet}
                                     </DropdownItem>
 
                                 {:else}
                                     <DropdownItem on:clicked={() => (theme = changeTheme('dark'))} title="System Theme">
-                                        <ComputerDesktop slot="icon"/>
+                                        {#snippet icon()}
+                                                                                        <ComputerDesktop />
+                                                                                    {/snippet}
                                     </DropdownItem>
                                 {/if}
                             </InnerDropdownSection>
 
                             <InnerDropdownSection>
                                 <button use:inertia={{ href: route('logout'), method: 'post' }}
-                                        on:click={() => {showProfileDropdown = false; closeSidebar()}}
+                                        onclick={() => {showProfileDropdown = false; closeSidebar()}}
                                         type="button"
                                         class="flex items-center px-4 py-2 w-full text-sm text-gray-700 group hover:text-red-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800 dark:hover:text-red-400"
                                         role="menuitem" tabindex="-1" id="user-menu-item-2">
@@ -223,7 +240,7 @@
                     </div>
 
                     <!-- Search button -->
-                    <button on:click={() => dispatchCustomEvent('showCommandPalette')} title="Open search bar"
+                    <button onclick={() => dispatchCustomEvent('showCommandPalette')} title="Open search bar"
                             type="button"
                             class="ml-auto py-1.5 px-2 text-gray-200 rounded-md transition hover:text-white hover:bg-gray-600 hover:ring-1 hover:ring-gray-500 sm:ml-1.5 dark:hover:bg-gray-700">
                         <span class="sr-only">Open search bar</span>
@@ -263,7 +280,7 @@
                     <div class="flex justify-between items-center mt-6 md:mt-8">
                         <div class="text-xs text-gray-200 font-semibold uppercase">Groups</div>
 
-                        <button on:click={() => dispatchCustomEvent('createGroup', $page.props.group?.id)} type="button"
+                        <button onclick={() => dispatchCustomEvent('createGroup', $page.props.group?.id)} type="button"
                                 class="rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                  class="size-6 fill-gray-100 hover:fill-white">
@@ -287,7 +304,7 @@
     <main class="flex-1">
         <div class="hidden p-4 sm:flex sm:items-center">
             {#if !showSidebar}
-                <button on:click={() => showSidebar = toggleSidebar()} type="button"
+                <button onclick={() => showSidebar = toggleSidebar()} type="button"
                         title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
                         in:fade={{ duration: 100, easing: cubicOut }}
                         out:fade={{ duration: 50, easing: cubicIn }}
@@ -308,7 +325,7 @@
             </div>
         </div>
 
-        <slot/>
+        {@render children?.()}
     </main>
 </div>
 

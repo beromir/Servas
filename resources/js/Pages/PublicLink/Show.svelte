@@ -1,10 +1,12 @@
-<script context="module">
+<script module>
     import GuestLayout, {title as pageTitle} from "@/Layouts/GuestLayout.svelte";
 
     export const layout = GuestLayout;
 </script>
 
 <script>
+    import { run } from 'svelte/legacy';
+
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import Pagination from "@/Components/Pagination.svelte";
     import {debounce} from "lodash";
@@ -12,12 +14,27 @@
     import {route} from "@/utils/index.js";
     import EmptyState from "@/Components/EmptyStates/EmptyState.svelte";
 
-    export let title = '';
-    export let links = [];
-    export let shareId = '';
-    export let searchString = '';
+    /**
+     * @typedef {Object} Props
+     * @property {string} [title]
+     * @property {any} [links]
+     * @property {string} [shareId]
+     * @property {string} [searchString]
+     * @property {import('svelte').Snippet} [toolbar]
+     */
 
-    $: $pageTitle = title;
+    /** @type {Props} */
+    let {
+        title = '',
+        links = [],
+        shareId = '',
+        searchString = $bindable(''),
+        toolbar
+    } = $props();
+
+    run(() => {
+        $pageTitle = title;
+    });
 
     const search = debounce(() => {
         router.get(route(route().current(), {
@@ -53,19 +70,19 @@
                                   clip-rule="evenodd"/>
                         </svg>
                     </div>
-                    <input type="text" bind:value={searchString} on:input={search}
+                    <input type="text" bind:value={searchString} oninput={search}
                            class="focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 sm:text-sm border-gray-400 rounded-md dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-600"
                            placeholder="Search links..." enterkeyhint="search">
                 </div>
                 {#if searchString}
-                    <button on:click={clearSearchInput} type="button"
+                    <button onclick={clearSearchInput} type="button"
                             class="ml-2 text-sm text-gray-700 dark:text-gray-200">
                         Clear
                     </button>
                 {/if}
             </div>
 
-            <slot name="toolbar"/>
+            {@render toolbar?.()}
         </div>
     </div>
 

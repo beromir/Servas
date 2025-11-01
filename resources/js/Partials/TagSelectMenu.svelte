@@ -1,20 +1,21 @@
 <script>
+    import { run, stopPropagation } from 'svelte/legacy';
+
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from '@/Components/Modals/Modal.svelte';
     import {dispatchCustomEvent} from "@/utils/index.js";
 
-    let title = 'Select tags';
-    let primaryButtonTitle = 'Save';
-    let mode = '';
+    let title = $state('Select tags');
+    let primaryButtonTitle = $state('Save');
+    let mode = $state('');
     let tags = [];
-    let filteredTags = [];
-    let internalSelectedTags = [];          // property for internal use only; contains tag objects
-    let showModal = false;
-    let showUntaggedButton = false;
-    let showUntagged = false;
-    let searchInput = null;
+    let filteredTags = $state([]);
+    let internalSelectedTags = $state([]);          // property for internal use only; contains tag objects
+    let showModal = $state(false);
+    let showUntaggedButton = $state(false);
+    let showUntagged = $state(false);
+    let searchInput = $state(null);
 
-    $: showUntaggedButton = mode === Mode.Filter;
 
     const Mode = {
         Select: 'select',
@@ -116,21 +117,26 @@
         internalSelectedTags = [];
         showUntagged = false;
     }
+    run(() => {
+        showUntaggedButton = mode === Mode.Filter;
+    });
 </script>
 
-<svelte:window on:tags.select={e => initTagSelection(e.detail)} on:tags.filter={e => initTagFilter(e.detail)}/>
+<svelte:window ontags.select={e => initTagSelection(e.detail)} ontags.filter={e => initTagFilter(e.detail)}/>
 
 <Modal bind:showModal on:canceled={reset} title={title} showFooterMenuOnMobile={false}>
-    <svelte:fragment slot="mobilePrimaryAction">
-        <button on:click={saveChanges}
-                class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100" type="button">
-            {primaryButtonTitle}
-        </button>
-    </svelte:fragment>
+    {#snippet mobilePrimaryAction()}
+    
+            <button onclick={saveChanges}
+                    class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100" type="button">
+                {primaryButtonTitle}
+            </button>
+        
+    {/snippet}
 
     <!-- Search input -->
     <div class="relative">
-        <input on:input={(e) => search(e.target.value)} bind:this={searchInput} type="text" placeholder="Search tags..."
+        <input oninput={(e) => search(e.target.value)} bind:this={searchInput} type="text" placeholder="Search tags..."
                class="px-10 w-full border-0 border-b border-gray-300 peer focus:border-primary-200 focus:outline-none focus:ring-0 dark:bg-gray-900 dark:text-gray-50 dark:border-gray-600 dark:focus:border-primary-400"/>
 
         <div class="absolute inset-y-0 left-2 flex items-center text-gray-500 peer-focus:text-primary-600 dark:text-gray-400 dark:peer-focus:text-primary-200">
@@ -143,7 +149,7 @@
 
         {#if searchInput?.value}
             <div class="absolute inset-y-0 right-2 flex items-center text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300">
-                <button on:click={resetSearch} type="button" title="Clear search">
+                <button onclick={resetSearch} type="button" title="Clear search">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" data-slot="icon"
                          class="size-4">
                         <path fill-rule="evenodd"
@@ -159,12 +165,12 @@
         <div class="grid grid-cols-2 gap-y-3 gap-x-2 mt-3 pb-10 sm:grid-cols-3">
             {#each filteredTags as tag (tag.id)}
                 {#if getIndexOfTagId(tag.id, internalSelectedTags) !== -1}
-                    <button on:click|stopPropagation={() => selectTag(tag)} type="button" title={tag.name}
+                    <button onclick={stopPropagation(() => selectTag(tag))} type="button" title={tag.name}
                             class="flex items-center py-1.5 px-3 border border-primary-100 bg-primary-50 rounded-full hover:border-primary-200 focus:outline-none dark:bg-primary-700/80 dark:border-primary-400 dark:hover:border-primary-300">
                         <span class="text-sm text-primary-900 truncate dark:text-primary-50">{tag.name}</span>
                     </button>
                 {:else}
-                    <button on:click|stopPropagation={() => selectTag(tag)} type="button" title={tag.name}
+                    <button onclick={stopPropagation(() => selectTag(tag))} type="button" title={tag.name}
                             class="flex items-center py-1.5 px-3 border border-gray-200 bg-gray-100 rounded-full hover:border-gray-300 focus:outline-none dark:bg-gray-800 dark:border-gray-600 dark:hover:border-gray-400">
                         <span class="text-sm text-gray-900 truncate dark:text-white">{tag.name}</span>
                     </button>
@@ -176,7 +182,7 @@
 
         <div class="absolute bottom-0 left-1/2">
             {#if internalSelectedTags.length}
-                <button on:click={() => {internalSelectedTags = []; showUntagged = false}} type="button"
+                <button onclick={() => {internalSelectedTags = []; showUntagged = false}} type="button"
                         class="absolute bottom-0 left-0 flex items-center w-max text-gray-700 -translate-x-1/2 group hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-100">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                          class="size-5 fill-gray-500 group-hover:fill-gray-600 dark:fill-gray-400 dark:group-hover:fill-gray-300">
@@ -189,7 +195,7 @@
                     </span>
                 </button>
             {:else if showUntaggedButton && showUntagged}
-                <button on:click={() => showUntagged = !showUntagged} type="button"
+                <button onclick={() => showUntagged = !showUntagged} type="button"
                         class="absolute bottom-0 left-0 flex items-center w-max text-gray-700 -translate-x-1/2 group hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-100">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                          class="size-5 fill-gray-500 group-hover:fill-gray-600 dark:fill-gray-400 dark:group-hover:fill-gray-300">
@@ -203,7 +209,7 @@
                     </span>
                 </button>
             {:else if showUntaggedButton && !showUntagged}
-                <button on:click={() => showUntagged = !showUntagged} type="button"
+                <button onclick={() => showUntagged = !showUntagged} type="button"
                         class="absolute bottom-0 left-0 flex items-center w-max text-gray-700 -translate-x-1/2 group hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-100">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                          class="size-5 fill-gray-500 group-hover:fill-gray-600 dark:fill-gray-400 dark:group-hover:fill-gray-300">
@@ -219,10 +225,12 @@
         </div>
     </div>
 
-    <svelte:fragment slot="footer">
-        <Button on:clicked={reset} title="Cancel" color="white"
-                class="focus:ring-offset-gray-50 dark:focus:ring-offset-gray-950"/>
-        <Button on:clicked={saveChanges} title={primaryButtonTitle}
-                class="focus:ring-offset-gray-50 dark:focus:ring-offset-gray-950"/>
-    </svelte:fragment>
+    {#snippet footer()}
+    
+            <Button on:clicked={reset} title="Cancel" color="white"
+                    class="focus:ring-offset-gray-50 dark:focus:ring-offset-gray-950"/>
+            <Button on:clicked={saveChanges} title={primaryButtonTitle}
+                    class="focus:ring-offset-gray-50 dark:focus:ring-offset-gray-950"/>
+        
+    {/snippet}
 </Modal>

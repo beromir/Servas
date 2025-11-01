@@ -14,24 +14,24 @@
         'tags',
     ];
 
-    let fileInput;
+    let fileInput = $state();
 
-    let form = useForm({
+    let userDataform = useForm({
         importSource: 'json',
         importOptions: [],
         importFile: null,
     });
 
-    let showSuccessMessage = false;
+    let showSuccessMessage = $state(false);
 
     function importUserData() {
         showSuccessMessage = false;
 
-        $form.post(route('import'), {
+        $userDataform.post(route('import'), {
             preserveScroll: true,
             onSuccess: () => {
                 showSuccessMessage = true;
-                $form.reset();
+                $userDataform.reset();
                 fileInput.clearInput();
             }
         });
@@ -39,45 +39,45 @@
 </script>
 
 <JetFormSection on:submitted={importUserData}>
-    <svelte:fragment slot="title">
+    {#snippet title()}
         Import Data
-    </svelte:fragment>
+    {/snippet}
 
-    <svelte:fragment slot="description">
+    {#snippet description()}
         Import data from a JSON file.
-    </svelte:fragment>
+    {/snippet}
 
-    <svelte:fragment slot="form">
+    {#snippet form()}
         <div class="col-span-full space-y-6">
             <RadioGroup label="Import source">
-                <Radio bind:currentValue={$form.importSource} id="import-json" name="exportFormat" value="json"
+                <Radio bind:currentValue={$userDataform.importSource} id="import-json" name="exportFormat" value="json"
                        label="JSON (Servas export)"/>
-                <Radio bind:currentValue={$form.importSource} id="import-html" name="exportFormat" value="html"
+                <Radio bind:currentValue={$userDataform.importSource} id="import-html" name="exportFormat" value="html"
                        label="HTML (Browser bookmarks)"/>
             </RadioGroup>
 
             <div>
-                <FileUpload on:input={event => $form.importFile = event.detail.file} bind:this={fileInput}
-                            label={`Select export file (${$form.importSource === 'json' ? '.json' : '.html'})`}
-                            accept={$form.importSource === 'json' ? '.json' : '.html'}/>
+                <FileUpload on:input={event => $userDataform.importFile = event.detail.file} bind:this={fileInput}
+                            label={`Select export file (${$userDataform.importSource === 'json' ? '.json' : '.html'})`}
+                            accept={$userDataform.importSource === 'json' ? '.json' : '.html'}/>
             </div>
 
             <div>
                 {#each importOptions as option}
                     <label class="flex items-center">
-                        <input type="checkbox" value={option} bind:group={$form.importOptions}
+                        <input type="checkbox" value={option} bind:group={$userDataform.importOptions}
                                class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
                         <span class="ml-2 text-sm text-gray-600 capitalize dark:text-gray-300">{option}</span>
                     </label>
                 {/each}
             </div>
         </div>
-    </svelte:fragment>
+    {/snippet}
 
-    <svelte:fragment slot="actions">
+    {#snippet actions()}
         <SuccessMessage bind:show={showSuccessMessage} message="The data was imported."/>
-        <JetButton type="submit" disabled={!$form.importOptions.length || $form.importFile === null}>
+        <JetButton type="submit" disabled={!$userDataform.importOptions.length || $userDataform.importFile === null}>
             Import
         </JetButton>
-    </svelte:fragment>
+    {/snippet}
 </JetFormSection>
