@@ -1,13 +1,25 @@
 <script>
     import {Link} from '@inertiajs/svelte';
 
-    export let prevPageUrl = '';
-    export let nextPageUrl = '';
-    export let currentPage = 0;
-    export let totalPages = 0;
-    export let totalLinks = 0;
+    /**
+     * @typedef {Object} Props
+     * @property {string} [prevPageUrl]
+     * @property {string} [nextPageUrl]
+     * @property {number} [currentPage]
+     * @property {number} [totalPages]
+     * @property {number} [totalLinks]
+     */
 
-    let showLinksCount = false;
+    /** @type {Props} */
+    let {
+        prevPageUrl = '',
+        nextPageUrl = '',
+        currentPage = 0,
+        totalPages = 0,
+        totalLinks = 0
+    } = $props();
+
+    let showLinksCount = $state(false);
 
     function toggleLinksCount() {
         showLinksCount = true;
@@ -20,7 +32,7 @@
 
 <nav class="flex flex-col justify-center items-center mt-8 px-4 sm:flex-row sm:justify-end sm:px-0"
      aria-label="Pagination">
-    <button on:click={toggleLinksCount} type="button" title={`${totalLinks} links in total`}
+    <button onclick={toggleLinksCount} type="button" title={`${totalLinks} links in total`}
             class="order-last mt-4 text-sm text-gray-600 font-medium sm:order-none sm:mt-0 sm:mr-4 dark:text-gray-300">
         {showLinksCount ? `${totalLinks} links in total` : `${currentPage} of ${totalPages}`}
     </button>

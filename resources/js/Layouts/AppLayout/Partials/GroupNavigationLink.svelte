@@ -1,4 +1,5 @@
 <script>
+    import GroupNavigationLink from './GroupNavigationLink.svelte';
     import {Link, page} from "@inertiajs/svelte";
     import {route} from "@/utils/index.js";
     import {fade} from "svelte/transition";
@@ -6,17 +7,23 @@
     import {getOpenedGroups, toggleOpenedGroup} from "@/utils/local-settings.js";
     import {closeSidebar} from "@/utils/sidebar.js";
 
-    export let group = null;
-    export let groups = [];
+    /**
+     * @typedef {Object} Props
+     * @property {any} [group]
+     * @property {any} [groups]
+     */
 
-    let openedGroups = getOpenedGroups();
+    /** @type {Props} */
+    let { group = null, groups = [] } = $props();
 
-    $: currentGroupId = $page.props.group && $page.props.group.id;
+    let openedGroups = $state(getOpenedGroups());
+
+    let currentGroupId = $derived($page.props.group && $page.props.group.id);
 </script>
 
 <div>
     <div class="flex items-center">
-        <button on:click={() => openedGroups = toggleOpenedGroup(group.id)} type="button"
+        <button onclick={() => openedGroups = toggleOpenedGroup(group.id)} type="button"
                 class="transition duration-100 group"
                 class:invisible={group.childGroupsCount === 0} class:rotate-90={openedGroups.includes(group.id)}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -42,7 +49,7 @@
     {#if group.childGroupsCount > 0 && openedGroups.includes(group.id)}
         <div class="flex flex-col gap-y-2 mt-1 ml-6" transition:fade|local={{ duration: 100 }}>
             {#each groups.filter((singleGroup) => singleGroup.parentGroupId === group.id) as childGroup}
-                <svelte:self group={childGroup} groups={groups}/>
+                <GroupNavigationLink group={childGroup} groups={groups}/>
             {/each}
         </div>
     {/if}

@@ -3,11 +3,18 @@
 
     const dispatch = createEventDispatcher();
 
-    export let title = '';
-    export let color = '';
+    /**
+     * @typedef {Object} Props
+     * @property {string} [title]
+     * @property {string} [color]
+     * @property {import('svelte').Snippet} [icon]
+     */
 
-    let textColorClassNames = '';
-    let iconColorClassNames = '';
+    /** @type {Props} */
+    let { title = '', color = '', icon } = $props();
+
+    let textColorClassNames = $state('');
+    let iconColorClassNames = $state('');
 
     switch (color) {
         case 'alert':
@@ -20,12 +27,12 @@
     }
 </script>
 
-<button type="button" on:click={() => {dispatch('clicked')}}
+<button type="button" onclick={() => {dispatch('clicked')}}
         class={['flex items-center px-4 py-2 w-full group text-gray-700 text-sm hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800', textColorClassNames].join(' ').trim()}
         role="menuitem" tabindex="-1" id="menu-item-0">
-    {#if $$slots.icon}
+    {#if icon}
         <span class={['mr-3 size-5 text-gray-500 dark:text-gray-400', iconColorClassNames].join(' ').trim()}>
-            <slot name="icon"/>
+            {@render icon?.()}
         </span>
     {/if}
     {title}

@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import AppLayout, {title} from "@/Layouts/AppLayout/AppLayout.svelte";
 
     export const layout = AppLayout;
@@ -17,8 +17,7 @@
     import ImportUserDataForm from "@/Pages/Profile/Partials/ImportUserDataForm.svelte";
     import DeleteUserDataForm from "@/Pages/Profile/Partials/DeleteUserDataForm.svelte";
 
-    export let confirmsTwoFactorAuthentication;
-    export let sessions;
+    let { confirmsTwoFactorAuthentication, sessions } = $props();
 
     $title = 'Profile Settings';
 </script>

@@ -1,7 +1,19 @@
 <script>
-    export let title = '';
-    export let withBackground = true;
-    export let fixedHeight = false;
+    /**
+     * @typedef {Object} Props
+     * @property {string} [title]
+     * @property {boolean} [withBackground]
+     * @property {boolean} [fixedHeight]
+     * @property {import('svelte').Snippet} [children]
+     */
+
+    /** @type {Props} */
+    let {
+        title = '',
+        withBackground = true,
+        fixedHeight = false,
+        children
+    } = $props();
 </script>
 
 <div>
@@ -11,6 +23,6 @@
          withBackground ? 'bg-white shadow rounded-lg' : '',
          fixedHeight ? 'h-[30rem]' : '',
          ].join(' ').trim()}>
-        <slot/>
+        {@render children?.()}
     </div>
 </div>

@@ -1,10 +1,12 @@
-<script context="module">
+<script module>
     import GuestLayout, {title} from "@/Layouts/GuestLayout.svelte";
 
     export const layout = GuestLayout;
 </script>
 
 <script>
+    import { preventDefault } from 'svelte/legacy';
+
     import {Link, useForm} from '@inertiajs/svelte';
     import AuthenticationCard from "@/Components/Auth/AuthenticationCard.svelte";
     import SubmitButton from "@/Components/Auth/SubmitButton.svelte";
@@ -28,7 +30,7 @@
 </script>
 
 <AuthenticationCard>
-    <form on:submit|preventDefault={register}>
+    <form onsubmit={preventDefault(register)}>
         <div class="space-y-6">
             <Text name="name" label="Name" bind:value={$form.name} error={$form.errors.name} required autofocus
                   autocomplete="name"/>

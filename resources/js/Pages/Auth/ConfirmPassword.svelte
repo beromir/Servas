@@ -1,10 +1,12 @@
-<script context="module">
+<script module>
     import GuestLayout, {title} from "@/Layouts/GuestLayout.svelte";
 
     export const layout = GuestLayout;
 </script>
 
 <script>
+    import { preventDefault } from 'svelte/legacy';
+
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
@@ -28,9 +30,11 @@
 </script>
 
 <JetAuthenticationCard>
-    <svelte:fragment slot="logo">
-        <JetAuthenticationCardLogo/>
-    </svelte:fragment>
+    {#snippet logo()}
+    
+            <JetAuthenticationCardLogo/>
+        
+    {/snippet}
 
     <div class="mb-4 text-sm text-gray-600">
         This is a secure area of the application. Please confirm your password before continuing.
@@ -38,7 +42,7 @@
 
     <JetValidationErrors hasErrors={$form.hasErrors} class="mb-4"/>
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={preventDefault(submit)}>
         <div>
             <JetLabel id="password" label="Password"/>
             <JetInput id="password" type="password" class="mt-1 block w-full" bind:value={$form.password} required

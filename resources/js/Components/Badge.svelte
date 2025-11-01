@@ -3,11 +3,24 @@
 
     const dispatch = createEventDispatcher();
 
-    export let title;
-    export let color = '';
-    export let large = true;
-    export let noHover = false;
-    export let rounded = false;
+    /**
+     * @typedef {Object} Props
+     * @property {any} title
+     * @property {string} [color]
+     * @property {boolean} [large]
+     * @property {boolean} [noHover]
+     * @property {boolean} [rounded]
+     */
+
+    /** @type {Props & { [key: string]: any }} */
+    let {
+        title,
+        color = '',
+        large = true,
+        noHover = false,
+        rounded = false,
+        ...rest
+    } = $props();
 
     function getColorClasses() {
         switch (color) {
@@ -24,13 +37,13 @@
         }
     }
 
-    $: sizeClasses = large ? 'px-3 py-0.5 text-sm decoration-[1.4px]' : 'px-2.5 py-0.5 text-xs decoration-[1.1px]';
-    $: hoverClasses = noHover ? '' : 'underline-offset-2 hover:underline hover:cursor-pointer';
-    $: roundedClasses = rounded ? 'rounded' : 'rounded-full';
+    let sizeClasses = $derived(large ? 'px-3 py-0.5 text-sm decoration-[1.4px]' : 'px-2.5 py-0.5 text-xs decoration-[1.1px]');
+    let hoverClasses = $derived(noHover ? '' : 'underline-offset-2 hover:underline hover:cursor-pointer');
+    let roundedClasses = $derived(rounded ? 'rounded' : 'rounded-full');
 </script>
 
-<span on:click={() => dispatch('clicked')} {...$$restProps}
+<span onclick={() => dispatch('clicked')} {...rest}
       class={['inline-flex items-center font-medium select-none',
-      $$restProps.class, getColorClasses(), sizeClasses, hoverClasses, roundedClasses].join(' ').trim()}>
+      rest.class, getColorClasses(), sizeClasses, hoverClasses, roundedClasses].join(' ').trim()}>
     {title}
 </span>

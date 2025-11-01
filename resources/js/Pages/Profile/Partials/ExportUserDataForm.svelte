@@ -5,8 +5,8 @@
     import RadioGroup from "@/Components/FormLayouts/Inputs/RadioGroup.svelte";
     import Radio from "@/Components/FormLayouts/Inputs/Radio.svelte";
 
-    let formSection;
-    let csrfToken = '';
+    let formSection = $state();
+    let csrfToken = $state('');
 
     async function exportUserData() {
         await setCsrfToken();
@@ -21,28 +21,36 @@
 </script>
 
 <JetFormSection on:submitted={exportUserData} bind:this={formSection} method="post" action={route('export')}>
-    <svelte:fragment slot="title">
-        Export Data
-    </svelte:fragment>
+    {#snippet title()}
+    
+            Export Data
+        
+    {/snippet}
 
-    <svelte:fragment slot="description">
-        Export your account data as JSON or HTML.
-    </svelte:fragment>
+    {#snippet description()}
+    
+            Export your account data as JSON or HTML.
+        
+    {/snippet}
 
-    <svelte:fragment slot="form">
-        <input type="hidden" name="_token" bind:value={csrfToken}/>
+    {#snippet form()}
+    
+            <input type="hidden" name="_token" bind:value={csrfToken}/>
 
-        <div class="col-span-full">
-            <RadioGroup label="Export format">
-                <Radio id="export-json" name="exportFormat" value="json" label="JSON (Servas export)" checked/>
-                <Radio id="export-html" name="exportFormat" value="html" label="HTML (Browser bookmarks)"/>
-            </RadioGroup>
-        </div>
-    </svelte:fragment>
+            <div class="col-span-full">
+                <RadioGroup label="Export format">
+                    <Radio id="export-json" name="exportFormat" value="json" label="JSON (Servas export)" checked/>
+                    <Radio id="export-html" name="exportFormat" value="html" label="HTML (Browser bookmarks)"/>
+                </RadioGroup>
+            </div>
+        
+    {/snippet}
 
-    <svelte:fragment slot="actions">
-        <JetButton type="submit">
-            Export
-        </JetButton>
-    </svelte:fragment>
+    {#snippet actions()}
+    
+            <JetButton type="submit">
+                Export
+            </JetButton>
+        
+    {/snippet}
 </JetFormSection>

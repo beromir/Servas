@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import AppLayout, {title} from "@/Layouts/AppLayout/AppLayout.svelte";
 
     export const layout = AppLayout;
@@ -10,9 +10,9 @@
     import {dispatchCustomEvent} from "@/utils";
     import EmptyState from "@/Components/EmptyStates/EmptyState.svelte";
 
-    export let publicLinks = [];
+    let { publicLinks = [] } = $props();
 
-    let copied = null;
+    let copied = $state(null);
 
     $title = 'Shared Groups';
 
@@ -59,7 +59,7 @@
                                         href={route('groups.show', publicLink.group.id)}>{publicLink.group.title}</Link>
                                 </td>
                                 <td class="px-3 py-4">
-                                    <button on:click={() => copyLink(publicLink.link, publicLink.id)} type="button"
+                                    <button onclick={() => copyLink(publicLink.link, publicLink.id)} type="button"
                                             class="flex items-center gap-x-2 w-fit group">
                                         <span
                                             class="text-sm text-gray-600 whitespace-nowrap dark:text-gray-200">{publicLink.shareId}</span>
@@ -87,7 +87,7 @@
                                     </button>
                                 </td>
                                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm sm:pr-6">
-                                    <button on:click={() => showPublicLinkDeleteModal(publicLink)} type="button"
+                                    <button onclick={() => showPublicLinkDeleteModal(publicLink)} type="button"
                                             class="text-red-600 hover:text-red-700 dark:text-red-300 dark:hover:text-red-400">
                                         Delete<span class="sr-only">, {publicLink.group.title}</span>
                                     </button>

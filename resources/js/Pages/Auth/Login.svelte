@@ -1,10 +1,12 @@
-<script context="module">
+<script module>
     import GuestLayout, {title} from "@/Layouts/GuestLayout.svelte";
 
     export const layout = GuestLayout;
 </script>
 
 <script>
+    import { preventDefault } from 'svelte/legacy';
+
     import {inertia, useForm} from '@inertiajs/svelte';
     import AuthenticationCard from '@/Components/Auth/AuthenticationCard.svelte'
     import {route} from '@/utils';
@@ -12,7 +14,7 @@
     import SubmitButton from "@/Components/Auth/SubmitButton.svelte";
     import Checkbox from "@/Components/FormLayouts/Inputs/Checkbox.svelte";
 
-    export let canResetPassword;
+    let { canResetPassword } = $props();
 
     $title = 'Log in';
 
@@ -30,7 +32,7 @@
 </script>
 
 <AuthenticationCard>
-    <form on:submit|preventDefault={login}>
+    <form onsubmit={preventDefault(login)}>
         <div class="space-y-6">
             <Text name="email" label="Email address" type="email" bind:value={$form.email} error={$form.errors.email}
                   required

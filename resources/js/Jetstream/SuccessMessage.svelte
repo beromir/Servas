@@ -1,6 +1,12 @@
 <script>
-    export let show = false;
-    export let message = '';
+    /**
+     * @typedef {Object} Props
+     * @property {boolean} [show]
+     * @property {string} [message]
+     */
+
+    /** @type {Props} */
+    let { show = false, message = '' } = $props();
 </script>
 
 {#if show}
