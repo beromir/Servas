@@ -13,13 +13,11 @@
     import {page, router, useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    export let tokens;
-    export let availablePermissions;
-    export let defaultPermissions;
+    let { tokens, availablePermissions, defaultPermissions } = $props();
 
-    let displayingToken = false;
-    let managingPermissionsFor = null;
-    let apiTokenBeingDeleted = null;
+    let displayingToken = $state(false);
+    let managingPermissionsFor = $state(null);
+    let apiTokenBeingDeleted = $state(null);
 
     let createApiTokenForm = useForm({
         name: '',
@@ -69,54 +67,62 @@
 
 <div>
     <!-- Generate API Token -->
-    <JetFormSection on:submitted={createApiToken}>
-        <svelte:fragment slot="title">
-            Create API Token
-        </svelte:fragment>
+    <JetFormSection submitted={createApiToken}>
+        {#snippet title()}
 
-        <svelte:fragment slot="description">
-            API tokens allow third-party services to authenticate with our application on your behalf.
-        </svelte:fragment>
+                Create API Token
 
-        <svelte:fragment slot="form">
-            <!-- Token Name -->
-            <div class="col-span-6 sm:col-span-4">
-                <JetLabel id="name" label="Name"/>
-                <JetInput id="name" type="text" class="mt-1 block w-full" bind:value={$createApiTokenForm.name}
-                          autofocus/>
-                <JetInputError message={$createApiTokenForm.errors.name} class="mt-2"/>
-            </div>
+            {/snippet}
 
-            <!-- Token Permissions -->
-            {#if availablePermissions.length > 0}
-                <div class="col-span-6">
-                    <JetLabel id="permissions" label="Permissions"/>
+        {#snippet description()}
 
-                    <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {#each availablePermissions as permission (permission)}
-                            <label class="flex items-center">
-                                <input value={permission} bind:group={$createApiTokenForm.permissions} type="checkbox"
-                                       class="rounded border-gray-400 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
-                                <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">{permission}</span>
-                            </label>
-                        {/each}
-                    </div>
+                API tokens allow third-party services to authenticate with our application on your behalf.
+
+            {/snippet}
+
+        {#snippet form()}
+
+                <!-- Token Name -->
+                <div class="col-span-6 sm:col-span-4">
+                    <JetLabel id="name" label="Name"/>
+                    <JetInput id="name" type="text" class="mt-1 block w-full" bind:value={$createApiTokenForm.name}
+                              autofocus/>
+                    <JetInputError message={$createApiTokenForm.errors.name} class="mt-2"/>
                 </div>
-            {/if}
-        </svelte:fragment>
 
-        <svelte:fragment slot="actions">
-            <!--
-            <jet-action-message :on="createApiTokenForm.recentlySuccessful" class="mr-3">
-                Created.
-            </jet-action-message>
-            -->
+                <!-- Token Permissions -->
+                {#if availablePermissions.length > 0}
+                    <div class="col-span-6">
+                        <JetLabel id="permissions" label="Permissions"/>
 
-            <JetButton class={$createApiTokenForm.processing ? 'opacity-25' : ''} type="submit"
-                       disabled={$createApiTokenForm.processing}>
-                Create
-            </JetButton>
-        </svelte:fragment>
+                        <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {#each availablePermissions as permission (permission)}
+                                <label class="flex items-center">
+                                    <input value={permission} bind:group={$createApiTokenForm.permissions} type="checkbox"
+                                           class="rounded border-gray-400 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
+                                    <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">{permission}</span>
+                                </label>
+                            {/each}
+                        </div>
+                    </div>
+                {/if}
+
+            {/snippet}
+
+        {#snippet actions()}
+
+                <!--
+                <jet-action-message :on="createApiTokenForm.recentlySuccessful" class="mr-3">
+                    Created.
+                </jet-action-message>
+                -->
+
+                <JetButton class={$createApiTokenForm.processing ? 'opacity-25' : ''} type="submit"
+                           disabled={$createApiTokenForm.processing}>
+                    Create
+                </JetButton>
+
+            {/snippet}
     </JetFormSection>
 
     {#if tokens.length > 0}
@@ -125,125 +131,149 @@
         <!-- Manage API Tokens -->
         <div class="mt-10 sm:mt-0">
             <JetActionSection>
-                <svelte:fragment slot="title">
-                    Manage API Tokens
-                </svelte:fragment>
+                {#snippet title()}
 
-                <svelte:fragment slot="description">
-                    You may delete any of your existing tokens if they are no longer needed.
-                </svelte:fragment>
+                        Manage API Tokens
+
+                            {/snippet}
+
+                {#snippet description()}
+
+                        You may delete any of your existing tokens if they are no longer needed.
+
+                            {/snippet}
 
                 <!-- API Token List -->
-                <svelte:fragment slot="content">
-                    <div class="space-y-6">
-                        {#each tokens as token (token.id)}
-                            <div class="flex items-center justify-between">
-                                <div class="truncate dark:text-white">
-                                    {token.name}
-                                </div>
+                {#snippet content()}
 
-                                <div class="flex items-center">
-                                    {#if true}
-                                        <div class="text-sm text-gray-500 dark:text-gray-400">
-                                            Last used {token.last_used_ago}
-                                        </div>
-                                    {/if}
+                        <div class="space-y-6">
+                            {#each tokens as token (token.id)}
+                                <div class="flex items-center justify-between">
+                                    <div class="truncate dark:text-white">
+                                        {token.name}
+                                    </div>
 
-                                    {#if availablePermissions.length > 0}
-                                        <button
-                                            class="cursor-pointer ml-6 text-sm text-gray-500 underline dark:text-gray-400"
-                                            on:click={() => manageApiTokenPermissions(token)}>
-                                            Permissions
+                                    <div class="flex items-center">
+                                        {#if true}
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">
+                                                Last used {token.last_used_ago}
+                                            </div>
+                                        {/if}
+
+                                        {#if availablePermissions.length > 0}
+                                            <button
+                                                class="cursor-pointer ml-6 text-sm text-gray-500 underline dark:text-gray-400"
+                                                onclick={() => manageApiTokenPermissions(token)}>
+                                                Permissions
+                                            </button>
+                                        {/if}
+
+                                        <button class="cursor-pointer ml-6 text-sm text-red-500 dark:text-red-400"
+                                                onclick={() => confirmApiTokenDeletion(token)}>
+                                            Delete
                                         </button>
-                                    {/if}
-
-                                    <button class="cursor-pointer ml-6 text-sm text-red-500 dark:text-red-400"
-                                            on:click={() => confirmApiTokenDeletion(token)}>
-                                        Delete
-                                    </button>
+                                    </div>
                                 </div>
-                            </div>
-                        {/each}
-                    </div>
-                </svelte:fragment>
+                            {/each}
+                        </div>
+
+                            {/snippet}
             </JetActionSection>
         </div>
     {/if}
 
     <!-- Token Value Modal -->
-    <JetDialogModal show={displayingToken} on:close={() => displayingToken = false}>
-        <svelte:fragment slot="title">
-            API Token
-        </svelte:fragment>
+    <JetDialogModal show={displayingToken} close={() => displayingToken = false}>
+        {#snippet title()}
 
-        <svelte:fragment slot="content">
-            <div class="dark:text-white">
-                Please copy your new API token. For your security, it won't be shown again.
-            </div>
+                API Token
 
-            {#if $page.props.jetstream.flash.token}
-                <div class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-600 select-all dark:bg-gray-950 dark:text-gray-300">
-                    {$page.props.jetstream.flash.token}
+            {/snippet}
+
+        {#snippet content()}
+
+                <div class="dark:text-white">
+                    Please copy your new API token. For your security, it won't be shown again.
                 </div>
-            {/if}
-        </svelte:fragment>
 
-        <svelte:fragment slot="footer">
-            <JetSecondaryButton on:clicked={() => displayingToken = false}>
-                Close
-            </JetSecondaryButton>
-        </svelte:fragment>
+                {#if $page.props.jetstream.flash.token}
+                    <div class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-600 select-all dark:bg-gray-950 dark:text-gray-300">
+                        {$page.props.jetstream.flash.token}
+                    </div>
+                {/if}
+
+            {/snippet}
+
+        {#snippet footer()}
+
+                <JetSecondaryButton clicked={() => displayingToken = false}>
+                    Close
+                </JetSecondaryButton>
+
+            {/snippet}
     </JetDialogModal>
 
     <!-- API Token Permissions Modal -->
-    <JetDialogModal show={managingPermissionsFor} on:close={() => managingPermissionsFor = null}>
-        <svelte:fragment slot="title">
-            API Token Permissions
-        </svelte:fragment>
+    <JetDialogModal show={managingPermissionsFor} close={() => managingPermissionsFor = null}>
+        {#snippet title()}
 
-        <svelte:fragment slot="content">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {#each availablePermissions as permission (permission)}
-                    <label class="flex items-center">
-                        <input value={permission} bind:group={$updateApiTokenForm.permissions} type="checkbox"
-                               class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
-                        <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">{permission}</span>
-                    </label>
-                {/each}
-            </div>
-        </svelte:fragment>
+                API Token Permissions
 
-        <svelte:fragment slot="footer">
-            <JetSecondaryButton on:clicked={() => managingPermissionsFor = null}>
-                Cancel
-            </JetSecondaryButton>
+            {/snippet}
 
-            <JetButton on:clicked={updateApiToken}
-                       class={$updateApiTokenForm.processing ? 'ml-3 opacity-25' : 'ml-3'}
-                       disabled={$updateApiTokenForm.processing}>
-                Save
-            </JetButton>
-        </svelte:fragment>
+        {#snippet content()}
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {#each availablePermissions as permission (permission)}
+                        <label class="flex items-center">
+                            <input value={permission} bind:group={$updateApiTokenForm.permissions} type="checkbox"
+                                   class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
+                            <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">{permission}</span>
+                        </label>
+                    {/each}
+                </div>
+
+            {/snippet}
+
+        {#snippet footer()}
+
+                <JetSecondaryButton clicked={() => managingPermissionsFor = null}>
+                    Cancel
+                </JetSecondaryButton>
+
+                <JetButton clicked={updateApiToken}
+                           class={$updateApiTokenForm.processing ? 'ml-3 opacity-25' : 'ml-3'}
+                           disabled={$updateApiTokenForm.processing}>
+                    Save
+                </JetButton>
+
+            {/snippet}
     </JetDialogModal>
 
     <!-- Delete Token Confirmation Modal -->
-    <JetConfirmationModal show={apiTokenBeingDeleted} on:close={() => apiTokenBeingDeleted = null}>
-        <svelte:fragment slot="title">
-            Delete API Token
-        </svelte:fragment>
+    <JetConfirmationModal show={apiTokenBeingDeleted} close={() => apiTokenBeingDeleted = null}>
+        {#snippet title()}
 
-        <svelte:fragment slot="content">
-            Are you sure you would like to delete this API token?
-        </svelte:fragment>
+                Delete API Token
 
-        <svelte:fragment slot="footer">
-            <JetSecondaryButton on:clicked={() => apiTokenBeingDeleted = null}>
-                Cancel
-            </JetSecondaryButton>
+            {/snippet}
 
-            <JetDangerButton on:clicked={deleteApiToken} class="ml-3 disabled:opacity-25">
-                Delete
-            </JetDangerButton>
-        </svelte:fragment>
+        {#snippet content()}
+
+                Are you sure you would like to delete this API token?
+
+            {/snippet}
+
+        {#snippet footer()}
+
+                <JetSecondaryButton clicked={() => apiTokenBeingDeleted = null}>
+                    Cancel
+                </JetSecondaryButton>
+
+                <JetDangerButton clicked={deleteApiToken} class="ml-3 disabled:opacity-25">
+                    Delete
+                </JetDangerButton>
+
+            {/snippet}
     </JetConfirmationModal>
 </div>

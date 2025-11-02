@@ -5,8 +5,8 @@
     import {route} from '@/utils';
     import {refreshGroups} from "@/stores";
 
-    let showModal = false;
-    let group = null;
+    let showModal = $state(false);
+    let group = $state(null);
 
     function prepareDeleteGroup(e) {
         group = e.detail;
@@ -25,7 +25,7 @@
     }
 </script>
 
-<svelte:window on:deleteGroup={prepareDeleteGroup}/>
+<svelte:window ondeleteGroup={prepareDeleteGroup}/>
 
 <Modal title="Delete Group" bind:showModal>
     <p class="text-sm text-gray-600 dark:text-gray-300">
@@ -35,10 +35,12 @@
         {group.title}
     </div>
 
-    <svelte:fragment slot="footer">
-        <Button on:clicked={() => showModal = false} title="Cancel" color="white"
-                class="hidden focus:ring-offset-gray-50 sm:block"/>
-        <Button on:clicked={deleteGroup} title="Delete" color="red" focusButton={true}
-                class="focus:ring-offset-gray-50"/>
-    </svelte:fragment>
+    {#snippet footer()}
+
+            <Button clicked={() => showModal = false} title="Cancel" color="white"
+                    class="hidden focus:ring-offset-gray-50 sm:block"/>
+            <Button clicked={deleteGroup} title="Delete" color="red" focusButton={true}
+                    class="focus:ring-offset-gray-50"/>
+
+    {/snippet}
 </Modal>

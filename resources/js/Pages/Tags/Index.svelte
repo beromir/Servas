@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import AppLayout, {title} from "@/Layouts/AppLayout/AppLayout.svelte";
 
     export const layout = AppLayout;
@@ -13,10 +13,10 @@
 
     $title = 'Tags';
 
-    export let tags = [];
+    let {tags = []} = $props();
 
-    let modeIsEdit;
-    let newTagComponent;
+    let modeIsEdit = $state(false);
+    let newTagComponent = $state();
 </script>
 
 <Main title="Tags">
@@ -25,12 +25,14 @@
 
         <div class="pt-6 space-y-4 -mt-4">
             {#each tags as tag (tag.id)}
-                <Badge on:clicked={() => newTagComponent.initEditMode(tag)} class="mr-2 first:mt-4 last:mr-0"
+                <Badge clicked={() => newTagComponent.initEditMode(tag)} class="mr-2 first:mt-4 last:mr-0"
                        title={tag.name}/>
             {:else}
-                <EmptyStateWithAction on:clicked={() => newTagComponent.focus()} title="Add a new tag"
+                <EmptyStateWithAction clicked={() => newTagComponent.focus()} title="Add a new tag"
                                       class="mt-2 sm:mt-4">
-                    <Tag slot="icon"/>
+                    {#snippet icon()}
+                        <Tag/>
+                    {/snippet}
                 </EmptyStateWithAction>
             {/each}
         </div>

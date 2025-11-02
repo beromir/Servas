@@ -4,9 +4,9 @@
     import {router} from '@inertiajs/svelte';
     import {route} from '@/utils';
 
-    let showModal = false;
+    let showModal = $state(false);
     let publicLinkId = null;
-    let publicLinkTitle = '';
+    let publicLinkTitle = $state('');
 
     function prepareDeletePublicLink(e) {
         publicLinkId = e.detail.id;
@@ -26,7 +26,7 @@
     }
 </script>
 
-<svelte:window on:deletePublicLink={prepareDeletePublicLink}/>
+<svelte:window ondeletePublicLink={prepareDeletePublicLink}/>
 
 <Modal title="Delete Public link" bind:showModal>
     <p class="text-sm text-gray-600 dark:text-gray-300">
@@ -36,10 +36,12 @@
         {publicLinkTitle}
     </div>
 
-    <svelte:fragment slot="footer">
-        <Button on:clicked={() => showModal = false} title="Cancel" color="white"
-                class="hidden focus:ring-offset-gray-50 sm:block"/>
-        <Button on:clicked={deletePublicLink} title="Delete" color="red" focusButton={true}
-                class="focus:ring-offset-gray-50"/>
-    </svelte:fragment>
+    {#snippet footer()}
+
+            <Button clicked={() => showModal = false} title="Cancel" color="white"
+                    class="hidden focus:ring-offset-gray-50 sm:block"/>
+            <Button clicked={deletePublicLink} title="Delete" color="red" focusButton={true}
+                    class="focus:ring-offset-gray-50"/>
+
+    {/snippet}
 </Modal>

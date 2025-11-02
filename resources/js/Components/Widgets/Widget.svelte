@@ -1,7 +1,10 @@
 <script>
-    export let title = '';
-    export let withBackground = true;
-    export let fixedHeight = false;
+    let {
+        title = '',
+        withBackground = true,
+        fixedHeight = false,
+        children
+    } = $props();
 </script>
 
 <div>
@@ -11,6 +14,6 @@
          withBackground ? 'bg-white shadow rounded-lg' : '',
          fixedHeight ? 'h-[30rem]' : '',
          ].join(' ').trim()}>
-        <slot/>
+        {@render children?.()}
     </div>
 </div>

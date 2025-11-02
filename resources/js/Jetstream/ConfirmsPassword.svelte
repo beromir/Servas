@@ -1,5 +1,4 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
     import JetButton from './Button.svelte';
     import JetDialogModal from './DialogModal.svelte';
     import JetInput from './Input.svelte';
@@ -8,14 +7,14 @@
     import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    const dispatch = createEventDispatcher();
+    let {
+        button = 'Confirm',
+        confirmed,
+        children
+    } = $props();
 
-    export let title = 'Confirm Password';
-    export let content = 'For your security, please confirm your password to continue.';
-    export let button = 'Confirm';
-
-    let confirmingPassword = false;
-    let passwordInput;
+    let confirmingPassword = $state(false);
+    let passwordInput = $state();
 
     let form = useForm({
         password: '',
@@ -25,7 +24,7 @@
     function startConfirmingPassword() {
         axios.get(route('password.confirmation')).then(response => {
             if (response.data.confirmed) {
-                dispatch('confirmed');
+                confirmed();
             } else {
                 confirmingPassword = true;
 
@@ -43,7 +42,7 @@
             $form.processing = false;
             closeModal()
             // this.$nextTick(() => this.$emit('confirmed'));
-            dispatch('confirmed');
+            confirmed();
         }).catch(error => {
             $form.processing = false;
             $form.setError('password', error.response.data.errors.password[0]);
@@ -58,36 +57,35 @@
 </script>
 
 <span>
-    <span on:click={startConfirmingPassword} aria-hidden="true">
-        <slot/>
+    <span aria-hidden="true" onclick={startConfirmingPassword}>
+        {@render children?.()}
     </span>
 
-    <JetDialogModal show={confirmingPassword} on:close={closeModal}>
-        <svelte:fragment slot="title">
-            {title}
-        </svelte:fragment>
+    <JetDialogModal close={closeModal} show={confirmingPassword}>
+        {#snippet title()}
+            Confirm Password
+        {/snippet}
 
-        <svelte:fragment slot="content">
-            {content}
+        {#snippet content()}
+            For your security, please confirm your password to continue.
 
             <div class="mt-4">
                 <JetInput type="password" class="mt-1 block w-3/4" placeholder="Password"
                           bind:this={passwordInput} bind:value={$form.password}/>
 
                 <JetInputError message={$form.errors.password} class="mt-2"/>
-            </div>
-        </svelte:fragment>
+                </div>
+        {/snippet}
 
-            <svelte:fragment slot="footer">
-            <JetSecondaryButton on:clicked={closeModal}>
+        {#snippet footer()}
+            <JetSecondaryButton clicked={closeModal}>
                 Cancel
             </JetSecondaryButton>
 
             <JetButton class={['ml-3', $form.processing ? 'opacity-25' : ''].join(' ').trim()}
-                       on:clicked={confirmPassword}
-                       disabled={$form.processing}>
+                       clicked={confirmPassword} disabled={$form.processing}>
                 {button}
             </JetButton>
-            </svelte:fragment>>
+        {/snippet}>
     </JetDialogModal>
 </span>

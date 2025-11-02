@@ -4,22 +4,20 @@
     import Input from "@/Components/FormLayouts/Modals/Input.svelte";
     import Button from "@/Components/Buttons/Button.svelte";
     import {useForm} from "@inertiajs/svelte";
-    import {route, dispatchCustomEvent, toggleValueInArray} from '@/utils';
+    import {route} from '@/utils';
     import {refreshGroups} from "@/stores";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
     import {getTagIdsFromArray} from "@/utils/tag.js";
-    import PlusCircle from "@/Heroicons/Mini/PlusCircle.svelte";
-    import XMark from "@/Heroicons/Micro/XMark.svelte";
     import QueryOption from "@/Components/QueryOptions/QueryOption.svelte";
     import Minus from "@/Heroicons/Mini/Minus.svelte";
     import Plus from "@/Heroicons/Mini/Plus.svelte";
 
-    let showModal = false;
-    let isEditing = false;
-    let group = null;
-    let groupSelectMenu;
-    let selectedGroups = [];
-    let showSmartGroupSettings = false;
+    let showModal = $state(false);
+    let isEditing = $state(false);
+    let group = $state(null);
+    let groupSelectMenu = $state();
+    let selectedGroups = $state([]);
+    let showSmartGroupSettings = $state(false);
 
     let form = useForm({
         title: null,
@@ -29,7 +27,9 @@
         notTags: [],
     });
 
-    $: $form.parentGroupId = selectedGroups[0] ?? null;
+    $effect(() => {
+        $form.parentGroupId = selectedGroups[0] ?? null;
+    });
 
     export function showCreationView(parentGroupId = null) {
         if (parentGroupId !== null) {
@@ -110,16 +110,18 @@
     }
 </script>
 
-<svelte:window on:editGroup={(event) => showEditingView(event.detail)}
-               on:createGroup={(event) => showCreationView(event.detail)}/>
+<svelte:window oneditGroup={(event) => showEditingView(event.detail)}
+               oncreateGroup={(event) => showCreationView(event.detail)}/>
 
 <Modal title={isEditing ? 'Edit group' : 'Create group'} showFooterMenuOnMobile={false} bind:showModal>
-    <svelte:fragment slot="mobilePrimaryAction">
-        <button on:click={isEditing ? updateGroup : createGroup}
-                class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100" type="button">
-            {isEditing ? 'Edit' : 'Create'}
-        </button>
-    </svelte:fragment>
+    {#snippet mobilePrimaryAction()}
+
+            <button onclick={isEditing ? updateGroup : createGroup}
+                    class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100" type="button">
+                {isEditing ? 'Edit' : 'Create'}
+            </button>
+
+    {/snippet}
 
     <Container>
         <Input label="Title" name="title" isFirst={true} bind:value={$form.title}
@@ -130,14 +132,14 @@
                 Groups
             </span>
             <div class="max-w-xl mt-1 relative sm:mt-0 sm:col-span-2">
-                <Button on:clicked={groupSelectMenu.openModal}
+                <Button clicked={groupSelectMenu.openModal}
                         title={selectedGroups.length ? `${selectedGroups.length} Group${selectedGroups.length > 1 ? 's' : ''} selected` : 'Select group'}
                         color="white"/>
             </div>
         </div>
 
         <div class="sm:border-t sm:border-gray-200 sm:pt-5 dark:border-gray-700">
-            <button on:click={() => showSmartGroupSettings = !showSmartGroupSettings} type="button"
+            <button onclick={() => showSmartGroupSettings = !showSmartGroupSettings} type="button"
                     class="flex justify-between items-center w-full group">
                 <span class="text-left">
                     <span class="block text-gray-800 font-medium dark:text-gray-100">Smart Group settings</span>
@@ -162,13 +164,15 @@
         </div>
     </Container>
 
-    <svelte:fragment slot="footer">
-        <Button on:clicked={() => showModal = false} title="Cancel" color="white"
-                class="focus:ring-offset-gray-50"/>
-        <Button on:clicked={isEditing ? updateGroup : createGroup}
-                title={isEditing ? 'Edit group' : 'Create group'}
-                class="focus:ring-offset-gray-50"/>
-    </svelte:fragment>
+    {#snippet footer()}
+
+            <Button clicked={() => showModal = false} title="Cancel" color="white"
+                    class="focus:ring-offset-gray-50"/>
+            <Button clicked={isEditing ? updateGroup : createGroup}
+                    title={isEditing ? 'Edit group' : 'Create group'}
+                    class="focus:ring-offset-gray-50"/>
+
+    {/snippet}
 </Modal>
 
 <GroupSelectMenu bind:this={groupSelectMenu} bind:selectedGroups/>

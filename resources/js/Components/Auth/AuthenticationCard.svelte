@@ -1,5 +1,7 @@
 <script>
     import AuthenticationCardLogo from "@/Components/Auth/AuthenticationCardLogo.svelte";
+
+    let { children } = $props();
 </script>
 
 <div class="flex items-center min-h-screen bg-gray-200 sm:justify-center dark:bg-gray-900">
@@ -9,7 +11,7 @@
         </div>
 
         <div class="mt-8">
-            <slot/>
+            {@render children?.()}
         </div>
     </div>
 </div>

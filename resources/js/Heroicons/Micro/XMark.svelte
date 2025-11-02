@@ -1,5 +1,5 @@
 <script>
-    export let className = '';
+    let { className = '' } = $props();
 </script>
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class={['size-4', className].join(' ')}>

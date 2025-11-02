@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import GuestLayout, {title} from "@/Layouts/GuestLayout.svelte";
 
     export const layout = GuestLayout;
@@ -22,15 +22,17 @@
         email: '',
     });
 
-    function submit() {
+    function submit(event) {
+        event.preventDefault();
+
         $form.post(route('password.email'));
     }
 </script>
 
 <JetAuthenticationCard>
-    <svelte:fragment slot="logo">
+    {#snippet logo()}
         <JetAuthenticationCardLogo/>
-    </svelte:fragment>
+    {/snippet}
 
     <div class="mb-4 text-sm text-gray-600">
         Forgot your password? No problem. Just let us know your email address and we will email you a password reset
@@ -45,7 +47,7 @@
 
     <JetValidationErrors hasErrors={$form.hasErrors} class="mb-4"/>
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div>
             <JetLabel id="email" label="Email"/>
             <JetInput id="email" type="email" class="mt-1 block w-full" bind:value={$form.email} required autofocus/>

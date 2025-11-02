@@ -1,14 +1,17 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
     import {focusSelf} from "@/utils";
     import clsx from "clsx";
 
-    const dispatch = createEventDispatcher();
-    export let type = 'button';
-    export let title = null;
-    export let color = undefined;
-    export let hoverTitle = '';
-    export let focusButton = false;
+    let {
+        type = 'button',
+        title = null,
+        color = undefined,
+        hoverTitle = '',
+        focusButton = false,
+        icon,
+        clicked,
+        ...rest
+    } = $props();
 
     function getColors() {
         switch (color) {
@@ -32,19 +35,19 @@
 </script>
 
 <button
-    {...$$restProps} {type}
-    on:click={() => {dispatch('clicked')}}
+    {...rest} {type}
+    onclick={clicked}
     class={clsx(
         'w-full inline-flex justify-center items-center py-2 border shadow-sm text-sm font-medium rounded-md select-none focus:outline-none focus:ring-2 focus:ring-offset-2 md:w-auto dark:focus:ring-offset-gray-900',
         '[&>svg]:size-5',
         title ? 'px-4 [&>svg]:-ml-1 [&>svg]:mr-2' : 'px-2',
         getColors(),
-        $$restProps.class
+        rest.class
     )}
     use:focusSelf={focusButton}
     title={hoverTitle}>
-    {#if $$slots.icon}
-        <slot name="icon"/>
+    {#if icon}
+        {@render icon?.()}
     {/if}
     {#if title}
         {title}

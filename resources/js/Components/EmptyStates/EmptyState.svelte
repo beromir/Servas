@@ -1,6 +1,5 @@
 <script>
-    export let title = '';
-    export let tag = 'div';
+    let { title = '', tag = 'div' } = $props();
 </script>
 
 <svelte:element this={tag}

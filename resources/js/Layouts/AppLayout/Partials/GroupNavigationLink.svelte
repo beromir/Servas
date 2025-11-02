@@ -1,4 +1,5 @@
 <script>
+    import GroupNavigationLink from './GroupNavigationLink.svelte';
     import {Link, page} from "@inertiajs/svelte";
     import {route} from "@/utils/index.js";
     import {fade} from "svelte/transition";
@@ -6,17 +7,16 @@
     import {getOpenedGroups, toggleOpenedGroup} from "@/utils/local-settings.js";
     import {closeSidebar} from "@/utils/sidebar.js";
 
-    export let group = null;
-    export let groups = [];
+    let { group = null, groups = [] } = $props();
 
-    let openedGroups = getOpenedGroups();
+    let openedGroups = $state(getOpenedGroups());
 
-    $: currentGroupId = $page.props.group && $page.props.group.id;
+    let currentGroupId = $derived($page.props.group && $page.props.group.id);
 </script>
 
 <div>
     <div class="flex items-center">
-        <button on:click={() => openedGroups = toggleOpenedGroup(group.id)} type="button"
+        <button onclick={() => openedGroups = toggleOpenedGroup(group.id)} type="button"
                 class="transition duration-100 group"
                 class:invisible={group.childGroupsCount === 0} class:rotate-90={openedGroups.includes(group.id)}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -27,7 +27,7 @@
             </svg>
         </button>
 
-        <Link href={route('groups.show', group.id)} on:click={closeSidebar}
+        <Link href={route('groups.show', group.id)} onclick={closeSidebar}
               class={clsx('flex justify-between items-center ml-1 py-1.5 px-3 w-full text-sm text-white font-medium truncate rounded-md hover:bg-white/10 dark:hover:bg-gray-700/60', currentGroupId === group.id && 'bg-white/10 dark:bg-gray-700/60')}>
             {group.title}
 
@@ -42,7 +42,7 @@
     {#if group.childGroupsCount > 0 && openedGroups.includes(group.id)}
         <div class="flex flex-col gap-y-2 mt-1 ml-6" transition:fade|local={{ duration: 100 }}>
             {#each groups.filter((singleGroup) => singleGroup.parentGroupId === group.id) as childGroup}
-                <svelte:self group={childGroup} groups={groups}/>
+                <GroupNavigationLink group={childGroup} groups={groups}/>
             {/each}
         </div>
     {/if}

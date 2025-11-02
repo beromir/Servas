@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import AppLayout, {title} from "@/Layouts/AppLayout/AppLayout.svelte";
 
     export const layout = AppLayout;
@@ -11,10 +11,12 @@
     import {route} from "@/utils/index.js";
     import Toggle from "@/Components/Toggles/Toggle.svelte";
 
-    export let links = [];
-    export let searchString = '';
-    export let untagged = true;
-    export let ungrouped = true;
+    let {
+        links = [],
+        searchString = $bindable(''),
+        untagged = $bindable(true),
+        ungrouped = $bindable(true)
+    } = $props();
 
     $title = 'Inbox';
 
@@ -51,10 +53,12 @@
 </script>
 
 <Main title="Inbox">
-    <LinkList on:searched={filterLinks} {links} bind:searchString>
-        <div slot="toolbar" class="flex gap-x-5">
-            <Toggle on:toggled={(e) => toggleUntagged(e.detail)} toggled={untagged} title="Untagged"/>
-            <Toggle on:toggled={(e) => toggleUngrouped(e.detail)} toggled={ungrouped} title="Ungrouped"/>
-        </div>
+    <LinkList bind:searchString {links} searched={filterLinks}>
+        {#snippet toolbar()}
+            <div class="flex gap-x-5">
+                <Toggle toggledCallback={(value) => toggleUntagged(value)} toggled={untagged} title="Untagged"/>
+                <Toggle toggledCallback={(value) => toggleUngrouped(value)} toggled={ungrouped} title="Ungrouped"/>
+            </div>
+        {/snippet}
     </LinkList>
 </Main>

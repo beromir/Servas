@@ -1,8 +1,7 @@
 <script>
     import {inertia} from "@inertiajs/svelte";
 
-    export let link = '';
-    export let title = '';
+    let { link = '', title = '' } = $props();
 </script>
 
 <li>

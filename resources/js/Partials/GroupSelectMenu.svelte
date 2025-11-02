@@ -2,19 +2,18 @@
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from '@/Components/Modals/Modal.svelte';
     import {isUndefined} from "lodash";
-    import {createEventDispatcher} from 'svelte';
     import clsx from "clsx";
 
-    export let selectedGroups = [];        // property to access from outside; contains group IDs; will only change when clicking "OK"
+    let {
+        selectedGroups = $bindable([]), changesSaved = () => {}
+    } = $props();
 
     let groups = [];
-    let filteredGroups = [];
-    let internalSelectedGroups = [];       // property for internal use only; contains group objects
-    let showModal = false;
-    let showSelectView = true;
+    let filteredGroups = $state([]);
+    let internalSelectedGroups = $state([]);       // property for internal use only; contains group objects
+    let showModal = $state(false);
+    let showSelectView = $state(true);
     let modeIsMultiSelect = false;
-
-    const dispatch = createEventDispatcher();
 
     export const enableMultiSelectMode = () => modeIsMultiSelect = true;
     export const disableMultiSelectMode = () => modeIsMultiSelect = false;
@@ -36,7 +35,7 @@
 
         showModal = false;
 
-        dispatch('changesSaved');
+        changesSaved();
     }
 
     async function getAllGroups() {
@@ -56,7 +55,9 @@
         }
     }
 
-    function selectGroup(group) {
+    function selectGroup(group, event) {
+        event.stopPropagation();
+
         if (modeIsMultiSelect) {
             let index = getIndexOfGroupId(group.id, internalSelectedGroups);
 
@@ -139,17 +140,17 @@
 </script>
 
 <Modal title="Select a group" bind:showModal showFooterMenuOnMobile={false}>
-    <svelte:fragment slot="mobilePrimaryAction">
-        <button on:click={saveChanges}
+    {#snippet mobilePrimaryAction()}
+        <button onclick={saveChanges}
                 class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100"
                 type="button">
             Select
         </button>
-    </svelte:fragment>
+    {/snippet}
 
     <div class="border-b border-gray-300 dark:border-gray-600">
         <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-            <button on:click={() => showSelectView = true} type="button"
+            <button onclick={() => showSelectView = true} type="button"
                     class={clsx(
                         showSelectView ?
                             'border-primary-500 text-primary-600 dark:border-white dark:text-gray-100' :
@@ -159,7 +160,7 @@
                 Select
             </button>
 
-            <button on:click={() => showSelectView = false} type="button"
+            <button onclick={() => showSelectView = false} type="button"
                     class={clsx(
                         !showSelectView ?
                             'border-primary-500 text-primary-600 dark:border-white dark:text-gray-100' :
@@ -184,26 +185,30 @@
     <div class="mt-5">
         {#if showSelectView}
             <div class="flex gap-x-2">
-                <Button on:clicked={goBack} color="white" class="!ring-0 md:!w-full">
-                    <svg slot="icon" class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                         fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                              clip-rule="evenodd"/>
-                    </svg>
+                <Button clicked={goBack} color="white" class="!ring-0 md:!w-full">
+                    {#snippet icon()}
+                        <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                             fill="currentColor">
+                            <path fill-rule="evenodd"
+                                  d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    {/snippet}
                 </Button>
-                <Button on:clicked={() => filterByGroup(null)} color="white" class="!ring-0 md:!w-full">
-                    <svg slot="icon" class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                         fill="currentColor">
-                        <path
-                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                    </svg>
+                <Button clicked={() => filterByGroup(null)} color="white" class="!ring-0 md:!w-full">
+                    {#snippet icon()}
+                        <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                             fill="currentColor">
+                            <path
+                                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                        </svg>
+                    {/snippet}
                 </Button>
             </div>
 
             <ul class="mt-3 divide-y divide-gray-100 dark:divide-gray-800">
                 {#each filteredGroups as group (group.id)}
-                    <li on:click={() => filterByGroup(group.id)} aria-hidden="true"
+                    <li onclick={() => filterByGroup(group.id)} aria-hidden="true"
                         class="flex text-gray-900 cursor-default select-none relative py-2.5 pl-8 pr-4 dark:text-white">
                         <div class="flex justify-between items-center mr-3.5 w-full overflow-x-hidden">
                             <div class="font-normal block truncate">{group.title}</div>
@@ -235,7 +240,7 @@
                                 </svg>
                             </div>
                         {/if}
-                        <button on:click|stopPropagation={() => selectGroup(group)} type="button"
+                        <button onclick={(event) => selectGroup(group, event)} type="button"
                                 class="text-sm text-gray-700 dark:text-gray-200">
                             {getIndexOfGroupId(group.id, internalSelectedGroups) !== -1 ? 'Unselect' : 'Select'}
                         </button>
@@ -252,7 +257,7 @@
                 {#each internalSelectedGroups as group (group.id)}
                     <li class="flex justify-between items-center text-gray-900 cursor-default select-none relative py-2.5 px-4 dark:text-white">
                         <div class="font-normal block truncate">{group.title}</div>
-                        <button on:click|stopPropagation={() => selectGroup(group)} type="button"
+                        <button onclick={(event) => selectGroup(group, event)} type="button"
                                 class="text-sm text-gray-700 dark:text-gray-200">
                             Unselect
                         </button>
@@ -265,10 +270,10 @@
         {/if}
     </div>
 
-    <svelte:fragment slot="footer">
-        <Button on:clicked={() => showModal = false} title="Cancel" color="white"
+    {#snippet footer()}
+        <Button clicked={() => showModal = false} title="Cancel" color="white"
                 class="hidden focus:ring-offset-gray-50 sm:block"/>
-        <Button on:clicked={saveChanges} title="Select"
+        <Button clicked={saveChanges} title="Select"
                 class="focus:ring-offset-gray-50"/>
-    </svelte:fragment>
+    {/snippet}
 </Modal>

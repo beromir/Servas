@@ -1,8 +1,7 @@
 <script>
     import {inertia} from '@inertiajs/svelte';
 
-    export let href;
-    export let active;
+    let { href, active, children } = $props();
 
     function classes() {
         return active
@@ -12,5 +11,5 @@
 </script>
 
 <a {href} use:inertia class={classes()}>
-    <slot/>
+    {@render children?.()}
 </a>

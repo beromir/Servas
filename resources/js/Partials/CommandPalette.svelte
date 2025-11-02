@@ -17,12 +17,12 @@
         {id: 'shared-groups', title: 'Shared Groups', icon: Link, url: route('publicLinks.index')},
     ];
 
-    let searchResults = [];
-    let groups = [];
-    let selectedModal = null;
-    let selectedPage = null;
-    let showCommandPalette = false;
-    let input;
+    let searchResults = $state([]);
+    let groups = $state([]);
+    let selectedModal = $state(null);
+    let selectedPage = $state(null);
+    let showCommandPalette = $state(false);
+    let input = $state();
 
     function openCommandPalette() {
         searchResults = [];
@@ -177,13 +177,13 @@
     const focus = () => input.focus();
 </script>
 
-<svelte:window on:showCommandPalette={openCommandPalette}/>
+<svelte:window onshowCommandPalette={openCommandPalette}/>
 
 {#if showCommandPalette}
     <div class="fixed inset-0 z-[90] overflow-y-auto p-4 sm:p-6 md:p-20" role="dialog" aria-modal="true">
 
         <!-- Background overlay, show/hide based on modal state. -->
-        <div on:click={closeCommandPalette}
+        <div onclick={closeCommandPalette}
              in:fade={{duration: 300, easing: backOut}}
              out:fade={{duration: 200, easing: backIn}}
              class="fixed inset-0 bg-gray-500/75 transition-opacity dark:bg-gray-900/75" aria-hidden="true">
@@ -195,7 +195,7 @@
              use:noScroll
              class="mx-auto max-w-xl transform rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all dark:bg-gray-950 dark:ring-contrast">
             <div class="p-2">
-                <input bind:this={input} on:input={search} on:keydown={handleKeydown} type="text"
+                <input bind:this={input} oninput={search} onkeydown={handleKeydown} type="text"
                        class="w-full rounded-md border-0 bg-gray-200 px-4 py-2.5 placeholder-gray-600 focus:ring-0 sm:text-sm dark:bg-gray-900 dark:text-white dark:placeholder-gray-400"
                        placeholder="Search..." role="combobox" aria-expanded="false" aria-controls="options"
                        autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
@@ -206,16 +206,16 @@
                 <div class="overflow-y-auto scroll-pt-10">
                     <ul class="pt-1 pb-3 px-2 text-gray-800 font-medium dark:text-gray-100">
                         {#each pages as page}
-                            <li on:mouseenter={() => selectedPage = page.id}
-                                on:mouseleave={() => selectedModal = null}
-                                on:click={() => openPage(page.url)}
+                            <li onmouseenter={() => selectedPage = page.id}
+                                onmouseleave={() => selectedModal = null}
+                                onclick={() => openPage(page.url)}
                                 id={`select-option-${page.id}`}
                                 class={clsx(
                             'flex items-center gap-x-3 px-4 py-2 cursor-default select-none rounded-md',
                             selectedPage === page.id ? 'bg-primary-500 text-white [&>svg]:text-gray-100 dark:bg-primary-700 dark:text-gray-100' : ''
                         )}
                                 tabindex="-1" aria-hidden="true">
-                                <svelte:component this={page.icon} className="text-gray-500 dark:text-gray-300"/>
+                                <page.icon className="text-gray-500 dark:text-gray-300"/>
                                 {page.title}
                             </li>
                         {/each}
@@ -235,9 +235,9 @@
                         <ul class="pt-1 pb-3 px-2" id="options">
                             {#each getSearchResultsByGroup(group) as result (result.hash)}
                                 <!-- Active: "bg-indigo-600 text-white" -->
-                                <li on:mouseenter={() => selectedModal = result.hash}
-                                    on:mouseleave={() => selectedModal = null}
-                                    on:click={() => openSingleModalPage(result.url)}
+                                <li onmouseenter={() => selectedModal = result.hash}
+                                    onmouseleave={() => selectedModal = null}
+                                    onclick={() => openSingleModalPage(result.url)}
                                     id={`select-option-${result.hash}`}
                                     class={['px-4 py-2 cursor-default select-none rounded-md',
                                         result.hash === selectedModal ? 'bg-primary-500 text-white dark:bg-primary-700 dark:text-gray-100' : ''].join(' ').trim()}

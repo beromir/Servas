@@ -1,8 +1,12 @@
 <script>
-    export let align = 'right';
-    export let width = '48';
-    export let contentClasses = ['py-1', 'bg-white'];
-    let open = false;
+    let {
+        align = 'right',
+        width = '48',
+        contentClasses = ['py-1', 'bg-white'],
+        trigger,
+        content
+    } = $props();
+    let open = $state(false);
 
     function widthClass() {
         return {
@@ -22,21 +26,21 @@
 </script>
 
 <div class="relative">
-    <div on:click={() => open = !open}>
-        <slot name="trigger"/>
+    <div onclick={() => open = !open}>
+        {@render trigger?.()}
     </div>
 
     <!-- Full Screen Dropdown Overlay -->
     {#if open}
-        <div class="fixed inset-0 z-40" on:click={() => open = false}>
+        <div class="fixed inset-0 z-40" onclick={() => open = false}>
         </div>
     {/if}
 
     {#if open}
         <div class={[widthClass(), alignmentClasses(), 'absolute z-50 mt-2 rounded-md shadow-lg'].join(' ')}
-             on:click={() => open = false}>
+             onclick={() => open = false}>
             <div class="rounded-md ring-1 ring-black ring-opacity-5">
-                <slot name="content"/>
+                {@render content?.()}
             </div>
         </div>
     {/if}

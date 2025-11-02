@@ -1,11 +1,11 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
-
-    const dispatch = createEventDispatcher();
-
-    export let show = false;
-    export let maxWidth = '2xl';
-    export let closeable = true;
+    let {
+        show = false,
+        maxWidth = '2xl',
+        closeable = true,
+        close,
+        children
+    } = $props();
 
     function maxWidthClass() {
         return {
@@ -20,13 +20,13 @@
 
 {#if show}
     <div class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50">
-        <div class="fixed inset-0 transform transition-all" on:click={() => {if (closeable) dispatch('close')}} aria-hidden="true">
+        <div class="fixed inset-0 transform transition-all" onclick={() => {if (closeable) close()}} aria-hidden="true">
             <div class="absolute inset-0 bg-gray-500/75 dark:bg-gray-900/75"></div>
         </div>
 
         <div
             class={['mb-6 bg-white rounded-lg overflow-hidden shadow-xl ring-contrast transform transition-all sm:w-full sm:mx-auto dark:bg-gray-900', maxWidthClass()].join(' ').trim()}>
-            <slot/>
+            {@render children?.()}
         </div>
     </div>
 {/if}

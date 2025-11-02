@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import GuestLayout, {title} from "@/Layouts/GuestLayout.svelte";
 
     export const layout = GuestLayout;
@@ -12,7 +12,7 @@
     import SubmitButton from "@/Components/Auth/SubmitButton.svelte";
     import Checkbox from "@/Components/FormLayouts/Inputs/Checkbox.svelte";
 
-    export let canResetPassword;
+    let {canResetPassword} = $props();
 
     $title = 'Log in';
 
@@ -22,7 +22,9 @@
         remember: true,
     });
 
-    function login() {
+    function login(event) {
+        event.preventDefault();
+
         $form.post(route('login'), {
             onSuccess: () => $form.reset('password'),
         });
@@ -30,7 +32,7 @@
 </script>
 
 <AuthenticationCard>
-    <form on:submit|preventDefault={login}>
+    <form onsubmit={login}>
         <div class="space-y-6">
             <Text name="email" label="Email address" type="email" bind:value={$form.email} error={$form.errors.email}
                   required

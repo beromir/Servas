@@ -1,13 +1,15 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
+    import clsx from "clsx";
 
-    const dispatch = createEventDispatcher();
-
-    export let title;
-    export let color = '';
-    export let large = true;
-    export let noHover = false;
-    export let rounded = false;
+    let {
+        title,
+        color = '',
+        large = true,
+        noHover = false,
+        rounded = false,
+        clicked,
+        ...props
+    } = $props();
 
     function getColorClasses() {
         switch (color) {
@@ -24,13 +26,12 @@
         }
     }
 
-    $: sizeClasses = large ? 'px-3 py-0.5 text-sm decoration-[1.4px]' : 'px-2.5 py-0.5 text-xs decoration-[1.1px]';
-    $: hoverClasses = noHover ? '' : 'underline-offset-2 hover:underline hover:cursor-pointer';
-    $: roundedClasses = rounded ? 'rounded' : 'rounded-full';
+    let sizeClasses = $derived(large ? 'px-3 py-0.5 text-sm decoration-[1.4px]' : 'px-2.5 py-0.5 text-xs decoration-[1.1px]');
+    let hoverClasses = $derived(noHover ? '' : 'underline-offset-2 hover:underline hover:cursor-pointer');
+    let roundedClasses = $derived(rounded ? 'rounded' : 'rounded-full');
 </script>
 
-<span on:click={() => dispatch('clicked')} {...$$restProps}
-      class={['inline-flex items-center font-medium select-none',
-      $$restProps.class, getColorClasses(), sizeClasses, hoverClasses, roundedClasses].join(' ').trim()}>
+<span onclick={clicked} {...props}
+      class={clsx('inline-flex items-center font-medium select-none', getColorClasses(), sizeClasses, hoverClasses, roundedClasses, props.class)}>
     {title}
 </span>

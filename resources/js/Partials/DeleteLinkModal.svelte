@@ -5,8 +5,8 @@
     import {route} from '@/utils';
     import {refreshLinks} from "@/stores";
 
-    let showModal = false;
-    let link = null;
+    let showModal = $state(false);
+    let link = $state(null);
 
     function prepareDeleteLink(e) {
         link = e.detail;
@@ -25,7 +25,7 @@
     }
 </script>
 
-<svelte:window on:deleteLink={prepareDeleteLink}/>
+<svelte:window ondeleteLink={prepareDeleteLink}/>
 
 <Modal title="Delete Link" bind:showModal>
     <p class="text-sm text-gray-600 dark:text-gray-300">
@@ -35,10 +35,12 @@
         {link.title}
     </div>
 
-    <svelte:fragment slot="footer">
-        <Button on:clicked={() => showModal = false} title="Cancel" color="white"
-                class="hidden focus:ring-offset-gray-50 sm:block"/>
-        <Button on:clicked={deleteLink} title="Delete" color="red" focusButton={true}
-                class="focus:ring-offset-gray-50"/>
-    </svelte:fragment>
+    {#snippet footer()}
+
+            <Button clicked={() => showModal = false} title="Cancel" color="white"
+                    class="hidden focus:ring-offset-gray-50 sm:block"/>
+            <Button clicked={deleteLink} title="Delete" color="red" focusButton={true}
+                    class="focus:ring-offset-gray-50"/>
+
+    {/snippet}
 </Modal>

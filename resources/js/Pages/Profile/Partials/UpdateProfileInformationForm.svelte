@@ -7,26 +7,25 @@
     import JetSecondaryButton from '@/Jetstream/SecondaryButton.svelte';
     import {page, useForm, router} from "@inertiajs/svelte";
     import {route} from "@/utils";
-    // import JetActionMessage from '@/Jetstream/ActionMessage.vue';
 
-    export let user = {};
+    let {user = {}} = $props();
 
-    let form = useForm({
+    const profileForm = useForm({
         _method: 'PUT',
         name: user.name,
         email: user.email,
         photo: null,
     });
 
-    let photoPreview = null;
-    let photoElement;
+    let photoPreview = $state(null);
+    let photoElement = $state();
 
     function updateProfileInformation() {
         if (photoElement) {
-            $form.photo = photoElement.files[0]
+            $profileForm.photo = photoElement.files[0]
         }
 
-        $form.post(route('user-profile-information.update'), {
+        $profileForm.post(route('user-profile-information.update'), {
             errorBag: 'updateProfileInformation',
             preserveScroll: true,
             onSuccess: () => clearPhotoFileInput(),
@@ -68,23 +67,23 @@
     }
 </script>
 
-<JetFormSection on:submitted={updateProfileInformation}>
-    <svelte:fragment slot="title">
+<JetFormSection submitted={updateProfileInformation}>
+    {#snippet title()}
         Profile Information
-    </svelte:fragment>
+    {/snippet}
 
-    <svelte:fragment slot="description">
+    {#snippet description()}
         Update your account's profile information and email address.
-    </svelte:fragment>
+    {/snippet}
 
-    <svelte:fragment slot="form">
+    {#snippet form()}
         <!-- Profile Photo -->
         {#if $page.props.jetstream.managesProfilePhotos}
             <div class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
                 <input type="file" class="hidden"
                        bind:this={photoElement}
-                       on:change={updatePhotoPreview}>
+                       onchange={updatePhotoPreview}>
 
                 <JetLabel id="photo" label="Photo"/>
 
@@ -98,50 +97,47 @@
                 <!-- New Profile Photo Preview -->
                 {#if photoPreview}
                     <div class="mt-2">
-                    <span class="block rounded-full size-20 bg-cover bg-no-repeat bg-center"
-                          style={'background-image: url(\'' + photoPreview + '\');'}>
-                    </span>
+                        <span class="block rounded-full size-20 bg-cover bg-no-repeat bg-center"
+                              style={'background-image: url(\'' + photoPreview + '\');'}>
+                        </span>
                     </div>
                 {/if}
 
-                <JetSecondaryButton class="mt-2 mr-2" type="button" on:clicked={selectNewPhoto}>
+                <JetSecondaryButton class="mt-2 mr-2" type="button" clicked={selectNewPhoto}>
                     Select A New Photo
                 </JetSecondaryButton>
 
                 {#if user.profile_photo_path}
-                    <JetSecondaryButton type="button" class="mt-2" on:clicked={deletePhoto}>
+                    <JetSecondaryButton type="button" class="mt-2" clicked={deletePhoto}>
                         Remove Photo
                     </JetSecondaryButton>
                 {/if}
 
-                <JetInputError message={$form.errors.photo} class="mt-2"/>
+                {#if $profileForm.errors.photo}
+                    <JetInputError message={$profileForm.errors.photo} class="mt-2"/>
+                {/if}
             </div>
         {/if}
 
         <!-- Name -->
         <div class="col-span-6 sm:col-span-4">
             <JetLabel id="name" label="Name"/>
-            <JetInput id="name" type="text" class="mt-1 block w-full" bind:value={$form.name} autocomplete="name"/>
-            <JetInputError message={$form.errors.name} class="mt-2"/>
+            <JetInput id="name" type="text" class="mt-1 block w-full" bind:value={$profileForm.name}
+                      autocomplete="name"/>
+            <JetInputError message={$profileForm.errors.name} class="mt-2"/>
         </div>
 
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <JetLabel id="email" label="Email"/>
-            <JetInput id="email" type="email" class="mt-1 block w-full" bind:value={$form.email}/>
-            <JetInputError message={$form.errors.email} class="mt-2"/>
+            <JetInput id="email" type="email" class="mt-1 block w-full" bind:value={$profileForm.email}/>
+            <JetInputError message={$profileForm.errors.email} class="mt-2"/>
         </div>
-    </svelte:fragment>
+    {/snippet}
 
-    <svelte:fragment slot="actions">
-        <!--
-        <jet-action-message :on="form.recentlySuccessful" class="mr-3">
-            Saved.
-        </jet-action-message>
-        -->
-
-        <JetButton class={$form.processing ? 'opacity-25' : ''} disabled={form.processing} type="submit">
+    {#snippet actions()}
+        <JetButton class={$profileForm.processing ? 'opacity-25' : ''} disabled={profileForm.processing} type="submit">
             Save
         </JetButton>
-    </svelte:fragment>
+    {/snippet}
 </JetFormSection>

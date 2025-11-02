@@ -1,15 +1,18 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
     import Modal from './Modal.svelte'
 
-    const dispatch = createEventDispatcher();
-
-    export let show = false;
-    export let maxWidth = '2xl';
-    export let closeable = true;
+    let {
+        show = false,
+        maxWidth = '2xl',
+        closeable = true,
+        title,
+        content,
+        footer,
+        close
+    } = $props();
 </script>
 
-<Modal {show} {maxWidth} {closeable} on:close={dispatch('close')}>
+<Modal {show} {maxWidth} {closeable} {close}>
     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 dark:bg-gray-900">
         <div class="sm:flex sm:items-start">
             <div
@@ -22,17 +25,17 @@
 
             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left dark:text-white">
                 <h3 class="text-lg">
-                    <slot name="title"/>
+                    {@render title?.()}
                 </h3>
 
                 <div class="mt-2">
-                    <slot name="content"/>
+                    {@render content?.()}
                 </div>
             </div>
         </div>
     </div>
 
     <div class="flex flex-row justify-end gap-x-3 px-6 py-4 bg-gray-100 text-right border-t border-gray-200 dark:bg-gray-950 dark:border-gray-800">
-        <slot name="footer"/>
+        {@render footer?.()}
     </div>
 </Modal>

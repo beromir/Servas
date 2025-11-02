@@ -1,5 +1,5 @@
 <script>
-    export let title = '';
+    let { title = '', children } = $props();
 </script>
 
 <div class="py-1" role="none">
@@ -8,5 +8,5 @@
             {title}
         </div>
     {/if}
-    <slot/>
+    {@render children?.()}
 </div>

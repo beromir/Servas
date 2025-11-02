@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import AppLayout, {title, showHeader} from "@/Layouts/AppLayout/AppLayout.svelte";
 
     export const layout = AppLayout;
@@ -16,18 +16,23 @@
     import Modal from "@/Components/Modals/Modal.svelte";
     import Button from "@/Components/Buttons/Button.svelte";
 
-    export let group = {};
-    export let links = [];
-    export let publicLink = {};
-    export let searchString = '';
-    export let filteredTags = [];
-    export let showUntaggedOnly = false;
+    let {
+        group = {},
+        links = [],
+        publicLink = {},
+        searchString = '',
+        filteredTags = [],
+        showUntaggedOnly = false
+    } = $props();
 
-    let showMenuDropdown = false;
-    let showPublicLinkModal = false;
-    let publicLinkCopied = false;
+    let showMenuDropdown = $state(false);
+    let showPublicLinkModal = $state(false);
+    let publicLinkCopied = $state(false);
 
-    $: $title = group.title;
+    $effect(() => {
+        $title = group.title;
+    });
+
     $showHeader = false;
 
     function handleGroupMenuAction(action) {
@@ -65,63 +70,73 @@
 </script>
 
 <Main title={group.title}>
-    <svelte:fragment slot="toolbar">
-        <div class="relative inline-flex ml-auto">
-            <button on:click={() => showMenuDropdown = !showMenuDropdown} type="button"
-                    class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="size-8">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
-                </svg>
-            </button>
+    {#snippet toolbar()}
 
-            <Dropdown bind:showDropdown={showMenuDropdown} openingDirection="left"
-                      class="top-full !mt-0 !w-44 !origin-top-right">
-                <InnerDropdownSection>
-                    <DropdownItem on:clicked={() => handleGroupMenuAction('editGroup')} title="Edit">
-                        <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path
-                                d="M5.433 13.917l1.262-3.155A4 4 0 017.58 9.42l6.92-6.918a2.121 2.121 0 013 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 01-.65-.65z"/>
-                            <path
-                                d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0010 3H4.75A2.75 2.75 0 002 5.75v9.5A2.75 2.75 0 004.75 18h9.5A2.75 2.75 0 0017 15.25V10a.75.75 0 00-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5z"/>
-                        </svg>
-                    </DropdownItem>
+            <div class="relative inline-flex ml-auto">
+                <button onclick={() => showMenuDropdown = !showMenuDropdown} type="button"
+                        class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="size-8">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
+                    </svg>
+                </button>
 
-                    {#if !publicLink.id}
-                        <DropdownItem on:clicked={createPublicLink} title="Share">
-                            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z"/>
-                                <path
-                                    d="M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z"/>
-                            </svg>
+                <Dropdown bind:showDropdown={showMenuDropdown} openingDirection="left"
+                          class="top-full !mt-0 !w-44 !origin-top-right">
+                    <InnerDropdownSection>
+                        <DropdownItem clicked={() => handleGroupMenuAction('editGroup')} title="Edit">
+                            {#snippet icon()}
+                                                <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M5.433 13.917l1.262-3.155A4 4 0 017.58 9.42l6.92-6.918a2.121 2.121 0 013 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 01-.65-.65z"/>
+                                    <path
+                                        d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0010 3H4.75A2.75 2.75 0 002 5.75v9.5A2.75 2.75 0 004.75 18h9.5A2.75 2.75 0 0017 15.25V10a.75.75 0 00-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5z"/>
+                                </svg>
+                                            {/snippet}
                         </DropdownItem>
-                    {/if}
 
-                    <DropdownItem on:clicked={() => handleGroupMenuAction('deleteGroup')} title="Delete"
-                                  color="alert">
-                        <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd"
-                                  d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z"
-                                  clip-rule="evenodd"/>
+                        {#if !publicLink.id}
+                            <DropdownItem clicked={createPublicLink} title="Share">
+                                {#snippet icon()}
+                                                        <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path
+                                            d="M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z"/>
+                                        <path
+                                            d="M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z"/>
+                                    </svg>
+                                                    {/snippet}
+                            </DropdownItem>
+                        {/if}
+
+                        <DropdownItem clicked={() => handleGroupMenuAction('deleteGroup')} title="Delete"
+                                      color="alert">
+                            {#snippet icon()}
+                                                <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                          d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                                            {/snippet}
+                        </DropdownItem>
+                    </InnerDropdownSection>
+                </Dropdown>
+            </div>
+
+            {#if publicLink.id}
+                <Button clicked={() => showPublicLinkModal = true} color="white" hoverTitle="Public link" class="ml-4 !w-auto">
+                    {#snippet icon()}
+                                <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path
+                                d="M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z"/>
+                            <path
+                                d="M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z"/>
                         </svg>
-                    </DropdownItem>
-                </InnerDropdownSection>
-            </Dropdown>
-        </div>
+                            {/snippet}
+                </Button>
+            {/if}
 
-        {#if publicLink.id}
-            <Button on:clicked={() => showPublicLinkModal = true} color="white" hoverTitle="Public link" class="ml-4 !w-auto">
-                <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path
-                        d="M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z"/>
-                    <path
-                        d="M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z"/>
-                </svg>
-            </Button>
-        {/if}
-    </svelte:fragment>
+    {/snippet}
 
     {#if links.length !== 0}
         <LinkListWithTagFilter {links} {searchString} {filteredTags} {showUntaggedOnly}/>
@@ -136,7 +151,7 @@
     <div class="flex justify-between items-center gap-x-4 mt-1">
         <div class="text-sm text-gray-700 font-medium break-all select-all dark:text-gray-50">{publicLink.link}</div>
 
-        <button on:click={() => copyLink(publicLink.link, publicLink.id)} type="button"
+        <button onclick={() => copyLink(publicLink.link, publicLink.id)} type="button"
                 class="flex items-center gap-x-1.5 group">
             {#if publicLinkCopied}
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -162,16 +177,20 @@
         </button>
     </div>
 
-    <svelte:fragment slot="footer">
-        <Button on:clicked={showPublicLinkDeleteModal} color="red"
-                class="focus:ring-offset-gray-50">
-            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                      d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                      clip-rule="evenodd"/>
-            </svg>
-        </Button>
-        <Button on:clicked={() => showPublicLinkModal = false} title="Close" color="white"
-                class="hidden focus:ring-offset-gray-50 sm:block"/>
-    </svelte:fragment>
+    {#snippet footer()}
+
+            <Button clicked={showPublicLinkDeleteModal} color="red"
+                    class="focus:ring-offset-gray-50">
+                {#snippet icon()}
+                        <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                              d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                    {/snippet}
+            </Button>
+            <Button clicked={() => showPublicLinkModal = false} title="Close" color="white"
+                    class="hidden focus:ring-offset-gray-50 sm:block"/>
+
+    {/snippet}
 </Modal>

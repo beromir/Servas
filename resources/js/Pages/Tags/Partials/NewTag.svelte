@@ -1,22 +1,21 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
     import Button from "@/Components/Buttons/Button.svelte";
     import Input from '@/Components/Inputs/Input.svelte';
     import {useForm} from "@inertiajs/svelte";
     import {route, dispatchCustomEvent} from "@/utils";
     import {refreshTags} from "@/stores";
 
-    const dispatch = createEventDispatcher();
-
-    export let modeIsEdit = false;
+    let {modeIsEdit = $bindable(false)} = $props();
     let tag = {};
-    let input;
+    let input = $state();
 
     let form = useForm({
         tagName: null,
     });
 
-    function createTag() {
+    function createTag(event) {
+        event.preventDefault();
+
         $form.clearErrors();
         $form.post(route('tags.store'), {
             preserveScroll: true,
@@ -27,7 +26,9 @@
         });
     }
 
-    function editTag() {
+    function editTag(event) {
+        event.preventDefault();
+
         $form.clearErrors();
         $form.patch(route('tags.update', tag.id), {
             preserveScroll: true,
@@ -59,9 +60,9 @@
     export const focus = () => input.focus();
 </script>
 
-<svelte:window on:tagDeletionWasSuccessful={endEditMode}/>
+<svelte:window ontagDeletionWasSuccessful={endEditMode}/>
 
-<form on:submit|preventDefault={modeIsEdit ? editTag : createTag} class="space-y-3 sm:flex sm:space-x-3 sm:space-y-0">
+<form onsubmit={modeIsEdit ? editTag : createTag} class="space-y-3 sm:flex sm:space-x-3 sm:space-y-0">
     <div class="w-full sm:max-w-xs">
         <Input placeholder="Enter tag name..." bind:value={$form.tagName} bind:this={input}/>
     </div>
@@ -73,7 +74,7 @@
         <div class="flex items-center">
             <Button
                 title="Delete tag"
-                on:clicked={deleteTag}
+                clicked={deleteTag}
                 color="white"
                 class="whitespace-nowrap focus:ring-offset-gray-100">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -83,7 +84,7 @@
                 </svg>
             </Button>
 
-            <button on:click={endEditMode} type="button"
+            <button onclick={endEditMode} type="button"
                     class="w-full text-gray-700 text-sm focus:outline-none focus:ring-primary-400 focus:ring-offset-gray-100 focus:ring-2 focus:ring-offset-2 sm:ml-3 dark:text-gray-200">
                 Cancel
             </button>

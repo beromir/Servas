@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import {writable} from 'svelte/store';
 
     export const title = writable(null);
@@ -8,6 +8,8 @@
     import {page} from '@inertiajs/svelte';
     import {initTheme} from "@/utils/theme.js";
     import {onMount} from "svelte";
+
+    let { children } = $props();
 
     let appName = $page.props.appName;
 
@@ -20,4 +22,4 @@
     <title>{$title ? `${$title} | ${appName}` : appName}</title>
 </svelte:head>
 
-<slot/>
+{@render children?.()}

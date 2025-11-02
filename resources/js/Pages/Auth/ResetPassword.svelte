@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import GuestLayout, {title} from "@/Layouts/GuestLayout.svelte";
 
     export const layout = GuestLayout;
@@ -14,8 +14,7 @@
     import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    export let email = '';
-    export let token = '';
+    let {email = '', token = ''} = $props();
 
     let form = useForm({
         token: token,
@@ -26,7 +25,9 @@
 
     $title = 'Reset Password';
 
-    function submit() {
+    function submit(event) {
+        event.preventDefault();
+
         $form.post(route('password.update'), {
             onFinish: () => $form.reset('password', 'password_confirmation'),
         });
@@ -34,13 +35,13 @@
 </script>
 
 <JetAuthenticationCard>
-    <svelte:fragment slot="logo">
+    {#snippet logo()}
         <JetAuthenticationCardLogo/>
-    </svelte:fragment>
+    {/snippet}
 
     <JetValidationErrors hasErrors={$form.hasErrors} class="mb-4"/>
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div>
             <JetLabel id="email" label="Email"/>
             <JetInput id="email" type="email" class="mt-1 block w-full" bind:value={$form.email} required autofocus/>

@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import GuestLayout, {title} from "@/Layouts/GuestLayout.svelte";
 
     export const layout = GuestLayout;
@@ -12,7 +12,7 @@
     import Text from "@/Components/FormLayouts/Inputs/Text.svelte";
     import SubmitButton from "@/Components/Auth/SubmitButton.svelte";
 
-    let recovery = false;
+    let recovery = $state(false);
 
     let form = useForm({
         code: '',
@@ -21,7 +21,9 @@
 
     $title = 'Two-factor Confirmation';
 
-    async function toggleRecovery() {
+    async function toggleRecovery(event) {
+        event.preventDefault();
+
         recovery = !recovery;
 
         await tick();
@@ -33,7 +35,9 @@
         }
     }
 
-    function submit() {
+    function submit(event) {
+        event.preventDefault();
+
         $form.post(route('two-factor.login'));
     }
 </script>
@@ -49,7 +53,7 @@
         {/if}
     </div>
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         {#if !recovery}
             <Text name="code" label="Code" bind:value={$form.code} error={$form.errors.code}
                   inputmode="numeric" autofocus autocomplete="one-time-code"/>
@@ -62,8 +66,9 @@
         {/if}
 
         <div class="flex justify-end mt-2">
-            <button type="button" class="text-sm text-gray-600 cursor-pointer hover:text-gray-800 dark:text-gray-200 dark:hover:text-white"
-                    on:click|preventDefault={toggleRecovery}>
+            <button type="button"
+                    class="text-sm text-gray-600 cursor-pointer hover:text-gray-800 dark:text-gray-200 dark:hover:text-white"
+                    onclick={toggleRecovery}>
                 {#if !recovery}
                     Use a recovery code
 

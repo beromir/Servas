@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
     import GuestLayout, {title} from "@/Layouts/GuestLayout.svelte";
 
     export const layout = GuestLayout;
@@ -11,23 +11,25 @@
     import {useForm, inertia} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    export let status = '';
+    let {status = ''} = $props();
 
     let form = useForm({});
 
     $title = 'Email Verification';
 
-    $: verificationLinkSent = status === 'verification-link-sent';
+    let verificationLinkSent = $derived(status === 'verification-link-sent');
 
-    function submit() {
+    function submit(event) {
+        event.preventDefault();
+
         $form.post(route('verification.send'));
     }
 </script>
 
 <JetAuthenticationCard>
-    <svelte:fragment slot="logo">
+    {#snippet logo()}
         <JetAuthenticationCardLogo/>
-    </svelte:fragment>
+    {/snippet}
 
     <div class="mb-4 text-sm text-gray-600">
         Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we
@@ -40,7 +42,7 @@
         </div>
     {/if}
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div class="mt-4 flex items-center justify-between">
             <JetButton class={$form.processing ? 'opacity-25' : ''} disabled={$form.processing} type="submit">
                 Resend Verification Email

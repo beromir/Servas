@@ -1,7 +1,7 @@
 <script>
-    export let classNames = '';
+    let { classNames = '', children } = $props();
 </script>
 
 <div class={[classNames, 'px-4 sm:px-0'].join(' ').trim()}>
-    <slot/>
+    {@render children?.()}
 </div>
