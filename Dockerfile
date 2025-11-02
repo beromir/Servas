@@ -10,7 +10,7 @@ RUN composer install --optimize-autoloader --no-dev && \
     composer dump-autoload --no-dev --classmap-authoritative
 
 
-FROM node:20.11-alpine AS asset_builder
+FROM node:24.11-alpine AS asset_builder
 WORKDIR /app
 
 COPY ./package.json ./
