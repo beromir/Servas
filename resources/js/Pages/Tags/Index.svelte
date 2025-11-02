@@ -25,7 +25,7 @@
 
         <div class="pt-6 space-y-4 -mt-4">
             {#each tags as tag (tag.id)}
-                <Badge on:clicked={() => newTagComponent.initEditMode(tag)} class="mr-2 first:mt-4 last:mr-0"
+                <Badge clicked={() => newTagComponent.initEditMode(tag)} class="mr-2 first:mt-4 last:mr-0"
                        title={tag.name}/>
             {:else}
                 <EmptyStateWithAction on:clicked={() => newTagComponent.focus()} title="Add a new tag"

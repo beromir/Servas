@@ -318,11 +318,11 @@
     </p>
 
     {#snippet footer()}
-    
-            <Button on:clicked={() => showLinkDeletionModal = false} title="Cancel" color="white"
+
+            <Button clicked={() => showLinkDeletionModal = false} title="Cancel" color="white"
                     class="hidden focus:ring-offset-gray-50 sm:block"/>
-            <Button on:clicked={() => bulkEditLinks('delete')} title="Delete" color="red" focusButton={true}
+            <Button clicked={() => bulkEditLinks('delete')} title="Delete" color="red" focusButton={true}
                     class="focus:ring-offset-gray-50"/>
-        
+
     {/snippet}
 </Modal>

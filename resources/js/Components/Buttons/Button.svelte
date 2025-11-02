@@ -1,20 +1,7 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
     import {focusSelf} from "@/utils";
     import clsx from "clsx";
 
-    const dispatch = createEventDispatcher();
-    /**
-     * @typedef {Object} Props
-     * @property {string} [type]
-     * @property {any} [title]
-     * @property {any} [color]
-     * @property {string} [hoverTitle]
-     * @property {boolean} [focusButton]
-     * @property {import('svelte').Snippet} [icon]
-     */
-
-    /** @type {Props & { [key: string]: any }} */
     let {
         type = 'button',
         title = null,
@@ -22,6 +9,7 @@
         hoverTitle = '',
         focusButton = false,
         icon,
+        clicked,
         ...rest
     } = $props();
 
@@ -48,7 +36,7 @@
 
 <button
     {...rest} {type}
-    onclick={() => {dispatch('clicked')}}
+    onclick={clicked}
     class={clsx(
         'w-full inline-flex justify-center items-center py-2 border shadow-sm text-sm font-medium rounded-md select-none focus:outline-none focus:ring-2 focus:ring-offset-2 md:w-auto dark:focus:ring-offset-gray-900',
         '[&>svg]:size-5',

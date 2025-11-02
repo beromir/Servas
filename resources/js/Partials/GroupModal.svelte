@@ -119,12 +119,12 @@
 
 <Modal title={isEditing ? 'Edit group' : 'Create group'} showFooterMenuOnMobile={false} bind:showModal>
     {#snippet mobilePrimaryAction()}
-    
+
             <button onclick={isEditing ? updateGroup : createGroup}
                     class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100" type="button">
                 {isEditing ? 'Edit' : 'Create'}
             </button>
-        
+
     {/snippet}
 
     <Container>
@@ -136,7 +136,7 @@
                 Groups
             </span>
             <div class="max-w-xl mt-1 relative sm:mt-0 sm:col-span-2">
-                <Button on:clicked={groupSelectMenu.openModal}
+                <Button clicked={groupSelectMenu.openModal}
                         title={selectedGroups.length ? `${selectedGroups.length} Group${selectedGroups.length > 1 ? 's' : ''} selected` : 'Select group'}
                         color="white"/>
             </div>
@@ -169,13 +169,13 @@
     </Container>
 
     {#snippet footer()}
-    
-            <Button on:clicked={() => showModal = false} title="Cancel" color="white"
+
+            <Button clicked={() => showModal = false} title="Cancel" color="white"
                     class="focus:ring-offset-gray-50"/>
-            <Button on:clicked={isEditing ? updateGroup : createGroup}
+            <Button clicked={isEditing ? updateGroup : createGroup}
                     title={isEditing ? 'Edit group' : 'Create group'}
                     class="focus:ring-offset-gray-50"/>
-        
+
     {/snippet}
 </Modal>
 

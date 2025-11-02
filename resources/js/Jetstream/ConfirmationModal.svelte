@@ -25,7 +25,7 @@
     } = $props();
 </script>
 
-<Modal {show} {maxWidth} {closeable} on:close={dispatch('close')}>
+<Modal {show} {maxWidth} {closeable} close={dispatch('close')}>
     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 dark:bg-gray-900">
         <div class="sm:flex sm:items-start">
             <div

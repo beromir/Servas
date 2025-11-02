@@ -74,7 +74,7 @@
         <div class="flex items-center">
             <Button
                 title="Delete tag"
-                on:clicked={deleteTag}
+                clicked={deleteTag}
                 color="white"
                 class="whitespace-nowrap focus:ring-offset-gray-100">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

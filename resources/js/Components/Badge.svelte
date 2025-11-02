@@ -1,25 +1,14 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
+    import clsx from "clsx";
 
-    const dispatch = createEventDispatcher();
-
-    /**
-     * @typedef {Object} Props
-     * @property {any} title
-     * @property {string} [color]
-     * @property {boolean} [large]
-     * @property {boolean} [noHover]
-     * @property {boolean} [rounded]
-     */
-
-    /** @type {Props & { [key: string]: any }} */
     let {
         title,
         color = '',
         large = true,
         noHover = false,
         rounded = false,
-        ...rest
+        clicked,
+        ...props
     } = $props();
 
     function getColorClasses() {
@@ -42,8 +31,7 @@
     let roundedClasses = $derived(rounded ? 'rounded' : 'rounded-full');
 </script>
 
-<span onclick={() => dispatch('clicked')} {...rest}
-      class={['inline-flex items-center font-medium select-none',
-      rest.class, getColorClasses(), sizeClasses, hoverClasses, roundedClasses].join(' ').trim()}>
+<span onclick={clicked} {...props}
+      class={clsx('inline-flex items-center font-medium select-none', getColorClasses(), sizeClasses, hoverClasses, roundedClasses, props.class)}>
     {title}
 </span>

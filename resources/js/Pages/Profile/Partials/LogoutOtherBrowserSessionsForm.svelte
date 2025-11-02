@@ -42,19 +42,19 @@
 
 <JetActionSection>
     {#snippet title()}
-    
+
             Browser Sessions
-        
+
     {/snippet}
 
     {#snippet description()}
-    
+
             Manage and log out your active sessions on other browsers and devices.
-        
+
     {/snippet}
 
     {#snippet content()}
-    
+
             <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
                 If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your
                 recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has
@@ -111,7 +111,7 @@
             {/if}
 
             <div class="flex items-center mt-5">
-                <JetButton on:clicked={confirmLogout}>
+                <JetButton clicked={confirmLogout}>
                     Log Out Other Browser Sessions
                 </JetButton>
 
@@ -125,13 +125,13 @@
             <!-- Log Out Other Devices Confirmation Modal -->
             <JetDialogModal show={confirmingLogout} on:close={closeModal}>
                 {#snippet title()}
-                    
+
                         Log Out Other Browser Sessions
-                    
+
                     {/snippet}
 
                 {#snippet content()}
-                    
+
                         Please enter your password to confirm you would like to log out of your other browser
                         sessions across
                         all of your devices.
@@ -142,21 +142,21 @@
 
                             <JetInputError message={$form.errors.password} class="mt-2"/>
                         </div>
-                    
+
                     {/snippet}
 
                 {#snippet footer()}
-                    
+
                         <JetSecondaryButton on:clicked={closeModal}>
                             Cancel
                         </JetSecondaryButton>
 
-                        <JetButton class="ml-3" on:clicked={logoutOtherBrowserSessions}>
+                        <JetButton class="ml-3" clicked={logoutOtherBrowserSessions}>
                             Log Out Other Browser Sessions
                         </JetButton>
-                    
+
                     {/snippet}
             </JetDialogModal>
-        
+
     {/snippet}
 </JetActionSection>

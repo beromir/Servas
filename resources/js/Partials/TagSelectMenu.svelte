@@ -126,12 +126,12 @@
 
 <Modal bind:showModal on:canceled={reset} title={title} showFooterMenuOnMobile={false}>
     {#snippet mobilePrimaryAction()}
-    
+
             <button onclick={saveChanges}
                     class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100" type="button">
                 {primaryButtonTitle}
             </button>
-        
+
     {/snippet}
 
     <!-- Search input -->
@@ -226,11 +226,11 @@
     </div>
 
     {#snippet footer()}
-    
-            <Button on:clicked={reset} title="Cancel" color="white"
+
+            <Button clicked={reset} title="Cancel" color="white"
                     class="focus:ring-offset-gray-50 dark:focus:ring-offset-gray-950"/>
-            <Button on:clicked={saveChanges} title={primaryButtonTitle}
+            <Button clicked={saveChanges} title={primaryButtonTitle}
                     class="focus:ring-offset-gray-50 dark:focus:ring-offset-gray-950"/>
-        
+
     {/snippet}
 </Modal>

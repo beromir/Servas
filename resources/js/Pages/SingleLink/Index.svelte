@@ -10,7 +10,6 @@
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import Badge from "@/Components/Badge.svelte";
     import {inertia, Link} from "@inertiajs/svelte";
-    import Button from "@/Components/Buttons/Button.svelte";
 
     let { link = {} } = $props();
 

@@ -83,7 +83,7 @@
 
 <Main title={group.title}>
     {#snippet toolbar()}
-    
+
             <div class="relative inline-flex ml-auto">
                 <button onclick={() => showMenuDropdown = !showMenuDropdown} type="button"
                         class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
@@ -136,7 +136,7 @@
             </div>
 
             {#if publicLink.id}
-                <Button on:clicked={() => showPublicLinkModal = true} color="white" hoverTitle="Public link" class="ml-4 !w-auto">
+                <Button clicked={() => showPublicLinkModal = true} color="white" hoverTitle="Public link" class="ml-4 !w-auto">
                     {#snippet icon()}
                                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path
@@ -147,7 +147,7 @@
                             {/snippet}
                 </Button>
             {/if}
-        
+
     {/snippet}
 
     {#if links.length !== 0}
@@ -190,8 +190,8 @@
     </div>
 
     {#snippet footer()}
-    
-            <Button on:clicked={showPublicLinkDeleteModal} color="red"
+
+            <Button clicked={showPublicLinkDeleteModal} color="red"
                     class="focus:ring-offset-gray-50">
                 {#snippet icon()}
                         <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -201,8 +201,8 @@
                     </svg>
                     {/snippet}
             </Button>
-            <Button on:clicked={() => showPublicLinkModal = false} title="Close" color="white"
+            <Button clicked={() => showPublicLinkModal = false} title="Close" color="white"
                     class="hidden focus:ring-offset-gray-50 sm:block"/>
-        
+
     {/snippet}
 </Modal>

@@ -25,7 +25,7 @@
     } = $props();
 </script>
 
-<Modal {show} {maxWidth} {closeable} on:close={dispatch('close')}>
+<Modal {show} {maxWidth} {closeable} close={dispatch('close')}>
     <div class="px-6 py-4">
         <div class="text-lg dark:text-white">
             {@render title?.()}

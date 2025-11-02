@@ -142,13 +142,13 @@
 
 <Modal title="Select a group" bind:showModal showFooterMenuOnMobile={false}>
     {#snippet mobilePrimaryAction()}
-    
+
             <button onclick={saveChanges}
                     class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100"
                     type="button">
                 Select
             </button>
-        
+
     {/snippet}
 
     <div class="border-b border-gray-300 dark:border-gray-600">
@@ -188,7 +188,7 @@
     <div class="mt-5">
         {#if showSelectView}
             <div class="flex gap-x-2">
-                <Button on:clicked={goBack} color="white" class="!ring-0 md:!w-full">
+                <Button clicked={goBack} color="white" class="!ring-0 md:!w-full">
                     {#snippet icon()}
                                         <svg  class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                              fill="currentColor">
@@ -198,7 +198,7 @@
                         </svg>
                                     {/snippet}
                 </Button>
-                <Button on:clicked={() => filterByGroup(null)} color="white" class="!ring-0 md:!w-full">
+                <Button clicked={() => filterByGroup(null)} color="white" class="!ring-0 md:!w-full">
                     {#snippet icon()}
                                         <svg  class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                              fill="currentColor">
@@ -274,11 +274,11 @@
     </div>
 
     {#snippet footer()}
-    
-            <Button on:clicked={() => showModal = false} title="Cancel" color="white"
+
+            <Button clicked={() => showModal = false} title="Cancel" color="white"
                     class="hidden focus:ring-offset-gray-50 sm:block"/>
-            <Button on:clicked={saveChanges} title="Select"
+            <Button clicked={saveChanges} title="Select"
                     class="focus:ring-offset-gray-50"/>
-        
+
     {/snippet}
 </Modal>

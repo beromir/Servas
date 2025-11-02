@@ -69,19 +69,19 @@
     <!-- Generate API Token -->
     <JetFormSection on:submitted={createApiToken}>
         {#snippet title()}
-            
+
                 Create API Token
-            
+
             {/snippet}
 
         {#snippet description()}
-            
+
                 API tokens allow third-party services to authenticate with our application on your behalf.
-            
+
             {/snippet}
 
         {#snippet form()}
-            
+
                 <!-- Token Name -->
                 <div class="col-span-6 sm:col-span-4">
                     <JetLabel id="name" label="Name"/>
@@ -106,11 +106,11 @@
                         </div>
                     </div>
                 {/if}
-            
+
             {/snippet}
 
         {#snippet actions()}
-            
+
                 <!--
                 <jet-action-message :on="createApiTokenForm.recentlySuccessful" class="mr-3">
                     Created.
@@ -121,7 +121,7 @@
                            disabled={$createApiTokenForm.processing}>
                     Create
                 </JetButton>
-            
+
             {/snippet}
     </JetFormSection>
 
@@ -132,20 +132,20 @@
         <div class="mt-10 sm:mt-0">
             <JetActionSection>
                 {#snippet title()}
-                            
+
                         Manage API Tokens
-                    
+
                             {/snippet}
 
                 {#snippet description()}
-                            
+
                         You may delete any of your existing tokens if they are no longer needed.
-                    
+
                             {/snippet}
 
                 <!-- API Token List -->
                 {#snippet content()}
-                            
+
                         <div class="space-y-6">
                             {#each tokens as token (token.id)}
                                 <div class="flex items-center justify-between">
@@ -176,7 +176,7 @@
                                 </div>
                             {/each}
                         </div>
-                    
+
                             {/snippet}
             </JetActionSection>
         </div>
@@ -185,13 +185,13 @@
     <!-- Token Value Modal -->
     <JetDialogModal show={displayingToken} on:close={() => displayingToken = false}>
         {#snippet title()}
-            
+
                 API Token
-            
+
             {/snippet}
 
         {#snippet content()}
-            
+
                 <div class="dark:text-white">
                     Please copy your new API token. For your security, it won't be shown again.
                 </div>
@@ -201,28 +201,28 @@
                         {$page.props.jetstream.flash.token}
                     </div>
                 {/if}
-            
+
             {/snippet}
 
         {#snippet footer()}
-            
+
                 <JetSecondaryButton on:clicked={() => displayingToken = false}>
                     Close
                 </JetSecondaryButton>
-            
+
             {/snippet}
     </JetDialogModal>
 
     <!-- API Token Permissions Modal -->
     <JetDialogModal show={managingPermissionsFor} on:close={() => managingPermissionsFor = null}>
         {#snippet title()}
-            
+
                 API Token Permissions
-            
+
             {/snippet}
 
         {#snippet content()}
-            
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {#each availablePermissions as permission (permission)}
                         <label class="flex items-center">
@@ -232,40 +232,40 @@
                         </label>
                     {/each}
                 </div>
-            
+
             {/snippet}
 
         {#snippet footer()}
-            
+
                 <JetSecondaryButton on:clicked={() => managingPermissionsFor = null}>
                     Cancel
                 </JetSecondaryButton>
 
-                <JetButton on:clicked={updateApiToken}
+                <JetButton clicked={updateApiToken}
                            class={$updateApiTokenForm.processing ? 'ml-3 opacity-25' : 'ml-3'}
                            disabled={$updateApiTokenForm.processing}>
                     Save
                 </JetButton>
-            
+
             {/snippet}
     </JetDialogModal>
 
     <!-- Delete Token Confirmation Modal -->
     <JetConfirmationModal show={apiTokenBeingDeleted} on:close={() => apiTokenBeingDeleted = null}>
         {#snippet title()}
-            
+
                 Delete API Token
-            
+
             {/snippet}
 
         {#snippet content()}
-            
+
                 Are you sure you would like to delete this API token?
-            
+
             {/snippet}
 
         {#snippet footer()}
-            
+
                 <JetSecondaryButton on:clicked={() => apiTokenBeingDeleted = null}>
                     Cancel
                 </JetSecondaryButton>
@@ -273,7 +273,7 @@
                 <JetDangerButton on:clicked={deleteApiToken} class="ml-3 disabled:opacity-25">
                     Delete
                 </JetDangerButton>
-            
+
             {/snippet}
     </JetConfirmationModal>
 </div>

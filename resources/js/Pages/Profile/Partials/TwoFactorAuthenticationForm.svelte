@@ -98,19 +98,19 @@
 
 <JetActionSection>
     {#snippet title()}
-    
+
             Two Factor Authentication
-        
+
     {/snippet}
 
     {#snippet description()}
-    
+
             Add additional security to your account using two factor authentication.
-        
+
     {/snippet}
 
     {#snippet content()}
-    
+
             {#if twoFactorEnabled && !confirming}
                 <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                     You have enabled two factor authentication.
@@ -195,20 +195,20 @@
 
             <div class="mt-5">
                 {#if !twoFactorEnabled}
-                    <JetConfirmsPassword on:confirmed={enableTwoFactorAuthentication}>
+                    <JetConfirmsPassword confirmed={enableTwoFactorAuthentication}>
                         <JetButton type="button" class={enabling ? 'opacity-25' : ''} disabled={enabling}>
                             Enable
                         </JetButton>
                     </JetConfirmsPassword>
 
                 {:else}
-                    <JetConfirmsPassword on:confirmed={confirmTwoFactorAuthentication}>
+                    <JetConfirmsPassword confirmed={confirmTwoFactorAuthentication}>
                         {#if confirming}
                             <JetButton type="button" class="mr-3">Confirm</JetButton>
                         {/if}
                     </JetConfirmsPassword>
 
-                    <JetConfirmsPassword on:confirmed={regenerateRecoveryCodes}>
+                    <JetConfirmsPassword confirmed={regenerateRecoveryCodes}>
                         {#if recoveryCodes.length > 0 && !confirming}
                             <JetSecondaryButton class="mr-3">
                                 Regenerate Recovery Codes
@@ -216,7 +216,7 @@
                         {/if}
                     </JetConfirmsPassword>
 
-                    <JetConfirmsPassword on:confirmed={showRecoveryCodes}>
+                    <JetConfirmsPassword confirmed={showRecoveryCodes}>
                         {#if recoveryCodes.length === 0 && !confirming}
                             <JetSecondaryButton class="mr-3">
                                 Show Recovery Codes
@@ -224,13 +224,13 @@
                         {/if}
                     </JetConfirmsPassword>
 
-                    <JetConfirmsPassword on:confirmed={disableTwoFactorAuthentication}>
+                    <JetConfirmsPassword confirmed={disableTwoFactorAuthentication}>
                         {#if confirming}
                             <JetSecondaryButton>Cancel</JetSecondaryButton>
                         {/if}
                     </JetConfirmsPassword>
 
-                    <JetConfirmsPassword on:confirmed={disableTwoFactorAuthentication}>
+                    <JetConfirmsPassword confirmed={disableTwoFactorAuthentication}>
                         {#if !confirming}
                             <JetDangerButton class={disabling ? 'opacity-25' : ''} disabled={disabling}>
                                 Disable
@@ -239,6 +239,6 @@
                     </JetConfirmsPassword>
                 {/if}
             </div>
-        
+
     {/snippet}
 </JetActionSection>

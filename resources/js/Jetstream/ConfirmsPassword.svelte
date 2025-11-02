@@ -1,5 +1,4 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
     import JetButton from './Button.svelte';
     import JetDialogModal from './DialogModal.svelte';
     import JetInput from './Input.svelte';
@@ -8,21 +7,11 @@
     import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    const dispatch = createEventDispatcher();
-
-    /**
-     * @typedef {Object} Props
-     * @property {string} [title]
-     * @property {string} [content]
-     * @property {string} [button]
-     * @property {import('svelte').Snippet} [children]
-     */
-
-    /** @type {Props} */
     let {
         title = 'Confirm Password',
         content = 'For your security, please confirm your password to continue.',
         button = 'Confirm',
+        confirmed,
         children
     } = $props();
 
@@ -37,7 +26,7 @@
     function startConfirmingPassword() {
         axios.get(route('password.confirmation')).then(response => {
             if (response.data.confirmed) {
-                dispatch('confirmed');
+                confirmed();
             } else {
                 confirmingPassword = true;
 
@@ -55,7 +44,7 @@
             $form.processing = false;
             closeModal()
             // this.$nextTick(() => this.$emit('confirmed'));
-            dispatch('confirmed');
+            confirmed();
         }).catch(error => {
             $form.processing = false;
             $form.setError('password', error.response.data.errors.password[0]);
@@ -70,42 +59,35 @@
 </script>
 
 <span>
-    <span onclick={startConfirmingPassword} aria-hidden="true">
+    <span aria-hidden="true" onclick={startConfirmingPassword}>
         {@render children?.()}
     </span>
 
-    <JetDialogModal show={confirmingPassword} on:close={closeModal}>
+    <JetDialogModal on:close={closeModal} show={confirmingPassword}>
         {#snippet title()}
-            
                 {title}
-            
-            {/snippet}
+        {/snippet}
 
         {#snippet content()}
-            
                 {content}
 
-                <div class="mt-4">
+            <div class="mt-4">
                     <JetInput type="password" class="mt-1 block w-3/4" placeholder="Password"
                               bind:this={passwordInput} bind:value={$form.password}/>
 
                     <JetInputError message={$form.errors.password} class="mt-2"/>
                 </div>
-            
-            {/snippet}
+        {/snippet}
 
-            {#snippet footer()}
-            
+        {#snippet footer()}
                 <JetSecondaryButton on:clicked={closeModal}>
                     Cancel
                 </JetSecondaryButton>
 
                 <JetButton class={['ml-3', $form.processing ? 'opacity-25' : ''].join(' ').trim()}
-                           on:clicked={confirmPassword}
-                           disabled={$form.processing}>
+                           clicked={confirmPassword} disabled={$form.processing}>
                     {button}
                 </JetButton>
-                
-            {/snippet}>
+        {/snippet}>
     </JetDialogModal>
 </span>

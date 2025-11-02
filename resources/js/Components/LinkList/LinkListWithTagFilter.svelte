@@ -70,7 +70,7 @@
     {#snippet toolbar()}
         <div class="w-full sm:flex sm:items-center sm:w-auto">
             {#if showTagFilter}
-                <Button on:clicked={handleFilterButtonClick} title="Filter by tags" color="white">
+                <Button clicked={handleFilterButtonClick} title="Filter by tags" color="white">
                     {#snippet icon()}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"

@@ -141,7 +141,7 @@
                 Groups
             </span>
             <div class="max-w-xl mt-1 relative sm:mt-0 sm:col-span-2">
-                <Button on:clicked={() => openGroupSelectMenu()}
+                <Button clicked={() => openGroupSelectMenu()}
                         title={selectedGroups.length ? `${selectedGroups.length} Group${selectedGroups.length > 1 ? 's' : ''} selected` : 'Select group'}
                         color="white"/>
             </div>
@@ -151,7 +151,7 @@
         <div class="space-y-3 sm:border-t sm:border-gray-200 sm:pt-2 dark:border-gray-700">
             {#each tags as tag (tag.id)}
                 <Badge
-                    on:clicked={() => toggleValueInArray(tag.id)}
+                    clicked={() => toggleValueInArray(tag.id)}
                     title={tag.name} large={false}
                     color={$linkForm.tags.includes(tag.id) ? '' : 'gray'}
                     class="mr-1.5 first:mt-3 last:mr-0"/>
@@ -160,9 +160,9 @@
     </Container>
 
     {#snippet footer()}
-        <Button on:clicked={() => showModal = false} title="Cancel" color="white"
+        <Button clicked={() => showModal = false} title="Cancel" color="white"
                 class="focus:ring-offset-gray-50"/>
-        <Button on:clicked={isEditing ? editLink : createLink}
+        <Button clicked={isEditing ? editLink : createLink}
                 title={isEditing ? 'Edit link' : 'Create link'}
                 class="focus:ring-offset-gray-50"/>
     {/snippet}
