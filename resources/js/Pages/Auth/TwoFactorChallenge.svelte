@@ -5,8 +5,6 @@
 </script>
 
 <script>
-    import { preventDefault } from 'svelte/legacy';
-
     import AuthenticationCard from "@/Components/Auth/AuthenticationCard.svelte";
     import {useForm} from "@inertiajs/svelte";
     import {tick} from 'svelte';
@@ -23,7 +21,9 @@
 
     $title = 'Two-factor Confirmation';
 
-    async function toggleRecovery() {
+    async function toggleRecovery(event) {
+        event.preventDefault();
+
         recovery = !recovery;
 
         await tick();
@@ -35,7 +35,9 @@
         }
     }
 
-    function submit() {
+    function submit(event) {
+        event.preventDefault();
+
         $form.post(route('two-factor.login'));
     }
 </script>
@@ -51,7 +53,7 @@
         {/if}
     </div>
 
-    <form onsubmit={preventDefault(submit)}>
+    <form onsubmit={submit}>
         {#if !recovery}
             <Text name="code" label="Code" bind:value={$form.code} error={$form.errors.code}
                   inputmode="numeric" autofocus autocomplete="one-time-code"/>
@@ -64,8 +66,9 @@
         {/if}
 
         <div class="flex justify-end mt-2">
-            <button type="button" class="text-sm text-gray-600 cursor-pointer hover:text-gray-800 dark:text-gray-200 dark:hover:text-white"
-                    onclick={preventDefault(toggleRecovery)}>
+            <button type="button"
+                    class="text-sm text-gray-600 cursor-pointer hover:text-gray-800 dark:text-gray-200 dark:hover:text-white"
+                    onclick={toggleRecovery}>
                 {#if !recovery}
                     Use a recovery code
 

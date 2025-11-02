@@ -5,15 +5,13 @@
 </script>
 
 <script>
-    import { preventDefault } from 'svelte/legacy';
-
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
     import {useForm, inertia} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    let { status = '' } = $props();
+    let {status = ''} = $props();
 
     let form = useForm({});
 
@@ -21,16 +19,16 @@
 
     let verificationLinkSent = $derived(status === 'verification-link-sent');
 
-    function submit() {
+    function submit(event) {
+        event.preventDefault();
+
         $form.post(route('verification.send'));
     }
 </script>
 
 <JetAuthenticationCard>
     {#snippet logo()}
-    
-            <JetAuthenticationCardLogo/>
-        
+        <JetAuthenticationCardLogo/>
     {/snippet}
 
     <div class="mb-4 text-sm text-gray-600">
@@ -44,7 +42,7 @@
         </div>
     {/if}
 
-    <form onsubmit={preventDefault(submit)}>
+    <form onsubmit={submit}>
         <div class="mt-4 flex items-center justify-between">
             <JetButton class={$form.processing ? 'opacity-25' : ''} disabled={$form.processing} type="submit">
                 Resend Verification Email

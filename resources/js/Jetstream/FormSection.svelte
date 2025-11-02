@@ -1,5 +1,4 @@
 <script>
-    import {preventDefault} from 'svelte/legacy';
     import JetSectionTitle from '@/Jetstream/SectionTitle.svelte';
 
     let {
@@ -21,6 +20,12 @@
 
     const title_render = $derived(title);
     const description_render = $derived(description);
+
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        submitted();
+    }
 </script>
 
 <div class="md:grid md:grid-cols-3 md:gap-6">
@@ -34,7 +39,7 @@
     </JetSectionTitle>
 
     <div class="mt-5 md:mt-0 md:col-span-2">
-        <form onsubmit={preventDefault(() => submitted())} bind:this={formSection} {...rest}>
+        <form onsubmit={handleSubmit} bind:this={formSection} {...rest}>
             <div class={['px-4 py-5 bg-white sm:p-6 shadow ring-contrast dark:bg-gray-900',
                  hasActions ? 'sm:rounded-tl-md sm:rounded-tr-md' : 'sm:rounded-md'].join(' ').trim()}>
                 <div class="grid grid-cols-6 gap-6">

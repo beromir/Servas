@@ -1,12 +1,12 @@
 <script>
-    import { stopPropagation } from 'svelte/legacy';
-
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from '@/Components/Modals/Modal.svelte';
     import {isUndefined} from "lodash";
     import clsx from "clsx";
 
-    let { selectedGroups = $bindable([]), changesSaved } = $props();
+    let {
+        selectedGroups = $bindable([]), changesSaved = () => {}
+    } = $props();
 
     let groups = [];
     let filteredGroups = $state([]);
@@ -55,7 +55,9 @@
         }
     }
 
-    function selectGroup(group) {
+    function selectGroup(group, event) {
+        event.stopPropagation();
+
         if (modeIsMultiSelect) {
             let index = getIndexOfGroupId(group.id, internalSelectedGroups);
 
@@ -139,13 +141,11 @@
 
 <Modal title="Select a group" bind:showModal showFooterMenuOnMobile={false}>
     {#snippet mobilePrimaryAction()}
-
-            <button onclick={saveChanges}
-                    class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100"
-                    type="button">
-                Select
-            </button>
-
+        <button onclick={saveChanges}
+                class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100"
+                type="button">
+            Select
+        </button>
     {/snippet}
 
     <div class="border-b border-gray-300 dark:border-gray-600">
@@ -187,22 +187,22 @@
             <div class="flex gap-x-2">
                 <Button clicked={goBack} color="white" class="!ring-0 md:!w-full">
                     {#snippet icon()}
-                                        <svg  class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                              fill="currentColor">
                             <path fill-rule="evenodd"
                                   d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
                                   clip-rule="evenodd"/>
                         </svg>
-                                    {/snippet}
+                    {/snippet}
                 </Button>
                 <Button clicked={() => filterByGroup(null)} color="white" class="!ring-0 md:!w-full">
                     {#snippet icon()}
-                                        <svg  class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                              fill="currentColor">
                             <path
                                 d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                         </svg>
-                                    {/snippet}
+                    {/snippet}
                 </Button>
             </div>
 
@@ -240,7 +240,7 @@
                                 </svg>
                             </div>
                         {/if}
-                        <button onclick={stopPropagation(() => selectGroup(group))} type="button"
+                        <button onclick={(event) => selectGroup(group, event)} type="button"
                                 class="text-sm text-gray-700 dark:text-gray-200">
                             {getIndexOfGroupId(group.id, internalSelectedGroups) !== -1 ? 'Unselect' : 'Select'}
                         </button>
@@ -257,7 +257,7 @@
                 {#each internalSelectedGroups as group (group.id)}
                     <li class="flex justify-between items-center text-gray-900 cursor-default select-none relative py-2.5 px-4 dark:text-white">
                         <div class="font-normal block truncate">{group.title}</div>
-                        <button onclick={stopPropagation(() => selectGroup(group))} type="button"
+                        <button onclick={(event) => selectGroup(group, event)} type="button"
                                 class="text-sm text-gray-700 dark:text-gray-200">
                             Unselect
                         </button>
@@ -271,11 +271,9 @@
     </div>
 
     {#snippet footer()}
-
-            <Button clicked={() => showModal = false} title="Cancel" color="white"
-                    class="hidden focus:ring-offset-gray-50 sm:block"/>
-            <Button clicked={saveChanges} title="Select"
-                    class="focus:ring-offset-gray-50"/>
-
+        <Button clicked={() => showModal = false} title="Cancel" color="white"
+                class="hidden focus:ring-offset-gray-50 sm:block"/>
+        <Button clicked={saveChanges} title="Select"
+                class="focus:ring-offset-gray-50"/>
     {/snippet}
 </Modal>

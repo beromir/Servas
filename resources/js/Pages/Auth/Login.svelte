@@ -5,8 +5,6 @@
 </script>
 
 <script>
-    import { preventDefault } from 'svelte/legacy';
-
     import {inertia, useForm} from '@inertiajs/svelte';
     import AuthenticationCard from '@/Components/Auth/AuthenticationCard.svelte'
     import {route} from '@/utils';
@@ -14,7 +12,7 @@
     import SubmitButton from "@/Components/Auth/SubmitButton.svelte";
     import Checkbox from "@/Components/FormLayouts/Inputs/Checkbox.svelte";
 
-    let { canResetPassword } = $props();
+    let {canResetPassword} = $props();
 
     $title = 'Log in';
 
@@ -24,7 +22,9 @@
         remember: true,
     });
 
-    function login() {
+    function login(event) {
+        event.preventDefault();
+
         $form.post(route('login'), {
             onSuccess: () => $form.reset('password'),
         });
@@ -32,7 +32,7 @@
 </script>
 
 <AuthenticationCard>
-    <form onsubmit={preventDefault(login)}>
+    <form onsubmit={login}>
         <div class="space-y-6">
             <Text name="email" label="Email address" type="email" bind:value={$form.email} error={$form.errors.email}
                   required

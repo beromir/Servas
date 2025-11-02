@@ -5,8 +5,6 @@
 </script>
 
 <script>
-    import { preventDefault } from 'svelte/legacy';
-
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
@@ -24,16 +22,16 @@
         email: '',
     });
 
-    function submit() {
+    function submit(event) {
+        event.preventDefault();
+
         $form.post(route('password.email'));
     }
 </script>
 
 <JetAuthenticationCard>
     {#snippet logo()}
-    
-            <JetAuthenticationCardLogo/>
-        
+        <JetAuthenticationCardLogo/>
     {/snippet}
 
     <div class="mb-4 text-sm text-gray-600">
@@ -49,7 +47,7 @@
 
     <JetValidationErrors hasErrors={$form.hasErrors} class="mb-4"/>
 
-    <form onsubmit={preventDefault(submit)}>
+    <form onsubmit={submit}>
         <div>
             <JetLabel id="email" label="Email"/>
             <JetInput id="email" type="email" class="mt-1 block w-full" bind:value={$form.email} required autofocus/>

@@ -5,8 +5,6 @@
 </script>
 
 <script>
-    import { preventDefault } from 'svelte/legacy';
-
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
@@ -22,7 +20,9 @@
         password: '',
     });
 
-    function submit() {
+    function submit(event) {
+        event.preventDefault();
+
         $form.post(route('password.confirm'), {
             onFinish: () => $form.reset(),
         });
@@ -31,9 +31,7 @@
 
 <JetAuthenticationCard>
     {#snippet logo()}
-    
-            <JetAuthenticationCardLogo/>
-        
+        <JetAuthenticationCardLogo/>
     {/snippet}
 
     <div class="mb-4 text-sm text-gray-600">
@@ -42,7 +40,7 @@
 
     <JetValidationErrors hasErrors={$form.hasErrors} class="mb-4"/>
 
-    <form onsubmit={preventDefault(submit)}>
+    <form onsubmit={submit}>
         <div>
             <JetLabel id="password" label="Password"/>
             <JetInput id="password" type="password" class="mt-1 block w-full" bind:value={$form.password} required

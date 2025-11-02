@@ -5,8 +5,6 @@
 </script>
 
 <script>
-    import { preventDefault } from 'svelte/legacy';
-
     import {Link, useForm} from '@inertiajs/svelte';
     import AuthenticationCard from "@/Components/Auth/AuthenticationCard.svelte";
     import SubmitButton from "@/Components/Auth/SubmitButton.svelte";
@@ -22,7 +20,9 @@
         terms: false,
     });
 
-    function register() {
+    function register(event) {
+        event.preventDefault();
+
         $form.post('/register', {
             onSuccess: () => $form.reset('password', 'password_confirmation'),
         });
@@ -30,7 +30,7 @@
 </script>
 
 <AuthenticationCard>
-    <form onsubmit={preventDefault(register)}>
+    <form onsubmit={register}>
         <div class="space-y-6">
             <Text name="name" label="Name" bind:value={$form.name} error={$form.errors.name} required autofocus
                   autocomplete="name"/>
@@ -50,7 +50,8 @@
         <div class="flex flex-col items-center mt-12">
             <SubmitButton title="Register"/>
 
-            <Link href="/login" class="mt-4 text-sm text-gray-600 hover:text-gray-800 dark:text-gray-200 dark:hover:text-white">
+            <Link href="/login"
+                  class="mt-4 text-sm text-gray-600 hover:text-gray-800 dark:text-gray-200 dark:hover:text-white">
                 Already registered
             </Link>
         </div>

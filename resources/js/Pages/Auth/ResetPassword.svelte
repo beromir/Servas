@@ -5,8 +5,6 @@
 </script>
 
 <script>
-    import { preventDefault } from 'svelte/legacy';
-
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
@@ -16,7 +14,7 @@
     import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    let { email = '', token = '' } = $props();
+    let {email = '', token = ''} = $props();
 
     let form = useForm({
         token: token,
@@ -27,7 +25,9 @@
 
     $title = 'Reset Password';
 
-    function submit() {
+    function submit(event) {
+        event.preventDefault();
+
         $form.post(route('password.update'), {
             onFinish: () => $form.reset('password', 'password_confirmation'),
         });
@@ -36,14 +36,12 @@
 
 <JetAuthenticationCard>
     {#snippet logo()}
-    
-            <JetAuthenticationCardLogo/>
-        
+        <JetAuthenticationCardLogo/>
     {/snippet}
 
     <JetValidationErrors hasErrors={$form.hasErrors} class="mb-4"/>
 
-    <form onsubmit={preventDefault(submit)}>
+    <form onsubmit={submit}>
         <div>
             <JetLabel id="email" label="Email"/>
             <JetInput id="email" type="email" class="mt-1 block w-full" bind:value={$form.email} required autofocus/>
