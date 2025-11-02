@@ -8,8 +8,6 @@
     import {route} from "@/utils";
 
     let {
-        title = 'Confirm Password',
-        content = 'For your security, please confirm your password to continue.',
         button = 'Confirm',
         confirmed,
         children
@@ -65,29 +63,29 @@
 
     <JetDialogModal close={closeModal} show={confirmingPassword}>
         {#snippet title()}
-                {title}
+            Confirm Password
         {/snippet}
 
         {#snippet content()}
-                {content}
+            For your security, please confirm your password to continue.
 
             <div class="mt-4">
-                    <JetInput type="password" class="mt-1 block w-3/4" placeholder="Password"
-                              bind:this={passwordInput} bind:value={$form.password}/>
+                <JetInput type="password" class="mt-1 block w-3/4" placeholder="Password"
+                          bind:this={passwordInput} bind:value={$form.password}/>
 
-                    <JetInputError message={$form.errors.password} class="mt-2"/>
+                <JetInputError message={$form.errors.password} class="mt-2"/>
                 </div>
         {/snippet}
 
         {#snippet footer()}
-                <JetSecondaryButton clicked={closeModal}>
-                    Cancel
-                </JetSecondaryButton>
+            <JetSecondaryButton clicked={closeModal}>
+                Cancel
+            </JetSecondaryButton>
 
-                <JetButton class={['ml-3', $form.processing ? 'opacity-25' : ''].join(' ').trim()}
-                           clicked={confirmPassword} disabled={$form.processing}>
-                    {button}
-                </JetButton>
+            <JetButton class={['ml-3', $form.processing ? 'opacity-25' : ''].join(' ').trim()}
+                       clicked={confirmPassword} disabled={$form.processing}>
+                {button}
+            </JetButton>
         {/snippet}>
     </JetDialogModal>
 </span>

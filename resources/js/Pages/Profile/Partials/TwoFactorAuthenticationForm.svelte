@@ -210,7 +210,7 @@
 
                     <JetConfirmsPassword confirmed={regenerateRecoveryCodes}>
                         {#if recoveryCodes.length > 0 && !confirming}
-                            <JetSecondaryButton class="mr-3">
+                            <JetSecondaryButton clicked={() => {}} class="mr-3">
                                 Regenerate Recovery Codes
                             </JetSecondaryButton>
                         {/if}
@@ -218,7 +218,7 @@
 
                     <JetConfirmsPassword confirmed={showRecoveryCodes}>
                         {#if recoveryCodes.length === 0 && !confirming}
-                            <JetSecondaryButton class="mr-3">
+                            <JetSecondaryButton clicked={() => {}} class="mr-3">
                                 Show Recovery Codes
                             </JetSecondaryButton>
                         {/if}
@@ -226,7 +226,7 @@
 
                     <JetConfirmsPassword confirmed={disableTwoFactorAuthentication}>
                         {#if confirming}
-                            <JetSecondaryButton>Cancel</JetSecondaryButton>
+                            <JetSecondaryButton clicked={() => {}}>Cancel</JetSecondaryButton>
                         {/if}
                     </JetConfirmsPassword>
 
