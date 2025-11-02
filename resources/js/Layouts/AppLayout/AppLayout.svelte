@@ -156,21 +156,21 @@
                                   class="top-full !mt-0 !w-44 !origin-top-right">
                             <InnerDropdownSection>
                                 <Link href={route('profile.show')}
-                                      on:click={() => {showProfileDropdown = false; closeSidebar()}}
+                                      onclick={() => {showProfileDropdown = false; closeSidebar()}}
                                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-0">Your Profile
                                 </Link>
 
                                 <Link href={route('publicLinks.index')}
-                                      on:click={() => {showProfileDropdown = false; closeSidebar()}}
+                                      onclick={() => {showProfileDropdown = false; closeSidebar()}}
                                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-1">Shared Groups
                                 </Link>
 
                                 <Link href={route('api-tokens.index')}
-                                      on:click={() => {showProfileDropdown = false; closeSidebar()}}
+                                      onclick={() => {showProfileDropdown = false; closeSidebar()}}
                                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
                                       role="menuitem" tabindex="-1"
                                       id="user-menu-item-1">API Tokens
