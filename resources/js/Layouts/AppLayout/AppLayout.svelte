@@ -6,8 +6,6 @@
 </script>
 
 <script>
-    import { run } from 'svelte/legacy';
-
     import {inertia, Link, page} from '@inertiajs/svelte';
     import LinkModal from "@/Partials/LinkModal.svelte";
     import DeleteLinkModal from "@/Partials/DeleteLinkModal.svelte";
@@ -86,7 +84,8 @@
     onMount(() => {
         getAllGroups();
     });
-    run(() => {
+
+    $effect(() => {
         $refreshGroups && getAllGroups();
     });
 </script>

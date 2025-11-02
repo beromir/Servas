@@ -1,6 +1,4 @@
 <script>
-    import { run } from 'svelte/legacy';
-
     import {dispatchCustomEvent, route, toggleValueInArray} from "@/utils";
     import Pagination from "@/Components/Pagination.svelte";
     import {Link, router} from "@inertiajs/svelte";
@@ -104,7 +102,8 @@
     onDestroy(() => {
         selectedTags.reset();
     });
-    run(() => {
+
+    $effect(() => {
         $selectedTags.tags.length > 0 && $selectedTags.action && bulkEditLinks($selectedTags.action);
     });
 </script>

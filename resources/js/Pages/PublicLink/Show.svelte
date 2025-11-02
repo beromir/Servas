@@ -5,8 +5,6 @@
 </script>
 
 <script>
-    import { run } from 'svelte/legacy';
-
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import Pagination from "@/Components/Pagination.svelte";
     import {debounce} from "lodash";
@@ -22,7 +20,7 @@
         toolbar
     } = $props();
 
-    run(() => {
+    $effect(() => {
         $pageTitle = title;
     });
 

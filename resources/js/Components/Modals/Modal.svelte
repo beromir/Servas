@@ -1,7 +1,4 @@
 <script>
-    import { stopPropagation, createBubbler } from 'svelte/legacy';
-
-    const bubble = createBubbler();
     import {noScroll} from "@/utils";
     import {fade, scale} from 'svelte/transition';
     import {backIn, backOut} from 'svelte/easing';
@@ -15,7 +12,7 @@
         mobilePrimaryAction,
         children,
         footer,
-        canceled,
+        canceled = () => {},
         ...rest
     } = $props();
 
@@ -29,6 +26,8 @@
     };
 
     function handleEsc(event) {
+        event.stopPropagation();
+
         if (showModal && event.key === 'Escape') {
             event.preventDefault();
             showModal = false;
@@ -37,7 +36,7 @@
     }
 </script>
 
-<svelte:window onkeydown={stopPropagation(handleEsc)}/>
+<svelte:window onkeydown={handleEsc}/>
 
 {#if showModal}
     <div {...rest} class="relative z-[100]">
@@ -51,7 +50,7 @@
             <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
             <div onclick={() => {showModal = false; canceled()}}
                  class="flex min-h-full justify-center items-end sm:items-center sm:max-h-none">
-                <div onclick={stopPropagation(bubble('click'))} use:noScroll
+                <div onclick={(event) => event.stopPropagation()} use:noScroll
                      in:scale={{duration: 300, start: 0.95, easing: backOut}}
                      out:scale={{duration: 200, start: 0.95, easing: backIn}}
                      class={clsx('mt-12 w-full bg-white text-left rounded-t-3xl shadow-xl overflow-hidden transform transition-all ring-contrast sm:my-8 sm:rounded-2xl', getSizeClasses())}

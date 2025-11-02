@@ -1,17 +1,13 @@
 <script>
-    import { run } from 'svelte/legacy';
-
     import Modal from "@/Components/Modals/Modal.svelte";
     import Container from "@/Components/FormLayouts/Modals/Container.svelte";
     import Input from "@/Components/FormLayouts/Modals/Input.svelte";
     import Button from "@/Components/Buttons/Button.svelte";
     import {useForm} from "@inertiajs/svelte";
-    import {route, dispatchCustomEvent, toggleValueInArray} from '@/utils';
+    import {route} from '@/utils';
     import {refreshGroups} from "@/stores";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
     import {getTagIdsFromArray} from "@/utils/tag.js";
-    import PlusCircle from "@/Heroicons/Mini/PlusCircle.svelte";
-    import XMark from "@/Heroicons/Micro/XMark.svelte";
     import QueryOption from "@/Components/QueryOptions/QueryOption.svelte";
     import Minus from "@/Heroicons/Mini/Minus.svelte";
     import Plus from "@/Heroicons/Mini/Plus.svelte";
@@ -31,7 +27,7 @@
         notTags: [],
     });
 
-    run(() => {
+    $effect(() => {
         $form.parentGroupId = selectedGroups[0] ?? null;
     });
 

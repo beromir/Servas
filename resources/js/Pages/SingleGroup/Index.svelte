@@ -5,8 +5,6 @@
 </script>
 
 <script>
-    import { run } from 'svelte/legacy';
-
     import {onDestroy} from 'svelte';
     import {dispatchCustomEvent, route} from "@/utils";
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
@@ -31,9 +29,10 @@
     let showPublicLinkModal = $state(false);
     let publicLinkCopied = $state(false);
 
-    run(() => {
+    $effect(() => {
         $title = group.title;
     });
+
     $showHeader = false;
 
     function handleGroupMenuAction(action) {

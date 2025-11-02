@@ -1,6 +1,4 @@
 <script>
-    import { run, stopPropagation } from 'svelte/legacy';
-
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from '@/Components/Modals/Modal.svelte';
     import {dispatchCustomEvent} from "@/utils/index.js";
@@ -83,7 +81,9 @@
             });
     }
 
-    function selectTag(tag) {
+    function selectTag(tag, event) {
+        event.stopPropagation();
+
         let index = getIndexOfTagId(tag.id, internalSelectedTags);
 
         if (index !== -1) {
@@ -117,7 +117,8 @@
         internalSelectedTags = [];
         showUntagged = false;
     }
-    run(() => {
+
+    $effect(() => {
         showUntaggedButton = mode === Mode.Filter;
     });
 </script>
@@ -165,12 +166,12 @@
         <div class="grid grid-cols-2 gap-y-3 gap-x-2 mt-3 pb-10 sm:grid-cols-3">
             {#each filteredTags as tag (tag.id)}
                 {#if getIndexOfTagId(tag.id, internalSelectedTags) !== -1}
-                    <button onclick={stopPropagation(() => selectTag(tag))} type="button" title={tag.name}
+                    <button onclick={(event) => selectTag(tag, event)} type="button" title={tag.name}
                             class="flex items-center py-1.5 px-3 border border-primary-100 bg-primary-50 rounded-full hover:border-primary-200 focus:outline-none dark:bg-primary-700/80 dark:border-primary-400 dark:hover:border-primary-300">
                         <span class="text-sm text-primary-900 truncate dark:text-primary-50">{tag.name}</span>
                     </button>
                 {:else}
-                    <button onclick={stopPropagation(() => selectTag(tag))} type="button" title={tag.name}
+                    <button onclick={(event) => selectTag(tag, event)} type="button" title={tag.name}
                             class="flex items-center py-1.5 px-3 border border-gray-200 bg-gray-100 rounded-full hover:border-gray-300 focus:outline-none dark:bg-gray-800 dark:border-gray-600 dark:hover:border-gray-400">
                         <span class="text-sm text-gray-900 truncate dark:text-white">{tag.name}</span>
                     </button>
