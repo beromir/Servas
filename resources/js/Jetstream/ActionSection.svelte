@@ -1,13 +1,6 @@
 <script>
     import JetSectionTitle from '@/Jetstream/SectionTitle.svelte'
-    /**
-     * @typedef {Object} Props
-     * @property {import('svelte').Snippet} [title]
-     * @property {import('svelte').Snippet} [description]
-     * @property {import('svelte').Snippet} [content]
-     */
 
-    /** @type {Props} */
     let { title, description, content } = $props();
 
     const title_render = $derived(title);

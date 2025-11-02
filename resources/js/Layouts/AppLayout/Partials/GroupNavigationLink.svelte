@@ -7,13 +7,6 @@
     import {getOpenedGroups, toggleOpenedGroup} from "@/utils/local-settings.js";
     import {closeSidebar} from "@/utils/sidebar.js";
 
-    /**
-     * @typedef {Object} Props
-     * @property {any} [group]
-     * @property {any} [groups]
-     */
-
-    /** @type {Props} */
     let { group = null, groups = [] } = $props();
 
     let openedGroups = $state(getOpenedGroups());

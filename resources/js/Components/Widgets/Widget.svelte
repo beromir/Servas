@@ -1,13 +1,4 @@
 <script>
-    /**
-     * @typedef {Object} Props
-     * @property {string} [title]
-     * @property {boolean} [withBackground]
-     * @property {boolean} [fixedHeight]
-     * @property {import('svelte').Snippet} [children]
-     */
-
-    /** @type {Props} */
     let {
         title = '',
         withBackground = true,

@@ -37,7 +37,7 @@
     }
 </script>
 
-<JetFormSection on:submitted={requestConfirmation}>
+<JetFormSection submitted={requestConfirmation}>
     {#snippet title()}
         Delete Data
     {/snippet}

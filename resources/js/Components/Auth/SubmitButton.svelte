@@ -1,12 +1,6 @@
 <script>
     import clsx from "clsx";
 
-    /**
-     * @typedef {Object} Props
-     * @property {string} [title]
-     */
-
-    /** @type {Props & { [key: string]: any }} */
     let { title = '', ...rest } = $props();
 </script>
 

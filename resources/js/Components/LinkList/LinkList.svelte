@@ -12,27 +12,17 @@
     import {debounce} from "lodash";
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from "@/Components/Modals/Modal.svelte";
-    import {createEventDispatcher, onDestroy} from "svelte";
+    import {onDestroy} from "svelte";
     import EmptyStateWithAction from "@/Components/EmptyStates/EmptyStateWithAction.svelte";
     import LinkIcon from "@/Heroicons/Outline/Link.svelte";
 
-    /**
-     * @typedef {Object} Props
-     * @property {any} [links]
-     * @property {string} [searchString]
-     * @property {import('svelte').Snippet} [toolbar]
-     * @property {import('svelte').Snippet} [children]
-     */
-
-    /** @type {Props} */
     let {
         links = [],
         searchString = $bindable(''),
         toolbar,
-        children
+        children,
+        searched
     } = $props();
-
-    const dispatch = createEventDispatcher();
 
     let groupSelectMenu = $state();
 
@@ -103,7 +93,7 @@
     }
 
     const search = debounce(() => {
-        dispatch('searched', searchString);
+        searched(searchString);
     }, 400);
 
     const clearSearchInput = () => {
@@ -180,7 +170,7 @@
                     </button>
                     <Dropdown bind:showDropdown={showBulkEditingDropdown}>
                         <InnerDropdownSection title="Tags">
-                            <DropdownItem on:clicked={() => openTagSelectMenu('attachTags')} title="Attach tags">
+                            <DropdownItem clicked={() => openTagSelectMenu('attachTags')} title="Attach tags">
                                 {#snippet icon()}
                                                                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                          fill="currentColor">
@@ -189,7 +179,7 @@
                                     </svg>
                                                             {/snippet}
                             </DropdownItem>
-                            <DropdownItem on:clicked={() => openTagSelectMenu('detachTags')} title="Detach tags">
+                            <DropdownItem clicked={() => openTagSelectMenu('detachTags')} title="Detach tags">
                                 {#snippet icon()}
                                                                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                          fill="currentColor">
@@ -201,7 +191,7 @@
                             </DropdownItem>
                         </InnerDropdownSection>
                         <InnerDropdownSection title="Groups">
-                            <DropdownItem on:clicked={() => openGroupSelectMenu('attachGroups')} title="Attach groups">
+                            <DropdownItem clicked={() => openGroupSelectMenu('attachGroups')} title="Attach groups">
                                 {#snippet icon()}
                                                                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                          fill="currentColor">
@@ -210,7 +200,7 @@
                                     </svg>
                                                             {/snippet}
                             </DropdownItem>
-                            <DropdownItem on:clicked={() => openGroupSelectMenu('detachGroups')} title="Detach groups">
+                            <DropdownItem clicked={() => openGroupSelectMenu('detachGroups')} title="Detach groups">
                                 {#snippet icon()}
                                                                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                          fill="currentColor">
@@ -222,7 +212,7 @@
                             </DropdownItem>
                         </InnerDropdownSection>
                         <InnerDropdownSection>
-                            <DropdownItem on:clicked={() => showLinkDeletionModal = true} title="Delete links"
+                            <DropdownItem clicked={() => showLinkDeletionModal = true} title="Delete links"
                                           color="alert">
                                 {#snippet icon()}
                                                                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -296,7 +286,7 @@
         </li>
 
     {:else}
-        <EmptyStateWithAction on:clicked={() => dispatchCustomEvent('prepareCreateNewLink')} title="Add a new link"
+        <EmptyStateWithAction clicked={() => dispatchCustomEvent('prepareCreateNewLink')} title="Add a new link"
                               class="mt-2 px-4 col-span-2 sm:px-0">
             {#snippet icon()}
                         <LinkIcon />
@@ -309,7 +299,7 @@
     <Pagination prevPageUrl={links.prev_page_url} nextPageUrl={links.next_page_url} currentPage={links.current_page}
                 totalPages={Math.trunc(links.total / links.per_page) + 1} totalLinks={links.total}/>
 {/if}
-<GroupSelectMenu on:changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={groupSelectMenu}
+<GroupSelectMenu changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={groupSelectMenu}
                  bind:selectedGroups/>
 
 <Modal title="Delete selected links" bind:showModal={showLinkDeletionModal}>

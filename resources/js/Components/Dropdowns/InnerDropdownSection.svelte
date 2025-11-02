@@ -1,11 +1,4 @@
 <script>
-    /**
-     * @typedef {Object} Props
-     * @property {string} [title]
-     * @property {import('svelte').Snippet} [children]
-     */
-
-    /** @type {Props} */
     let { title = '', children } = $props();
 </script>
 

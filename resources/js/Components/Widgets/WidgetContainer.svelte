@@ -1,13 +1,6 @@
 <script>
     import Container from "@/Components/Container.svelte";
 
-    /**
-     * @typedef {Object} Props
-     * @property {boolean} [hasColumns]
-     * @property {import('svelte').Snippet} [children]
-     */
-
-    /** @type {Props} */
     let { hasColumns = false, children } = $props();
 </script>
 

@@ -1,11 +1,4 @@
 <script>
-    /**
-     * @typedef {Object} Props
-     * @property {import('svelte').Snippet} [logo]
-     * @property {import('svelte').Snippet} [children]
-     */
-
-    /** @type {Props} */
     let { logo, children } = $props();
 </script>
 

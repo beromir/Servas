@@ -2,15 +2,6 @@
     import Button from "@/Components/Buttons/Button.svelte";
     import {dispatchCustomEvent} from "@/utils";
 
-    /**
-     * @typedef {Object} Props
-     * @property {string} [title]
-     * @property {boolean} [showNewLinkButton]
-     * @property {import('svelte').Snippet} [toolbar]
-     * @property {import('svelte').Snippet} [children]
-     */
-
-    /** @type {Props} */
     let {
         title = '',
         showNewLinkButton = true,

@@ -20,7 +20,7 @@
     }
 </script>
 
-<JetFormSection on:submitted={exportUserData} bind:this={formSection} method="post" action={route('export')}>
+<JetFormSection submitted={exportUserData} bind:this={formSection} method="post" action={route('export')}>
     {#snippet title()}
     
             Export Data

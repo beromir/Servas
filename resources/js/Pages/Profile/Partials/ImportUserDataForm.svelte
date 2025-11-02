@@ -38,7 +38,7 @@
     }
 </script>
 
-<JetFormSection on:submitted={importUserData}>
+<JetFormSection submitted={importUserData}>
     {#snippet title()}
         Import Data
     {/snippet}
@@ -57,7 +57,7 @@
             </RadioGroup>
 
             <div>
-                <FileUpload on:input={event => $userDataform.importFile = event.detail.file} bind:this={fileInput}
+                <FileUpload input={event => $userDataform.importFile = event.file} bind:this={fileInput}
                             label={`Select export file (${$userDataform.importSource === 'json' ? '.json' : '.html'})`}
                             accept={$userDataform.importSource === 'json' ? '.json' : '.html'}/>
             </div>

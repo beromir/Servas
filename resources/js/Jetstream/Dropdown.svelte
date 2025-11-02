@@ -1,14 +1,4 @@
 <script>
-    /**
-     * @typedef {Object} Props
-     * @property {string} [align]
-     * @property {string} [width]
-     * @property {any} [contentClasses]
-     * @property {import('svelte').Snippet} [trigger]
-     * @property {import('svelte').Snippet} [content]
-     */
-
-    /** @type {Props} */
     let {
         align = 'right',
         width = '48',

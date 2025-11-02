@@ -65,7 +65,7 @@
     });
 </script>
 
-<LinkList on:searched={(e) => search(e.detail)} {links} {searchString}>
+<LinkList searched={(searchStr) => search(searchStr)} {links} {searchString}>
     <!-- Tag filter -->
     {#snippet toolbar()}
         <div class="w-full sm:flex sm:items-center sm:w-auto">

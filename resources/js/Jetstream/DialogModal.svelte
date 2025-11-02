@@ -1,31 +1,18 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
     import Modal from './Modal.svelte'
 
-    const dispatch = createEventDispatcher();
-
-    /**
-     * @typedef {Object} Props
-     * @property {boolean} [show]
-     * @property {string} [maxWidth]
-     * @property {boolean} [closeable]
-     * @property {import('svelte').Snippet} [title]
-     * @property {import('svelte').Snippet} [content]
-     * @property {import('svelte').Snippet} [footer]
-     */
-
-    /** @type {Props} */
     let {
         show = false,
         maxWidth = '2xl',
         closeable = true,
         title,
         content,
-        footer
+        footer,
+        close
     } = $props();
 </script>
 
-<Modal {show} {maxWidth} {closeable} close={dispatch('close')}>
+<Modal {show} {maxWidth} {closeable} {close}>
     <div class="px-6 py-4">
         <div class="text-lg dark:text-white">
             {@render title?.()}

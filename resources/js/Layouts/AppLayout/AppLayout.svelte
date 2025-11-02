@@ -39,12 +39,7 @@
     import Tag from "@/Heroicons/Mini/Tag.svelte";
     import Plus from "@/Heroicons/Mini/Plus.svelte";
     import MenuButton from "@/Components/Navigation/MenuButton.svelte";
-    /**
-     * @typedef {Object} Props
-     * @property {import('svelte').Snippet} [children]
-     */
 
-    /** @type {Props} */
     let { children } = $props();
 
     const appName = $page.props.appName;
@@ -185,21 +180,21 @@
                             <!-- Theme toggle -->
                             <InnerDropdownSection>
                                 {#if theme === 'dark'}
-                                    <DropdownItem on:clicked={() => (theme = changeTheme('light'))} title="Dark Theme">
+                                    <DropdownItem clicked={() => (theme = changeTheme('light'))} title="Dark Theme">
                                         {#snippet icon()}
                                                                                 <Moon />
                                                                             {/snippet}
                                     </DropdownItem>
 
                                 {:else if theme === 'light'}
-                                    <DropdownItem on:clicked={() => (theme = changeTheme())} title="Light Theme">
+                                    <DropdownItem clicked={() => (theme = changeTheme())} title="Light Theme">
                                         {#snippet icon()}
                                                                                         <Sun />
                                                                                     {/snippet}
                                     </DropdownItem>
 
                                 {:else}
-                                    <DropdownItem on:clicked={() => (theme = changeTheme('dark'))} title="System Theme">
+                                    <DropdownItem clicked={() => (theme = changeTheme('dark'))} title="System Theme">
                                         {#snippet icon()}
                                                                                         <ComputerDesktop />
                                                                                     {/snippet}
@@ -271,7 +266,7 @@
                             </MenuItem>
                         </li>
                         <li class="!mt-4 sm:hidden">
-                            <MenuButton on:clicked={() => dispatchCustomEvent('prepareCreateNewLink')} title="New link">
+                            <MenuButton clicked={() => dispatchCustomEvent('prepareCreateNewLink')} title="New link">
                                 <Plus/>
                             </MenuButton>
                         </li>

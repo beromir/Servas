@@ -1,14 +1,4 @@
 <script>
-    /**
-     * @typedef {Object} Props
-     * @property {any} name
-     * @property {any} label
-     * @property {string} [type]
-     * @property {any} [value]
-     * @property {any} [error]
-     */
-
-    /** @type {Props & { [key: string]: any }} */
     let {
         name,
         label,

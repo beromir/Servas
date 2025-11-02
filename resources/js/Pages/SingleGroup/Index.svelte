@@ -18,17 +18,6 @@
     import Modal from "@/Components/Modals/Modal.svelte";
     import Button from "@/Components/Buttons/Button.svelte";
 
-    /**
-     * @typedef {Object} Props
-     * @property {any} [group]
-     * @property {any} [links]
-     * @property {any} [publicLink]
-     * @property {string} [searchString]
-     * @property {any} [filteredTags]
-     * @property {boolean} [showUntaggedOnly]
-     */
-
-    /** @type {Props} */
     let {
         group = {},
         links = [],
@@ -97,7 +86,7 @@
                 <Dropdown bind:showDropdown={showMenuDropdown} openingDirection="left"
                           class="top-full !mt-0 !w-44 !origin-top-right">
                     <InnerDropdownSection>
-                        <DropdownItem on:clicked={() => handleGroupMenuAction('editGroup')} title="Edit">
+                        <DropdownItem clicked={() => handleGroupMenuAction('editGroup')} title="Edit">
                             {#snippet icon()}
                                                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path
@@ -109,7 +98,7 @@
                         </DropdownItem>
 
                         {#if !publicLink.id}
-                            <DropdownItem on:clicked={createPublicLink} title="Share">
+                            <DropdownItem clicked={createPublicLink} title="Share">
                                 {#snippet icon()}
                                                         <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                         <path
@@ -121,7 +110,7 @@
                             </DropdownItem>
                         {/if}
 
-                        <DropdownItem on:clicked={() => handleGroupMenuAction('deleteGroup')} title="Delete"
+                        <DropdownItem clicked={() => handleGroupMenuAction('deleteGroup')} title="Delete"
                                       color="alert">
                             {#snippet icon()}
                                                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

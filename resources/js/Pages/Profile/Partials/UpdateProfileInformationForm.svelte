@@ -8,7 +8,6 @@
     import {page, useForm, router} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    /** @type {Props} */
     let {user = {}} = $props();
 
     const profileForm = useForm({
@@ -68,7 +67,7 @@
     }
 </script>
 
-<JetFormSection on:submitted={updateProfileInformation}>
+<JetFormSection submitted={updateProfileInformation}>
     {#snippet title()}
         Profile Information
     {/snippet}
@@ -104,12 +103,12 @@
                     </div>
                 {/if}
 
-                <JetSecondaryButton class="mt-2 mr-2" type="button" on:clicked={selectNewPhoto}>
+                <JetSecondaryButton class="mt-2 mr-2" type="button" clicked={selectNewPhoto}>
                     Select A New Photo
                 </JetSecondaryButton>
 
                 {#if user.profile_photo_path}
-                    <JetSecondaryButton type="button" class="mt-2" on:clicked={deletePhoto}>
+                    <JetSecondaryButton type="button" class="mt-2" clicked={deletePhoto}>
                         Remove Photo
                     </JetSecondaryButton>
                 {/if}

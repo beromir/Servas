@@ -16,13 +16,6 @@
     import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    /**
-     * @typedef {Object} Props
-     * @property {string} [email]
-     * @property {string} [token]
-     */
-
-    /** @type {Props} */
     let { email = '', token = '' } = $props();
 
     let form = useForm({

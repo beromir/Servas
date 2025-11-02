@@ -1,14 +1,6 @@
 <script>
     import {inertia} from '@inertiajs/svelte';
 
-    /**
-     * @typedef {Object} Props
-     * @property {any} href
-     * @property {string} [type]
-     * @property {import('svelte').Snippet} [children]
-     */
-
-    /** @type {Props & { [key: string]: any }} */
     let { href, type = 'button', children, ...rest } = $props();
 </script>
 

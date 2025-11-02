@@ -11,15 +11,6 @@
     import {route} from "@/utils/index.js";
     import Toggle from "@/Components/Toggles/Toggle.svelte";
 
-    /**
-     * @typedef {Object} Props
-     * @property {any} [links]
-     * @property {string} [searchString]
-     * @property {boolean} [untagged]
-     * @property {boolean} [ungrouped]
-     */
-
-    /** @type {Props} */
     let {
         links = [],
         searchString = $bindable(''),
@@ -62,12 +53,12 @@
 </script>
 
 <Main title="Inbox">
-    <LinkList on:searched={filterLinks} {links} bind:searchString>
+    <LinkList bind:searchString {links} searched={filterLinks}>
         {#snippet toolbar()}
-                <div  class="flex gap-x-5">
-                <Toggle on:toggled={(e) => toggleUntagged(e.detail)} toggled={untagged} title="Untagged"/>
-                <Toggle on:toggled={(e) => toggleUngrouped(e.detail)} toggled={ungrouped} title="Ungrouped"/>
+            <div class="flex gap-x-5">
+                <Toggle toggledCallback={(value) => toggleUntagged(value)} toggled={untagged} title="Untagged"/>
+                <Toggle toggledCallback={(value) => toggleUngrouped(value)} toggled={ungrouped} title="Ungrouped"/>
             </div>
-            {/snippet}
+        {/snippet}
     </LinkList>
 </Main>

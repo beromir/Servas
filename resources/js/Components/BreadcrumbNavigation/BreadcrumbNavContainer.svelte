@@ -2,16 +2,6 @@
     import {inertia} from '@inertiajs/svelte';
     import BreadcrumbNavItem from "@/Components/BreadcrumbNavigation/BreadcrumbNavItem.svelte";
 
-    /**
-     * @typedef {Object} Props
-     * @property {string} [navigationNameForSr]
-     * @property {string} [homeLink]
-     * @property {any} [items]
-     * @property {string} [currentTitle]
-     * @property {import('svelte').Snippet} [homeIcon]
-     */
-
-    /** @type {Props} */
     let {
         navigationNameForSr = '',
         homeLink = '',

@@ -1,21 +1,9 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
-    import clsx from "clsx";
-
-    /**
-     * @typedef {Object} Props
-     * @property {string} [title]
-     * @property {import('svelte').Snippet} [icon]
-     */
-
-    /** @type {Props & { [key: string]: any }} */
-    let { title = '', icon, ...rest } = $props();
-
-    const dispatch = createEventDispatcher();
+    let { title = '', icon, clicked, ...rest } = $props();
 </script>
 
 <div {...rest} class={rest.class}>
-    <button onclick={() => dispatch('clicked')} type="button"
+    <button onclick={() => clicked()} type="button"
             class="block w-full border-2 border-gray-400 border-dashed rounded-lg p-12 text-center hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:ring-offset-gray-100 dark:border-gray-500 dark:hover:border-gray-400 dark:focus:ring-offset-gray-900">
         {#if icon}
             <span class="text-gray-500 [&>svg]:mx-auto [&>svg]:size-12 dark:text-gray-300">

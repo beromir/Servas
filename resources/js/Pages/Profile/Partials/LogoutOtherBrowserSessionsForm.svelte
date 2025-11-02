@@ -123,7 +123,7 @@
             </div>
 
             <!-- Log Out Other Devices Confirmation Modal -->
-            <JetDialogModal show={confirmingLogout} on:close={closeModal}>
+            <JetDialogModal show={confirmingLogout} close={closeModal}>
                 {#snippet title()}
 
                         Log Out Other Browser Sessions
@@ -147,11 +147,11 @@
 
                 {#snippet footer()}
 
-                        <JetSecondaryButton on:clicked={closeModal}>
+                        <JetSecondaryButton clicked={closeModal}>
                             Cancel
                         </JetSecondaryButton>
 
-                        <JetButton class="ml-3" clicked={logoutOtherBrowserSessions}>
+                        <JetButton clicked={logoutOtherBrowserSessions}>
                             Log Out Other Browser Sessions
                         </JetButton>
 

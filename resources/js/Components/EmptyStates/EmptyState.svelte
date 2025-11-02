@@ -1,11 +1,4 @@
 <script>
-    /**
-     * @typedef {Object} Props
-     * @property {string} [title]
-     * @property {string} [tag]
-     */
-
-    /** @type {Props} */
     let { title = '', tag = 'div' } = $props();
 </script>
 

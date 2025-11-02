@@ -63,7 +63,7 @@
         {@render children?.()}
     </span>
 
-    <JetDialogModal on:close={closeModal} show={confirmingPassword}>
+    <JetDialogModal close={closeModal} show={confirmingPassword}>
         {#snippet title()}
                 {title}
         {/snippet}
@@ -80,7 +80,7 @@
         {/snippet}
 
         {#snippet footer()}
-                <JetSecondaryButton on:clicked={closeModal}>
+                <JetSecondaryButton clicked={closeModal}>
                     Cancel
                 </JetSecondaryButton>
 

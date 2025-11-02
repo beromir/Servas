@@ -3,14 +3,6 @@
     import XMark from "@/Heroicons/Micro/XMark.svelte";
     import Plus from "@/Heroicons/Micro/Plus.svelte";
 
-    /**
-     * @typedef {Object} Props
-     * @property {any} [tags]
-     * @property {string} [optionMode] - 'or', 'and', 'not'
-     * @property {string} [title]
-     */
-
-    /** @type {Props} */
     let { tags = $bindable([]), optionMode = '', title = '' } = $props();
 
     function handleSelectTagsButtonClick() {

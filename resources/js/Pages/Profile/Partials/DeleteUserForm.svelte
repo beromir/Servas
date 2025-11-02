@@ -60,13 +60,13 @@
             </div>
 
             <div class="mt-5">
-                <JetDangerButton on:clicked={showConfirmUserDeletionModal}>
+                <JetDangerButton clicked={showConfirmUserDeletionModal}>
                     Delete Account
                 </JetDangerButton>
             </div>
 
             <!-- Delete Account Confirmation Modal -->
-            <JetDialogModal show={confirmingUserDeletion} on:close={closeModal}>
+            <JetDialogModal show={confirmingUserDeletion} close={closeModal}>
                 {#snippet title()}
                     
                         Delete Account
@@ -89,15 +89,15 @@
                     {/snippet}
 
                 {#snippet footer()}
-                    
-                        <JetSecondaryButton on:clicked={closeModal}>
+
+                        <JetSecondaryButton clicked={closeModal}>
                             Cancel
                         </JetSecondaryButton>
 
-                        <JetDangerButton class="ml-3" on:clicked={deleteUser}>
+                        <JetDangerButton class="ml-3" clicked={deleteUser}>
                             Delete Account
                         </JetDangerButton>
-                    
+
                     {/snippet}
             </JetDialogModal>
         

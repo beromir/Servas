@@ -1,22 +1,11 @@
 <script>
-    import {createEventDispatcher} from "svelte";
     import clsx from "clsx";
 
-    /**
-     * @typedef {Object} Props
-     * @property {string} [title]
-     * @property {boolean} [toggled]
-     */
-
-    /** @type {Props} */
-    let { title = '', toggled = $bindable(false) } = $props();
-
-    const dispatch = createEventDispatcher();
+    let { title = '', toggled = $bindable(false), toggledCallback } = $props();
 
     function toggle() {
         toggled = !toggled;
-
-        dispatch('toggled', toggled);
+        toggledCallback(toggled);
     }
 </script>
 

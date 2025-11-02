@@ -67,7 +67,7 @@
 
 <div>
     <!-- Generate API Token -->
-    <JetFormSection on:submitted={createApiToken}>
+    <JetFormSection submitted={createApiToken}>
         {#snippet title()}
 
                 Create API Token
@@ -183,7 +183,7 @@
     {/if}
 
     <!-- Token Value Modal -->
-    <JetDialogModal show={displayingToken} on:close={() => displayingToken = false}>
+    <JetDialogModal show={displayingToken} close={() => displayingToken = false}>
         {#snippet title()}
 
                 API Token
@@ -206,7 +206,7 @@
 
         {#snippet footer()}
 
-                <JetSecondaryButton on:clicked={() => displayingToken = false}>
+                <JetSecondaryButton clicked={() => displayingToken = false}>
                     Close
                 </JetSecondaryButton>
 
@@ -214,7 +214,7 @@
     </JetDialogModal>
 
     <!-- API Token Permissions Modal -->
-    <JetDialogModal show={managingPermissionsFor} on:close={() => managingPermissionsFor = null}>
+    <JetDialogModal show={managingPermissionsFor} close={() => managingPermissionsFor = null}>
         {#snippet title()}
 
                 API Token Permissions
@@ -237,7 +237,7 @@
 
         {#snippet footer()}
 
-                <JetSecondaryButton on:clicked={() => managingPermissionsFor = null}>
+                <JetSecondaryButton clicked={() => managingPermissionsFor = null}>
                     Cancel
                 </JetSecondaryButton>
 
@@ -251,7 +251,7 @@
     </JetDialogModal>
 
     <!-- Delete Token Confirmation Modal -->
-    <JetConfirmationModal show={apiTokenBeingDeleted} on:close={() => apiTokenBeingDeleted = null}>
+    <JetConfirmationModal show={apiTokenBeingDeleted} close={() => apiTokenBeingDeleted = null}>
         {#snippet title()}
 
                 Delete API Token
@@ -266,11 +266,11 @@
 
         {#snippet footer()}
 
-                <JetSecondaryButton on:clicked={() => apiTokenBeingDeleted = null}>
+                <JetSecondaryButton clicked={() => apiTokenBeingDeleted = null}>
                     Cancel
                 </JetSecondaryButton>
 
-                <JetDangerButton on:clicked={deleteApiToken} class="ml-3 disabled:opacity-25">
+                <JetDangerButton clicked={deleteApiToken} class="ml-3 disabled:opacity-25">
                     Delete
                 </JetDangerButton>
 

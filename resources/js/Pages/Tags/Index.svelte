@@ -28,7 +28,7 @@
                 <Badge clicked={() => newTagComponent.initEditMode(tag)} class="mr-2 first:mt-4 last:mr-0"
                        title={tag.name}/>
             {:else}
-                <EmptyStateWithAction on:clicked={() => newTagComponent.focus()} title="Add a new tag"
+                <EmptyStateWithAction clicked={() => newTagComponent.focus()} title="Add a new tag"
                                       class="mt-2 sm:mt-4">
                     {#snippet icon()}
                         <Tag/>

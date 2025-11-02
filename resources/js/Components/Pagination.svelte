@@ -1,16 +1,6 @@
 <script>
     import {Link} from '@inertiajs/svelte';
 
-    /**
-     * @typedef {Object} Props
-     * @property {string} [prevPageUrl]
-     * @property {string} [nextPageUrl]
-     * @property {number} [currentPage]
-     * @property {number} [totalPages]
-     * @property {number} [totalLinks]
-     */
-
-    /** @type {Props} */
     let {
         prevPageUrl = '',
         nextPageUrl = '',

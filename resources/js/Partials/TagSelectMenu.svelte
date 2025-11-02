@@ -124,7 +124,7 @@
 
 <svelte:window ontags.select={e => initTagSelection(e.detail)} ontags.filter={e => initTagFilter(e.detail)}/>
 
-<Modal bind:showModal on:canceled={reset} title={title} showFooterMenuOnMobile={false}>
+<Modal bind:showModal canceled={reset} title={title} showFooterMenuOnMobile={false}>
     {#snippet mobilePrimaryAction()}
 
             <button onclick={saveChanges}

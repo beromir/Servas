@@ -5,21 +5,8 @@
     import {noScroll} from "@/utils";
     import {fade, scale} from 'svelte/transition';
     import {backIn, backOut} from 'svelte/easing';
-    import {createEventDispatcher} from "svelte";
     import clsx from "clsx";
 
-    /**
-     * @typedef {Object} Props
-     * @property {any} showModal
-     * @property {string} [size]
-     * @property {boolean} [showFooterMenuOnMobile]
-     * @property {string} [title]
-     * @property {import('svelte').Snippet} [mobilePrimaryAction]
-     * @property {import('svelte').Snippet} [children]
-     * @property {import('svelte').Snippet} [footer]
-     */
-
-    /** @type {Props & { [key: string]: any }} */
     let {
         showModal = $bindable(),
         size = 'normal',
@@ -28,10 +15,9 @@
         mobilePrimaryAction,
         children,
         footer,
+        canceled,
         ...rest
     } = $props();
-
-    const dispatch = createEventDispatcher();
 
     const getSizeClasses = () => {
         switch (size) {
@@ -46,7 +32,7 @@
         if (showModal && event.key === 'Escape') {
             event.preventDefault();
             showModal = false;
-            dispatch('canceled');
+            canceled();
         }
     }
 </script>
@@ -63,7 +49,7 @@
 
         <div class="fixed inset-0 w-full sm:overflow-y-auto">
             <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-            <div onclick={() => {showModal = false; dispatch('canceled')}}
+            <div onclick={() => {showModal = false; canceled()}}
                  class="flex min-h-full justify-center items-end sm:items-center sm:max-h-none">
                 <div onclick={stopPropagation(bubble('click'))} use:noScroll
                      in:scale={{duration: 300, start: 0.95, easing: backOut}}
@@ -74,7 +60,7 @@
                         class="flex flex-col max-h-[calc(100dvh-3rem)] bg-white sm:pt-6 sm:max-h-none dark:bg-gray-900">
                         <div
                             class="fixed inset-x-0 top-0 z-10 grid grid-cols-5 items-end px-4 pt-4 pb-3 backdrop-blur-3xl sm:static sm:px-6 sm:py-0 sm:backdrop-blur-none">
-                            <button onclick={() => {showModal = false; dispatch('canceled')}}
+                            <button onclick={() => {showModal = false; canceled()}}
                                     class="text-left text-primary-600 focus:outline-none sm:hidden dark:text-gray-100"
                                     type="button">
                                 Cancel

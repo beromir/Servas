@@ -1,12 +1,4 @@
 <script>
-    /**
-     * @typedef {Object} Props
-     * @property {import('svelte').Snippet} [title]
-     * @property {import('svelte').Snippet} [description]
-     * @property {import('svelte').Snippet} [aside]
-     */
-
-    /** @type {Props} */
     let { title, description, aside } = $props();
 </script>
 

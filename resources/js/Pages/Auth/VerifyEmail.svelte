@@ -13,12 +13,6 @@
     import {useForm, inertia} from "@inertiajs/svelte";
     import {route} from "@/utils";
 
-    /**
-     * @typedef {Object} Props
-     * @property {string} [status]
-     */
-
-    /** @type {Props} */
     let { status = '' } = $props();
 
     let form = useForm({});

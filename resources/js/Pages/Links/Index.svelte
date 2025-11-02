@@ -8,15 +8,6 @@
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import LinkListWithTagFilter from "@/Components/LinkList/LinkListWithTagFilter.svelte";
 
-    /**
-     * @typedef {Object} Props
-     * @property {any} [links]
-     * @property {string} [searchString]
-     * @property {any} [filteredTags]
-     * @property {boolean} [showUntaggedOnly]
-     */
-
-    /** @type {Props} */
     let {
         links = [],
         searchString = '',

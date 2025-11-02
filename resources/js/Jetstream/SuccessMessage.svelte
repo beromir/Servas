@@ -1,11 +1,4 @@
 <script>
-    /**
-     * @typedef {Object} Props
-     * @property {boolean} [show]
-     * @property {string} [message]
-     */
-
-    /** @type {Props} */
     let { show = false, message = '' } = $props();
 </script>
 

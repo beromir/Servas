@@ -14,16 +14,6 @@
     import {route} from "@/utils/index.js";
     import EmptyState from "@/Components/EmptyStates/EmptyState.svelte";
 
-    /**
-     * @typedef {Object} Props
-     * @property {string} [title]
-     * @property {any} [links]
-     * @property {string} [shareId]
-     * @property {string} [searchString]
-     * @property {import('svelte').Snippet} [toolbar]
-     */
-
-    /** @type {Props} */
     let {
         title = '',
         links = [],

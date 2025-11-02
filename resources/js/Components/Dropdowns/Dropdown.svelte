@@ -4,15 +4,7 @@
     import {clickOutside} from "@/utils/index.js";
     import {cubicIn, cubicOut} from "svelte/easing";
 
-  /**
-   * @typedef {Object} Props
-   * @property {boolean} [showDropdown]
-   * @property {string} [openingDirection]
-   * @property {import('svelte').Snippet} [children]
-   */
-
-  /** @type {Props & { [key: string]: any }} */
-  let { showDropdown = $bindable(false), openingDirection = 'right', children, ...rest } = $props();
+    let { showDropdown = $bindable(false), openingDirection = 'right', children, ...rest } = $props();
 </script>
 
 <!--

@@ -8,12 +8,7 @@
     import {page} from '@inertiajs/svelte';
     import {initTheme} from "@/utils/theme.js";
     import {onMount} from "svelte";
-    /**
-     * @typedef {Object} Props
-     * @property {import('svelte').Snippet} [children]
-     */
 
-    /** @type {Props} */
     let { children } = $props();
 
     let appName = $page.props.appName;

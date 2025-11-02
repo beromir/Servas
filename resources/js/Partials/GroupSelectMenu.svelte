@@ -4,10 +4,9 @@
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from '@/Components/Modals/Modal.svelte';
     import {isUndefined} from "lodash";
-    import {createEventDispatcher} from 'svelte';
     import clsx from "clsx";
 
-    let { selectedGroups = $bindable([]) } = $props();
+    let { selectedGroups = $bindable([]), changesSaved } = $props();
 
     let groups = [];
     let filteredGroups = $state([]);
@@ -15,8 +14,6 @@
     let showModal = $state(false);
     let showSelectView = $state(true);
     let modeIsMultiSelect = false;
-
-    const dispatch = createEventDispatcher();
 
     export const enableMultiSelectMode = () => modeIsMultiSelect = true;
     export const disableMultiSelectMode = () => modeIsMultiSelect = false;
@@ -38,7 +35,7 @@
 
         showModal = false;
 
-        dispatch('changesSaved');
+        changesSaved();
     }
 
     async function getAllGroups() {

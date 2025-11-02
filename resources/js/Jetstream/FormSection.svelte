@@ -1,7 +1,5 @@
 <script>
     import {preventDefault} from 'svelte/legacy';
-
-    import {createEventDispatcher} from 'svelte';
     import JetSectionTitle from '@/Jetstream/SectionTitle.svelte';
 
     let {
@@ -9,10 +7,9 @@
         title,
         description,
         form,
+        submitted,
         ...rest
     } = $props();
-
-    const dispatch = createEventDispatcher();
 
     let formSection = $state();
 
@@ -37,7 +34,7 @@
     </JetSectionTitle>
 
     <div class="mt-5 md:mt-0 md:col-span-2">
-        <form onsubmit={preventDefault(() => dispatch('submitted'))} bind:this={formSection} {...rest}>
+        <form onsubmit={preventDefault(() => submitted())} bind:this={formSection} {...rest}>
             <div class={['px-4 py-5 bg-white sm:p-6 shadow ring-contrast dark:bg-gray-900',
                  hasActions ? 'sm:rounded-tl-md sm:rounded-tr-md' : 'sm:rounded-md'].join(' ').trim()}>
                 <div class="grid grid-cols-6 gap-6">

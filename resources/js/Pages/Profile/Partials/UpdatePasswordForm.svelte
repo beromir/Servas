@@ -36,7 +36,7 @@
     }
 </script>
 
-<JetFormSection on:submitted={updatePassword}>
+<JetFormSection submitted={updatePassword}>
     {#snippet title()}
         Update Password
     {/snippet}
