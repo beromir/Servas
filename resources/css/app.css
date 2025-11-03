@@ -1,17 +1,30 @@
-/* Base styles */
-@import 'tailwindcss/base';
-@import "colors.css";
-@import "fonts/inter-ui.css";
-@import "fonts/jetbrains-mono.css";
+@import 'tailwindcss';
+@import './fonts/inter-ui.css' layer(base);
+@import './fonts/jetbrains-mono.css' layer(base);
 
-/* Component styles */
-@import 'tailwindcss/components';
+@theme {
+    /* Primary (Indigo) */
+    --color-primary-900: hsl(234deg 62% 26%);
+    --color-primary-800: hsl(232deg 51% 36%);
+    --color-primary-700: hsl(230deg 49% 41%);
+    --color-primary-600: hsl(228deg 45% 45%);
+    --color-primary-500: hsl(227deg 42% 51%);
+    --color-primary-400: hsl(227deg 50% 59%);
+    --color-primary-300: hsl(225deg 57% 67%);
+    --color-primary-200: hsl(224deg 67% 76%);
+    --color-primary-100: hsl(221deg 78% 86%);
+    --color-primary-50: hsl(221deg 68% 93%);
 
-/* Utility styles */
-@import 'tailwindcss/utilities';
+    /* Fonts */
+    --font-sans: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
 
-@layer components {
-    .ring-contrast {
-        @apply dark:ring-1 dark:ring-white/15;
-    }
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@utility ring-contrast {
+    @apply dark:ring-1 dark:ring-white/15;
 }

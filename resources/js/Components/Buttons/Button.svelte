@@ -38,7 +38,7 @@
     {...rest} {type}
     onclick={clicked}
     class={clsx(
-        'w-full inline-flex justify-center items-center py-2 border shadow-sm text-sm font-medium rounded-md select-none focus:outline-none focus:ring-2 focus:ring-offset-2 md:w-auto dark:focus:ring-offset-gray-900',
+        'w-full inline-flex justify-center items-center py-2 border shadow-xs text-sm font-medium rounded-md select-none focus:outline-hidden focus:ring-2 focus:ring-offset-2 md:w-auto dark:focus:ring-offset-gray-900',
         '[&>svg]:size-5',
         title ? 'px-4 [&>svg]:-ml-1 [&>svg]:mr-2' : 'px-2',
         getColors(),

@@ -48,7 +48,7 @@
         <!-- Search input -->
         <div class="flex flex-col gap-y-4 sm:flex-row sm:gap-x-6">
             <div class="w-full sm:flex sm:items-center sm:w-auto">
-                <div class="relative rounded-md shadow-sm">
+                <div class="relative rounded-md shadow-xs">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-gray-400 dark:text-gray-500"
                              viewBox="0 0 20 20"
@@ -77,7 +77,7 @@
     <!-- Link list -->
     <ul class="grid grid-cols-1 mt-6 divide-y divide-gray-200 sm:grid-cols-2 sm:gap-3 sm:mt-8 sm:divide-none dark:divide-gray-800">
         {#each links.data as link (link.id)}
-            <li class="bg-white shadow ring-contrast group sm:overflow-hidden sm:rounded-lg dark:bg-gray-800">
+            <li class="bg-white shadow-sm ring-contrast group sm:overflow-hidden sm:rounded-lg dark:bg-gray-800">
                 <a href={link.link} target="_blank" rel="noreferrer noopener nofollow" class="flex">
                     <div class="flex-auto min-w-0 p-3 sm:px-6 sm:py-4">
                         <div class="flex justify-between">

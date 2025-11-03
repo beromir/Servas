@@ -142,7 +142,7 @@
 <Modal title="Select a group" bind:showModal showFooterMenuOnMobile={false}>
     {#snippet mobilePrimaryAction()}
         <button onclick={saveChanges}
-                class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100"
+                class="text-right text-primary-600 font-medium focus:outline-hidden sm:hidden dark:text-gray-100"
                 type="button">
             Select
         </button>
@@ -185,7 +185,7 @@
     <div class="mt-5">
         {#if showSelectView}
             <div class="flex gap-x-2">
-                <Button clicked={goBack} color="white" class="!ring-0 md:!w-full">
+                <Button clicked={goBack} color="white" class="ring-0! md:w-full!">
                     {#snippet icon()}
                         <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                              fill="currentColor">
@@ -195,7 +195,7 @@
                         </svg>
                     {/snippet}
                 </Button>
-                <Button clicked={() => filterByGroup(null)} color="white" class="!ring-0 md:!w-full">
+                <Button clicked={() => filterByGroup(null)} color="white" class="ring-0! md:w-full!">
                     {#snippet icon()}
                         <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                              fill="currentColor">

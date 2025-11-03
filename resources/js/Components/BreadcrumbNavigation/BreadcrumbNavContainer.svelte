@@ -16,7 +16,7 @@
         <li>
             <div>
                 <a href={homeLink} use:inertia class="text-gray-400 hover:text-gray-500">
-                    <div class="flex-shrink-0 size-5">
+                    <div class="shrink-0 size-5">
                         {@render homeIcon?.()}
                     </div>
                     <span class="sr-only">{navigationNameForSr}</span>

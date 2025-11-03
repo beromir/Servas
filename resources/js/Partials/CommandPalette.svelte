@@ -180,7 +180,7 @@
 <svelte:window onshowCommandPalette={openCommandPalette}/>
 
 {#if showCommandPalette}
-    <div class="fixed inset-0 z-[90] overflow-y-auto p-4 sm:p-6 md:p-20" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 z-90 overflow-y-auto p-4 sm:p-6 md:p-20" role="dialog" aria-modal="true">
 
         <!-- Background overlay, show/hide based on modal state. -->
         <div onclick={closeCommandPalette}

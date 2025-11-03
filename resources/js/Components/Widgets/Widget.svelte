@@ -11,8 +11,8 @@
     <h3 class="font-medium text-gray-700">{title}</h3>
     <div class={[
          'relative mt-3 overflow-hidden',
-         withBackground ? 'bg-white shadow rounded-lg' : '',
-         fixedHeight ? 'h-[30rem]' : '',
+         withBackground ? 'bg-white shadow-sm rounded-lg' : '',
+         fixedHeight ? 'h-120' : '',
          ].join(' ').trim()}>
         {@render children?.()}
     </div>

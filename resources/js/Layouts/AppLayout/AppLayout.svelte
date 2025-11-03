@@ -108,7 +108,7 @@
     {/if}
 
     <button onclick={() => showSidebar = toggleSidebar()} type="button"
-            class="fixed bottom-5 left-5 z-10 p-2.5 text-gray-100 bg-gray-800 rounded-full shadow sm:hidden dark:bg-gray-50 dark:text-gray-900">
+            class="fixed bottom-5 left-5 z-10 p-2.5 text-gray-100 bg-gray-800 rounded-full shadow-sm sm:hidden dark:bg-gray-50 dark:text-gray-900">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              class="size-8">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
@@ -120,7 +120,7 @@
              out:slide={{ duration: 300, axis: 'x', easing: cubicOut }}
              class="fixed top-0 z-50 flex-none w-[300px] h-screen lg:sticky">
             <div
-                class="flex flex-col w-full h-dvh bg-gray-700 shadow ring-contrast transition duration-300 dark:bg-gray-800">
+                class="flex flex-col w-full h-dvh bg-gray-700 shadow-sm ring-contrast transition duration-300 dark:bg-gray-800">
                 <div class="flex items-center p-4">
                     <!-- Sidebar toggle -->
                     <button onclick={() => showSidebar = toggleSidebar()} type="button"
@@ -152,7 +152,7 @@
                         </button>
 
                         <Dropdown bind:showDropdown={showProfileDropdown} openingDirection="right"
-                                  class="top-full !mt-0 !w-44 !origin-top-right">
+                                  class="top-full mt-0! w-44! origin-top-right!">
                             <InnerDropdownSection>
                                 <Link href={route('profile.show')}
                                       onclick={() => {showProfileDropdown = false; closeSidebar()}}
@@ -247,7 +247,7 @@
                     </button>
                 </div>
 
-                <nav class="flex-grow px-4 pb-4 h-dvh overflow-y-auto md:pt-2">
+                <nav class="grow px-4 pb-4 h-dvh overflow-y-auto md:pt-2">
                     <ul class="space-y-2">
                         <li>
                             <MenuItem title="Home" url={route('links.index')}>
@@ -264,7 +264,7 @@
                                 <Tag/>
                             </MenuItem>
                         </li>
-                        <li class="!mt-4 sm:hidden">
+                        <li class="mt-4! sm:hidden">
                             <MenuButton clicked={() => dispatchCustomEvent('prepareCreateNewLink')} title="New link">
                                 <Plus/>
                             </MenuButton>
@@ -302,7 +302,7 @@
                         title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
                         in:fade={{ duration: 100, easing: cubicOut }}
                         out:fade={{ duration: 50, easing: cubicIn }}
-                        class="py-1.5 px-2 bg-white shadow-sm rounded-md ring-1 ring-gray-300 transition hover:bg-gray-50 dark:bg-gray-800 dark:ring-contrast dark:hover:bg-gray-700">
+                        class="py-1.5 px-2 bg-white shadow-xs rounded-md ring-1 ring-gray-300 transition hover:bg-gray-50 dark:bg-gray-800 dark:ring-contrast dark:hover:bg-gray-700">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                          class="size-6 text-gray-600 transition duration-300 delay-150 dark:text-gray-100">
                         <rect width="24" height="24" fill="none"/>

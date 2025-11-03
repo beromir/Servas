@@ -39,7 +39,7 @@
 <svelte:window onkeydown={handleEsc}/>
 
 {#if showModal}
-    <div {...rest} class="relative z-[100]">
+    <div {...rest} class="relative z-100">
         <!-- Background overlay -->
         <div in:fade={{duration: 300, easing: backOut}}
              out:fade={{duration: 200, easing: backIn}}
@@ -60,7 +60,7 @@
                         <div
                             class="fixed inset-x-0 top-0 z-10 grid grid-cols-5 items-end px-4 pt-4 pb-3 backdrop-blur-3xl sm:static sm:px-6 sm:py-0 sm:backdrop-blur-none">
                             <button onclick={() => {showModal = false; canceled()}}
-                                    class="text-left text-primary-600 focus:outline-none sm:hidden dark:text-gray-100"
+                                    class="text-left text-primary-600 focus:outline-hidden sm:hidden dark:text-gray-100"
                                     type="button">
                                 Cancel
                             </button>
@@ -71,7 +71,7 @@
                                 <div></div>
                             {/if}
                         </div>
-                        <div class="flex-grow pt-16 overflow-y-auto sm:pt-5">
+                        <div class="grow pt-16 overflow-y-auto sm:pt-5">
                             <div class="px-4 pb-4 sm:px-6">
                                 {@render children?.()}
                             </div>

@@ -117,7 +117,7 @@
     {#snippet mobilePrimaryAction()}
 
             <button onclick={isEditing ? updateGroup : createGroup}
-                    class="text-right text-primary-600 font-medium focus:outline-none sm:hidden dark:text-gray-100" type="button">
+                    class="text-right text-primary-600 font-medium focus:outline-hidden sm:hidden dark:text-gray-100" type="button">
                 {isEditing ? 'Edit' : 'Create'}
             </button>
 

@@ -1,6 +1,7 @@
 import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import {svelte} from '@sveltejs/vite-plugin-svelte';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
     plugins: [
@@ -13,5 +14,6 @@ export default defineConfig({
         svelte({
             /* plugin options */
         }),
+        tailwindcss(),
     ],
 });

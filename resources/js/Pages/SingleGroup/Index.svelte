@@ -83,7 +83,7 @@
                 </button>
 
                 <Dropdown bind:showDropdown={showMenuDropdown} openingDirection="left"
-                          class="top-full !mt-0 !w-44 !origin-top-right">
+                          class="top-full mt-0! w-44! origin-top-right!">
                     <InnerDropdownSection>
                         <DropdownItem clicked={() => handleGroupMenuAction('editGroup')} title="Edit">
                             {#snippet icon()}
@@ -124,7 +124,7 @@
             </div>
 
             {#if publicLink.id}
-                <Button clicked={() => showPublicLinkModal = true} color="white" hoverTitle="Public link" class="ml-4 !w-auto">
+                <Button clicked={() => showPublicLinkModal = true} color="white" hoverTitle="Public link" class="ml-4 w-auto!">
                     {#snippet icon()}
                                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path

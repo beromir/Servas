@@ -99,7 +99,7 @@
                             {#each availablePermissions as permission (permission)}
                                 <label class="flex items-center">
                                     <input value={permission} bind:group={$createApiTokenForm.permissions} type="checkbox"
-                                           class="rounded border-gray-400 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
+                                           class="rounded-sm border-gray-400 text-primary-600 shadow-xs focus:border-primary-300 focus:ring-3 focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
                                     <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">{permission}</span>
                                 </label>
                             {/each}
@@ -197,7 +197,7 @@
                 </div>
 
                 {#if $page.props.jetstream.flash.token}
-                    <div class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-600 select-all dark:bg-gray-950 dark:text-gray-300">
+                    <div class="mt-4 bg-gray-100 px-4 py-2 rounded-sm font-mono text-sm text-gray-600 select-all dark:bg-gray-950 dark:text-gray-300">
                         {$page.props.jetstream.flash.token}
                     </div>
                 {/if}
@@ -227,7 +227,7 @@
                     {#each availablePermissions as permission (permission)}
                         <label class="flex items-center">
                             <input value={permission} bind:group={$updateApiTokenForm.permissions} type="checkbox"
-                                   class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
+                                   class="rounded-sm border-gray-300 text-primary-600 shadow-xs focus:border-primary-300 focus:ring-3 focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
                             <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">{permission}</span>
                         </label>
                     {/each}

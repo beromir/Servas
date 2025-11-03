@@ -29,11 +29,11 @@
 </script>
 
 <Main title="Shared Groups">
-    <div class="max-w-[100dvw] overflow-x-auto lg:pt-10">
+    <div class="max-w-dvw overflow-x-auto lg:pt-10">
 
         {#if publicLinks.length}
             <div class="inline-block min-w-full">
-                <div class="overflow-hidden shadow sm:rounded-md dark:border dark:border-white/15">
+                <div class="overflow-hidden shadow-sm sm:rounded-md dark:border dark:border-white/15">
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead class="bg-gray-50 dark:bg-gray-950">
                         <tr>
