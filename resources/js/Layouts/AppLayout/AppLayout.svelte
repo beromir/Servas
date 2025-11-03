@@ -38,7 +38,7 @@
     import Plus from "@/Heroicons/Mini/Plus.svelte";
     import MenuButton from "@/Components/Navigation/MenuButton.svelte";
 
-    let { children } = $props();
+    let {children} = $props();
 
     const appName = $page.props.appName;
     const appVersion = $page.props.appVersion;
@@ -55,14 +55,12 @@
             return;
         }
 
-        if (event.metaKey || event.altKey || event.shiftKey || event.ctrlKey) {
+        if (!['f', 'm'].includes(event.key)) {
             return;
         }
 
         event.preventDefault();
         event.stopPropagation();
-
-        event.key === 'f'
 
         switch (event.key) {
             case 'f':
@@ -181,22 +179,22 @@
                                 {#if theme === 'dark'}
                                     <DropdownItem clicked={() => (theme = changeTheme('light'))} title="Dark Theme">
                                         {#snippet icon()}
-                                                                                <Moon />
-                                                                            {/snippet}
+                                            <Moon/>
+                                        {/snippet}
                                     </DropdownItem>
 
                                 {:else if theme === 'light'}
                                     <DropdownItem clicked={() => (theme = changeTheme())} title="Light Theme">
                                         {#snippet icon()}
-                                                                                        <Sun />
-                                                                                    {/snippet}
+                                            <Sun/>
+                                        {/snippet}
                                     </DropdownItem>
 
                                 {:else}
                                     <DropdownItem clicked={() => (theme = changeTheme('dark'))} title="System Theme">
                                         {#snippet icon()}
-                                                                                        <ComputerDesktop />
-                                                                                    {/snippet}
+                                            <ComputerDesktop/>
+                                        {/snippet}
                                     </DropdownItem>
                                 {/if}
                             </InnerDropdownSection>
