@@ -27,6 +27,15 @@
 
 @custom-variant hover (&:where(:hover, :focus-visible));
 
+@layer base {
+    button:focus-visible,
+    a:focus-visible {
+        outline: 2px solid var(--color-primary-400);
+        outline-offset: 2px;
+    }
+}
+
 @utility ring-contrast {
     @apply dark:ring-1 dark:ring-white/15;
 }
+
