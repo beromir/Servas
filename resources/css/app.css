@@ -25,6 +25,8 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@custom-variant hover (&:where(:hover, :focus-visible));
+
 @utility ring-contrast {
     @apply dark:ring-1 dark:ring-white/15;
 }
