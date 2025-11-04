@@ -1,5 +1,3 @@
-import {tick} from "svelte";
-
 export const route = window.route
 
 export function toggleValueInArray(arr, item) {
@@ -45,4 +43,3 @@ export function noScroll() {
         }
     }
 }
-
