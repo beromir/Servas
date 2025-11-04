@@ -142,7 +142,7 @@
 <Modal title="Select a group" bind:showModal showFooterMenuOnMobile={false}>
     {#snippet mobilePrimaryAction()}
         <button onclick={saveChanges}
-                class="text-right text-primary-600 font-medium focus:outline-hidden sm:hidden dark:text-gray-100"
+                class="text-right text-primary-600 font-medium sm:hidden dark:text-gray-100"
                 type="button">
             Select
         </button>
@@ -272,8 +272,7 @@
 
     {#snippet footer()}
         <Button clicked={() => showModal = false} title="Cancel" color="white"
-                class="hidden focus:ring-offset-gray-50 sm:block"/>
-        <Button clicked={saveChanges} title="Select"
-                class="focus:ring-offset-gray-50"/>
+                class="hidden sm:block"/>
+        <Button clicked={saveChanges} title="Select"/>
     {/snippet}
 </Modal>

@@ -46,10 +46,3 @@ export function noScroll() {
     }
 }
 
-export async function focusSelf(node, focus = false) {
-    if (focus) {
-        await tick();
-
-        node.focus();
-    }
-}

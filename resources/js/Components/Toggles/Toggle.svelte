@@ -12,7 +12,7 @@
 <div class="flex items-center gap-x-2 text-sm text-gray-700 font-medium dark:text-gray-200">
     <button onclick={toggle} type="button"
             class={clsx(
-                'relative inline-flex h-5 w-8 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden',
+                'relative inline-flex h-5 w-8 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out',
                 toggled ? 'bg-primary-500' : 'bg-gray-400 dark:bg-gray-700',
             )}
             role="switch" aria-checked="false">

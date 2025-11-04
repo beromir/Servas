@@ -196,7 +196,7 @@
              class="mx-auto max-w-xl transform rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all dark:bg-gray-950 dark:ring-contrast">
             <div class="p-2">
                 <input bind:this={input} oninput={search} onkeydown={handleKeydown} type="text"
-                       class="w-full rounded-md border-0 bg-gray-200 px-4 py-2.5 placeholder-gray-600 focus:ring-0 sm:text-sm dark:bg-gray-900 dark:text-white dark:placeholder-gray-400"
+                       class="w-full rounded-md border-0 bg-gray-200 px-4 py-2.5 placeholder-gray-600 sm:text-sm dark:bg-gray-900 dark:text-white dark:placeholder-gray-400"
                        placeholder="Search..." role="combobox" aria-expanded="false" aria-controls="options"
                        autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
             </div>

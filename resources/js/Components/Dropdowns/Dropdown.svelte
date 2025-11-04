@@ -21,7 +21,7 @@
     <div use:clickOutside onclick_outside={() => showDropdown = false} {...rest}
          in:scale={{ duration: 100, easing: cubicOut, start: 0.95 }}
          out:scale={{ duration: 75, easing: cubicIn, start: 0.95 }}
-         class={clsx(rest.class, openingDirection === 'right' ? 'left-0 origin-top-left' : 'right-0 origin-top-right', 'absolute z-10 mt-6 w-44 divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-hidden md:w-56 dark:bg-gray-900 dark:ring-contrast dark:divide-gray-700')}
+         class={clsx(rest.class, openingDirection === 'right' ? 'left-0 origin-top-left' : 'right-0 origin-top-right', 'absolute z-10 mt-6 w-44 divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 md:w-56 dark:bg-gray-900 dark:ring-contrast dark:divide-gray-700')}
          role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
         {@render children?.()}
     </div>

@@ -38,10 +38,8 @@
 
     {#snippet footer()}
 
-            <Button clicked={() => showModal = false} title="Cancel" color="white"
-                    class="hidden focus:ring-offset-gray-50 sm:block"/>
-            <Button clicked={deletePublicLink} title="Delete" color="red" focusButton={true}
-                    class="focus:ring-offset-gray-50"/>
+            <Button clicked={() => showModal = false} title="Cancel" color="white" class="hidden sm:block"/>
+            <Button clicked={deletePublicLink} title="Delete" color="red"/>
 
     {/snippet}
 </Modal>

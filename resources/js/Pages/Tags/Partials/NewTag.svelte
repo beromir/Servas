@@ -67,7 +67,7 @@
         <Input placeholder="Enter tag name..." bind:value={$form.tagName} bind:this={input}/>
     </div>
     <Button title={modeIsEdit ? 'Save changes' : 'Create tag'} type="submit"
-            class="justify-center w-full whitespace-nowrap focus:ring-offset-gray-100 sm:w-auto"/>
+            class="justify-center w-full whitespace-nowrap sm:w-auto"/>
 
 
     {#if modeIsEdit}
@@ -76,7 +76,7 @@
                 title="Delete tag"
                 clicked={deleteTag}
                 color="white"
-                class="whitespace-nowrap focus:ring-offset-gray-100">
+                class="whitespace-nowrap">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd"
                           d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
@@ -85,7 +85,7 @@
             </Button>
 
             <button onclick={endEditMode} type="button"
-                    class="w-full text-gray-700 text-sm focus:outline-hidden focus:ring-primary-400 focus:ring-offset-gray-100 focus:ring-2 focus:ring-offset-2 sm:ml-3 dark:text-gray-200">
+                    class="w-full text-gray-700 text-sm sm:ml-3 dark:text-gray-200">
                 Cancel
             </button>
         </div>

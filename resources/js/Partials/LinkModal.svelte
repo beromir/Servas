@@ -123,7 +123,7 @@
 <Modal title={isEditing ? 'Edit link' : 'Create link'} showFooterMenuOnMobile={false} size="xl" bind:showModal>
     {#snippet mobilePrimaryAction()}
         <button onclick={isEditing ? editLink : createLink}
-                class="text-right text-primary-600 font-medium focus:outline-hidden sm:hidden dark:text-gray-100"
+                class="text-right text-primary-600 font-medium sm:hidden dark:text-gray-100"
                 type="button">
             {isEditing ? 'Edit' : 'Create'}
         </button>
@@ -160,11 +160,9 @@
     </Container>
 
     {#snippet footer()}
-        <Button clicked={() => showModal = false} title="Cancel" color="white"
-                class="focus:ring-offset-gray-50"/>
+        <Button clicked={() => showModal = false} title="Cancel" color="white"/>
         <Button clicked={isEditing ? editLink : createLink}
-                title={isEditing ? 'Edit link' : 'Create link'}
-                class="focus:ring-offset-gray-50"/>
+                title={isEditing ? 'Edit link' : 'Create link'}/>
     {/snippet}
 </Modal>
 

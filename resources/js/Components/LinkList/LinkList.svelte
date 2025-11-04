@@ -123,7 +123,7 @@
                     </svg>
                 </div>
                 <input type="text" bind:value={searchString} oninput={search}
-                       class="block w-full pl-10 border-gray-400 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-600"
+                       class="block w-full pl-10 border-gray-400 rounded-md sm:text-sm dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-600"
                        placeholder="Search links..." enterkeyhint="search">
             </div>
             {#if searchString}
@@ -252,7 +252,7 @@
                 <button onclick={() => selectedLinks = toggleValueInArray(selectedLinks, link.id)} type="button"
                         class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 dark:bg-gray-900">
                     <input bind:group={selectedLinks} value={link.id} type="checkbox"
-                           class="text-primary-500 focus:outline-primary-400 dark:bg-gray-800 dark:focus:ring-offset-gray-700"/>
+                           class="text-primary-500 dark:bg-gray-800"/>
                 </button>
             {/if}
 
@@ -309,9 +309,8 @@
     {#snippet footer()}
 
             <Button clicked={() => showLinkDeletionModal = false} title="Cancel" color="white"
-                    class="hidden focus:ring-offset-gray-50 sm:block"/>
-            <Button clicked={() => bulkEditLinks('delete')} title="Delete" color="red" focusButton={true}
-                    class="focus:ring-offset-gray-50"/>
+                    class="hidden sm:block"/>
+            <Button clicked={() => bulkEditLinks('delete')} title="Delete" color="red"/>
 
     {/snippet}
 </Modal>

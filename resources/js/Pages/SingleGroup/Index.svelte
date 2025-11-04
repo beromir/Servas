@@ -179,8 +179,7 @@
 
     {#snippet footer()}
 
-            <Button clicked={showPublicLinkDeleteModal} color="red"
-                    class="focus:ring-offset-gray-50">
+            <Button clicked={showPublicLinkDeleteModal} color="red">
                 {#snippet icon()}
                         <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
@@ -190,7 +189,7 @@
                     {/snippet}
             </Button>
             <Button clicked={() => showPublicLinkModal = false} title="Close" color="white"
-                    class="hidden focus:ring-offset-gray-50 sm:block"/>
+                    class="hidden sm:block"/>
 
     {/snippet}
 </Modal>

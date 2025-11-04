@@ -24,8 +24,7 @@
 
             {#if showNewLinkButton}
                 <div class="hidden space-x-3 sm:inline-flex sm:ml-6">
-                    <Button clicked="{() => dispatchCustomEvent('prepareCreateNewLink')}" title="new link"
-                            class="focus:ring-offset-gray-100">
+                    <Button clicked="{() => dispatchCustomEvent('prepareCreateNewLink')}" title="new link">
                         {#snippet icon()}
                                                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"

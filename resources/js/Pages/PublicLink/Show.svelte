@@ -59,7 +59,7 @@
                         </svg>
                     </div>
                     <input type="text" bind:value={searchString} oninput={search}
-                           class="focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 sm:text-sm border-gray-400 rounded-md dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-600"
+                           class="block w-full pl-10 sm:text-sm border-gray-400 rounded-md dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-600"
                            placeholder="Search links..." enterkeyhint="search">
                 </div>
                 {#if searchString}

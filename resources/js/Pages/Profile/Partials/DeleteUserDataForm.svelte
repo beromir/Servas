@@ -52,7 +52,7 @@
                 {#each deleteOptions as option}
                     <label class="flex items-center">
                         <input type="checkbox" value={option} bind:group={$userDataForm.deleteOptions}
-                               class="rounded-sm border-gray-300 text-primary-600 shadow-xs focus:border-primary-300 focus:ring-3 focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
+                               class="rounded-sm border-gray-300 text-primary-600 shadow-xs dark:bg-gray-800 dark:border-gray-600"/>
                         <span class="ml-2 text-sm text-gray-600 capitalize dark:text-gray-300">{option}</span>
                     </label>
                 {/each}
@@ -74,9 +74,9 @@
     </p>
 
     {#snippet footer()}
-        <Button clicked={deleteUserData} title="Delete" color="red" focusButton={true}
-                class="focus:ring-offset-gray-50 sm:ml-3"/>
+        <Button clicked={deleteUserData} title="Delete" color="red"
+                class="sm:ml-3"/>
         <Button clicked={() => showModal = false} title="Cancel" color="white"
-                class="hidden mt-3 focus:ring-offset-gray-50 sm:inline-flex sm:mt-0"/>
+                class="hidden mt-3 sm:inline-flex sm:mt-0"/>
     {/snippet}
 </Modal>

@@ -117,7 +117,7 @@
     {#snippet mobilePrimaryAction()}
 
             <button onclick={isEditing ? updateGroup : createGroup}
-                    class="text-right text-primary-600 font-medium focus:outline-hidden sm:hidden dark:text-gray-100" type="button">
+                    class="text-right text-primary-600 font-medium sm:hidden dark:text-gray-100" type="button">
                 {isEditing ? 'Edit' : 'Create'}
             </button>
 
@@ -166,11 +166,9 @@
 
     {#snippet footer()}
 
-            <Button clicked={() => showModal = false} title="Cancel" color="white"
-                    class="focus:ring-offset-gray-50"/>
+            <Button clicked={() => showModal = false} title="Cancel" color="white"/>
             <Button clicked={isEditing ? updateGroup : createGroup}
-                    title={isEditing ? 'Edit group' : 'Create group'}
-                    class="focus:ring-offset-gray-50"/>
+                    title={isEditing ? 'Edit group' : 'Create group'}/>
 
     {/snippet}
 </Modal>

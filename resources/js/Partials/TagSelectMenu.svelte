@@ -129,7 +129,7 @@
     {#snippet mobilePrimaryAction()}
 
             <button onclick={saveChanges}
-                    class="text-right text-primary-600 font-medium focus:outline-hidden sm:hidden dark:text-gray-100" type="button">
+                    class="text-right text-primary-600 font-medium sm:hidden dark:text-gray-100" type="button">
                 {primaryButtonTitle}
             </button>
 
@@ -138,9 +138,9 @@
     <!-- Search input -->
     <div class="relative">
         <input oninput={(e) => search(e.target.value)} bind:this={searchInput} type="text" placeholder="Search tags..."
-               class="px-10 w-full border-0 border-b border-gray-300 peer focus:border-primary-200 focus:outline-hidden focus:ring-0 dark:bg-gray-900 dark:text-gray-50 dark:border-gray-600 dark:focus:border-primary-400"/>
+               class="px-10 w-full border-0 border-b border-gray-300 peer dark:bg-gray-900 dark:text-gray-50 dark:border-gray-600"/>
 
-        <div class="absolute inset-y-0 left-2 flex items-center text-gray-500 peer-focus:text-primary-600 dark:text-gray-400 dark:peer-focus:text-primary-200">
+        <div class="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-gray-400">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                 <path fill-rule="evenodd"
                       d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
@@ -167,12 +167,12 @@
             {#each filteredTags as tag (tag.id)}
                 {#if getIndexOfTagId(tag.id, internalSelectedTags) !== -1}
                     <button onclick={(event) => selectTag(tag, event)} type="button" title={tag.name}
-                            class="flex items-center py-1.5 px-3 border border-primary-100 bg-primary-50 rounded-full hover:border-primary-200 focus:outline-hidden dark:bg-primary-700/80 dark:border-primary-400 dark:hover:border-primary-300">
+                            class="flex items-center py-1.5 px-3 border border-primary-100 bg-primary-50 rounded-full hover:border-primary-200 dark:bg-primary-700/80 dark:border-primary-400 dark:hover:border-primary-300">
                         <span class="text-sm text-primary-900 truncate dark:text-primary-50">{tag.name}</span>
                     </button>
                 {:else}
                     <button onclick={(event) => selectTag(tag, event)} type="button" title={tag.name}
-                            class="flex items-center py-1.5 px-3 border border-gray-200 bg-gray-100 rounded-full hover:border-gray-300 focus:outline-hidden dark:bg-gray-800 dark:border-gray-600 dark:hover:border-gray-400">
+                            class="flex items-center py-1.5 px-3 border border-gray-200 bg-gray-100 rounded-full hover:border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:border-gray-400">
                         <span class="text-sm text-gray-900 truncate dark:text-white">{tag.name}</span>
                     </button>
                 {/if}
@@ -228,10 +228,8 @@
 
     {#snippet footer()}
 
-            <Button clicked={reset} title="Cancel" color="white"
-                    class="focus:ring-offset-gray-50 dark:focus:ring-offset-gray-950"/>
-            <Button clicked={saveChanges} title={primaryButtonTitle}
-                    class="focus:ring-offset-gray-50 dark:focus:ring-offset-gray-950"/>
+            <Button clicked={reset} title="Cancel" color="white"/>
+            <Button clicked={saveChanges} title={primaryButtonTitle}/>
 
     {/snippet}
 </Modal>

@@ -53,7 +53,7 @@
         <div class="md:flex md:flex-row-reverse md:justify-between md:gap-8">
             <div class="flex justify-end md:-mt-1.5 md:h-fit">
                 <button onclick={copyLink(link.link)} title="Copy link" type="button"
-                        class="w-max inline-flex items-center p-2 border border-gray-400 shadow-xs text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800">
+                        class="w-max inline-flex items-center p-2 border border-gray-400 shadow-xs text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700">
 
                     {#if copied}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -78,7 +78,7 @@
                 </button>
 
                 <a href={link.link} target="_blank" rel="noreferrer noopener nofollow"
-                   class="w-max inline-flex items-center ml-3 px-4 py-2 border border-gray-400 shadow-xs text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800">
+                   class="w-max inline-flex items-center ml-3 px-4 py-2 border border-gray-400 shadow-xs text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700">
                     Open link
                     <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 -mr-1 size-5" viewBox="0 0 20 20"
                          fill="currentColor">
@@ -136,7 +136,7 @@
 
         {#if navigator.share}
             <button type="button" onclick={shareLink}
-                    class="w-max inline-flex items-center mt-6 px-4 py-2  border border-gray-400 shadow-xs text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800">
+                    class="w-max inline-flex items-center mt-6 px-4 py-2  border border-gray-400 shadow-xs text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700">
                 Share link
 
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -151,11 +151,11 @@
         <div class="flex justify-end mt-6 w-full">
             <div>
                 <button onclick={deleteLink} type="button"
-                        class="text-red-600 hover:text-red-700 focus:outline-hidden focus:underline focus:decoration-red-600/70 focus:decoration-2 dark:text-red-300 dark:hover:text-red-400 dark:focus:decoration-red-400/70">
+                        class="text-red-600 hover:text-red-700 dark:text-red-300 dark:hover:text-red-400">
                     Delete
                 </button>
                 <button onclick={editLink} type="button"
-                        class="ml-3 text-primary-600 hover:text-primary-700 focus:outline-hidden focus:underline focus:decoration-primary-600/70 focus:decoration-2 dark:text-primary-300 dark:hover:text-primary-400 dark:focus:decoration-primary-400/70">
+                        class="ml-3 text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-400">
                     Edit link
                 </button>
             </div>

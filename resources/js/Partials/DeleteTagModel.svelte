@@ -39,10 +39,10 @@
 
     {#snippet footer()}
 
-            <Button clicked={deleteTag} title="Delete" color="red" focusButton={true}
-                    class="focus:ring-offset-gray-50 sm:ml-3"/>
+            <Button clicked={deleteTag} title="Delete" color="red"
+                    class="sm:ml-3"/>
             <Button clicked={() => showModal = false} title="Cancel" color="white"
-                    class="hidden mt-3 focus:ring-offset-gray-50 sm:inline-flex sm:mt-0"/>
+                    class="hidden mt-3 sm:inline-flex sm:mt-0"/>
 
     {/snippet}
 </Modal>

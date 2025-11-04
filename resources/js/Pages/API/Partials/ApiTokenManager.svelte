@@ -99,7 +99,7 @@
                             {#each availablePermissions as permission (permission)}
                                 <label class="flex items-center">
                                     <input value={permission} bind:group={$createApiTokenForm.permissions} type="checkbox"
-                                           class="rounded-sm border-gray-400 text-primary-600 shadow-xs focus:border-primary-300 focus:ring-3 focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
+                                           class="rounded-sm border-gray-400 text-primary-600 shadow-xs dark:bg-gray-800 dark:border-gray-600"/>
                                     <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">{permission}</span>
                                 </label>
                             {/each}
@@ -227,7 +227,7 @@
                     {#each availablePermissions as permission (permission)}
                         <label class="flex items-center">
                             <input value={permission} bind:group={$updateApiTokenForm.permissions} type="checkbox"
-                                   class="rounded-sm border-gray-300 text-primary-600 shadow-xs focus:border-primary-300 focus:ring-3 focus:ring-primary-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-offset-gray-800"/>
+                                   class="rounded-sm border-gray-300 text-primary-600 shadow-xs dark:bg-gray-800 dark:border-gray-600"/>
                             <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">{permission}</span>
                         </label>
                     {/each}

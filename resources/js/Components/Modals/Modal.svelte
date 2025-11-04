@@ -60,7 +60,7 @@
                         <div
                             class="fixed inset-x-0 top-0 z-10 grid grid-cols-5 items-end px-4 pt-4 pb-3 backdrop-blur-3xl sm:static sm:px-6 sm:py-0 sm:backdrop-blur-none">
                             <button onclick={() => {showModal = false; canceled()}}
-                                    class="text-left text-primary-600 focus:outline-hidden sm:hidden dark:text-gray-100"
+                                    class="text-left text-primary-600 sm:hidden dark:text-gray-100"
                                     type="button">
                                 Cancel
                             </button>
