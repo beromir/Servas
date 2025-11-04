@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import './fonts/inter-ui.css' layer(base);
+@import './fonts/inter.css' layer(base);
 @import './fonts/jetbrains-mono.css' layer(base);
 
 @theme {
@@ -16,7 +16,7 @@
     --color-primary-50: hsl(221deg 68% 93%);
 
     /* Fonts */
-    --font-sans: 'Inter', sans-serif;
+    --font-sans: 'InterVariable', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 }
 
@@ -38,4 +38,3 @@
 @utility ring-contrast {
     @apply dark:ring-1 dark:ring-white/15;
 }
-
