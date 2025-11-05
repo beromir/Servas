@@ -9,12 +9,12 @@
     import {refreshLinks, refreshTags} from "@/stores";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
 
-    let showModal = $state(false);
     let isEditing = $state(false);
     let linkId = null;
     let tags = $state([]);
     let groupSelectMenu = $state();
     let selectedGroups = $state([]);
+    let modal;
 
     let linkForm = useForm({
         link: null,
@@ -36,10 +36,10 @@
             $linkForm.reset();
             groupSelectMenu.reset();
             linkId = null;
-            showModal = true;
+            modal.open();
             selectedGroups = [];
         } else {
-            showModal = true;
+            modal.open();
         }
     }
 
@@ -61,7 +61,7 @@
 
         isEditing = true;
 
-        showModal = true;
+        modal.open();
     }
 
     function createLink() {
@@ -70,7 +70,7 @@
             onSuccess: () => {
                 $linkForm.reset();
                 groupSelectMenu.reset();
-                showModal = false;
+                modal.close();
                 $refreshLinks = true;
             },
         });
@@ -84,7 +84,7 @@
                 linkId = null;
                 $linkForm.reset();
                 groupSelectMenu.reset();
-                showModal = false;
+                modal.open();
                 $refreshLinks = true;
             },
         });
@@ -120,7 +120,7 @@
 
 <svelte:window oneditLink={prepareEditLink} onprepareCreateNewLink={prepareCreateNewLink}/>
 
-<Modal title={isEditing ? 'Edit link' : 'Create link'} showFooterMenuOnMobile={false} size="xl" bind:showModal>
+<Modal bind:this={modal} title={isEditing ? 'Edit link' : 'Create link'} showFooterMenuOnMobile={false} size="xl">
     {#snippet mobilePrimaryAction()}
         <button onclick={isEditing ? editLink : createLink}
                 class="text-right text-primary-600 font-medium sm:hidden dark:text-gray-100"
@@ -160,7 +160,7 @@
     </Container>
 
     {#snippet footer()}
-        <Button clicked={() => showModal = false} title="Cancel" color="white"/>
+        <Button clicked={() => modal.close()} title="Cancel" color="white"/>
         <Button clicked={isEditing ? editLink : createLink}
                 title={isEditing ? 'Edit link' : 'Create link'}/>
     {/snippet}
