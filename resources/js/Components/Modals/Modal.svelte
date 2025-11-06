@@ -28,9 +28,13 @@
     export function close() {
         dialog.close();
     }
+
+    function handleDialogClick(e) {
+        if (e.target === dialog) close();
+    }
 </script>
 
-<dialog bind:this={dialog}
+<dialog bind:this={dialog} onclick={handleDialogClick}
         class={clsx('m-auto w-full text-left rounded-t-3xl shadow-xl ring-contrast backdrop:bg-gray-500/75 sm:rounded-2xl dark:backdrop:bg-gray-900/75', getSizeClasses())}>
     <div
         class="flex flex-col max-h-[calc(100dvh-3rem)] sm:pt-6 sm:max-h-none dark:bg-gray-900">
