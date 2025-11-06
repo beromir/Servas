@@ -21,7 +21,7 @@
         }
     };
 
-    export function open() {
+    export function show() {
         dialog.showModal();
     }
 
