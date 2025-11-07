@@ -5,13 +5,14 @@
     import clsx from "clsx";
 
     let {
-        selectedGroups = $bindable([]), changesSaved = () => {}
+        selectedGroups = $bindable([]), changesSaved = () => {
+        }
     } = $props();
 
     let groups = [];
     let filteredGroups = $state([]);
     let internalSelectedGroups = $state([]);       // property for internal use only; contains group objects
-    let showModal = $state(false);
+    let modal = $state();
     let showSelectView = $state(true);
     let modeIsMultiSelect = false;
 
@@ -23,7 +24,7 @@
 
         filterByGroup(null);
 
-        showModal = true;
+        modal.show();
     }
 
     function saveChanges() {
@@ -33,7 +34,7 @@
             selectedGroups = [...selectedGroups, group.id];
         });
 
-        showModal = false;
+        modal.close();
 
         changesSaved();
     }
@@ -139,7 +140,7 @@
     }
 </script>
 
-<Modal title="Select a group" bind:showModal showFooterMenuOnMobile={false}>
+<Modal bind:this={modal} title="Select a group" showFooterMenuOnMobile={false}>
     {#snippet mobilePrimaryAction()}
         <button onclick={saveChanges}
                 class="text-right text-primary-600 font-medium sm:hidden dark:text-gray-100"
@@ -271,7 +272,7 @@
     </div>
 
     {#snippet footer()}
-        <Button clicked={() => showModal = false} title="Cancel" color="white"
+        <Button clicked={() => modal.close()} title="Cancel" color="white"
                 class="hidden sm:block"/>
         <Button clicked={saveChanges} title="Select"/>
     {/snippet}

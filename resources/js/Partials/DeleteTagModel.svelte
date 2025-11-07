@@ -5,13 +5,13 @@
     import {dispatchCustomEvent, route} from '@/utils';
     import {refreshTags} from "@/stores";
 
-    let showModal = $state(false);
     let tag = $state({});
+    let modal = $state();
 
     function prepareDeleteTag(e) {
         tag = e.detail;
 
-        showModal = true;
+        modal.show();
     }
 
     function deleteTag() {
@@ -20,7 +20,7 @@
             onSuccess: () => {
                 // End the edit mode
                 dispatchCustomEvent('tagDeletionWasSuccessful');
-                showModal = false;
+                modal.close()
                 $refreshTags = true;
             },
         });
@@ -29,7 +29,7 @@
 
 <svelte:window ondeleteTag={prepareDeleteTag}/>
 
-<Modal title="Delete Tag" bind:showModal>
+<Modal bind:this={modal} title="Delete Tag">
     <p class="text-sm text-gray-600 dark:text-gray-300">
         Are you sure you want to delete this tag?
     </p>
@@ -38,11 +38,9 @@
     </div>
 
     {#snippet footer()}
-
-            <Button clicked={deleteTag} title="Delete" color="red"
-                    class="sm:ml-3"/>
-            <Button clicked={() => showModal = false} title="Cancel" color="white"
-                    class="hidden mt-3 sm:inline-flex sm:mt-0"/>
-
+        <Button clicked={deleteTag} title="Delete" color="red"
+                class="sm:ml-3"/>
+        <Button clicked={() => modal.close()} title="Cancel" color="white"
+                class="hidden mt-3 sm:inline-flex sm:mt-0"/>
     {/snippet}
 </Modal>

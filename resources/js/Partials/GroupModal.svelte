@@ -12,7 +12,7 @@
     import Minus from "@/Heroicons/Mini/Minus.svelte";
     import Plus from "@/Heroicons/Mini/Plus.svelte";
 
-    let showModal = $state(false);
+    let modal = $state();
     let isEditing = $state(false);
     let group = $state(null);
     let groupSelectMenu = $state();
@@ -46,7 +46,7 @@
             notTags: [],
         };
 
-        showModal = true;
+        modal.show();
     }
 
     function showEditingView(groupToEdit) {
@@ -63,7 +63,7 @@
             showSmartGroupSettings = true;
         }
 
-        showModal = true;
+        modal.show();
     }
 
     function createGroup() {
@@ -77,7 +77,7 @@
             preserveScroll: true,
             onSuccess: () => {
                 refreshGroups.update();
-                showModal = false;
+                modal.close();
                 reset();
             },
         });
@@ -94,7 +94,7 @@
             preserveScroll: true,
             onSuccess: () => {
                 refreshGroups.update();
-                showModal = false;
+                modal.close();
                 reset();
             },
         });
@@ -113,26 +113,25 @@
 <svelte:window oneditGroup={(event) => showEditingView(event.detail)}
                oncreateGroup={(event) => showCreationView(event.detail)}/>
 
-<Modal title={isEditing ? 'Edit group' : 'Create group'} showFooterMenuOnMobile={false} bind:showModal>
+<Modal bind:this={modal} title={isEditing ? 'Edit group' : 'Create group'} showFooterMenuOnMobile={false}>
     {#snippet mobilePrimaryAction()}
-
-            <button onclick={isEditing ? updateGroup : createGroup}
-                    class="text-right text-primary-600 font-medium sm:hidden dark:text-gray-100" type="button">
-                {isEditing ? 'Edit' : 'Create'}
-            </button>
-
+        <button onclick={isEditing ? updateGroup : createGroup}
+                class="text-right text-primary-600 font-medium sm:hidden dark:text-gray-100" type="button">
+            {isEditing ? 'Edit' : 'Create'}
+        </button>
     {/snippet}
 
     <Container>
         <Input label="Title" name="title" isFirst={true} bind:value={$form.title}
                error={$form.errors.title} autofocus={!isEditing}/>
 
-        <div class="sm:grid sm:grid-cols-5 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5 dark:border-gray-700">
+        <div
+            class="sm:grid sm:grid-cols-5 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5 dark:border-gray-700">
             <span class="block text-sm text-left font-medium text-gray-700 sm:mt-px sm:pt-2 dark:text-gray-200">
                 Groups
             </span>
             <div class="max-w-xl mt-1 relative sm:mt-0 sm:col-span-2">
-                <Button clicked={groupSelectMenu.openModal}
+                <Button clicked={() => groupSelectMenu.openModal()}
                         title={selectedGroups.length ? `${selectedGroups.length} Group${selectedGroups.length > 1 ? 's' : ''} selected` : 'Select group'}
                         color="white"/>
             </div>
@@ -143,14 +142,17 @@
                     class="flex justify-between items-center w-full group">
                 <span class="text-left">
                     <span class="block text-gray-800 font-medium dark:text-gray-100">Smart Group settings</span>
-                    <span class="block -mt-0.5 text-sm text-gray-500 dark:text-gray-400">Show tagged links in the group</span>
+                    <span
+                        class="block -mt-0.5 text-sm text-gray-500 dark:text-gray-400">Show tagged links in the group</span>
                 </span>
 
                 {#if showSmartGroupSettings}
-                    <Minus className="text-gray-600 group-hover:text-gray-900 dark:text-gray-200 dark:group-hover:text-white"/>
+                    <Minus
+                        className="text-gray-600 group-hover:text-gray-900 dark:text-gray-200 dark:group-hover:text-white"/>
 
                 {:else}
-                    <Plus className="text-gray-600 group-hover:text-gray-900 dark:text-gray-200 dark:group-hover:text-white"/>
+                    <Plus
+                        className="text-gray-600 group-hover:text-gray-900 dark:text-gray-200 dark:group-hover:text-white"/>
                 {/if}
             </button>
 
@@ -165,11 +167,9 @@
     </Container>
 
     {#snippet footer()}
-
-            <Button clicked={() => showModal = false} title="Cancel" color="white"/>
-            <Button clicked={isEditing ? updateGroup : createGroup}
-                    title={isEditing ? 'Edit group' : 'Create group'}/>
-
+        <Button clicked={() => modal.close()} title="Cancel" color="white"/>
+        <Button clicked={isEditing ? updateGroup : createGroup}
+                title={isEditing ? 'Edit group' : 'Create group'}/>
     {/snippet}
 </Modal>
 

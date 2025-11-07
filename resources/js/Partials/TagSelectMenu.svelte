@@ -9,7 +9,7 @@
     let tags = [];
     let filteredTags = $state([]);
     let internalSelectedTags = $state([]);          // property for internal use only; contains tag objects
-    let showModal = $state(false);
+    let modal = $state();
     let showUntaggedButton = $state(false);
     let showUntagged = $state(false);
     let searchInput = $state(null);
@@ -46,7 +46,7 @@
     async function openModal() {
         await getAllTags();
 
-        showModal = true;
+        modal.show();
     }
 
     function saveChanges() {
@@ -112,7 +112,7 @@
     }
 
     function reset() {
-        showModal = false;
+        modal.close();
         resetSearch();
         internalSelectedTags = [];
         showUntagged = false;
@@ -125,13 +125,13 @@
 
 <svelte:window ontags.select={e => initTagSelection(e.detail)} ontags.filter={e => initTagFilter(e.detail)}/>
 
-<Modal bind:showModal canceled={reset} title={title} showFooterMenuOnMobile={false}>
+<Modal bind:this={modal} canceled={reset} title={title} showFooterMenuOnMobile={false}>
     {#snippet mobilePrimaryAction()}
 
-            <button onclick={saveChanges}
-                    class="text-right text-primary-600 font-medium sm:hidden dark:text-gray-100" type="button">
-                {primaryButtonTitle}
-            </button>
+        <button onclick={saveChanges}
+                class="text-right text-primary-600 font-medium sm:hidden dark:text-gray-100" type="button">
+            {primaryButtonTitle}
+        </button>
 
     {/snippet}
 
@@ -149,7 +149,8 @@
         </div>
 
         {#if searchInput?.value}
-            <div class="absolute inset-y-0 right-2 flex items-center text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300">
+            <div
+                class="absolute inset-y-0 right-2 flex items-center text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300">
                 <button onclick={resetSearch} type="button" title="Clear search">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" data-slot="icon"
                          class="size-4">
@@ -227,9 +228,7 @@
     </div>
 
     {#snippet footer()}
-
-            <Button clicked={reset} title="Cancel" color="white"/>
-            <Button clicked={saveChanges} title={primaryButtonTitle}/>
-
+        <Button clicked={reset} title="Cancel" color="white"/>
+        <Button clicked={saveChanges} title={primaryButtonTitle}/>
     {/snippet}
 </Modal>

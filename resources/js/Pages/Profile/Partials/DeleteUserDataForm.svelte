@@ -16,12 +16,12 @@
         deleteOptions: [],
     })
 
-    let showModal = $state(false);
+    let modal = $state();
 
     let showSuccessMessage = $state(false);
 
     function requestConfirmation() {
-        showModal = true;
+        modal.show();
         showSuccessMessage = false;
     }
 
@@ -30,7 +30,7 @@
             preserveScroll: true,
             onSuccess: () => {
                 $userDataForm.reset();
-                showModal = false;
+                modal.close();
                 showSuccessMessage = true;
             }
         });
@@ -68,7 +68,7 @@
     {/snippet}
 </JetFormSection>
 
-<Modal title="Delete Data" bind:showModal>
+<Modal bind:this={modal} title="Delete Data">
     <p class="text-sm text-gray-600 dark:text-gray-300">
         Are you sure you want to delete the selected data?
     </p>
@@ -76,7 +76,7 @@
     {#snippet footer()}
         <Button clicked={deleteUserData} title="Delete" color="red"
                 class="sm:ml-3"/>
-        <Button clicked={() => showModal = false} title="Cancel" color="white"
+        <Button clicked={() => modal.close()} title="Cancel" color="white"
                 class="hidden mt-3 sm:inline-flex sm:mt-0"/>
     {/snippet}
 </Modal>

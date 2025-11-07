@@ -4,7 +4,7 @@
     import {router} from '@inertiajs/svelte';
     import {route} from '@/utils';
 
-    let showModal = $state(false);
+    let modal = $state();
     let publicLinkId = null;
     let publicLinkTitle = $state('');
 
@@ -12,7 +12,7 @@
         publicLinkId = e.detail.id;
         publicLinkTitle = e.detail.title;
 
-        showModal = true;
+        modal.show();
     }
 
     function deletePublicLink() {
@@ -20,7 +20,7 @@
             only: ['publicLink', 'publicLinks'],
             preserveScroll: true,
             onSuccess: () => {
-                showModal = false;
+                modal.close();
             },
         });
     }
@@ -28,7 +28,7 @@
 
 <svelte:window ondeletePublicLink={prepareDeletePublicLink}/>
 
-<Modal title="Delete Public link" bind:showModal>
+<Modal bind:this={modal} title="Delete Public link">
     <p class="text-sm text-gray-600 dark:text-gray-300">
         Are you sure you want to delete this public link and stop the sharing of the group?
     </p>
@@ -37,9 +37,7 @@
     </div>
 
     {#snippet footer()}
-
-            <Button clicked={() => showModal = false} title="Cancel" color="white" class="hidden sm:block"/>
-            <Button clicked={deletePublicLink} title="Delete" color="red"/>
-
+        <Button clicked={() => modal.close()} title="Cancel" color="white" class="hidden sm:block"/>
+        <Button clicked={deletePublicLink} title="Delete" color="red"/>
     {/snippet}
 </Modal>

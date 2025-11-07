@@ -36,10 +36,10 @@
             $linkForm.reset();
             groupSelectMenu.reset();
             linkId = null;
-            modal.open();
+            modal.show();
             selectedGroups = [];
         } else {
-            modal.open();
+            modal.show();
         }
     }
 
@@ -61,7 +61,7 @@
 
         isEditing = true;
 
-        modal.open();
+        modal.show();
     }
 
     function createLink() {
@@ -84,7 +84,7 @@
                 linkId = null;
                 $linkForm.reset();
                 groupSelectMenu.reset();
-                modal.open();
+                modal.show();
                 $refreshLinks = true;
             },
         });
