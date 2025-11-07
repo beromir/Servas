@@ -84,7 +84,7 @@
                 linkId = null;
                 $linkForm.reset();
                 groupSelectMenu.reset();
-                modal.show();
+                modal.close();
                 $refreshLinks = true;
             },
         });
