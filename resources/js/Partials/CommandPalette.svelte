@@ -177,7 +177,7 @@
 
 <dialog bind:this={dialog} onclick={handleDialogClick}
         aria-label="Command palette"
-        class="mx-4 my-4 w-full rounded-xl shadow-2xl ring-contrast backdrop:bg-gray-500/75 sm:mx-auto sm:my-6 sm:md:max-w-xl md:my-20 dark:bg-gray-950 dark:backdrop:bg-gray-900/75">
+        class="mx-auto my-4 w-[calc(100%-(--spacing(8)))] max-w-xl rounded-xl shadow-2xl ring-contrast backdrop:bg-gray-500/75 sm:my-6 md:my-20 dark:bg-gray-950 dark:backdrop:bg-gray-900/75">
     <div class="p-2">
         <input bind:value={inputValue}
                oninput={search}
