@@ -35,11 +35,10 @@
 </script>
 
 <dialog bind:this={dialog} onclick={handleDialogClick}
-        class={clsx('m-auto w-full text-left rounded-t-3xl shadow-xl ring-contrast backdrop:bg-gray-500/75 sm:rounded-2xl dark:backdrop:bg-gray-900/75', getSizeClasses())}>
-    <div
-        class="flex flex-col max-h-[calc(100dvh-3rem)] sm:pt-6 sm:max-h-none dark:bg-gray-900">
+        class={clsx('mt-auto text-left rounded-t-3xl shadow-xl ring-contrast backdrop:bg-gray-500/75 sm:m-auto sm:rounded-2xl dark:backdrop:bg-gray-900/75', getSizeClasses())}>
+    <div class="relative flex flex-col max-h-[calc(100dvh-3rem)] sm:pt-6 sm:max-h-none dark:bg-gray-900">
         <div
-            class="fixed inset-x-0 top-0 z-10 grid grid-cols-5 items-end px-4 pt-4 pb-3 backdrop-blur-3xl sm:static sm:px-6 sm:py-0 sm:backdrop-blur-none">
+            class="absolute inset-x-0 top-0 z-10 grid grid-cols-5 items-end px-4 pt-4 pb-3 backdrop-blur-3xl sm:static sm:px-6 sm:py-0 sm:backdrop-blur-none">
             <button onclick={close} type="button"
                     class="text-left text-primary-600 sm:hidden dark:text-gray-100">
                 Cancel
