@@ -18,7 +18,7 @@
         <input id={name} {name} {type} {...rest} {value} oninput={(e) => value = e.target.value}
                class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-xs sm:text-sm dark:text-gray-50 dark:bg-gray-900 dark:border-gray-500">
         {#if error}
-            <div class="text-yellow-800">{error}</div>
+            <div class="mt-2 text-sm text-yellow-700 dark:text-yellow-500">{error}</div>
         {/if}
     </div>
 </div>

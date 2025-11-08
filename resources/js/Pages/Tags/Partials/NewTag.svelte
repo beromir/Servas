@@ -92,6 +92,6 @@
     {/if}
 
     {#if $form.errors.tagName}
-        <div class="inline-flex ml-4 items-center text-yellow-800 whitespace-nowrap">{$form.errors.tagName}</div>
+        <div class="inline-flex ml-4 items-center text-yellow-700 whitespace-nowrap dark:text-yellow-500">{$form.errors.tagName}</div>
     {/if}
 </form>

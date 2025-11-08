@@ -15,5 +15,5 @@
 </div>
 
 {#if error}
-    <div class="text-yellow-800">{error}</div>
+    <div class="mt-2 text-sm text-yellow-700 dark:text-yellow-500">{error}</div>
 {/if}
