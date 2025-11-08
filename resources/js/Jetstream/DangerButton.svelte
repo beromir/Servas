@@ -1,5 +1,5 @@
 <script>
-    let { type = 'button', children, clicked, ...rest } = $props();
+    let { type = 'button', children, clicked = () => {}, ...rest } = $props();
 </script>
 
 <button {type} onclick={() => clicked()} {...rest}

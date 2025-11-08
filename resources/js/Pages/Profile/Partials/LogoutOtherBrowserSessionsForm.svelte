@@ -98,7 +98,7 @@
                                         {session.ip_address},
 
                                         {#if session.is_current_device}
-                                            <span class="text-green-500 font-semibold">This device</span>
+                                            <span class="text-green-700 font-semibold dark:text-green-500">This device</span>
                                         {:else}
                                             <span>Last active {session.last_active}</span>
                                         {/if}

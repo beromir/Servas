@@ -25,8 +25,9 @@
         showUntaggedOnly = false
     } = $props();
 
+
     let showMenuDropdown = $state(false);
-    let showPublicLinkModal = $state(false);
+    let publicLinkModal = $state();
     let publicLinkCopied = $state(false);
 
     $effect(() => {
@@ -46,13 +47,13 @@
         }, {
             only: ['publicLink'],
             onSuccess: () => {
-                showPublicLinkModal = true;
+                publicLinkModal.show();
             }
         });
     }
 
     function showPublicLinkDeleteModal() {
-        showPublicLinkModal = false;
+        publicLinkModal.close();
 
         dispatchCustomEvent('deletePublicLink', {id: publicLink.id, title: group.title});
     }
@@ -124,7 +125,7 @@
             </div>
 
             {#if publicLink.id}
-                <Button clicked={() => showPublicLinkModal = true} color="white" hoverTitle="Public link" class="ml-4 w-auto!">
+                <Button clicked={() => publicLinkModal.show()} color="white" hoverTitle="Public link" class="ml-4 w-auto!">
                     {#snippet icon()}
                                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path
@@ -143,7 +144,7 @@
     {/if}
 </Main>
 
-<Modal title="Public link" bind:showModal={showPublicLinkModal}>
+<Modal bind:this={publicLinkModal} title="Public link">
     <p class="text-sm text-gray-600 dark:text-gray-300">
         Share this group with this link:
     </p>
@@ -188,7 +189,7 @@
                     </svg>
                     {/snippet}
             </Button>
-            <Button clicked={() => showPublicLinkModal = false} title="Close" color="white"
+            <Button clicked={() => publicLinkModal.close()} title="Close" color="white"
                     class="hidden sm:block"/>
 
     {/snippet}

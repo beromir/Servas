@@ -28,6 +28,16 @@
 @custom-variant hover (&:where(:hover, :focus-visible));
 
 @layer base {
+    body:has(dialog[open]) {
+        overflow: hidden;
+    }
+
+    dialog {
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
     button:focus-visible,
     a:focus-visible {
         outline: 2px solid var(--color-primary-400);
@@ -36,5 +46,5 @@
 }
 
 @utility ring-contrast {
-    @apply dark:ring-1 dark:ring-white/15;
+    @apply ring-1 ring-black/5 dark:ring-white/15;
 }

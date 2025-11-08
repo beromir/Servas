@@ -1,9 +1,7 @@
 <script>
     import {router} from '@inertiajs/svelte'
-    import {fade, scale} from 'svelte/transition';
-    import {backIn, backOut} from 'svelte/easing';
     import {debounce, delay} from "lodash";
-    import {route, noScroll} from '@/utils';
+    import {route} from '@/utils';
     import Home from "@/Heroicons/Mini/Home.svelte";
     import Inbox from "@/Heroicons/Mini/Inbox.svelte";
     import Tag from "@/Heroicons/Mini/Tag.svelte";
@@ -21,20 +19,19 @@
     let groups = $state([]);
     let selectedModal = $state(null);
     let selectedPage = $state(null);
-    let showCommandPalette = $state(false);
-    let input = $state();
+    let dialog;
+    let inputValue = $state('');
 
     function openCommandPalette() {
         searchResults = [];
         selectedModal = null;
         selectedPage = null;
-        showCommandPalette = true;
-
-        delay(() => focus(), 200);
+        inputValue = '';
+        dialog.showModal();
     }
 
     function closeCommandPalette() {
-        showCommandPalette = false;
+        dialog.close();
     }
 
     function openPage(url) {
@@ -55,10 +52,6 @@
 
     function handleKeydown(e) {
         switch (e.key) {
-            case 'Escape':
-                e.preventDefault();
-                closeCommandPalette();
-                break;
             case 'ArrowDown':
             case 'ArrowUp':
                 e.preventDefault();
@@ -125,8 +118,9 @@
                         document.getElementById(`select-option-${selectedModal}`).scrollIntoView({block: 'nearest'})
                     } else {
                         selectedModal = null;
-                        if (document.getElementById('options')) {
-                            document.getElementById('options').scrollTo(0, 0)
+                        let firstGroup = groups[0];
+                        if (firstGroup && document.getElementById(`options-${firstGroup}`)) {
+                            document.getElementById(`options-${firstGroup}`).scrollTo(0, 0)
                         }
                     }
                 }, 10);
@@ -156,7 +150,7 @@
     }
 
     const search = debounce(() => {
-        const searchString = input.value.trim().toLowerCase();
+        const searchString = inputValue.trim().toLowerCase();
 
         if (!searchString) {
             searchResults = [];
@@ -167,107 +161,130 @@
         }
 
         axios.post(route('search'), {
-            searchString: input.value.trim().toLowerCase(),
+            searchString: searchString,
         }).then(response => {
             searchResults = response.data;
             getGroups();
         });
     }, 400);
 
-    const focus = () => input.focus();
+    function handleDialogClick(e) {
+        if (e.target === dialog) closeCommandPalette();
+    }
 </script>
 
 <svelte:window onshowCommandPalette={openCommandPalette}/>
 
-{#if showCommandPalette}
-    <div class="fixed inset-0 z-90 overflow-y-auto p-4 sm:p-6 md:p-20" role="dialog" aria-modal="true">
+<dialog bind:this={dialog} onclick={handleDialogClick}
+        aria-label="Command palette"
+        class="mx-auto my-4 w-[calc(100%-(--spacing(8)))] max-w-xl rounded-xl shadow-2xl ring-contrast backdrop:bg-gray-500/75 sm:my-6 md:my-20 dark:bg-gray-950 dark:backdrop:bg-gray-900/75">
+    <div class="p-2">
+        <input bind:value={inputValue}
+               oninput={search}
+               onkeydown={handleKeydown}
+               type="text"
+               class="w-full rounded-md border-0 bg-gray-200 px-4 py-2.5 placeholder-gray-600 focus:ring-0 sm:text-sm dark:bg-gray-900 dark:text-white dark:placeholder-gray-400"
+               placeholder="Search..."
+               role="combobox"
+               aria-expanded={searchResults.length > 0 || inputValue.length < 1}
+               aria-controls="command-palette-listbox"
+               aria-activedescendant={selectedModal ? `select-option-${selectedModal}` : (selectedPage ? `select-option-${selectedPage}` : '')}
+               aria-autocomplete="list"
+               aria-haspopup="listbox"
+               autocapitalize="off"
+               spellcheck="false">
+    </div>
 
-        <!-- Background overlay, show/hide based on modal state. -->
-        <div onclick={closeCommandPalette}
-             in:fade={{duration: 300, easing: backOut}}
-             out:fade={{duration: 200, easing: backIn}}
-             class="fixed inset-0 bg-gray-500/75 transition-opacity dark:bg-gray-900/75" aria-hidden="true">
-        </div>
+    <!-- Screen reader announcements -->
+    <div role="status" aria-live="polite" aria-atomic="true" class="sr-only">
+        {#if searchResults.length}
+            {searchResults.length} result{searchResults.length === 1 ? '' : 's'} found
+        {:else if inputValue.length > 1}
+            No results found
+        {/if}
+    </div>
 
-        <!-- Command palette, show/hide based on modal state. -->
-        <div in:scale={{duration: 300, start: 0.95, easing: backOut}}
-             out:scale={{duration: 200, start: 0.95, easing: backIn}}
-             use:noScroll
-             class="mx-auto max-w-xl transform rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all dark:bg-gray-950 dark:ring-contrast">
-            <div class="p-2">
-                <input bind:this={input} oninput={search} onkeydown={handleKeydown} type="text"
-                       class="w-full rounded-md border-0 bg-gray-200 px-4 py-2.5 placeholder-gray-600 sm:text-sm dark:bg-gray-900 dark:text-white dark:placeholder-gray-400"
-                       placeholder="Search..." role="combobox" aria-expanded="false" aria-controls="options"
-                       autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
-            </div>
-
-            <!-- Page navigation -->
-            {#if (input && (input.value.length < 1 && !searchResults.length))}
-                <div class="overflow-y-auto scroll-pt-10">
-                    <ul class="pt-1 pb-3 px-2 text-gray-800 font-medium dark:text-gray-100">
-                        {#each pages as page}
-                            <li onmouseenter={() => selectedPage = page.id}
-                                onmouseleave={() => selectedModal = null}
-                                onclick={() => openPage(page.url)}
-                                id={`select-option-${page.id}`}
-                                class={clsx(
+    <!-- Page navigation -->
+    {#if (inputValue.length < 1 && !searchResults.length)}
+        <div class="overflow-y-auto scroll-pt-10">
+            <ul role="listbox"
+                id="command-palette-listbox"
+                aria-label="Quick navigation"
+                class="pt-1 pb-3 px-2 text-gray-800 font-medium dark:text-gray-100">
+                {#each pages as page}
+                    <li role="option"
+                        aria-selected={selectedPage === page.id}
+                        onmouseenter={() => selectedPage = page.id}
+                        onmouseleave={() => selectedPage = null}
+                        onclick={() => openPage(page.url)}
+                        onkeydown={(e) => e.key === 'Enter' && openPage(page.url)}
+                        id={`select-option-${page.id}`}
+                        class={clsx(
                             'flex items-center gap-x-3 px-4 py-2 cursor-default select-none rounded-md',
                             selectedPage === page.id ? 'bg-primary-500 text-white [&>svg]:text-gray-100 dark:bg-primary-700 dark:text-gray-100' : ''
-                        )}
-                                tabindex="-1" aria-hidden="true">
-                                <page.icon className="text-gray-500 dark:text-gray-300"/>
-                                {page.title}
+                        )}>
+                        <page.icon className="text-gray-500 dark:text-gray-300" aria-hidden="true"/>
+                        {page.title}
+                    </li>
+                {/each}
+            </ul>
+        </div>
+    {/if}
+
+    <!-- Results, show/hide based on command palette state. -->
+    {#if searchResults.length}
+        <div id="command-palette-listbox"
+             class="max-h-72 overflow-y-auto scroll-pt-10 text-sm text-gray-800 dark:text-gray-100">
+            {#each groups as group}
+                <div role="group" aria-labelledby={`group-label-${group}`}>
+                    <div id={`group-label-${group}`}
+                         role="presentation"
+                         class="sticky top-0 py-2 px-6 bg-gray-100 text-gray-800 text-xs font-semibold dark:bg-gray-900 dark:text-gray-200">
+                        {group}
+                    </div>
+                    <ul role="listbox"
+                        aria-labelledby={`group-label-${group}`}
+                        class="pt-1 pb-3 px-2"
+                        id={`options-${group}`}>
+                        {#each getSearchResultsByGroup(group) as result (result.hash)}
+                            <li role="option"
+                                aria-selected={result.hash === selectedModal}
+                                onmouseenter={() => selectedModal = result.hash}
+                                onmouseleave={() => selectedModal = null}
+                                onclick={() => openSingleModalPage(result.url)}
+                                onkeydown={(e) => e.key === 'Enter' && openSingleModalPage(result.url)}
+                                id={`select-option-${result.hash}`}
+                                class={['px-4 py-2 cursor-default select-none rounded-md',
+                                            result.hash === selectedModal ? 'bg-primary-500 text-white dark:bg-primary-700 dark:text-gray-100' : ''].join(' ').trim()}>
+                                <div>{result.title}</div>
+                                {#if result.link}
+                                    <div class={['text-xs truncate',
+                                                result.hash === selectedModal ? 'text-gray-100 dark:text-gray-200' : 'text-gray-600 dark:text-gray-400'].join(' ').trim()}>
+                                        {new URL(result.link).host}
+                                    </div>
+                                {/if}
                             </li>
                         {/each}
                     </ul>
                 </div>
-            {/if}
-
-            <!-- Results, show/hide based on command palette state. -->
-            {#if searchResults.length}
-                <div class="max-h-72 overflow-y-auto scroll-pt-10 text-sm text-gray-800 dark:text-gray-100">
-                    {#each groups as group}
-
-                        <div
-                            class="sticky top-0 py-2 px-6 bg-gray-100 text-gray-800 text-xs font-semibold dark:bg-gray-900 dark:text-gray-200">
-                            {group}
-                        </div>
-                        <ul class="pt-1 pb-3 px-2" id="options">
-                            {#each getSearchResultsByGroup(group) as result (result.hash)}
-                                <!-- Active: "bg-indigo-600 text-white" -->
-                                <li onmouseenter={() => selectedModal = result.hash}
-                                    onmouseleave={() => selectedModal = null}
-                                    onclick={() => openSingleModalPage(result.url)}
-                                    id={`select-option-${result.hash}`}
-                                    class={['px-4 py-2 cursor-default select-none rounded-md',
-                                        result.hash === selectedModal ? 'bg-primary-500 text-white dark:bg-primary-700 dark:text-gray-100' : ''].join(' ').trim()}
-                                    tabindex="-1" aria-hidden="true">
-                                    <div>{result.title}</div>
-                                    {#if result.link}
-                                        <div class={['text-xs truncate',
-                                            result.hash === selectedModal ? 'text-gray-100 dark:text-gray-200' : 'text-gray-600 dark:text-gray-400'].join(' ').trim()}>
-                                            {new URL(result.link).host}
-                                        </div>
-                                    {/if}
-                                </li>
-                            {/each}
-                        </ul>
-                    {/each}
-                </div>
-            {/if}
-
-            <!-- Empty state, show/hide based on command palette state. -->
-            {#if (input && (input.value.length > 1 && !searchResults.length))}
-                <div class="py-14 px-4 text-center sm:px-14">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto size-6 text-gray-500 dark:text-gray-300"
-                         fill="none"
-                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <p class="mt-4 text-sm text-gray-900 dark:text-gray-100">Nothing found using that search term.</p>
-                </div>
-            {/if}
+            {/each}
         </div>
-    </div>
-{/if}
+    {/if}
+
+    <!-- Empty state, show/hide based on command palette state. -->
+    {#if (inputValue.length > 1 && !searchResults.length)}
+        <div class="py-14 px-4 text-center sm:px-14">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="mx-auto size-6 text-gray-500 dark:text-gray-300"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke-width="1.5"
+                 stroke="currentColor"
+                 aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <p class="mt-4 text-sm text-gray-900 dark:text-gray-100">Nothing found using that search term.</p>
+        </div>
+    {/if}
+</dialog>

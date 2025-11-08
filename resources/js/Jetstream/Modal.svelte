@@ -25,7 +25,7 @@
         </div>
 
         <div
-            class={['mb-6 bg-white rounded-lg overflow-hidden shadow-xl ring-contrast transform transition-all sm:w-full sm:mx-auto dark:bg-gray-900', maxWidthClass()].join(' ').trim()}>
+            class={['isolate mb-6 bg-white rounded-lg overflow-hidden shadow-xl ring-contrast transform transition-all sm:w-full sm:mx-auto dark:bg-gray-900', maxWidthClass()].join(' ').trim()}>
             {@render children?.()}
         </div>
     </div>

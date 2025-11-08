@@ -52,12 +52,12 @@
     <div class="max-w-3xl mx-auto px-4 py-5 bg-white shadow-sm ring-contrast sm:p-6 sm:rounded-lg dark:bg-gray-800">
         <div class="md:flex md:flex-row-reverse md:justify-between md:gap-8">
             <div class="flex justify-end md:-mt-1.5 md:h-fit">
-                <button onclick={copyLink(link.link)} title="Copy link" type="button"
+                <button onclick={() => copyLink(link.link)} title="Copy link" type="button"
                         class="w-max inline-flex items-center p-2 border border-gray-400 shadow-xs text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700">
 
                     {#if copied}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="size-5 text-green-500 dark:text-green-400">
+                             class="size-5 text-green-600 dark:text-green-400">
                             <path fill-rule="evenodd"
                                   d="M18 5.25a2.25 2.25 0 00-2.012-2.238A2.25 2.25 0 0013.75 1h-1.5a2.25 2.25 0 00-2.238 2.012c-.875.092-1.6.686-1.884 1.488H11A2.5 2.5 0 0113.5 7v7h2.25A2.25 2.25 0 0018 11.75v-6.5zM12.25 2.5a.75.75 0 00-.75.75v.25h3v-.25a.75.75 0 00-.75-.75h-1.5z"
                                   clip-rule="evenodd"/>
@@ -151,7 +151,7 @@
         <div class="flex justify-end mt-6 w-full">
             <div>
                 <button onclick={deleteLink} type="button"
-                        class="text-red-600 hover:text-red-700 dark:text-red-300 dark:hover:text-red-400">
+                        class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500">
                     Delete
                 </button>
                 <button onclick={editLink} type="button"
