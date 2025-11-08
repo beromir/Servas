@@ -230,7 +230,8 @@
                         </div>
 
                         {#if getIndexOfGroupId(group.id, internalSelectedGroups) !== -1}
-                            <div class="text-indigo-600 absolute inset-y-0 left-0 flex items-center pl-1.5">
+                            <div
+                                class="text-primary-500 absolute inset-y-0 left-0 flex items-center pl-1.5 dark:text-gray-300">
                                 <!-- Heroicon name: solid/check -->
                                 <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                      fill="currentColor"
