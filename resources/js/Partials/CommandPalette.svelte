@@ -167,19 +167,23 @@
             getGroups();
         });
     }, 400);
+
+    function handleDialogClick(e) {
+        if (e.target === dialog) closeCommandPalette();
+    }
 </script>
 
 <svelte:window onshowCommandPalette={openCommandPalette}/>
 
-<dialog bind:this={dialog}
+<dialog bind:this={dialog} onclick={handleDialogClick}
         aria-label="Command palette"
-        class="mx-auto p-4 max-w-xl rounded-xl shadow-2xl ring-1 ring-black ring-opacity-5 backdrop:bg-gray-500/75 dark:bg-gray-950 dark:ring-contrast dark:backdrop:bg-gray-900/75">
+        class="mx-4 my-4 w-full rounded-xl shadow-2xl ring-contrast backdrop:bg-gray-500/75 sm:mx-auto sm:my-6 sm:md:max-w-xl md:my-20 dark:bg-gray-950 dark:backdrop:bg-gray-900/75">
     <div class="p-2">
         <input bind:value={inputValue}
                oninput={search}
                onkeydown={handleKeydown}
                type="text"
-               class="w-full rounded-md border-0 bg-gray-200 px-4 py-2.5 placeholder-gray-600 sm:text-sm dark:bg-gray-900 dark:text-white dark:placeholder-gray-400"
+               class="w-full rounded-md border-0 bg-gray-200 px-4 py-2.5 placeholder-gray-600 focus:ring-0 sm:text-sm dark:bg-gray-900 dark:text-white dark:placeholder-gray-400"
                placeholder="Search..."
                role="combobox"
                aria-expanded={searchResults.length > 0 || inputValue.length < 1}
