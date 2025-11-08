@@ -26,7 +26,7 @@
             class="order-last mt-4 text-sm text-gray-600 font-medium sm:order-0 sm:mt-0 sm:mr-4 dark:text-gray-300">
         {showLinksCount ? `${totalLinks} links in total` : `${currentPage} of ${totalPages}`}
     </button>
-    <div class="flex bg-white ring-1 ring-gray-300 divide-x divide-gray-200 shadow-xs rounded-md overflow-hidden dark:bg-gray-800 dark:divide-gray-700 dark:ring-contrast">
+    <div class="flex bg-white ring-contrast divide-x divide-gray-200 shadow-xs rounded-md overflow-hidden dark:bg-gray-800 dark:divide-gray-700">
         <Link href={prevPageUrl} aria-disabled={!prevPageUrl}
               class="inline-flex items-center px-5 py-3 text-gray-500 hover:bg-gray-50 aria-disabled:text-gray-200 aria-disabled:pointer-events-none dark:text-gray-200 dark:hover:bg-gray-700 dark:aria-disabled:text-gray-600">
             <span class="sr-only">Previous</span>

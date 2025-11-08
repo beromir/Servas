@@ -300,7 +300,7 @@
                         title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
                         in:fade={{ duration: 100, easing: cubicOut }}
                         out:fade={{ duration: 50, easing: cubicIn }}
-                        class="py-1.5 px-2 bg-white shadow-xs rounded-md ring-1 ring-gray-300 transition hover:bg-gray-50 dark:bg-gray-800 dark:ring-contrast dark:hover:bg-gray-700">
+                        class="py-1.5 px-2 bg-white shadow-xs rounded-md ring-contrast transition hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                          class="size-6 text-gray-600 transition duration-300 delay-150 dark:text-gray-100">
                         <rect width="24" height="24" fill="none"/>

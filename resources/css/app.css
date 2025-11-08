@@ -36,5 +36,5 @@
 }
 
 @utility ring-contrast {
-    @apply dark:ring-1 dark:ring-white/15;
+    @apply ring-1 ring-black/5 dark:ring-white/15;
 }
