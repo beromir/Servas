@@ -31,15 +31,3 @@ export function clickOutside(node) {
         }
     }
 }
-
-export function noScroll() {
-    document.body.classList.add('overflow-hidden');
-    document.body.classList.add('sm:pr-3');
-
-    return {
-        destroy() {
-            document.body.classList.remove('overflow-hidden');
-            document.body.classList.remove('sm:pr-3');
-        }
-    }
-}
