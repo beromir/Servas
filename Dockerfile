@@ -25,7 +25,7 @@ RUN npm install && \
 FROM dunglas/frankenphp:php8.4-alpine
 WORKDIR /app
 
-ENV SERVER_NAME=:80
+ENV SERVER_NAME=:8080
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
@@ -53,7 +53,10 @@ COPY docker/config/custom-php-fpm.conf /usr/local/etc/php-fpm.d/zzz-custom-php-f
 
 RUN mkdir -p /var/cache/php/opcache && \
     chmod 700 /var/cache/php/opcache
+RUN chown -R www-data:www-data /app /data/caddy /config/caddy /var/cache/php
 
 COPY ./docker-entrypoint.sh /
+
+USER www-data
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
