@@ -38,10 +38,8 @@
     {/if}
 
     {#snippet footer()}
-
         <Button clicked={() => modal.close()} title="Cancel" color="white"
                 class="hidden sm:block"/>
         <Button clicked={deleteGroup} title="Delete" color="red"/>
-
     {/snippet}
 </Modal>

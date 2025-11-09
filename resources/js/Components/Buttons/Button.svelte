@@ -15,7 +15,7 @@
         switch (color) {
             case 'red':
                 return clsx(
-                    'border-transparent text-white bg-red-600 hover:bg-red-700',
+                    'border-transparent text-white bg-red-600 hover:bg-red-700 focus-visible:outline-red-500',
                     '[&>svg]:fill-white dark:[&>svg]:fill-gray-950',
                 );
             case 'white':
