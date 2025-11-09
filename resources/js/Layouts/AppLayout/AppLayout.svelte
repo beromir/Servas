@@ -105,7 +105,7 @@
              class="fixed inset-0 z-40 bg-gray-500/40 lg:hidden dark:bg-gray-900/60"></div>
     {/if}
 
-    <button onclick={() => showSidebar = toggleSidebar()} type="button"
+    <button onclick={() => showSidebar = toggleSidebar()} type="button" aria-label="Show/hide sidebar"
             class="fixed bottom-5 left-5 z-10 p-2.5 text-gray-100 bg-gray-800 rounded-full shadow-sm sm:hidden dark:bg-gray-50 dark:text-gray-900">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              class="size-8">
@@ -273,7 +273,7 @@
                         <div class="text-xs text-gray-200 font-semibold uppercase">Groups</div>
 
                         <button onclick={() => dispatchCustomEvent('createGroup', $page.props.group?.id)} type="button"
-                                class="rounded-full">
+                                title="Create group" class="rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                  class="size-6 fill-gray-100 hover:fill-white">
                                 <path fill-rule="evenodd"
@@ -281,7 +281,6 @@
                                       clip-rule="evenodd"/>
                             </svg>
                         </button>
-
                     </div>
                     <div class="flex flex-col grow gap-y-2 my-4 overflow-auto">
                         {#each groups.filter((singleGroup) => !singleGroup.parentGroupId) as group}

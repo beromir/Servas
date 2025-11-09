@@ -16,7 +16,7 @@
 
 <div>
     <div class="flex items-center">
-        <button onclick={() => openedGroups = toggleOpenedGroup(group.id)} type="button"
+        <button onclick={() => openedGroups = toggleOpenedGroup(group.id)} type="button" aria-label="Open/close group"
                 class="transition duration-100 group"
                 class:invisible={group.childGroupsCount === 0} class:rotate-90={openedGroups.includes(group.id)}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"

@@ -250,6 +250,7 @@
             {#if bulkEditingEnabled}
                 <!-- Show checkbox -->
                 <button onclick={() => selectedLinks = toggleValueInArray(selectedLinks, link.id)} type="button"
+                        aria-label="Select/unselect link"
                         class="flex-none flex items-center justify-center w-16 group bg-gray-50 hover:cursor-pointer sm:w-20 dark:bg-gray-900">
                     <input bind:group={selectedLinks} value={link.id} type="checkbox"
                            class="text-primary-500 dark:bg-gray-800"/>
