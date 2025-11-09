@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "check": "npx sv check --output human"
     },
     "devDependencies": {
         "@sveltejs/vite-plugin-svelte": "^6.2.1",
@@ -14,7 +15,9 @@
         "clsx": "^2.0.0",
         "laravel-vite-plugin": "^2.0.1",
         "lodash": "^4.17.21",
+        "sv": "^0.9.13",
         "svelte": "^5.0.0",
+        "svelte-check": "^4.3.3",
         "tailwindcss": "^4.1.16",
         "vite": "^7.1.12"
     },
