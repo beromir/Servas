@@ -23,6 +23,12 @@
 
     export function show() {
         dialog.showModal();
+
+        // Safari mobile incorrectly shows :focus-visible on programmatic focus
+        // Only blur on touch devices to preserve keyboard accessibility
+        if ('ontouchstart' in window && document.activeElement) {
+            document.activeElement.blur();
+        }
     }
 
     export function close() {
