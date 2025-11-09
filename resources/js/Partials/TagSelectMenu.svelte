@@ -138,9 +138,9 @@
     <!-- Search input -->
     <div class="relative">
         <input oninput={(e) => search(e.target.value)} bind:this={searchInput} type="text" placeholder="Search tags..."
-               class="px-10 w-full border-0 border-b border-gray-300 peer dark:bg-gray-900 dark:text-gray-50 dark:border-gray-600"/>
+               class="px-10 w-full border-0 border-b border-gray-300 peer focus:border-primary-200 focus:ring-0 dark:bg-gray-900 dark:text-gray-50 dark:border-gray-600"/>
 
-        <div class="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-gray-400">
+        <div class="absolute inset-y-0 left-2 flex items-center text-gray-500 peer-focus:text-primary-600 dark:text-gray-400 dark:peer-focus:text-primary-200">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                 <path fill-rule="evenodd"
                       d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
