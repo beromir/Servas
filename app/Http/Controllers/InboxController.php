@@ -19,7 +19,7 @@ class InboxController extends Controller
         $showUngrouped = Request::boolean('ungrouped', true);
 
         return Inertia::render('Inbox/Index', [
-            'links' => Link::orderBy('created_at', 'desc')
+            'links' => Inertia::scroll(fn() => Link::orderBy('created_at', 'desc')
                 ->filterByCurrentUser()
                 ->when($showUntagged, fn($query) => $query->whereDoesntHave('tags'))
                 ->when($showUngrouped, fn($query) => $query->whereDoesntHave('groups'))
@@ -28,7 +28,7 @@ class InboxController extends Controller
                     'title' => $link->title,
                     'link' => $link->link,
                     'id' => $link->id,
-                ]),
+                ])),
             'searchString' => $searchString,
             'untagged' => $showUntagged,
             'ungrouped' => $showUngrouped,

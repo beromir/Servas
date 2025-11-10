@@ -6,9 +6,8 @@
 
 <script>
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
-    import Pagination from "@/Components/Pagination.svelte";
     import {debounce} from "lodash";
-    import {router} from "@inertiajs/svelte";
+    import {InfiniteScroll, router} from "@inertiajs/svelte";
     import {route} from "@/utils/index.js";
     import EmptyState from "@/Components/EmptyStates/EmptyState.svelte";
 
@@ -30,6 +29,7 @@
             search: searchString ? searchString : null,
         }), {}, {
             only: ['links', 'searchString'],
+            reset: ['links'],
             preserveState: true,
         });
     }, 400);
@@ -75,7 +75,8 @@
     </div>
 
     <!-- Link list -->
-    <ul class="grid grid-cols-1 mt-6 divide-y divide-gray-200 sm:grid-cols-2 sm:gap-3 sm:mt-8 sm:divide-none dark:divide-gray-800">
+    <InfiniteScroll as="ul" data="links"
+                    class="grid grid-cols-1 mt-6 divide-y divide-gray-200 sm:grid-cols-2 sm:gap-3 sm:mt-8 sm:divide-none dark:divide-gray-800">
         {#each links.data as link (link.id)}
             <li class="bg-white shadow-sm ring-contrast group sm:overflow-hidden sm:rounded-lg dark:bg-gray-800">
                 <a href={link.link} target="_blank" rel="noreferrer noopener nofollow" class="flex">
@@ -107,11 +108,5 @@
         {:else}
             <EmptyState tag="li" title="No links found"/>
         {/each}
-    </ul>
-
-    {#if links.data.length && links.total > links.per_page}
-        <Pagination prevPageUrl={links.prev_page_url} nextPageUrl={links.next_page_url}
-                    currentPage={links.current_page}
-                    totalPages={Math.trunc(links.total / links.per_page) + 1} totalLinks={links.total}/>
-    {/if}
+    </InfiniteScroll>
 </Main>

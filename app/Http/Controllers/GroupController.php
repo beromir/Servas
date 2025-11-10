@@ -10,9 +10,9 @@ use App\Models\PublicLink;
 use App\Models\Tag;
 use App\Services\Models\GroupService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -83,14 +83,14 @@ class GroupController extends Controller
                     'name' => $tag->name,
                 ]),
             ],
-            'links' => $group->links()
+            'links' => Inertia::scroll(fn() => $group->links()
                 ->filterByCurrentUser()
                 ->filterLinks($searchString, $filteredTags, $showUntaggedOnly)
                 ->through(fn(Link $link) => [
                     'title' => $link->title,
                     'link' => $link->link,
                     'id' => $link->id,
-                ]),
+                ])),
             'publicLink' => (object)[
                 'id' => $group->publicLink?->id,
                 'link' => $group->publicLink?->getLink(),

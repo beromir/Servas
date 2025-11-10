@@ -36,6 +36,7 @@
             untaggedOnly: $linkFilter.showUntaggedOnly ? true : null,
         }), {}, {
             only: ['links', 'searchString', 'filteredTags', 'showUntaggedOnly'],
+            reset: ['links'],
             preserveState: true,
         });
     }

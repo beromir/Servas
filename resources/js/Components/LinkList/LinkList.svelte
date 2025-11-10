@@ -1,7 +1,6 @@
 <script>
     import {dispatchCustomEvent, route, toggleValueInArray} from "@/utils";
-    import Pagination from "@/Components/Pagination.svelte";
-    import {Link, router} from "@inertiajs/svelte";
+    import {InfiniteScroll, Link, router} from "@inertiajs/svelte";
     import GroupSelectMenu from "@/Partials/GroupSelectMenu.svelte";
     import DropdownItem from "@/Components/Dropdowns/DropdownItem.svelte";
     import Dropdown from "@/Components/Dropdowns/Dropdown.svelte";
@@ -42,6 +41,7 @@
             tags: $selectedTags.tags.map(item => item.id),
         }, {
             only: ['links'],
+            reset: ['links'],
             preserveScroll: true,
             onSuccess: () => {
                 selectedLinks = (action === 'delete') ? [] : selectedLinks;
@@ -244,7 +244,8 @@
 </div>
 
 <!-- Link list -->
-<ul class="grid grid-cols-1 mt-2 divide-y divide-gray-200 sm:grid-cols-2 sm:gap-3 sm:mt-4 sm:divide-none dark:divide-gray-800">
+<InfiniteScroll as="ul" data="links"
+                class="grid grid-cols-1 mt-2 divide-y divide-gray-200 sm:grid-cols-2 sm:gap-3 sm:mt-4 sm:divide-none dark:divide-gray-800">
     {#each links.data as link (link.id)}
         <li class="flex bg-white shadow-sm ring-contrast sm:overflow-hidden sm:rounded-lg dark:bg-gray-800">
             {#if bulkEditingEnabled}
@@ -293,12 +294,8 @@
             {/snippet}
         </EmptyStateWithAction>
     {/each}
-</ul>
+</InfiniteScroll>
 
-{#if links.data.length && links.total > links.per_page}
-    <Pagination prevPageUrl={links.prev_page_url} nextPageUrl={links.next_page_url} currentPage={links.current_page}
-                totalPages={Math.trunc(links.total / links.per_page) + 1} totalLinks={links.total}/>
-{/if}
 <GroupSelectMenu changesSaved={() => bulkEditLinks(bulkEditingAction)} bind:this={groupSelectMenu}
                  bind:selectedGroups/>
 

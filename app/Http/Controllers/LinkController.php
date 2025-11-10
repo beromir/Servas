@@ -9,9 +9,9 @@ use App\Models\Group;
 use App\Models\Link;
 use App\Services\Models\GroupService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Tags\Tag;
@@ -37,14 +37,14 @@ class LinkController extends Controller
         $filteredTags = empty($filteredTags) ? [] : explode(',', $filteredTags);
 
         return Inertia::render('Links/Index', [
-            'links' => Link::orderBy('created_at', 'desc')
+            'links' => Inertia::scroll(fn() => Link::orderBy('created_at', 'desc')
                 ->filterByCurrentUser()
                 ->filterLinks($searchString, $filteredTags, $showUntaggedOnly)
                 ->through(fn(Link $link) => [
                     'title' => $link->title,
                     'link' => $link->link,
                     'id' => $link->id,
-                ]),
+                ])),
             'searchString' => $searchString,
             'filteredTags' => $filteredTags ? TagController::getTagsByNames($filteredTags) : [],
             'showUntaggedOnly' => $showUntaggedOnly,

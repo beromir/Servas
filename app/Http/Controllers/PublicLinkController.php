@@ -96,13 +96,13 @@ class PublicLinkController extends Controller
 
         return Inertia::render('PublicLink/Show', [
             'title' => $group->title,
-            'links' => $group->links()
+            'links' => Inertia::scroll(fn() => $group->links()
                 ->filterLinks($searchString)
                 ->through(fn(Link $link) => [
                     'title' => $link->title,
                     'link' => $link->link,
                     'id' => $link->id,
-                ]),
+                ])),
             'shareId' => $shareId,
             'searchString' => $searchString,
         ]);
