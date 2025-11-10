@@ -47,6 +47,7 @@
             ungrouped: ungrouped ? null : ungrouped,
         }), {}, {
             only: ['links', 'searchString', 'untagged', 'ungrouped'],
+            reset: ['links'],
             preserveState: true,
         });
     }
