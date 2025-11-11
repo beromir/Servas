@@ -14,20 +14,6 @@ function createRefreshGroupsStorage() {
     };
 }
 
-function createLinkFilterStorage() {
-    const getData = () => {
-        return {tags: [], showUntaggedOnly: false, isActive: false};
-    };
-    const {subscribe, set, update} = writable(getData());
-
-    return {
-        subscribe,
-        set,
-        update,
-        reset: () => set(getData()),
-    };
-}
-
 function createSelectedTagsStorage() {
     const getData = () => {
         return {tags: [], action: ''};
@@ -46,4 +32,3 @@ export const refreshLinks = writable(true);
 export const refreshTags = writable(true);
 export const refreshGroups = createRefreshGroupsStorage();
 export const selectedTags = createSelectedTagsStorage();
-export const linkFilter = createLinkFilterStorage();

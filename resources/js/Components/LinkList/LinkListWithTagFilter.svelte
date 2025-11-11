@@ -1,8 +1,6 @@
 <script>
     import {dispatchCustomEvent, route} from "@/utils";
     import {router} from "@inertiajs/svelte";
-    import {linkFilter} from "@/stores.js";
-    import {onDestroy} from "svelte";
     import Button from "@/Components/Buttons/Button.svelte";
     import LinkList from "@/Components/LinkList/LinkList.svelte";
 
@@ -14,26 +12,21 @@
         showTagFilter = true
     } = $props();
 
-    $effect(() => {
-        $linkFilter.isActive && filterLinks();
-    });
-
     function search(term) {
         searchString = term;
-
         filterLinks();
     }
 
-    function filterLinks() {
+    function filterLinks(tags = filteredTags, showUntagged = showUntaggedOnly) {
         if (searchString === '') {
             searchString = null;
         }
 
         router.get(route(route().current(), {
             group: route().params.group,
-            tags: $linkFilter.tags.length ? $linkFilter.tags.map(item => item.name).join(',') : null,
+            tags: tags.length ? tags.map(item => item.name).join(',') : null,
             search: searchString,
-            untaggedOnly: $linkFilter.showUntaggedOnly ? true : null,
+            untaggedOnly: showUntagged ? true : null,
         }), {}, {
             only: ['links', 'searchString', 'filteredTags', 'showUntaggedOnly'],
             reset: ['links'],
@@ -42,28 +35,24 @@
     }
 
     function handleFilterButtonClick() {
-        dispatchCustomEvent('tags.filter', $linkFilter);
+        dispatchCustomEvent('tags.filter', {
+            tags: filteredTags,
+            showUntaggedOnly: showUntaggedOnly
+        });
 
         window.addEventListener('tags.filtered', (e) => {
-            $linkFilter.tags = e.detail.tags;
-            $linkFilter.showUntaggedOnly = e.detail.showUntaggedOnly;
-            $linkFilter.isActive = true;
-
+            filterLinks(e.detail.tags, e.detail.showUntaggedOnly);
         }, {once: true});
     }
 
     function removeFilteredTag(tag) {
-        $linkFilter.tags = $linkFilter.tags.filter(item => item !== tag);
+        const newTags = filteredTags.filter(item => item !== tag);
+        filterLinks(newTags, showUntaggedOnly);
     }
 
-    $effect.pre(() => {
-        $linkFilter.tags = filteredTags;
-        $linkFilter.showUntaggedOnly = showUntaggedOnly;
-    });
-
-    onDestroy(() => {
-        linkFilter.reset();
-    });
+    function showAll() {
+        filterLinks(filteredTags, false);
+    }
 </script>
 
 <LinkList searched={(searchStr) => search(searchStr)} {links} {searchString}>
@@ -80,9 +69,8 @@
                         </svg>
                     {/snippet}
                 </Button>
-                {#if $linkFilter.showUntaggedOnly}
-                    <button onclick={() => {$linkFilter.showUntaggedOnly = false; $linkFilter.isActive = true}}
-                            type="button"
+                {#if showUntaggedOnly}
+                    <button onclick={showAll} type="button"
                             class="block mt-2 mx-auto text-sm text-gray-700 sm:mt-0 sm:mr-0 sm:ml-2 dark:text-gray-200">
                         Show all
                     </button>
@@ -92,10 +80,10 @@
     {/snippet}
 
     <!-- Tag filter list -->
-    {#if showTagFilter && $linkFilter.tags.length}
+    {#if showTagFilter && filteredTags.length}
         <div class="mt-4">
-            {#each $linkFilter.tags as tag (tag.id)}
-                <button onclick={() => {removeFilteredTag(tag); $linkFilter.isActive = true}} type="button"
+            {#each filteredTags as tag (tag.id)}
+                <button onclick={() => removeFilteredTag(tag)} type="button"
                         class="inline-flex items-center mr-2 mt-2 py-0.5 px-2.5 bg-primary-100 text-sm text-primary-800 font-medium rounded-full group dark:bg-primary-700/80 dark:text-primary-50">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                          class="mr-1 -ml-1 size-4 fill-primary-500 rounded-full group-hover:fill-primary-700 group-hover:bg-primary-200/50 dark:fill-primary-300 dark:group-hover:fill-primary-200 dark:group-hover:bg-primary-500/50">
