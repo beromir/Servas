@@ -248,7 +248,7 @@
                 <nav class="grow px-4 pb-4 h-dvh overflow-y-auto md:pt-2">
                     <ul class="space-y-2">
                         <li>
-                            <MenuItem title="Home" url={route('links.index')}>
+                            <MenuItem title="Home" url={route('links.index')} exactMatch={false}>
                                 <Home/>
                             </MenuItem>
                         </li>
