@@ -258,8 +258,7 @@
                 </button>
             {/if}
 
-            <Link href={route('links.show', link.id)}
-                  class="flex-auto min-w-0 p-3 sm:px-6 sm:py-4">
+            <Link href={route('links.show', link.id)} prefetch="click" class="flex-auto min-w-0 p-3 sm:px-6 sm:py-4">
                 <div class="flex justify-between">
                     <div title={link.title}
                          class="text-sm font-medium text-gray-900 truncate dark:text-white">{link.title}</div>
