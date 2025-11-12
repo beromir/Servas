@@ -1,5 +1,5 @@
 <script module>
-    import AppLayout, {title, showHeader} from "@/Layouts/AppLayout/AppLayout.svelte";
+    import AppLayout, {showHeader, title} from "@/Layouts/AppLayout/AppLayout.svelte";
 
     export const layout = AppLayout;
 </script>
@@ -9,9 +9,9 @@
     import {dispatchCustomEvent, route} from "@/utils";
     import Main from "@/Layouts/AppLayout/Partials/Main.svelte";
     import Badge from "@/Components/Badge.svelte";
-    import {inertia, Link} from "@inertiajs/svelte";
+    import {Link} from "@inertiajs/svelte";
 
-    let { link = {} } = $props();
+    let {link = {}} = $props();
 
     $title = link.title;
     $showHeader = false;
@@ -103,7 +103,7 @@
         {#if link.tags.length}
             <div class="mt-2 space-y-2 sm:space-y-3">
                 {#each link.tags as tag (tag.id)}
-                    <Link href={route('links.index', {tags: tag.name})}
+                    <Link href={route('links.index', {tags: tag.name})} prefetch viewTransition
                           class="inline-block mr-1.5 first:mt-2 last:mr-0 sm:first:mt-3">
                         <Badge title={tag.name} noHover={true}/>
                     </Link>
@@ -115,10 +115,10 @@
         {#if link.linkGroups.length}
             <div class="mt-2 space-y-2 sm:space-y-3">
                 {#each link.linkGroups as group}
-                    <a href={route('groups.show', group.id)} use:inertia>
-                        <Badge title={group.title} noHover={true} color="gray" rounded={true}
-                               class="mr-1.5 first:mt-2 last:mr-0 sm:first:mt-3"/>
-                    </a>
+                    <Link href={route('groups.show', group.id)} prefetch viewTransition
+                          class="mr-1.5 first:mt-2 last:mr-0 sm:first:mt-3">
+                        <Badge title={group.title} noHover={true} color="gray" rounded={true}/>
+                    </Link>
                 {/each}
             </div>
         {/if}
