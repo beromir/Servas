@@ -19,7 +19,7 @@
     </label>
     <div class="mt-1 sm:mt-0 sm:col-span-4">
         <input id={name} {name} {type} {...rest} {value} oninput={(e) => value = e.target.value}
-               class="block max-w-xl w-full shadow-xs sm:text-sm border-gray-400 rounded-md dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-600">
+               class="block max-w-xl w-full shadow-xs sm:text-sm border-gray-400 rounded-md focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-600">
         {#if error}
             <div class="mt-2 text-sm text-yellow-700 dark:text-yellow-500">{error}</div>
         {/if}
