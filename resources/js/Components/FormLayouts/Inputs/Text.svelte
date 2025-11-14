@@ -1,4 +1,6 @@
 <script>
+    import Input from "@/Components/Input.svelte";
+
     let {
         name,
         label,
@@ -15,8 +17,8 @@
         {label}
     </label>
     <div class="mt-1">
-        <input id={name} {name} {type} {...rest} {value} oninput={(e) => value = e.target.value}
-               class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-xs focus:border-primary-500 focus:ring-primary-500 sm:text-sm dark:text-gray-50 dark:bg-gray-900 dark:border-gray-500">
+        <Input id={name} {name} {type} bind:value {...rest} class="dark:bg-gray-900"/>
+
         {#if error}
             <div class="mt-2 text-sm text-yellow-700 dark:text-yellow-500">{error}</div>
         {/if}

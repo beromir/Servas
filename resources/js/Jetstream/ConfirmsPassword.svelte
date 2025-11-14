@@ -1,11 +1,11 @@
 <script>
     import JetButton from './Button.svelte';
     import JetDialogModal from './DialogModal.svelte';
-    import JetInput from './Input.svelte';
     import JetInputError from './InputError.svelte';
     import JetSecondaryButton from './SecondaryButton.svelte';
     import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
+    import Input from "@/Components/Input.svelte";
 
     let {
         button = 'Confirm',
@@ -14,7 +14,6 @@
     } = $props();
 
     let confirmingPassword = $state(false);
-    let passwordInput = $state();
 
     let form = useForm({
         password: '',
@@ -27,8 +26,6 @@
                 confirmed();
             } else {
                 confirmingPassword = true;
-
-                setTimeout(() => passwordInput.focus(), 250)
             }
         })
     }
@@ -46,7 +43,6 @@
         }).catch(error => {
             $form.processing = false;
             $form.setError('password', error.response.data.errors.password[0]);
-            passwordInput.focus()
         });
     }
 
@@ -70,8 +66,7 @@
             For your security, please confirm your password to continue.
 
             <div class="mt-4">
-                <JetInput type="password" class="mt-1 block w-3/4" placeholder="Password"
-                          bind:this={passwordInput} bind:value={$form.password}/>
+                <Input type="password" placeholder="Password" bind:value={$form.password} class="mt-1"/>
 
                 <JetInputError message={$form.errors.password} class="mt-2"/>
                 </div>

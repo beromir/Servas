@@ -8,11 +8,11 @@
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
-    import JetInput from '@/Jetstream/Input.svelte';
     import JetLabel from '@/Jetstream/Label.svelte';
     import JetValidationErrors from '@/Jetstream/ValidationErrors.svelte';
     import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
+    import Input from "@/Components/Input.svelte";
 
     let {email = '', token = ''} = $props();
 
@@ -44,19 +44,19 @@
     <form onsubmit={submit}>
         <div>
             <JetLabel id="email" label="Email"/>
-            <JetInput id="email" type="email" class="mt-1 block w-full" bind:value={$form.email} required autofocus/>
+            <Input id="email" type="email" required autofocus bind:value={$form.email} class="mt-1"/>
         </div>
 
         <div class="mt-4">
             <JetLabel id="password" label="Password"/>
-            <JetInput id="password" type="password" class="mt-1 block w-full" bind:value={$form.password} required
-                      autocomplete="new-password"/>
+            <Input id="password" type="password" required autocomplete="new-password" bind:value={$form.password}
+                   class="mt-1"/>
         </div>
 
         <div class="mt-4">
             <JetLabel id="password_confirmation" label="Confirm Password"/>
-            <JetInput id="password_confirmation" type="password" class="mt-1 block w-full"
-                      bind:value={$form.password_confirmation} required autocomplete="new-password"/>
+            <Input id="password_confirmation" type="password" required autocomplete="new-password"
+                   bind:value={$form.password_confirmation} class="mt-1"/>
         </div>
 
         <div class="flex items-center justify-end mt-4">

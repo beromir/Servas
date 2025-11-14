@@ -8,11 +8,11 @@
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
-    import JetInput from '@/Jetstream/Input.svelte';
     import JetLabel from '@/Jetstream/Label.svelte';
     import JetValidationErrors from '@/Jetstream/ValidationErrors.svelte';
     import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
+    import Input from "@/Components/Input.svelte";
 
     $title = 'Forgot Password';
 
@@ -50,7 +50,7 @@
     <form onsubmit={submit}>
         <div>
             <JetLabel id="email" label="Email"/>
-            <JetInput id="email" type="email" class="mt-1 block w-full" bind:value={$form.email} required autofocus/>
+            <Input id="email" type="email" required autofocus bind:value={$form.email} class="mt-1"/>
         </div>
 
         <div class="flex items-center justify-end mt-4">

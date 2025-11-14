@@ -1,12 +1,12 @@
 <script>
     import JetButton from '@/Jetstream/Button.svelte';
     import JetFormSection from '@/Jetstream/FormSection.svelte';
-    import JetInput from '@/Jetstream/Input.svelte';
     import JetInputError from '@/Jetstream/InputError.svelte';
     import JetLabel from '@/Jetstream/Label.svelte';
     import JetSecondaryButton from '@/Jetstream/SecondaryButton.svelte';
     import {page, useForm, router} from "@inertiajs/svelte";
     import {route} from "@/utils";
+    import Input from "@/Components/Input.svelte";
 
     let {user = {}} = $props();
 
@@ -122,15 +122,14 @@
         <!-- Name -->
         <div class="col-span-6 sm:col-span-4">
             <JetLabel id="name" label="Name"/>
-            <JetInput id="name" type="text" class="mt-1 block w-full" bind:value={$profileForm.name}
-                      autocomplete="name"/>
+            <Input id="name" autocomplete="name" bind:value={$profileForm.name} class="mt-1"/>
             <JetInputError message={$profileForm.errors.name} class="mt-2"/>
         </div>
 
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <JetLabel id="email" label="Email"/>
-            <JetInput id="email" type="email" class="mt-1 block w-full" bind:value={$profileForm.email}/>
+            <Input type="email" id="email" bind:value={$profileForm.email} class="mt-1"/>
             <JetInputError message={$profileForm.errors.email} class="mt-2"/>
         </div>
     {/snippet}

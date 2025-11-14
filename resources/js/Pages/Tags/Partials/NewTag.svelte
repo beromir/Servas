@@ -1,13 +1,12 @@
 <script>
     import Button from "@/Components/Buttons/Button.svelte";
-    import Input from '@/Components/Inputs/Input.svelte';
+    import Input from '@/Components/Input.svelte';
     import {useForm} from "@inertiajs/svelte";
-    import {route, dispatchCustomEvent} from "@/utils";
+    import {dispatchCustomEvent, route} from "@/utils";
     import {refreshTags} from "@/stores";
 
     let {modeIsEdit = $bindable(false)} = $props();
     let tag = {};
-    let input = $state();
 
     let form = useForm({
         tagName: null,
@@ -56,19 +55,14 @@
         $form.tagName = tagToEdit.name;
         modeIsEdit = true;
     }
-
-    export const focus = () => input.focus();
 </script>
 
 <svelte:window ontagDeletionWasSuccessful={endEditMode}/>
 
 <form onsubmit={modeIsEdit ? editTag : createTag} class="space-y-3 sm:flex sm:space-x-3 sm:space-y-0">
-    <div class="w-full sm:max-w-xs">
-        <Input placeholder="Enter tag name..." bind:value={$form.tagName} bind:this={input}/>
-    </div>
+    <Input bind:value={$form.tagName} placeholder="Enter tag name..." class="sm:max-w-xs"/>
     <Button title={modeIsEdit ? 'Save changes' : 'Create tag'} type="submit"
             class="justify-center w-full whitespace-nowrap sm:w-auto"/>
-
 
     {#if modeIsEdit}
         <div class="flex items-center">
@@ -92,6 +86,7 @@
     {/if}
 
     {#if $form.errors.tagName}
-        <div class="inline-flex ml-4 items-center text-yellow-700 whitespace-nowrap dark:text-yellow-500">{$form.errors.tagName}</div>
+        <div
+            class="inline-flex ml-4 items-center text-yellow-700 whitespace-nowrap dark:text-yellow-500">{$form.errors.tagName}</div>
     {/if}
 </form>

@@ -5,13 +5,13 @@
     import JetDangerButton from '@/Jetstream/DangerButton.svelte';
     import JetDialogModal from '@/Jetstream/DialogModal.svelte';
     import JetFormSection from '@/Jetstream/FormSection.svelte';
-    import JetInput from '@/Jetstream/Input.svelte';
     import JetInputError from '@/Jetstream/InputError.svelte';
     import JetLabel from '@/Jetstream/Label.svelte';
     import JetSecondaryButton from '@/Jetstream/SecondaryButton.svelte';
     import JetSectionBorder from '@/Jetstream/SectionBorder.svelte';
     import {page, router, useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
+    import Input from "@/Components/Input.svelte";
 
     let { tokens, availablePermissions, defaultPermissions } = $props();
 
@@ -85,8 +85,7 @@
                 <!-- Token Name -->
                 <div class="col-span-6 sm:col-span-4">
                     <JetLabel id="name" label="Name"/>
-                    <JetInput id="name" type="text" class="mt-1 block w-full" bind:value={$createApiTokenForm.name}
-                              autofocus/>
+                    <Input id="name" autofocus bind:value={$createApiTokenForm.name} class="mt-1"/>
                     <JetInputError message={$createApiTokenForm.errors.name} class="mt-2"/>
                 </div>
 

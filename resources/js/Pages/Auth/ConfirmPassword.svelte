@@ -8,11 +8,11 @@
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.svelte';
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
-    import JetInput from '@/Jetstream/Input.svelte';
     import JetLabel from '@/Jetstream/Label.svelte';
     import JetValidationErrors from '@/Jetstream/ValidationErrors.svelte';
     import {useForm} from "@inertiajs/svelte";
     import {route} from "@/utils";
+    import Input from "@/Components/Input.svelte";
 
     $title = 'Secure Area';
 
@@ -43,8 +43,8 @@
     <form onsubmit={submit}>
         <div>
             <JetLabel id="password" label="Password"/>
-            <JetInput id="password" type="password" class="mt-1 block w-full" bind:value={$form.password} required
-                      autocomplete="current-password" autofocus/>
+            <Input id="password" type="password" required autocomplete="current-password" autofocus
+                   bind:value={$form.password} class="mt-1"/>
         </div>
 
         <div class="flex justify-end mt-4">
