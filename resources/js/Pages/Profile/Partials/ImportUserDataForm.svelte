@@ -2,11 +2,12 @@
     import JetButton from '@/Jetstream/Button.svelte';
     import JetFormSection from '@/Jetstream/FormSection.svelte';
     import {useForm} from "@inertiajs/svelte";
-    import {route} from "@/utils";
+    import {route, toggleValueInArray} from "@/utils";
     import FileUpload from "@/Components/FormLayouts/Inputs/FileUpload.svelte";
     import SuccessMessage from "@/Jetstream/SuccessMessage.svelte";
     import RadioGroup from "@/Components/FormLayouts/Inputs/RadioGroup.svelte";
     import Radio from "@/Components/FormLayouts/Inputs/Radio.svelte";
+    import Checkbox from "@/Components/Checkbox.svelte";
 
     let importOptions = [
         'links',
@@ -65,8 +66,9 @@
             <div>
                 {#each importOptions as option}
                     <label class="flex items-center">
-                        <input type="checkbox" value={option} bind:group={$userDataform.importOptions}
-                               class="rounded-sm border-gray-300 text-primary-600 shadow-xs dark:bg-gray-800 dark:border-gray-600"/>
+                        <Checkbox
+                            onchange={() => $userDataform.importOptions = toggleValueInArray($userDataform.importOptions, option)}/>
+
                         <span class="ml-2 text-sm text-gray-600 capitalize dark:text-gray-300">{option}</span>
                     </label>
                 {/each}

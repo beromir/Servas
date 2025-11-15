@@ -5,6 +5,8 @@
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from "@/Components/Modals/Modal.svelte";
     import SuccessMessage from "@/Jetstream/SuccessMessage.svelte";
+    import Checkbox from "@/Components/Checkbox.svelte";
+    import {toggleValueInArray} from "@/utils/index.js";
 
     let deleteOptions = [
         'links',
@@ -51,8 +53,9 @@
             <div>
                 {#each deleteOptions as option}
                     <label class="flex items-center">
-                        <input type="checkbox" value={option} bind:group={$userDataForm.deleteOptions}
-                               class="rounded-sm border-gray-300 text-primary-600 shadow-xs dark:bg-gray-800 dark:border-gray-600"/>
+                        <Checkbox
+                            onchange={() => $userDataForm.deleteOptions = toggleValueInArray($userDataForm.deleteOptions, option)}/>
+
                         <span class="ml-2 text-sm text-gray-600 capitalize dark:text-gray-300">{option}</span>
                     </label>
                 {/each}
