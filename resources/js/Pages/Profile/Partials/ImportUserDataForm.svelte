@@ -45,7 +45,7 @@
     {/snippet}
 
     {#snippet description()}
-        Import data from a JSON file.
+        Import data from a JSON or HTML file.
     {/snippet}
 
     {#snippet form()}
