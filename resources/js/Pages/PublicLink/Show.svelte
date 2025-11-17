@@ -10,6 +10,7 @@
     import {InfiniteScroll, router} from "@inertiajs/svelte";
     import {route} from "@/utils/index.js";
     import EmptyState from "@/Components/EmptyStates/EmptyState.svelte";
+    import Input from "@/Components/Input.svelte";
 
     let {
         title = '',
@@ -48,20 +49,8 @@
         <!-- Search input -->
         <div class="flex flex-col gap-y-4 sm:flex-row sm:gap-x-6">
             <div class="w-full sm:flex sm:items-center sm:w-auto">
-                <div class="relative rounded-md shadow-xs">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-gray-400 dark:text-gray-500"
-                             viewBox="0 0 20 20"
-                             fill="currentColor">
-                            <path fill-rule="evenodd"
-                                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                    <input type="text" bind:value={searchString} oninput={search}
-                           class="block w-full pl-10 sm:text-sm border-gray-400 rounded-md dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-600"
-                           placeholder="Search links..." enterkeyhint="search">
-                </div>
+                <Input bind:value={searchString} oninput={search} placeholder="Search links..." enterkeyhint="search"/>
+
                 {#if searchString}
                     <button onclick={clearSearchInput} type="button"
                             class="ml-2 text-sm text-gray-700 dark:text-gray-200">
