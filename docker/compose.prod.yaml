@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   servas:
     image: beromir/servas
@@ -9,7 +7,7 @@ services:
       - "8080:80"
     volumes:
       - ./.env:/app/.env
-      - servas-db-sqlite:/app/database/database.sqlite
+      - servas-db-sqlite:/app/database/sqlite
 
 volumes:
   servas-db-sqlite:
