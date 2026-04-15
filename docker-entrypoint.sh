@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if [ ! -f /app/database/database.sqlite ]; then
-    touch /app/database/database.sqlite
+if [ ! -f /app/database/sqlite/database.sqlite ]; then
+    touch /app/database/sqlite/database.sqlite
 fi
 
 cd /app

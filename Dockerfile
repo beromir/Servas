@@ -54,6 +54,8 @@ COPY docker/config/custom-php-fpm.conf /usr/local/etc/php-fpm.d/zzz-custom-php-f
 RUN mkdir -p /var/cache/php/opcache && \
     chmod 700 /var/cache/php/opcache
 
+RUN mkdir -p /app/database/sqlite
+
 COPY ./docker-entrypoint.sh /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
