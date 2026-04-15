@@ -204,4 +204,5 @@ return [
 
     'version' => '1.1.1',
 
+    'show_app_version' => (bool) env('SERVAS_SHOW_APP_VERSION', true),
 ];
