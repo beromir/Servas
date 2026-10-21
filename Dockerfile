@@ -10,11 +10,12 @@ RUN composer install --optimize-autoloader --no-dev && \
     composer dump-autoload --no-dev --classmap-authoritative
 
 
-FROM node:24.11-alpine AS asset_builder
+FROM node:24.22-alpine AS asset_builder
 WORKDIR /app
 
 COPY ./package.json ./
 COPY ./package-lock.json ./
+COPY ./.npmrc ./
 COPY ./vite.config.js ./
 COPY ./resources ./resources
 
