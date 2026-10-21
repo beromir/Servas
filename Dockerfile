@@ -6,8 +6,8 @@ COPY . ./
 RUN install-php-extensions \
     @composer
 
-RUN composer install --optimize-autoloader --no-dev && \
-    composer dump-autoload --no-dev --classmap-authoritative
+RUN composer install --optimize-autoloader --no-dev --no-plugins --no-scripts && \
+    composer dump-autoload --no-dev --no-plugins --classmap-authoritative
 
 
 FROM node:24.22-alpine AS asset_builder
