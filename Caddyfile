@@ -4,7 +4,7 @@
 	auto_https off
 }
 
-:80 {
+{$SERVER_NAME} {
     root /app/public
 
     encode zstd br gzip
