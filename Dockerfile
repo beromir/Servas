@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:php8.4.27-alpine AS application_builder
+FROM dunglas/frankenphp:1.13.4-php8.4.27-alpine AS application_builder
 WORKDIR /app
 
 COPY . ./
@@ -23,7 +23,7 @@ RUN npm install && \
     npm run build
 
 
-FROM dunglas/frankenphp:php8.4.27-alpine
+FROM dunglas/frankenphp:1.13.4-php8.4.27-alpine
 WORKDIR /app
 
 ENV SERVER_NAME=:80
