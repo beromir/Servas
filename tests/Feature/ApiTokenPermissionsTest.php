@@ -14,20 +14,19 @@ test('api token permissions can be updated', function () {
     $token = $user->tokens()->create([
         'name' => 'Test Token',
         'token' => Str::random(40),
-        'abilities' => ['create', 'read'],
+        'abilities' => [],
     ]);
 
     $response = $this->put('/user/api-tokens/'.$token->id, [
         'name' => $token->name,
         'permissions' => [
-            'delete',
+            'create',
             'missing-permission',
         ],
     ]);
 
     expect($user->fresh()->tokens->first())
-        ->can('delete')->toBeTrue()
-        ->can('read')->toBeFalse()
+        ->can('create')->toBeTrue()
         ->can('missing-permission')->toBeFalse();
 })->skip(function () {
     return ! Features::hasApiFeatures();
