@@ -16,7 +16,11 @@ class HtmlBookmarkImportService
 
         $lines = explode("\n", $htmlContent);
 
+        // Stack of the groups the current line is nested in (null for lists that do not belong to a group)
         $groups = [];
+
+        // Group whose list has not been opened yet
+        $pendingGroup = null;
 
         foreach ($lines as $line) {
             // Get link
@@ -35,7 +39,7 @@ class HtmlBookmarkImportService
                     'link' => $this->extractAttributeValue('href', $attributes),
                     'createdAt' => Carbon::createFromTimestamp($this->extractAttributeValue('add_date', $attributes))->toDateTimeString(),
                     'updatedAt' => Carbon::createFromTimestamp($this->extractAttributeValue('last_modified', $attributes))->toDateTimeString(),
-                    'groups' => array_slice($groups, -1)[0] ? [array_slice($groups, -1)[0]] : [],
+                    'groups' => end($groups) ? [end($groups)] : [],
                     'tags' => $tags,
                 ];
 
@@ -54,18 +58,19 @@ class HtmlBookmarkImportService
                     'childGroups' => [],
                 ];
 
-                $groups[] = $group['title'];
+                $pendingGroup = $group['title'];
 
                 $data['groups'][] = $group;
             }
 
             // Group opened
-            $groupOpened = str_contains(strtolower($line), '<dl>');
+            if (preg_match('@<dl[\s>]@i', $line)) {
+                $groups[] = $pendingGroup;
+                $pendingGroup = null;
+            }
 
             // Group closed
-            $groupClosed = str_contains(strtolower($line), '</dl>');
-
-            if ($groupClosed) {
+            if (str_contains(strtolower($line), '</dl>')) {
                 array_pop($groups);
             }
         }
