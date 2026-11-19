@@ -55,7 +55,7 @@ docker exec -it servas php artisan key:generate --force
 
 **Requirements:**
 
-- PHP 8.4
+- PHP 8.5
 - MariaDB, MySQL or SQLite
 - Git
 - Node.js
