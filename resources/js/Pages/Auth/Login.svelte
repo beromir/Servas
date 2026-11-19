@@ -25,8 +25,8 @@
     function login(event) {
         event.preventDefault();
 
-        $form.post(route('login'), {
-            onSuccess: () => $form.reset('password'),
+        form.post(route('login'), {
+            onSuccess: () => form.reset('password'),
         });
     }
 </script>
@@ -34,15 +34,15 @@
 <AuthenticationCard>
     <form onsubmit={login}>
         <div class="space-y-6">
-            <Text name="email" label="Email address" type="email" bind:value={$form.email} error={$form.errors.email}
+            <Text name="email" label="Email address" type="email" bind:value={form.email} error={form.errors.email}
                   required
                   autofocus/>
 
-            <Text name="password" label="Password" type="password" bind:value={$form.password}
-                  error={$form.errors.password} required
+            <Text name="password" label="Password" type="password" bind:value={form.password}
+                  error={form.errors.password} required
                   autocomplete="current-password"/>
 
-            <Checkbox name="remember" label="Remember me" bind:checked={$form.remember}/>
+            <Checkbox name="remember" label="Remember me" bind:checked={form.remember}/>
         </div>
 
         {#if canResetPassword}

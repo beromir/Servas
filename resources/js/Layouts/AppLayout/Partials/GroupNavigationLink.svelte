@@ -11,7 +11,7 @@
 
     let openedGroups = $state(getOpenedGroups());
 
-    let currentGroupId = $derived($page.props.group && $page.props.group.id);
+    let currentGroupId = $derived(page.props.group && page.props.group.id);
 </script>
 
 <div>

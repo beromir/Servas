@@ -18,7 +18,7 @@
 
         const pathname = new URL(url).pathname;
 
-        return exactMatch ? $page.url === pathname : $page.url.startsWith(pathname);
+        return exactMatch ? page.url === pathname : page.url.startsWith(pathname);
     });
 </script>
 

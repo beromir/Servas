@@ -28,7 +28,7 @@
     });
 
     $effect(() => {
-        $form.parentGroupId = selectedGroups[0] ?? null;
+        form.parentGroupId = selectedGroups[0] ?? null;
     });
 
     export function showCreationView(parentGroupId = null) {
@@ -54,7 +54,7 @@
 
         group = groupToEdit;
 
-        $form.title = group.title;
+        form.title = group.title;
         groupSelectMenu.setSelectedGroups([group.parentGroupId]);
 
         isEditing = true;
@@ -68,12 +68,12 @@
 
     function createGroup() {
         // Only save the tag IDs
-        $form.orTags = getTagIdsFromArray(group.orTags);
-        $form.andTags = getTagIdsFromArray(group.andTags);
-        $form.notTags = getTagIdsFromArray(group.notTags);
+        form.orTags = getTagIdsFromArray(group.orTags);
+        form.andTags = getTagIdsFromArray(group.andTags);
+        form.notTags = getTagIdsFromArray(group.notTags);
 
-        $form.clearErrors();
-        $form.post(route('groups.store'), {
+        form.clearErrors();
+        form.post(route('groups.store'), {
             preserveScroll: true,
             onSuccess: () => {
                 refreshGroups.update();
@@ -85,12 +85,12 @@
 
     function updateGroup() {
         // Only save the tag IDs
-        $form.orTags = getTagIdsFromArray(group.orTags);
-        $form.andTags = getTagIdsFromArray(group.andTags);
-        $form.notTags = getTagIdsFromArray(group.notTags);
+        form.orTags = getTagIdsFromArray(group.orTags);
+        form.andTags = getTagIdsFromArray(group.andTags);
+        form.notTags = getTagIdsFromArray(group.notTags);
 
-        $form.clearErrors();
-        $form.patch(route('groups.update', group.id), {
+        form.clearErrors();
+        form.patch(route('groups.update', group.id), {
             preserveScroll: true,
             onSuccess: () => {
                 refreshGroups.update();
@@ -101,7 +101,7 @@
     }
 
     function reset() {
-        $form.reset();
+        form.reset();
         groupSelectMenu.reset();
         isEditing = false;
         group = null;
@@ -122,8 +122,8 @@
     {/snippet}
 
     <Container>
-        <Input label="Title" name="title" isFirst={true} bind:value={$form.title}
-               error={$form.errors.title} autofocus={!isEditing}/>
+        <Input label="Title" name="title" isFirst={true} bind:value={form.title}
+               error={form.errors.title} autofocus={!isEditing}/>
 
         <div
             class="sm:grid sm:grid-cols-5 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5 dark:border-gray-700">

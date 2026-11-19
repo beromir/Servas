@@ -40,9 +40,9 @@
 
     let {children} = $props();
 
-    const appName = $page.props.appName;
-    const appVersion = $page.props.appVersion;
-    const showAppVersion = $page.props.showAppVersion;
+    const appName = page.props.appName;
+    const appVersion = page.props.appVersion;
+    const showAppVersion = page.props.showAppVersion;
 
     let showProfileDropdown = $state(false);
     let groups = $state([]);
@@ -272,7 +272,7 @@
                     <div class="flex justify-between items-center mt-6 md:mt-8">
                         <div class="text-xs text-gray-200 font-semibold uppercase">Groups</div>
 
-                        <button onclick={() => dispatchCustomEvent('createGroup', $page.props.group?.id)} type="button"
+                        <button onclick={() => dispatchCustomEvent('createGroup', page.props.group?.id)} type="button"
                                 title="Create group" class="rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                  class="size-6 fill-gray-100 hover:fill-white">

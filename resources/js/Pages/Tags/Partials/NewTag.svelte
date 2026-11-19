@@ -15,11 +15,11 @@
     function createTag(event) {
         event.preventDefault();
 
-        $form.clearErrors();
-        $form.post(route('tags.store'), {
+        form.clearErrors();
+        form.post(route('tags.store'), {
             preserveScroll: true,
             onSuccess: () => {
-                $form.reset();
+                form.reset();
                 $refreshTags = true;
             },
         });
@@ -28,8 +28,8 @@
     function editTag(event) {
         event.preventDefault();
 
-        $form.clearErrors();
-        $form.patch(route('tags.update', tag.id), {
+        form.clearErrors();
+        form.patch(route('tags.update', tag.id), {
             preserveScroll: true,
             onSuccess: () => {
                 endEditMode();
@@ -44,15 +44,15 @@
 
     function endEditMode() {
         tag = {};
-        $form.clearErrors();
-        $form.reset();
+        form.clearErrors();
+        form.reset();
         modeIsEdit = false;
     }
 
     export function initEditMode(tagToEdit) {
-        $form.clearErrors();
+        form.clearErrors();
         tag = tagToEdit;
-        $form.tagName = tagToEdit.name;
+        form.tagName = tagToEdit.name;
         modeIsEdit = true;
     }
 </script>
@@ -60,7 +60,7 @@
 <svelte:window ontagDeletionWasSuccessful={endEditMode}/>
 
 <form onsubmit={modeIsEdit ? editTag : createTag} class="space-y-3 sm:flex sm:space-x-3 sm:space-y-0">
-    <Input bind:value={$form.tagName} placeholder="Enter tag name..." class="sm:max-w-xs"/>
+    <Input bind:value={form.tagName} placeholder="Enter tag name..." class="sm:max-w-xs"/>
     <Button title={modeIsEdit ? 'Save changes' : 'Create tag'} type="submit"
             class="justify-center w-full whitespace-nowrap sm:w-auto"/>
 
@@ -85,8 +85,8 @@
         </div>
     {/if}
 
-    {#if $form.errors.tagName}
+    {#if form.errors.tagName}
         <div
-            class="inline-flex ml-4 items-center text-yellow-700 whitespace-nowrap dark:text-yellow-500">{$form.errors.tagName}</div>
+            class="inline-flex ml-4 items-center text-yellow-700 whitespace-nowrap dark:text-yellow-500">{form.errors.tagName}</div>
     {/if}
 </form>

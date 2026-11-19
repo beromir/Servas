@@ -11,7 +11,7 @@
 
     let { children } = $props();
 
-    let appName = $page.props.appName;
+    let appName = page.props.appName;
 
     onMount(() => {
         initTheme();

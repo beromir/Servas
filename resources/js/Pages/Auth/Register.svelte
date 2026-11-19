@@ -23,8 +23,8 @@
     function register(event) {
         event.preventDefault();
 
-        $form.post('/register', {
-            onSuccess: () => $form.reset('password', 'password_confirmation'),
+        form.post('/register', {
+            onSuccess: () => form.reset('password', 'password_confirmation'),
         });
     }
 </script>
@@ -32,18 +32,18 @@
 <AuthenticationCard>
     <form onsubmit={register}>
         <div class="space-y-6">
-            <Text name="name" label="Name" bind:value={$form.name} error={$form.errors.name} required autofocus
+            <Text name="name" label="Name" bind:value={form.name} error={form.errors.name} required autofocus
                   autocomplete="name"/>
 
-            <Text name="email" label="Email address" type="email" bind:value={$form.email} error={$form.errors.email}
+            <Text name="email" label="Email address" type="email" bind:value={form.email} error={form.errors.email}
                   required/>
 
-            <Text name="password" label="Password" type="password" bind:value={$form.password}
-                  error={$form.errors.password} required
+            <Text name="password" label="Password" type="password" bind:value={form.password}
+                  error={form.errors.password} required
                   autocomplete="new-password"/>
 
             <Text name="password_confirmation" label="Confirm password" type="password"
-                  bind:value={$form.password_confirmation} error={$form.errors.password_confirmation} required
+                  bind:value={form.password_confirmation} error={form.errors.password_confirmation} required
                   autocomplete="new-password"/>
         </div>
 

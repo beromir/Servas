@@ -28,11 +28,11 @@
     function importUserData() {
         showSuccessMessage = false;
 
-        $userDataform.post(route('import'), {
+        userDataform.post(route('import'), {
             preserveScroll: true,
             onSuccess: () => {
                 showSuccessMessage = true;
-                $userDataform.reset();
+                userDataform.reset();
                 fileInput.clearInput();
             }
         });
@@ -51,23 +51,23 @@
     {#snippet form()}
         <div class="col-span-full space-y-6">
             <RadioGroup label="Import source">
-                <Radio bind:currentValue={$userDataform.importSource} id="import-json" name="exportFormat" value="json"
+                <Radio bind:currentValue={userDataform.importSource} id="import-json" name="exportFormat" value="json"
                        label="JSON (Servas export)"/>
-                <Radio bind:currentValue={$userDataform.importSource} id="import-html" name="exportFormat" value="html"
+                <Radio bind:currentValue={userDataform.importSource} id="import-html" name="exportFormat" value="html"
                        label="HTML (Browser bookmarks)"/>
             </RadioGroup>
 
             <div>
-                <FileUpload input={event => $userDataform.importFile = event.file} bind:this={fileInput}
-                            label={`Select export file (${$userDataform.importSource === 'json' ? '.json' : '.html'})`}
-                            accept={$userDataform.importSource === 'json' ? '.json' : '.html'}/>
+                <FileUpload input={event => userDataform.importFile = event.file} bind:this={fileInput}
+                            label={`Select export file (${userDataform.importSource === 'json' ? '.json' : '.html'})`}
+                            accept={userDataform.importSource === 'json' ? '.json' : '.html'}/>
             </div>
 
             <div>
                 {#each importOptions as option}
                     <label class="flex items-center">
                         <Checkbox
-                            onchange={() => $userDataform.importOptions = toggleValueInArray($userDataform.importOptions, option)}/>
+                            onchange={() => userDataform.importOptions = toggleValueInArray(userDataform.importOptions, option)}/>
 
                         <span class="ml-2 text-sm text-gray-600 capitalize dark:text-gray-300">{option}</span>
                     </label>
@@ -78,7 +78,7 @@
 
     {#snippet actions()}
         <SuccessMessage bind:show={showSuccessMessage} message="The data was imported."/>
-        <JetButton type="submit" disabled={!$userDataform.importOptions.length || $userDataform.importFile === null}>
+        <JetButton type="submit" disabled={!userDataform.importOptions.length || userDataform.importFile === null}>
             Import
         </JetButton>
     {/snippet}

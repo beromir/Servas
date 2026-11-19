@@ -7,32 +7,26 @@
         "php": "^8.5",
         "ext-dom": "*",
         "ext-libxml": "*",
-        "guzzlehttp/guzzle": "^7.2",
-        "inertiajs/inertia-laravel": "^v2.0.10",
-        "laravel/framework": "^12.0",
-        "laravel/jetstream": "^v5.0",
-        "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.7",
-        "spatie/laravel-searchable": "dev-main",
-        "spatie/laravel-tags": "^4.3.0",
+        "guzzlehttp/guzzle": "^8.5",
+        "inertiajs/inertia-laravel": "^3.7",
+        "laravel/framework": "^13.43",
+        "laravel/jetstream": "^5.5.3",
+        "laravel/sanctum": "^4.5",
+        "laravel/tinker": "^3.2",
+        "spatie/laravel-searchable": "^1.13.3",
+        "spatie/laravel-tags": "^4.12",
         "sqids/sqids": "^0.5.0",
-        "tightenco/ziggy": "^2.6.0"
+        "tightenco/ziggy": "^2.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1.0.1",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^v8.1",
-        "pestphp/pest": "^4.1.2",
-        "pestphp/pest-plugin-laravel": "^4.0.0",
-        "spatie/laravel-ray": "^1.29.4"
+        "laravel/sail": "^1.71",
+        "mockery/mockery": "^1.6.15",
+        "nunomaduro/collision": "^8.9.6",
+        "pestphp/pest": "^5.3.7",
+        "pestphp/pest-plugin-laravel": "^5.0.1",
+        "spatie/laravel-ray": "^1.43.9"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/beromir/laravel-searchable"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "App\\": "app/",

@@ -25,7 +25,7 @@
     function submit(event) {
         event.preventDefault();
 
-        $form.post(route('password.email'));
+        form.post(route('password.email'));
     }
 </script>
 
@@ -45,17 +45,17 @@
         </div>
     {/if}
 
-    <JetValidationErrors hasErrors={$form.hasErrors} class="mb-4"/>
+    <JetValidationErrors hasErrors={form.hasErrors} class="mb-4"/>
 
     <form onsubmit={submit}>
         <div>
             <JetLabel id="email" label="Email"/>
-            <Input id="email" type="email" required autofocus bind:value={$form.email} class="mt-1"/>
+            <Input id="email" type="email" required autofocus bind:value={form.email} class="mt-1"/>
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <JetButton class={$form.processing ? 'opacity-25' : ''}
-                       disabled={$form.processing} type="submit">
+            <JetButton class={form.processing ? 'opacity-25' : ''}
+                       disabled={form.processing} type="submit">
                 Email Password Reset Link
             </JetButton>
         </div>

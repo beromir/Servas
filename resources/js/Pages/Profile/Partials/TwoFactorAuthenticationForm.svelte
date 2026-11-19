@@ -23,7 +23,7 @@
         code: '',
     });
 
-    let twoFactorEnabled = $derived(!enabling && $page.props.auth.user.two_factor_enabled);
+    let twoFactorEnabled = $derived(!enabling && page.props.auth.user.two_factor_enabled);
 
     function enableTwoFactorAuthentication() {
         enabling = true
@@ -64,14 +64,14 @@
     }
 
     function confirmTwoFactorAuthentication() {
-        $confirmationForm.post('/user/confirmed-two-factor-authentication', {
+        confirmationForm.post('/user/confirmed-two-factor-authentication', {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
                 confirming = false;
                 qrCode = null;
-                $confirmationForm.reset();
-                $confirmationForm.clearErrors();
+                confirmationForm.reset();
+                confirmationForm.clearErrors();
             },
         });
     }
@@ -154,8 +154,8 @@
                     <div class="mt-4">
                         <JetLabel id="code" label="Code"/>
                         <Input id="code" name="code" inputmode="numeric" autofocus autocomplete="one-time-code"
-                               bind:value={$confirmationForm.code} class="mt-1"/>
-                        <JetInputError message={$page.props.errors?.confirmTwoFactorAuthentication?.code} class="mt-2"/>
+                               bind:value={confirmationForm.code} class="mt-1"/>
+                        <JetInputError message={page.props.errors?.confirmTwoFactorAuthentication?.code} class="mt-2"/>
                     </div>
                 {/if}
 

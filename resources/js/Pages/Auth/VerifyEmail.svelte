@@ -22,7 +22,7 @@
     function submit(event) {
         event.preventDefault();
 
-        $form.post(route('verification.send'));
+        form.post(route('verification.send'));
     }
 </script>
 
@@ -44,7 +44,7 @@
 
     <form onsubmit={submit}>
         <div class="mt-4 flex items-center justify-between">
-            <JetButton class={$form.processing ? 'opacity-25' : ''} disabled={$form.processing} type="submit">
+            <JetButton class={form.processing ? 'opacity-25' : ''} disabled={form.processing} type="submit">
                 Resend Verification Email
             </JetButton>
 

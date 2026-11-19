@@ -30,23 +30,23 @@
     });
 
     function createApiToken() {
-        $createApiTokenForm.post(route('api-tokens.store'), {
+        createApiTokenForm.post(route('api-tokens.store'), {
             preserveScroll: true,
             onSuccess: () => {
                 displayingToken = true;
-                $createApiTokenForm.reset();
+                createApiTokenForm.reset();
             }
         });
     }
 
     function manageApiTokenPermissions(token) {
-        $updateApiTokenForm.permissions = token.abilities;
+        updateApiTokenForm.permissions = token.abilities;
 
         managingPermissionsFor = token
     }
 
     function updateApiToken() {
-        $updateApiTokenForm.put(route('api-tokens.update', managingPermissionsFor), {
+        updateApiTokenForm.put(route('api-tokens.update', managingPermissionsFor), {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => (managingPermissionsFor = null),
@@ -81,8 +81,8 @@
             <!-- Token Name -->
             <div class="col-span-6 sm:col-span-4">
                 <JetLabel id="name" label="Name"/>
-                <Input id="name" autofocus bind:value={$createApiTokenForm.name} class="mt-1"/>
-                <JetInputError message={$createApiTokenForm.errors.name} class="mt-2"/>
+                <Input id="name" autofocus bind:value={createApiTokenForm.name} class="mt-1"/>
+                <JetInputError message={createApiTokenForm.errors.name} class="mt-2"/>
             </div>
 
             <!-- Token Permissions -->
@@ -94,7 +94,7 @@
                         {#each availablePermissions as permission (permission)}
                             <label class="flex items-center">
                                 <Checkbox checked={permission}
-                                          onchange={() => $createApiTokenForm.permissions = toggleValueInArray($createApiTokenForm.permissions, permission)}/>
+                                          onchange={() => createApiTokenForm.permissions = toggleValueInArray(createApiTokenForm.permissions, permission)}/>
                                 <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">{permission}</span>
                             </label>
                         {/each}
@@ -110,8 +110,8 @@
             </jet-action-message>
             -->
 
-            <JetButton class={$createApiTokenForm.processing ? 'opacity-25' : ''} type="submit"
-                       disabled={$createApiTokenForm.processing}>
+            <JetButton class={createApiTokenForm.processing ? 'opacity-25' : ''} type="submit"
+                       disabled={createApiTokenForm.processing}>
                 Create
             </JetButton>
         {/snippet}
@@ -179,10 +179,10 @@
                 Please copy your new API token. For your security, it won't be shown again.
             </div>
 
-            {#if $page.props.jetstream.flash.token}
+            {#if page.props.jetstream.flash.token}
                 <div
                     class="mt-4 bg-gray-100 px-4 py-2 rounded-sm font-mono text-sm text-gray-600 select-all dark:bg-gray-950 dark:text-gray-300">
-                    {$page.props.jetstream.flash.token}
+                    {page.props.jetstream.flash.token}
                 </div>
             {/if}
         {/snippet}
@@ -205,7 +205,7 @@
                 {#each availablePermissions as permission (permission)}
                     <label class="flex items-center">
                         <Checkbox checked={permission}
-                                  onchange={() => $updateApiTokenForm.permissions = toggleValueInArray($updateApiTokenForm.permissions, permission)}/>
+                                  onchange={() => updateApiTokenForm.permissions = toggleValueInArray(updateApiTokenForm.permissions, permission)}/>
                         <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">{permission}</span>
                     </label>
                 {/each}
@@ -218,8 +218,8 @@
             </JetSecondaryButton>
 
             <JetButton clicked={updateApiToken}
-                       class={$updateApiTokenForm.processing ? 'ml-3 opacity-25' : 'ml-3'}
-                       disabled={$updateApiTokenForm.processing}>
+                       class={updateApiTokenForm.processing ? 'ml-3 opacity-25' : 'ml-3'}
+                       disabled={updateApiTokenForm.processing}>
                 Save
             </JetButton>
         {/snippet}

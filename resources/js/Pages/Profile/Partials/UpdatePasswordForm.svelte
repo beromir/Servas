@@ -14,17 +14,17 @@
     });
 
     function updatePassword() {
-        $passwordForm.put(route('user-password.update'), {
+        passwordForm.put(route('user-password.update'), {
             errorBag: 'updatePassword',
             preserveScroll: true,
-            onSuccess: () => $passwordForm.reset(),
+            onSuccess: () => passwordForm.reset(),
             onError: () => {
-                if ($passwordForm.errors.password) {
-                    $passwordForm.reset('password', 'password_confirmation');
+                if (passwordForm.errors.password) {
+                    passwordForm.reset('password', 'password_confirmation');
                 }
 
-                if ($passwordForm.errors.current_password) {
-                    $passwordForm.reset('current_password');
+                if (passwordForm.errors.current_password) {
+                    passwordForm.reset('current_password');
                 }
             }
         })
@@ -44,28 +44,28 @@
         <div class="col-span-6 sm:col-span-4">
             <JetLabel id="current_password" label="Current Password"/>
             <Input id="current_password" type="password" autocomplete="current-password"
-                   bind:value={$passwordForm.current_password} class="mt-1"/>
-            <JetInputError message={$passwordForm.errors.current_password} class="mt-2"/>
+                   bind:value={passwordForm.current_password} class="mt-1"/>
+            <JetInputError message={passwordForm.errors.current_password} class="mt-2"/>
         </div>
 
         <div class="col-span-6 sm:col-span-4">
             <JetLabel id="password" label="New Password"/>
-            <Input id="password" type="password" autocomplete="new-password" bind:value={$passwordForm.password}
+            <Input id="password" type="password" autocomplete="new-password" bind:value={passwordForm.password}
                    class="mt-1"/>
-            <JetInputError message={$passwordForm.errors.password} class="mt-2"/>
+            <JetInputError message={passwordForm.errors.password} class="mt-2"/>
         </div>
 
         <div class="col-span-6 sm:col-span-4">
             <JetLabel id="password_confirmation" label="Confirm Password"/>
             <Input id="password_confirmation" type="password" autocomplete="new-password"
-                   bind:value={$passwordForm.password_confirmation} class="mt-1"/>
-            <JetInputError message={$passwordForm.errors.password_confirmation} class="mt-2"/>
+                   bind:value={passwordForm.password_confirmation} class="mt-1"/>
+            <JetInputError message={passwordForm.errors.password_confirmation} class="mt-2"/>
         </div>
     {/snippet}
 
     {#snippet actions()}
-        <JetButton type="submit" class={$passwordForm.processing ? 'opacity-25' : ''}
-                   disabled={$passwordForm.processing}>
+        <JetButton type="submit" class={passwordForm.processing ? 'opacity-25' : ''}
+                   disabled={passwordForm.processing}>
             Save
         </JetButton>
     {/snippet}

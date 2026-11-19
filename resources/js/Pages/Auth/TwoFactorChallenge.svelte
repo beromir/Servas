@@ -29,16 +29,16 @@
         await tick();
 
         if (recovery) {
-            $form.code = '';
+            form.code = '';
         } else {
-            $form.recovery_code = '';
+            form.recovery_code = '';
         }
     }
 
     function submit(event) {
         event.preventDefault();
 
-        $form.post(route('two-factor.login'));
+        form.post(route('two-factor.login'));
     }
 </script>
 
@@ -55,13 +55,13 @@
 
     <form onsubmit={submit}>
         {#if !recovery}
-            <Text name="code" label="Code" bind:value={$form.code} error={$form.errors.code}
+            <Text name="code" label="Code" bind:value={form.code} error={form.errors.code}
                   inputmode="numeric" autofocus autocomplete="one-time-code"/>
 
         {:else}
 
             <Text name="recovery_code" label="Recovery Code"
-                  bind:value={$form.recovery_code} error={$form.errors.recovery_code} autofocus
+                  bind:value={form.recovery_code} error={form.errors.recovery_code} autofocus
                   autocomplete="one-time-code"/>
         {/if}
 

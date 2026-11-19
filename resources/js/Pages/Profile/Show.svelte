@@ -25,20 +25,20 @@
 <Main title="Profile Settings">
     <div>
         <div class="max-w-7xl mx-auto py-10 space-y-14 sm:px-6 sm:space-y-0 lg:px-8">
-            {#if $page.props.jetstream.canUpdateProfileInformation}
-                <UpdateProfileInformationForm user={$page.props.auth.user}/>
+            {#if page.props.jetstream.canUpdateProfileInformation}
+                <UpdateProfileInformationForm user={page.props.auth.user}/>
 
                 <JetSectionBorder/>
             {/if}
 
 
-            {#if $page.props.jetstream.canUpdatePassword}
+            {#if page.props.jetstream.canUpdatePassword}
                 <UpdatePasswordForm class="mt-10 sm:mt-0"/>
 
                 <JetSectionBorder/>
             {/if}
 
-            {#if $page.props.jetstream.canManageTwoFactorAuthentication}
+            {#if page.props.jetstream.canManageTwoFactorAuthentication}
                 <TwoFactorAuthenticationForm class="mt-10 sm:mt-0"
                                              requiresConfirmation={confirmsTwoFactorAuthentication}/>
 
@@ -56,7 +56,7 @@
 
             <DeleteUserDataForm/>
 
-            {#if $page.props.jetstream.hasAccountDeletionFeatures}
+            {#if page.props.jetstream.hasAccountDeletionFeatures}
                 <JetSectionBorder/>
 
                 <DeleteUserForm class="mt-10 sm:mt-0"/>

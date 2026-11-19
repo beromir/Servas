@@ -22,10 +22,10 @@
 
     function updateProfileInformation() {
         if (photoElement) {
-            $profileForm.photo = photoElement.files[0]
+            profileForm.photo = photoElement.files[0]
         }
 
-        $profileForm.post(route('user-profile-information.update'), {
+        profileForm.post(route('user-profile-information.update'), {
             errorBag: 'updateProfileInformation',
             preserveScroll: true,
             onSuccess: () => clearPhotoFileInput(),
@@ -78,7 +78,7 @@
 
     {#snippet form()}
         <!-- Profile Photo -->
-        {#if $page.props.jetstream.managesProfilePhotos}
+        {#if page.props.jetstream.managesProfilePhotos}
             <div class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
                 <input type="file" class="hidden"
@@ -113,8 +113,8 @@
                     </JetSecondaryButton>
                 {/if}
 
-                {#if $profileForm.errors.photo}
-                    <JetInputError message={$profileForm.errors.photo} class="mt-2"/>
+                {#if profileForm.errors.photo}
+                    <JetInputError message={profileForm.errors.photo} class="mt-2"/>
                 {/if}
             </div>
         {/if}
@@ -122,20 +122,20 @@
         <!-- Name -->
         <div class="col-span-6 sm:col-span-4">
             <JetLabel id="name" label="Name"/>
-            <Input id="name" autocomplete="name" bind:value={$profileForm.name} class="mt-1"/>
-            <JetInputError message={$profileForm.errors.name} class="mt-2"/>
+            <Input id="name" autocomplete="name" bind:value={profileForm.name} class="mt-1"/>
+            <JetInputError message={profileForm.errors.name} class="mt-2"/>
         </div>
 
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <JetLabel id="email" label="Email"/>
-            <Input type="email" id="email" bind:value={$profileForm.email} class="mt-1"/>
-            <JetInputError message={$profileForm.errors.email} class="mt-2"/>
+            <Input type="email" id="email" bind:value={profileForm.email} class="mt-1"/>
+            <JetInputError message={profileForm.errors.email} class="mt-2"/>
         </div>
     {/snippet}
 
     {#snippet actions()}
-        <JetButton class={$profileForm.processing ? 'opacity-25' : ''} disabled={profileForm.processing} type="submit">
+        <JetButton class={profileForm.processing ? 'opacity-25' : ''} disabled={profileForm.processing} type="submit">
             Save
         </JetButton>
     {/snippet}

@@ -22,17 +22,17 @@
     }
 
     function logoutOtherBrowserSessions() {
-        $form.delete(route('other-browser-sessions.destroy'), {
+        form.delete(route('other-browser-sessions.destroy'), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
-            onFinish: () => $form.reset(),
+            onFinish: () => form.reset(),
         });
     }
 
     function closeModal() {
         confirmingLogout = false;
 
-        $form.reset();
+        form.reset();
     }
 </script>
 
@@ -126,8 +126,8 @@
                 all of your devices.
 
                 <div class="mt-4">
-                    <Input type="password" placeholder="Password" bind:value={$form.password} class="mt-1"/>
-                    <JetInputError message={$form.errors.password} class="mt-2"/>
+                    <Input type="password" placeholder="Password" bind:value={form.password} class="mt-1"/>
+                    <JetInputError message={form.errors.password} class="mt-2"/>
                 </div>
             {/snippet}
 

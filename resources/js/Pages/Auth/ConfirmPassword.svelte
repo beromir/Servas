@@ -23,8 +23,8 @@
     function submit(event) {
         event.preventDefault();
 
-        $form.post(route('password.confirm'), {
-            onFinish: () => $form.reset(),
+        form.post(route('password.confirm'), {
+            onFinish: () => form.reset(),
         });
     }
 </script>
@@ -38,18 +38,18 @@
         This is a secure area of the application. Please confirm your password before continuing.
     </div>
 
-    <JetValidationErrors hasErrors={$form.hasErrors} class="mb-4"/>
+    <JetValidationErrors hasErrors={form.hasErrors} class="mb-4"/>
 
     <form onsubmit={submit}>
         <div>
             <JetLabel id="password" label="Password"/>
             <Input id="password" type="password" required autocomplete="current-password" autofocus
-                   bind:value={$form.password} class="mt-1"/>
+                   bind:value={form.password} class="mt-1"/>
         </div>
 
         <div class="flex justify-end mt-4">
-            <JetButton class={['ml-4', $form.processing ? 'opacity-25' : ''].join(' ').trim()}
-                       disabled={$form.processing} type="submit">
+            <JetButton class={['ml-4', form.processing ? 'opacity-25' : ''].join(' ').trim()}
+                       disabled={form.processing} type="submit">
                 Confirm
             </JetButton>
         </div>

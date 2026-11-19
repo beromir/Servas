@@ -31,24 +31,24 @@
     }
 
     function confirmPassword() {
-        $form.processing = true;
+        form.processing = true;
 
         axios.post(route('password.confirm'), {
-            password: $form.password,
+            password: form.password,
         }).then(() => {
-            $form.processing = false;
+            form.processing = false;
             closeModal()
             // this.$nextTick(() => this.$emit('confirmed'));
             confirmed();
         }).catch(error => {
-            $form.processing = false;
-            $form.setError('password', error.response.data.errors.password[0]);
+            form.processing = false;
+            form.setError('password', error.response.data.errors.password[0]);
         });
     }
 
     function closeModal() {
         confirmingPassword = false
-        $form.reset();
+        form.reset();
     }
 </script>
 
@@ -66,9 +66,9 @@
             For your security, please confirm your password to continue.
 
             <div class="mt-4">
-                <Input type="password" placeholder="Password" bind:value={$form.password} class="mt-1"/>
+                <Input type="password" placeholder="Password" bind:value={form.password} class="mt-1"/>
 
-                <JetInputError message={$form.errors.password} class="mt-2"/>
+                <JetInputError message={form.errors.password} class="mt-2"/>
                 </div>
         {/snippet}
 
@@ -77,8 +77,8 @@
                 Cancel
             </JetSecondaryButton>
 
-            <JetButton class={['ml-3', $form.processing ? 'opacity-25' : ''].join(' ').trim()}
-                       clicked={confirmPassword} disabled={$form.processing}>
+            <JetButton class={['ml-3', form.processing ? 'opacity-25' : ''].join(' ').trim()}
+                       clicked={confirmPassword} disabled={form.processing}>
                 {button}
             </JetButton>
         {/snippet}>

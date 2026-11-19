@@ -28,10 +28,10 @@
     }
 
     function deleteUserData() {
-        $userDataForm.post(route('delete-user-data'), {
+        userDataForm.post(route('delete-user-data'), {
             preserveScroll: true,
             onSuccess: () => {
-                $userDataForm.reset();
+                userDataForm.reset();
                 modal.close();
                 showSuccessMessage = true;
             }
@@ -54,7 +54,7 @@
                 {#each deleteOptions as option}
                     <label class="flex items-center">
                         <Checkbox
-                            onchange={() => $userDataForm.deleteOptions = toggleValueInArray($userDataForm.deleteOptions, option)}/>
+                            onchange={() => userDataForm.deleteOptions = toggleValueInArray(userDataForm.deleteOptions, option)}/>
 
                         <span class="ml-2 text-sm text-gray-600 capitalize dark:text-gray-300">{option}</span>
                     </label>
@@ -65,7 +65,7 @@
 
     {#snippet actions()}
         <SuccessMessage bind:show={showSuccessMessage} message="The selected data was deleted."/>
-        <DangerButton type="submit" disabled={!$userDataForm.deleteOptions.length}>
+        <DangerButton type="submit" disabled={!userDataForm.deleteOptions.length}>
             Delete
         </DangerButton>
     {/snippet}

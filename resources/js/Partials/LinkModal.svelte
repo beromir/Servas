@@ -24,7 +24,7 @@
     });
 
     $effect(() => {
-        $linkForm.groups = selectedGroups;
+        linkForm.groups = selectedGroups;
     });
 
     // External functions
@@ -33,7 +33,7 @@
 
         if (isEditing) {
             isEditing = false;
-            $linkForm.reset();
+            linkForm.reset();
             groupSelectMenu.reset();
             linkId = null;
             modal.show();
@@ -45,15 +45,15 @@
 
     // Internal functions
     function prepareEditLink(e) {
-        $linkForm.reset();
+        linkForm.reset();
 
         let link = e.detail;
 
-        $linkForm.link = link.link;
-        $linkForm.title = link.title;
+        linkForm.link = link.link;
+        linkForm.title = link.title;
         selectedGroups = link.groups;
 
-        link.tags.forEach(tag => $linkForm.tags = [...$linkForm.tags, tag.id]);
+        link.tags.forEach(tag => linkForm.tags = [...linkForm.tags, tag.id]);
 
         linkId = link.id;
 
@@ -65,10 +65,10 @@
     }
 
     function createLink() {
-        $linkForm.clearErrors();
-        $linkForm.post(route('links.store'), {
+        linkForm.clearErrors();
+        linkForm.post(route('links.store'), {
             onSuccess: () => {
-                $linkForm.reset();
+                linkForm.reset();
                 groupSelectMenu.reset();
                 modal.close();
                 $refreshLinks = true;
@@ -77,12 +77,12 @@
     }
 
     function editLink() {
-        $linkForm.clearErrors();
-        $linkForm.patch(route('links.update', linkId), {
+        linkForm.clearErrors();
+        linkForm.patch(route('links.update', linkId), {
             preserveScroll: true,
             onSuccess: () => {
                 linkId = null;
-                $linkForm.reset();
+                linkForm.reset();
                 groupSelectMenu.reset();
                 modal.close();
                 $refreshLinks = true;
@@ -91,12 +91,12 @@
     }
 
     function toggleValueInArray(tagId) {
-        let index = $linkForm.tags.indexOf(tagId);
+        let index = linkForm.tags.indexOf(tagId);
         if (index !== -1) {
-            $linkForm.tags.splice(index, 1);
-            $linkForm.tags = $linkForm.tags;
+            linkForm.tags.splice(index, 1);
+            linkForm.tags = linkForm.tags;
         } else {
-            $linkForm.tags = [...$linkForm.tags, tagId];
+            linkForm.tags = [...linkForm.tags, tagId];
         }
     }
 
@@ -130,10 +130,10 @@
     {/snippet}
 
     <Container>
-        <Input label="URL" name="link" type="url" isFirst={true} bind:value={$linkForm.link}
-               error={$linkForm.errors.link} autofocus={!isEditing}/>
-        <Input label="Title" name="title" placeholder="optional" bind:value={$linkForm.title}
-               error={$linkForm.errors.title}/>
+        <Input label="URL" name="link" type="url" isFirst={true} bind:value={linkForm.link}
+               error={linkForm.errors.link} autofocus={!isEditing}/>
+        <Input label="Title" name="title" placeholder="optional" bind:value={linkForm.title}
+               error={linkForm.errors.title}/>
 
         <div
             class="sm:grid sm:grid-cols-5 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5 dark:border-gray-700">
@@ -153,7 +153,7 @@
                 <Badge
                     clicked={() => toggleValueInArray(tag.id)}
                     title={tag.name} large={false}
-                    color={$linkForm.tags.includes(tag.id) ? '' : 'gray'}
+                    color={linkForm.tags.includes(tag.id) ? '' : 'gray'}
                     class="mr-1.5 first:mt-3 last:mr-0"/>
             {/each}
         </div>

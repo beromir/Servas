@@ -28,8 +28,8 @@
     function submit(event) {
         event.preventDefault();
 
-        $form.post(route('password.update'), {
-            onFinish: () => $form.reset('password', 'password_confirmation'),
+        form.post(route('password.update'), {
+            onFinish: () => form.reset('password', 'password_confirmation'),
         });
     }
 </script>
@@ -39,28 +39,28 @@
         <JetAuthenticationCardLogo/>
     {/snippet}
 
-    <JetValidationErrors hasErrors={$form.hasErrors} class="mb-4"/>
+    <JetValidationErrors hasErrors={form.hasErrors} class="mb-4"/>
 
     <form onsubmit={submit}>
         <div>
             <JetLabel id="email" label="Email"/>
-            <Input id="email" type="email" required autofocus bind:value={$form.email} class="mt-1"/>
+            <Input id="email" type="email" required autofocus bind:value={form.email} class="mt-1"/>
         </div>
 
         <div class="mt-4">
             <JetLabel id="password" label="Password"/>
-            <Input id="password" type="password" required autocomplete="new-password" bind:value={$form.password}
+            <Input id="password" type="password" required autocomplete="new-password" bind:value={form.password}
                    class="mt-1"/>
         </div>
 
         <div class="mt-4">
             <JetLabel id="password_confirmation" label="Confirm Password"/>
             <Input id="password_confirmation" type="password" required autocomplete="new-password"
-                   bind:value={$form.password_confirmation} class="mt-1"/>
+                   bind:value={form.password_confirmation} class="mt-1"/>
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <JetButton class={$form.processing ? 'opacity-25' : ''} disabled={$form.processing} type="submit">
+            <JetButton class={form.processing ? 'opacity-25' : ''} disabled={form.processing} type="submit">
                 Reset Password
             </JetButton>
         </div>
