@@ -1,10 +1,14 @@
 {
     "compilerOptions": {
-        "baseUrl": "./",
+        "module": "esnext",
+        "moduleResolution": "bundler",
         "paths": {
             "@/*": [
-                "resources/js/*"
+                "./resources/js/*"
             ]
         }
-    }
+    },
+    "include": [
+        "resources/js/**/*"
+    ]
 }
