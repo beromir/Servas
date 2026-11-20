@@ -1,4 +1,5 @@
 <script>
+    import {getJson, postJson} from "@/utils/http.js";
     import JetButton from './Button.svelte';
     import JetDialogModal from './DialogModal.svelte';
     import JetInputError from './InputError.svelte';
@@ -21,8 +22,8 @@
     });
 
     function startConfirmingPassword() {
-        axios.get(route('password.confirmation')).then(response => {
-            if (response.data.confirmed) {
+        getJson(route('password.confirmation')).then(data => {
+            if (data.confirmed) {
                 confirmed();
             } else {
                 confirmingPassword = true;
@@ -33,7 +34,7 @@
     function confirmPassword() {
         form.processing = true;
 
-        axios.post(route('password.confirm'), {
+        postJson(route('password.confirm'), {
             password: form.password,
         }).then(() => {
             form.processing = false;
@@ -42,7 +43,7 @@
             confirmed();
         }).catch(error => {
             form.processing = false;
-            form.setError('password', error.response.data.errors.password[0]);
+            form.setError('password', error.data.errors.password[0]);
         });
     }
 

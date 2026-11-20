@@ -1,4 +1,5 @@
 <script>
+    import {getJson} from "@/utils/http.js";
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from '@/Components/Modals/Modal.svelte';
     import {isUndefined} from "lodash";
@@ -40,10 +41,7 @@
     }
 
     async function getAllGroups() {
-        await axios.get('/all-groups')
-            .then(response => {
-                groups = response.data
-            });
+        groups = await getJson('/all-groups');
     }
 
     function filterByGroup(groupId) {

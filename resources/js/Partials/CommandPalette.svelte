@@ -1,4 +1,5 @@
 <script>
+    import {postJson} from "@/utils/http.js";
     import {router} from '@inertiajs/svelte'
     import {debounce, delay} from "lodash";
     import {route} from '@/utils';
@@ -160,10 +161,10 @@
             return;
         }
 
-        axios.post(route('search'), {
+        postJson(route('search'), {
             searchString: searchString,
-        }).then(response => {
-            searchResults = response.data;
+        }).then(data => {
+            searchResults = data;
             getGroups();
         });
     }, 400);

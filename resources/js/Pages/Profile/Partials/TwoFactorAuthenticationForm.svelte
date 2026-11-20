@@ -1,4 +1,5 @@
 <script>
+    import {getJson, postJson} from "@/utils/http.js";
     import JetActionSection from '@/Jetstream/ActionSection.svelte';
     import JetButton from '@/Jetstream/Button.svelte';
     import JetConfirmsPassword from '@/Jetstream/ConfirmsPassword.svelte';
@@ -43,23 +44,23 @@
     }
 
     function showQrCode() {
-        return axios.get('/user/two-factor-qr-code')
-            .then(response => {
-                qrCode = response.data.svg
+        return getJson('/user/two-factor-qr-code')
+            .then(data => {
+                qrCode = data.svg
             })
     }
 
     function showSetupKey() {
-        return axios.get('/user/two-factor-secret-key')
-            .then(response => {
-                setupKey = response.data.secretKey;
+        return getJson('/user/two-factor-secret-key')
+            .then(data => {
+                setupKey = data.secretKey;
             });
     }
 
     function showRecoveryCodes() {
-        return axios.get('/user/two-factor-recovery-codes')
-            .then(response => {
-                recoveryCodes = response.data
+        return getJson('/user/two-factor-recovery-codes')
+            .then(data => {
+                recoveryCodes = data
             })
     }
 
@@ -77,8 +78,8 @@
     }
 
     function regenerateRecoveryCodes() {
-        axios.post('/user/two-factor-recovery-codes')
-            .then(response => {
+        postJson('/user/two-factor-recovery-codes')
+            .then(() => {
                 showRecoveryCodes()
             })
     }

@@ -1,4 +1,5 @@
 <script>
+    import {getJson} from "@/utils/http.js";
     import Button from "@/Components/Buttons/Button.svelte";
     import Modal from '@/Components/Modals/Modal.svelte';
     import {dispatchCustomEvent} from "@/utils/index.js";
@@ -74,11 +75,8 @@
     }
 
     async function getAllTags() {
-        await axios.get('/all-tags')
-            .then(response => {
-                tags = response.data;
-                filteredTags = response.data;
-            });
+        tags = await getJson('/all-tags');
+        filteredTags = tags;
     }
 
     function selectTag(tag, event) {

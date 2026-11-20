@@ -6,6 +6,7 @@
 </script>
 
 <script>
+    import {getJson} from "@/utils/http.js";
     import {inertia, Link, page} from '@inertiajs/svelte';
     import LinkModal from "@/Partials/LinkModal.svelte";
     import DeleteLinkModal from "@/Partials/DeleteLinkModal.svelte";
@@ -16,7 +17,6 @@
     import DeleteGroupModal from "@/Partials/DeleteGroupModal.svelte";
     import TagSelectMenu from "@/Partials/TagSelectMenu.svelte";
     import {onMount} from "svelte";
-    import axios from "axios";
     import GroupNavigationLink from "@/Layouts/AppLayout/Partials/GroupNavigationLink.svelte";
     import GroupModal from "@/Partials/GroupModal.svelte";
     import {refreshGroups} from "@/stores.js";
@@ -73,10 +73,7 @@
     }
 
     async function getAllGroups() {
-        await axios.get('/all-groups')
-            .then(response => {
-                groups = response.data
-            });
+        groups = await getJson('/all-groups');
     }
 
     onMount(() => {

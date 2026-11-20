@@ -1,4 +1,5 @@
 <script>
+    import {getJson} from "@/utils/http.js";
     import JetButton from '@/Jetstream/Button.svelte';
     import JetFormSection from '@/Jetstream/FormSection.svelte';
     import {route} from "@/utils";
@@ -15,8 +16,8 @@
     }
 
     function setCsrfToken() {
-        return axios.get(route('csrf-token'))
-            .then(response => csrfToken = response.data);
+        return getJson(route('csrf-token'))
+            .then(data => csrfToken = data);
     }
 </script>
 

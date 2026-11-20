@@ -1,4 +1,5 @@
 <script>
+    import {getJson} from "@/utils/http.js";
     import Modal from "@/Components/Modals/Modal.svelte";
     import Container from "@/Components/FormLayouts/Modals/Container.svelte";
     import Input from "@/Components/FormLayouts/Modals/Input.svelte";
@@ -102,9 +103,9 @@
 
     function getAllTags() {
         if ($refreshTags) {
-            axios.get('/all-tags')
-                .then(response => {
-                    tags = response.data;
+            getJson('/all-tags')
+                .then(data => {
+                    tags = data;
                 });
 
             $refreshTags = false;
