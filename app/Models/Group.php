@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
@@ -30,7 +32,7 @@ class Group extends Model implements Searchable
     {
         return [
             'title' => 'string|min:3',
-            'parentGroupId' => 'exists:App\Models\Group,id|numeric|nullable',
+            'parentGroupId' => ['numeric', 'nullable', Rule::exists(Group::class, 'id')->where('user_id', Auth::id())],
             'orTags' => 'array',
             'orTags.*' => 'integer',
             'andTags' => 'array',
@@ -58,6 +60,7 @@ class Group extends Model implements Searchable
         $notTags = $this->getNotTags();
 
         return Link::leftJoin('groupables', 'links.id', '=', 'groupables.groupable_id')
+            ->where('links.user_id', $this->user_id)
             ->where(function (Builder $query) use ($orTags, $andTags, $notTags) {
                 $query->where(function (Builder $query) {
                     $query->where('groupables.group_id', $this->id)

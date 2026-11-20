@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\PermissionHelper;
+use App\Models\Group;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePublicLinkRequest extends FormRequest
@@ -11,7 +13,7 @@ class StorePublicLinkRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return PermissionHelper::userIsOwnerOfModal(Group::find($this->input('groupId')));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\PermissionHelper;
 use App\Helpers\WebpageData;
 use App\Http\Requests\StoreLinkRequest;
 use App\Http\Requests\UpdateLinkRequest;
@@ -70,7 +71,7 @@ class LinkController extends Controller
 
         $link->save();
 
-        $groupIds = $validated['groups'];
+        $groupIds = PermissionHelper::filterArrayOfModalIds($validated['groups'], Group::class);
 
         $link->groups()->sync($groupIds);
 
@@ -136,7 +137,7 @@ class LinkController extends Controller
 
         $link->save();
 
-        $groupIds = $validated['groups'];
+        $groupIds = PermissionHelper::filterArrayOfModalIds($validated['groups'], Group::class);
 
         $link->groups()->sync($groupIds);
 
@@ -156,6 +157,8 @@ class LinkController extends Controller
      */
     public function destroy(Link $link)
     {
+        abort_unless(PermissionHelper::userIsOwnerOfModal($link), 403);
+
         $link->groups()->detach();
 
         $link->delete();

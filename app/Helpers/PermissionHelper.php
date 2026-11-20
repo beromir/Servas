@@ -9,7 +9,7 @@ class PermissionHelper
     /**
      * Check if the user is the owner of the modal instance.
      */
-    public static function userIsOwnerOfModal(object|null $modal, int $userId = null, string $userTable = 'user_id'): bool
+    public static function userIsOwnerOfModal(object|null $modal, ?int $userId = null, string $userTable = 'user_id'): bool
     {
         if ($userId === null) {
             $userId = Auth::id();

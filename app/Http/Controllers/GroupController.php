@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\PermissionHelper;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Models\Group;
@@ -131,6 +132,8 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
+        abort_unless(PermissionHelper::userIsOwnerOfModal($group), 403);
+
         /** @var PublicLink $publicLink */
         if ($publicLink = $group->publicLink) {
             $publicLink->delete();

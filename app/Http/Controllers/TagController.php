@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\PermissionHelper;
 use App\Services\Models\GroupService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -86,6 +87,8 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
+        abort_unless(PermissionHelper::userIsOwnerOfModal($tag), 403);
+
         Request::validate($this->rules());
 
         $tag->name = Request::get('tagName');
@@ -98,6 +101,8 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
+        abort_unless(PermissionHelper::userIsOwnerOfModal($tag), 403);
+
         $tag->delete();
 
         $this->groupService->removeDeletedTagFromQueryOptions($tag->id, Auth::user());
